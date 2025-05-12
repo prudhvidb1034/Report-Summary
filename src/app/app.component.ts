@@ -7,7 +7,7 @@ import { IonInput, IonItem, IonList } from '@ionic/angular/standalone';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet,IonButton,IonFab, IonInput, IonItem, IonList,IonFabButton, IonIcon,IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle],
+  imports: [RouterOutlet],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })

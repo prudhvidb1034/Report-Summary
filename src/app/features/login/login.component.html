@@ -1,0 +1,48 @@
+<!-- login.component.html -->
+<!-- <ion-header style="width: 500px;margin: 20px auto;">
+    <ion-toolbar>
+      <ion-title>Login</ion-title>
+    </ion-toolbar>
+  </ion-header> -->
+
+<ion-card style="width: 500px; margin: 40px auto">
+  <ion-card-header>
+    <ion-card-title style="text-align: center">Login</ion-card-title>
+  </ion-card-header>
+
+  <ion-card-content>
+    <div>
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <ion-item>
+          
+          <ion-input labelPlacement="floating" label="Username" formControlName="username" type="text"></ion-input>
+        </ion-item>
+        <ion-item>
+        
+          <ion-input labelPlacement="floating" label="Password" formControlName="password" type="password"></ion-input>
+        </ion-item>
+
+        <ion-grid [fixed]="true" style="margin-top: 10px; width: inherit;">
+            <ion-col size-md="4">
+              <ion-button type="submit" [disabled]="loginForm.invalid">
+                Login
+              </ion-button>
+            </ion-col>
+            <ion-col size-md="4"> 
+              <ion-button> Forgot Password </ion-button>
+            </ion-col>
+            <ion-col size-md="4">
+              <ion-button (click)="signUp()"> Register </ion-button>
+            </ion-col>
+        </ion-grid>
+
+        <!-- <ion-button expand="full" type="submit" [disabled]="loginForm.invalid">
+        Login
+      </ion-button> -->
+      </form>
+      <!-- <ion-text color="danger" *ngIf="(error$ | async) as error">
+        <p>{{ error }}</p>
+      </ion-text> -->
+    </div>
+  </ion-card-content></ion-card
+>

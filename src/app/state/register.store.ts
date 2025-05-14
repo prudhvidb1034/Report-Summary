@@ -1,100 +1,87 @@
 import { inject, Injectable } from '@angular/core';
-import { ComponentStore } from '@ngrx/component-store';
+import { ComponentStore,tapResponse } from '@ngrx/component-store';
 import { Router } from '@angular/router';
-import { catchError, Observable, switchMap, tap } from 'rxjs';
+import { catchError, exhaustMap, Observable, switchMap, tap } from 'rxjs';
 import { LoginService } from '../services/login-service/login.service';
 import { LoginCredentials } from '../models/login.model';
 import { RegistrationForm } from '../models/register.mode';
 import { HttpClient } from '@angular/common/http';
+import { SignUpService } from '../services/sign-up/sign-up.service';
 
-interface RegistrationState {
-  form: RegistrationForm;
-  isLoading: boolean;
-  error: string | null;
-  isSuccess: boolean;
+// interface Employee {
+//   id?: number;
+//   firstName: string;
+//   lastName: string;
+//   empId: string;
+//   email: string;
+// }
+
+export interface RegistrationState {
+    register: RegistrationForm[];
+    loading: boolean;
+    error: string | null;
 }
- const initialState: RegistrationState  = {
-  form: {
-    firstName: '',
-    lastName: '',
-    employeeId: '',
-    email: '',
-    confirmPassword:'',
-    password:'',
-    role:'Manager',
-    id:''
-  },
-  isLoading: false,
-  error: null,
-  isSuccess: false,
-};
+
+// interface RegistrationState {
+//   form: Omit<Employee, 'id'>;
+//   isLoading: boolean;
+//   error: string | null;
+//   isSuccess: boolean;
+//   employees: Employee[];
+// }
+
+// const initialState: RegistrationState = {
+//   form: {
+//     firstName: '',
+//     lastName: '',
+//     empId: '',
+//     email: '',
+//   },
+//   isLoading: false,
+//   error: null,
+//   isSuccess: false,
+//   employees: [],
+// };
 
 @Injectable()
 export class RegisterStore extends ComponentStore<RegistrationState> {
 
-     private readonly http = inject(HttpClient);
+    //  private readonly http = inject(HttpClient);
+    //  private readonly apiUrl = 'http://localhost:3000/register';
 
-  constructor() {
-    super(initialState);
-  }
-//   constructor(private auth: LoginService, private router: Router) {
-//     super({ loading: false, error: null });
-//   }
+private signup = inject(SignUpService);
 
+    constructor() {
+        super({ register: [], loading: false, error: null });
+    }
 
-  // Selectors
-  readonly form$ = this.select((state) => state.form);
-  readonly isLoading$ = this.select((state) => state.isLoading);
-  readonly error$ = this.select((state) => state.error);
-  readonly isSuccess$ = this.select((state) => state.isSuccess);
-
- // Updaters
-  readonly updateForm = this.updater((state, form: Partial<RegistrationForm>) => ({
-    ...state,
-    form: { ...state.form, ...form },
-  }));
-
-    readonly setLoading = this.updater((state, isLoading: boolean) => ({
-    ...state,
-    isLoading,
-  }));
-
-  readonly setError = this.updater((state, error: string | null) => ({
-    ...state,
-    error,
-  }));
-
-  readonly setSuccess = this.updater((state, isSuccess: boolean) => ({
-    ...state,
-    isSuccess,
-  }));
-
-   // Effects
-
-  // Effects
-  readonly submitForm = this.effect((trigger$) =>
-    trigger$.pipe(
-      tap(() => {
-        this.setLoading(true);
-        this.setError(null);
-        this.setSuccess(false);
-      }),
-      switchMap(() => {
-        const form = this.get().form;
-        console.log(form)
-        return this.http.post('https://jsonplaceholder.typicode.com/posts', form).pipe(
-          tap({
-            next: () => {
-              this.setLoading(false);
-              this.setSuccess(true);
-            },
-            error: (error) => {
-              this.setLoading(false);
-              this.setError(error.message || 'Failed to submit form');
-            },
-          }),
-        );
-      })
-    )
-  );
+     readonly register$ = this.select(state => state.register);
+    readonly loading$ = this.select(state => state.loading);
+    readonly error$ = this.select(state => state.error);
+ readonly addregister = this.effect((register$: Observable<RegistrationForm>) =>
+        register$.pipe(
+            exhaustMap(register => {
+                debugger
+                this.patchState({ loading: true, error: null });
+                return this.signup.registerUser(register).pipe(
+                    tapResponse(
+                        (savedData) => {
+                            this.patchState(state => ({
+                                register : [...state.register, savedData],
+                                loading: false,
+                                error: null
+                            }));
+                        },
+                        (error: any) => {
+                            this.patchState({
+                                loading: false,
+                                error: error?.message ?? 'Unknown error'
+                            });
+                        }
+                    )
+                );
+            })
+        )
+    );
 }
+

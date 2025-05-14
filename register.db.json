@@ -39,6 +39,46 @@
       "confirmPassword": "phani123",
       "employeeId": "qe2025",
       "role": "Manager"
+    },
+    {
+      "id": "390c",
+      "firstName": "Phaneendra",
+      "lastName": "Gatta",
+      "email": "phaneendra.gatta@gmail.com",
+      "password": "qw",
+      "confirmPassword": "qw",
+      "employeeId": "12",
+      "role": "Manager"
+    },
+    {
+      "id": "754f",
+      "firstName": "Phaneendra",
+      "lastName": "Gatta",
+      "username": "phani.gatta@gmail.com",
+      "password": "qw",
+      "confirmPassword": "qw",
+      "employeeId": "12",
+      "role": "Manager"
+    },
+    {
+      "id": "0b5c",
+      "firstName": "Phaneendra",
+      "lastName": "Gatta",
+      "username": "phaneendra.gatta@gmail.com",
+      "password": "qw",
+      "confirmPassword": "qw",
+      "employeeId": "12",
+      "role": "Manager"
+    },
+    {
+      "id": "0b32",
+      "firstName": "Phaneendra",
+      "lastName": "Gatta",
+      "username": "phaneendra.gatta@gmail.com",
+      "password": "qw",
+      "confirmPassword": "qw",
+      "employeeId": "12",
+      "role": "Manager"
     }
   ]
 }

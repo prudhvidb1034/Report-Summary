@@ -10,7 +10,7 @@ import { RegisterUser } from '../../models/register.mode';
   providedIn: 'root'
 })
 export class SignUpService {
-private readonly baseUrl=environment.apiUrl+Constants.GET_LOGIN_DETAILS;
+private readonly baseUrl=environment.apiUrl+Constants.GET_REGISTER_DETAILS;
   private readonly http = inject(HttpClient);
   constructor() { }
 

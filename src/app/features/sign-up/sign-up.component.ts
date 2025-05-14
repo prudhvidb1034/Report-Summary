@@ -1,23 +1,23 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators,ReactiveFormsModule} from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
-
+import { RegisterStore } from '../../state/register.store';
 
 @Component({
   selector: 'app-sign-up',
   standalone: true,
   imports: [IonicModule,CommonModule,ReactiveFormsModule],
   templateUrl: './sign-up.component.html',
-  styleUrl: './sign-up.component.scss'
+  styleUrl: './sign-up.component.scss',
+  providers: [RegisterStore],
 })
 export class SignUpComponent {
 
-  registrationForm: FormGroup;
-  isSubmitted = false;
+ private readonly fb = inject(FormBuilder);
+  private readonly store = inject(RegisterStore);
 
-  constructor(private formBuilder: FormBuilder) {
-    this.registrationForm = this.formBuilder.group({
+      registrationForm = this.fb.group({
       firstName: ['', [Validators.required, Validators.minLength(2)]],
       lastName: ['', [Validators.required, Validators.minLength(2)]],
       email: ['', [Validators.required, Validators.email]],
@@ -25,52 +25,59 @@ export class SignUpComponent {
       confirmPassword: ['', [Validators.required]],
       employeeId: ['', [Validators.required]],
       role: ['Manager', Validators.requiredTrue]
-    }, {
-      validator: this.mustMatch('password', 'confirmPassword')
+    }
+  )
+  
+
+
+  // Observable state from the store
+  isLoading$ = this.store.isLoading$;
+  error$ = this.store.error$;
+  isSuccess$ = this.store.isSuccess$;
+
+
+  // ngOnInit() {}
+
+  // Custom validator to check if passwords match
+  // mustMatch(controlName: string, matchingControlName: string) {
+  //   return (formGroup: FormGroup) => {
+  //     const control = formGroup.controls[controlName];
+  //     const matchingControl = formGroup.controls[matchingControlName];
+
+  //     if (matchingControl.errors && !matchingControl.errors['mustMatch']) {
+  //       return;
+  //     }
+
+  //     if (control.value !== matchingControl.value) {
+  //       matchingControl.setErrors({ mustMatch: true });
+  //     } else {
+  //       matchingControl.setErrors(null);
+  //     }
+  //   };
+  // }
+
+  // get formControls() {
+  //   return this.registrationForm.controls;
+  // }
+
+  ngOnInit() {
+    // Sync form with store
+    this.store.form$.subscribe((form) => {
+      this.registrationForm.patchValue(form, { emitEvent: false });
+    });
+
+    // Update store when form changes
+    this.registrationForm.valueChanges.subscribe((formValue) => {
+      // this.store.updateForm(formValue);
     });
   }
 
-  ngOnInit() {}
-
-  // Custom validator to check if passwords match
-  mustMatch(controlName: string, matchingControlName: string) {
-    return (formGroup: FormGroup) => {
-      const control = formGroup.controls[controlName];
-      const matchingControl = formGroup.controls[matchingControlName];
-
-      if (matchingControl.errors && !matchingControl.errors['mustMatch']) {
-        return;
-      }
-
-      if (control.value !== matchingControl.value) {
-        matchingControl.setErrors({ mustMatch: true });
-      } else {
-        matchingControl.setErrors(null);
-      }
-    };
-  }
-
-  get formControls() {
-    return this.registrationForm.controls;
-  }
-
   onSubmit() {
-    this.isSubmitted = true;
-    
-    // if (this.registrationForm.invalid) {
-    //   return;
-    // }
-
-    // Form is valid, proceed with registration
-    console.log('Registration form submitted', this.registrationForm.value);
-    // Here you would typically call your authentication service
-    // this.register.register(this.registrationForm.value).subscribe((response:any)=>{
-    //   console.log(response)
-    // })
-    
-    // Reset form after submission
-    this.registrationForm.reset();
-    this.isSubmitted = false;
+       if (this.registrationForm.valid) {
+      this.store.submitForm();
+      console.log(this.store);
+      
+    }
   }
-
+  
 }

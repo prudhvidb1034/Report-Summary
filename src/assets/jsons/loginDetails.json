@@ -10,9 +10,9 @@
         {
             "role": "manager",
             "empId": "QE22122",
-            "userEntry": "new",
-            "userName":"manager2@gmail.com",
-            "password":"India@1947"
+            "userEntry": "existingUser",
+            "userName":"manager@gmail.com",
+            "password":"india@1947"
         },
         {
             "role": "employee",

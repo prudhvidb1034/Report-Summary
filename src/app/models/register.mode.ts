@@ -1,4 +1,4 @@
-export interface RegisterUser {
+export interface RegistrationForm {
   confirmPassword: string;
   email: string;
   employeeId: string;
@@ -8,3 +8,4 @@ export interface RegisterUser {
   role: string;
   id: string;
 }
+

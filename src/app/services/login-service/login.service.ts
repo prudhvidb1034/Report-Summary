@@ -26,17 +26,4 @@ export class LoginService {
     );
   }
 
-    registerUser(credentials: LoginCredentials) {
-    return this.http.get<LoginResponse>(Constants.GET_LOGIN_DETAILS).pipe(
-      map(response => {
-        const user = response.userList.find(
-          u => u.userName === credentials.username && u.password === credentials.password
-        );
-        console.log('Matched User:', user);
-
-        return { user: user || null };
-      })
-    );
-  }
-
 }

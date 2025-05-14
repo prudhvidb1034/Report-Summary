@@ -21,6 +21,7 @@ export class LoginStore extends ComponentStore<LoginState> {
     switchMap(credentials =>
       this.auth.loginCheck(credentials).pipe(
         tap(({user})=>{
+             console.log(credentials);
             if(user){
                 if(user.userEntry==='existingUser'){
                     this.router.navigate(['/dashboard']);

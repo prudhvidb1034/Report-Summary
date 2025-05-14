@@ -1,9 +1,4 @@
-<!-- <p>sign-up works!</p> -->
-<!-- <ion-header>
-  <ion-toolbar color="primary">
-    <ion-title>Registration</ion-title>
-  </ion-toolbar>
-</ion-header> -->
+
 <ion-card style="width: 500px; margin: 40px auto;">
   <ion-card-header>
     <ion-card-title style="text-align: center;">Sign-Up</ion-card-title>
@@ -18,59 +13,59 @@
 
         <ion-input label="First Name" labelPlacement="floating"  formControlName="firstName" type="text"></ion-input>
       </ion-item>
-      <ion-note *ngIf="formControls['firstName'].errors && isSubmitted" color="danger">
-        <span *ngIf="formControls['firstName'].errors['required']">First name is required</span>
+      <!-- <ion-note *ngIf="registrationForm.get('firstName')?.hasError('required')" color="danger">
+        <span *ngIf="registrationForm.get('firstName')?.errors['required']">First name is required</span>
         <span *ngIf="formControls['firstName'].errors['minlength']">Minimum 2 characters required</span>
-      </ion-note>
+      </ion-note> -->
 
       <!-- Last Name -->
       <ion-item>
       
         <ion-input label="Last Name" labelPlacement="floating" formControlName="lastName" type="text"></ion-input>
       </ion-item>
-      <ion-note *ngIf="formControls['lastName'].errors && isSubmitted" color="danger">
+      <!-- <ion-note *ngIf="formControls['lastName'].errors && isSubmitted" color="danger">
         <span *ngIf="formControls['lastName'].errors['required']">Last name is required</span>
         <span *ngIf="formControls['lastName'].errors['minlength']">Minimum 2 characters required</span>
-      </ion-note>
+      </ion-note> -->
 
       <!-- Email -->
       <ion-item>
       
         <ion-input label="Email" labelPlacement="floating" formControlName="email" type="email"></ion-input>
       </ion-item>
-      <ion-note *ngIf="formControls['email'].errors && isSubmitted" color="danger">
+      <!-- <ion-note *ngIf="formControls['email'].errors && isSubmitted" color="danger">
         <span *ngIf="formControls['email'].errors['required']">Email is required</span>
         <span *ngIf="formControls['email'].errors['email']">Please enter a valid email</span>
-      </ion-note>
+      </ion-note> -->
 
        <!-- Employee Id -->
       <ion-item>
       
         <ion-input label="Employee Id" labelPlacement="floating" formControlName="employeeId" type="text"></ion-input>
       </ion-item>
-      <ion-note *ngIf="formControls['employeeId'].errors && isSubmitted" color="danger">
+      <!-- <ion-note *ngIf="formControls['employeeId'].errors && isSubmitted" color="danger">
         <span *ngIf="formControls['employeeId'].errors['required']">Email is required</span>
-      </ion-note>
+      </ion-note> -->
 
       <!-- Password -->
       <ion-item>
        
         <ion-input label="Password" labelPlacement="floating" formControlName="password" type="text"></ion-input>
       </ion-item>
-      <ion-note *ngIf="formControls['password'].errors && isSubmitted" color="danger">
+      <!-- <ion-note *ngIf="formControls['password'].errors && isSubmitted" color="danger">
         <span *ngIf="formControls['password'].errors['required']">Password is required</span>
         <span *ngIf="formControls['password'].errors['minlength']">Minimum 6 characters required</span>
-      </ion-note>
+      </ion-note> -->
 
       <!-- Confirm Password -->
       <ion-item>
        
         <ion-input label="Confirm Password" labelPlacement="floating" formControlName="confirmPassword" type="text"></ion-input>
       </ion-item>
-      <ion-note *ngIf="formControls['confirmPassword'].errors && isSubmitted" color="danger">
+      <!-- <ion-note *ngIf="formControls['confirmPassword'].errors && isSubmitted" color="danger">
         <span *ngIf="formControls['confirmPassword'].errors['required']">Please confirm your password</span>
         <span *ngIf="formControls['confirmPassword'].errors['mustMatch']">Passwords must match</span>
-      </ion-note>
+      </ion-note> -->
 
       <!-- Role Selection -->
      <ion-list>

@@ -28,7 +28,12 @@ export class LoginComponent {
     if (this.loginForm.valid) {
       console.log(this.loginForm.value)
       this.loginStore.login(this.loginForm.value);
+      console.log(this.loginStore);
+      
     }
+    // else{
+    //   alert('Please Register')
+    // }
   }
   // get error$() {
   //   return this.loginStore.select((state) => state.error);

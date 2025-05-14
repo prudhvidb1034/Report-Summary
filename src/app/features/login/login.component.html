@@ -29,10 +29,10 @@
               </ion-button>
             </ion-col>
             <ion-col size-md="4"> 
-              <ion-button> Forgot Password </ion-button>
+              <ion-button [disabled]="true"> Forgot Password </ion-button>
             </ion-col>
             <ion-col size-md="4">
-              <ion-button (click)="signUp()"> Register </ion-button>
+              <ion-button [disabled]="loginForm.valid" (click)="signUp()"> Register </ion-button>
             </ion-col>
         </ion-grid>
 

@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { ComponentStore,tapResponse } from '@ngrx/component-store';
+import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { Router } from '@angular/router';
 import { catchError, exhaustMap, Observable, switchMap, tap } from 'rxjs';
 import { LoginService } from '../services/login-service/login.service';
@@ -49,16 +49,16 @@ export class RegisterStore extends ComponentStore<RegistrationState> {
     //  private readonly http = inject(HttpClient);
     //  private readonly apiUrl = 'http://localhost:3000/register';
 
-private signup = inject(SignUpService);
+    private signup = inject(SignUpService);
 
     constructor() {
         super({ register: [], loading: false, error: null });
     }
 
-     readonly register$ = this.select(state => state.register);
+    readonly register$ = this.select(state => state.register);
     readonly loading$ = this.select(state => state.loading);
     readonly error$ = this.select(state => state.error);
- readonly addregister = this.effect((register$: Observable<RegistrationForm>) =>
+    readonly addregister = this.effect((register$: Observable<RegistrationForm>) =>
         register$.pipe(
             exhaustMap(register => {
                 debugger
@@ -67,7 +67,7 @@ private signup = inject(SignUpService);
                     tapResponse(
                         (savedData) => {
                             this.patchState(state => ({
-                                register : [...state.register, savedData],
+                                register: [...state.register, savedData],
                                 loading: false,
                                 error: null
                             }));

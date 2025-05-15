@@ -4,6 +4,7 @@ import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { RegisterStore } from '../../state/register.store';
 import { SignUpService } from '../../services/sign-up/sign-up.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sign-up',
@@ -18,6 +19,7 @@ export class SignUpComponent {
   private readonly fb = inject(FormBuilder);
   private readonly store = inject(RegisterStore);
   private signup = inject(SignUpService)
+  private router = inject(Router)
   registrationForm: FormGroup;
   error$ = this.store.error$;
   loading$ = this.store.loading$;
@@ -37,17 +39,11 @@ export class SignUpComponent {
   }
 
 
-
-
-
   onSubmit() {
     if (this.registrationForm.invalid) {
       this.store.addregister((this.registrationForm.value));
       console.log(this.store, this.registrationForm);
-      this.signup.getUsers().subscribe((r:any)=>{
-        console.log(r);
-        
-      })
+        this.router.navigateByUrl('login')
     } else {
       this.registrationForm.markAllAsTouched();
     }

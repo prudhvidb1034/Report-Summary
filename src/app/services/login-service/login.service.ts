@@ -11,13 +11,15 @@ import { LoginCredentials, LoginResponse, User } from '../../models/login.model'
 export class LoginService {
   private readonly baseUrl=environment.apiUrl+Constants.GET_LOGIN_DETAILS;
   private readonly http = inject(HttpClient);
+     private readonly apiUrl = 'http://localhost:3000/register';
 
-
+  
   loginCheck(credentials: LoginCredentials) {
-    return this.http.get<LoginResponse>(Constants.GET_LOGIN_DETAILS).pipe(
+    return this.http.get<any>(this.apiUrl).pipe(
       map(response => {
-        const user = response.userList.find(
-          u => u.userName === credentials.username && u.password === credentials.password
+        console.log(response,credentials);
+        const user = response.find(
+         ( u:any) =>u.username === credentials.username && u.password === credentials.password
         );
         console.log('Matched User:', user);
 

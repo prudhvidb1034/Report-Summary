@@ -6,93 +6,103 @@
   <ion-card-content>
     <ion-list>
       <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
-        <!-- First Name -->
         <ion-item>
-          <ion-input
-            label="First Name"
-            labelPlacement="floating"
-            formControlName="firstName"
-            type="text"
-          ></ion-input>
+          <ion-input formControlName="firstName" label="First Name" labelPlacement="stacked"
+            placeholder="Enter you first name" [clearOnEdit]="true"></ion-input>
         </ion-item>
-        <!-- <ion-note *ngIf="registrationForm.get('firstName')?.hasError('required')" color="danger">
-        <span *ngIf="registrationForm.get('firstName')?.errors['required']">First name is required</span>
-        <span *ngIf="formControls['firstName'].errors['minlength']">Minimum 2 characters required</span>
-      </ion-note> -->
-
-        <!-- Last Name -->
+        @if (registrationForm.get('firstName')?.invalid && (registrationForm.get('firstName')?.dirty ||
+        registrationForm.get('firstName')?.touched)) {
+        <ion-text color="danger" class="error-message">
+          @if (registrationForm.get('firstName')?.errors?.['required']) {
+          <p>First Name is required.</p>
+          }
+         
+        </ion-text>
+        }
         <ion-item>
-          <ion-input
-            label="Last Name"
-            labelPlacement="floating"
-            formControlName="lastName"
-            type="text"
-          ></ion-input>
+          <ion-input formControlName="lastName" label="Last Name" labelPlacement="stacked"
+            placeholder="Enter your last name" [clearOnEdit]="true"></ion-input>
         </ion-item>
-        <!-- <ion-note *ngIf="formControls['lastName'].errors && isSubmitted" color="danger">
-        <span *ngIf="formControls['lastName'].errors['required']">Last name is required</span>
-        <span *ngIf="formControls['lastName'].errors['minlength']">Minimum 2 characters required</span>
-      </ion-note> -->
+        @if (registrationForm.get('lastName')?.invalid && (registrationForm.get('lastName')?.dirty ||
+        registrationForm.get('lastName')?.touched)) {
+        <ion-text color="danger" class="error-message">
+          @if (registrationForm.get('lastName')?.errors?.['required']) {
+          <p>Last Name is required.</p>
+          }
+         
+        </ion-text>
+        }
 
-        <!-- Email -->
+
         <ion-item>
-          <ion-input
-            label="Email"
-            labelPlacement="floating"
-            formControlName="username"
-            type="email"
-          ></ion-input>
+          <ion-input formControlName="username" label="Email " labelPlacement="stacked"
+            placeholder="Enter your email" [clearOnEdit]="true"></ion-input>
         </ion-item>
-        <!-- <ion-note *ngIf="formControls['email'].errors && isSubmitted" color="danger">
-        <span *ngIf="formControls['email'].errors['required']">Email is required</span>
-        <span *ngIf="formControls['email'].errors['email']">Please enter a valid email</span>
-      </ion-note> -->
-
-        <!-- Employee Id -->
+        @if (registrationForm.get('username')?.invalid && (registrationForm.get('username')?.dirty ||
+        registrationForm.get('username')?.touched)) {
+        <ion-text color="danger" class="error-message">
+          @if (registrationForm.get('username')?.errors?.['required']) {
+          <p>Email  is required.</p>
+          }
+          @if (registrationForm.get('username')?.errors?.['email']) {
+            <p>Invalid email format.</p>
+            }
+         
+        </ion-text>
+        }
         <ion-item>
-          <ion-input
-            label="Employee Id"
-            labelPlacement="floating"
-            formControlName="employeeId"
-            type="text"
-          ></ion-input>
+          <ion-input formControlName="employeeId" label="Employee id " labelPlacement="stacked"
+            placeholder="Enter your employeeid" [clearOnEdit]="true"></ion-input>
         </ion-item>
-        <!-- <ion-note *ngIf="formControls['employeeId'].errors && isSubmitted" color="danger">
-        <span *ngIf="formControls['employeeId'].errors['required']">Email is required</span>
-      </ion-note> -->
-
-        <!-- Password -->
+        @if (registrationForm.get('employeeId')?.invalid && (registrationForm.get('employeeId')?.dirty ||
+        registrationForm.get('employeeId')?.touched)) {
+        <ion-text color="danger" class="error-message">
+          @if (registrationForm.get('employeeId')?.errors?.['required']) {
+          <p>Employee id   is required.</p>
+          }
+         
+         
+        </ion-text>
+        }
+       
         <ion-item>
-          <ion-input
-            label="Password"
-            labelPlacement="floating"
-            formControlName="password"
-            type="text"
-          ></ion-input>
+          <ion-input formControlName="password" label="Password" labelPlacement="stacked"
+            placeholder="Enter your password" [clearOnEdit]="true"></ion-input>
         </ion-item>
-        <!-- <ion-note *ngIf="formControls['password'].errors && isSubmitted" color="danger">
-        <span *ngIf="formControls['password'].errors['required']">Password is required</span>
-        <span *ngIf="formControls['password'].errors['minlength']">Minimum 6 characters required</span>
-      </ion-note> -->
-
-        <!-- Confirm Password -->
+        @if (registrationForm.get('password')?.invalid && (registrationForm.get('password')?.dirty ||
+        registrationForm.get('password')?.touched)) {
+        <ion-text color="danger" class="error-message">
+          @if (registrationForm.get('password')?.errors?.['required']) {
+          <p>Password is required.</p>
+          }
+         
+        </ion-text>
+        }
         <ion-item>
-          <ion-input
-            label="Confirm Password"
-            labelPlacement="floating"
-            formControlName="confirmPassword"
-            type="text"
-          ></ion-input>
+          <ion-input formControlName="confirmPassword" label="Confirm Password" labelPlacement="stacked"
+            placeholder="Enter your password" [clearOnEdit]="true"></ion-input>
         </ion-item>
-        <!-- <ion-note *ngIf="formControls['confirmPassword'].errors && isSubmitted" color="danger">
-        <span *ngIf="formControls['confirmPassword'].errors['required']">Please confirm your password</span>
-        <span *ngIf="formControls['confirmPassword'].errors['mustMatch']">Passwords must match</span>
-      </ion-note> -->
+        @if (registrationForm.get('confirmPassword')?.invalid && (registrationForm.get('confirmPassword')?.dirty ||
+        registrationForm.get('confirmPassword')?.touched)) {
+        <ion-text color="danger" class="error-message">
+          @if (registrationForm.get('confirmPassword')?.errors?.['required']) {
+          <p>Confirm Password is required.</p>
+          }
+         
+        </ion-text>
+        }
+        @if (registrationForm.errors?.['passwordMismatch'] && 
+        registrationForm.get('confirmPassword')?.touched) {
+     <ion-text color="danger">
+       <p>Passwords do not match.</p>
+     </ion-text>
+   }
 
-        <!-- Role Selection -->
+        
         <ion-list>
           <ion-item>
             <ion-input
+            
               readonly
               label="Role"
               labelPlacement="floating"

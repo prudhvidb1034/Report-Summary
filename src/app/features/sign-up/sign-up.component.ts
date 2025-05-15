@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, AbstractControl } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { RegisterStore } from '../../state/register.store';
@@ -27,20 +27,30 @@ export class SignUpComponent {
 
   constructor() {
     this.registrationForm = this.fb.group({
-      firstName: ['', [Validators.required, Validators.minLength(2)]],
-      lastName: ['', [Validators.required, Validators.minLength(2)]],
+      firstName: ['', [Validators.required]],
+      lastName: ['', [Validators.required]],
       username: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
+      password: ['', [Validators.required, Validators.minLength(8)]],
       confirmPassword: ['', [Validators.required]],
       employeeId: ['', [Validators.required]],
       role: ['Manager', Validators.requiredTrue]
-    }
+    },{ validators: this.passwordMatchValidator }
     )
   }
 
 
+  passwordMatchValidator(formGroup: AbstractControl): { [key: string]: boolean } | null {
+    const password = formGroup.get('password')?.value;
+    const confirmPassword = formGroup.get('confirmPassword')?.value;
+  
+    return password && confirmPassword && password !== confirmPassword
+      ? { passwordMismatch: true }
+      : null;
+  }
+  
+
   onSubmit() {
-    if (this.registrationForm.invalid) {
+    if (this.registrationForm.valid) {
       this.store.addregister((this.registrationForm.value));
       console.log(this.store, this.registrationForm);
         this.router.navigateByUrl('login')

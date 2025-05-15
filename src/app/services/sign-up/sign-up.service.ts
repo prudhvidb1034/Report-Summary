@@ -4,27 +4,26 @@ import { delay, map, Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { Constants } from '../../constants/string-constants';
 import { LoginCredentials, LoginResponse, User } from '../../models/login.model';
-import { RegisterUser } from '../../models/register.mode';
+import { RegistrationForm } from '../../models/register.mode';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SignUpService {
-private readonly baseUrl=environment.apiUrl+Constants.GET_LOGIN_DETAILS;
-  private readonly http = inject(HttpClient);
-  constructor() { }
 
-    //   registerUser(credentials: RegisterUser) {
-    //   return this.http.get<RegisterUser>(Constants.GET_LOGIN_DETAILS).pipe(
-    //     map(response => {
-    //       const user = response.userList.find(
-    //         u => u.userName === credentials.username && u.password === credentials.password
-    //       );
-    //       console.log('Matched User:', user);
-  
-    //       return { user: user || null };
-    //     })
-    //   );
-    // }
-  
+  private readonly http = inject(HttpClient);
+  // constructor() { }
+
+   private readonly apiUrl = 'http://localhost:3000/register';
+
+  // constructor(private http: HttpClient) {}
+
+    registerUser(reg: RegistrationForm): Observable<RegistrationForm> {
+    console.log(reg)
+    // this.getUsers();
+    return this.http.post<RegistrationForm>(this.apiUrl, reg);
+  }
+  getUsers(){
+    return this.http.get<RegistrationForm>(this.apiUrl);
+  }
 }

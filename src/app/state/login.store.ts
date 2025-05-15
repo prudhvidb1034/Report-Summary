@@ -21,12 +21,14 @@ export class LoginStore extends ComponentStore<LoginState> {
     switchMap(credentials =>
       this.auth.loginCheck(credentials).pipe(
         tap(({user})=>{
+             console.log(credentials);
             if(user){
-                if(user.userEntry==='existingUser'){
-                    this.router.navigate(['/dashboard']);
-                }else{
-                    this.router.navigate(['/reset-password']);
-                }
+              this.router.navigate(['/dashboard']);
+                // if(user.userEntry==='existingUser'){
+                //     this.router.navigate(['/dashboard']);
+                // }else{
+                //     this.router.navigate(['/reset-password']);
+                // }
             }
             else{
                  this.patchState({ error: 'Invalid username or password' });

@@ -33,9 +33,7 @@ export class DashboardComponent {
   ngOnInit() {
     this.CreateForm();
     this.teamStore.getTeam();
-    // this.getTeamList();
-    console.log(this.teamList$)
-  }
+     }
 
   goToProject(id: string) {
     this.router.navigate(['/project', id]);
@@ -66,7 +64,7 @@ export class DashboardComponent {
         this.setOpen(false);
         this.teamForm.reset();
         alert('Project created successfully!');
-        // this.getTeamList()
+      
      
     } else {
       this.teamForm.markAllAsTouched()

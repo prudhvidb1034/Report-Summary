@@ -1,11 +1,11 @@
 <ion-grid>
   <ion-row class="ion-align-items-center">
-   
+
     <ion-col class="ion-text-start">
       <span class="project-title">Teams list</span>
     </ion-col>
 
-    
+
     <ion-col class="ion-text-end" size="auto">
       <ion-button class="large-button" (click)="setOpen(true)">Create Team</ion-button>
     </ion-col>
@@ -15,11 +15,8 @@
 
 <ion-grid>
   <ion-row>
-  
-    <ion-col
-      *ngFor="let project of teamList$ | async"
-      size="12" size-sm="6" size-md="4" size-lg="3"
-    >
+
+    <ion-col *ngFor="let project of teamList$ | async" size="12" size-sm="6" size-md="4" size-lg="3">
       <ion-card (click)="goToProject(project.id)" class="project-card">
         <ion-card-header>
           <ion-card-title>{{ project.projectname }}</ion-card-title>
@@ -31,20 +28,10 @@
           <p><strong>Start:</strong> {{ project.startDate || '—' }}</p>
           <p><strong>End:</strong> {{ project.endDate || '—' }}</p>
 
-          <ion-icon
-            name="create-outline"
-            size="small"
-            class="cursor"
-            color="primary"
-          ></ion-icon>
+          <ion-icon name="create-outline" size="small" class="cursor" color="primary"></ion-icon>
 
-          <ion-icon
-            name="trash-outline"
-            size="small"
-            class="cursor"
-            color="danger"
-            (click)="deleteproject(project); $event.stopPropagation()"
-          ></ion-icon>
+          <ion-icon name="trash-outline" size="small" class="cursor" color="danger"
+            (click)="deleteproject(project); $event.stopPropagation()"></ion-icon>
         </ion-card-content>
       </ion-card>
     </ion-col>
@@ -76,7 +63,7 @@
     </ion-header>
 
     <form [formGroup]="teamForm">
-          <ion-item>
+      <ion-item>
         <ion-input formControlName="projectname" label="Project Name" labelPlacement="stacked"
           placeholder="Enter project name" [clearOnEdit]="true"></ion-input>
       </ion-item>
@@ -92,7 +79,7 @@
       </ion-text>
       }
 
-     
+
       <ion-item>
         <ion-input formControlName="projectlocation" label="Project Location" labelPlacement="stacked"
           placeholder="Enter project location" [clearOnEdit]="true"></ion-input>
@@ -110,7 +97,7 @@
       }
 
       <ion-item>
-        <ion-input formControlName="startDate" type="date" label="Start Date" labelPlacement="stacked"></ion-input>      
+        <ion-input formControlName="startDate" type="date" label="Start Date" labelPlacement="stacked"></ion-input>
       </ion-item>
       @if (teamForm.get('startDate')?.invalid && (teamForm.get('startDate')?.dirty ||
       teamForm.get('startDate')?.touched)) {
@@ -118,7 +105,7 @@
         @if (teamForm.get('startDate')?.errors?.['required']) {
         <p>Start date is required.</p>
         }
-       
+
       </ion-text>
       }
 
@@ -126,7 +113,7 @@
         <ion-input formControlName="endDate" type="date" label="End Date" labelPlacement="stacked"></ion-input>
       </ion-item>
 
-         </form>
+    </form>
 
 
 

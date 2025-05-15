@@ -13,11 +13,11 @@
 </ion-grid>
 
 
-
 <ion-grid>
   <ion-row>
+  
     <ion-col
-      *ngFor="let project of teamList(); "
+      *ngFor="let project of teamList$ | async"
       size="12" size-sm="6" size-md="4" size-lg="3"
     >
       <ion-card (click)="goToProject(project.id)" class="project-card">
@@ -51,7 +51,7 @@
   </ion-row>
 
   <!-- Empty state -->
-  <ion-row *ngIf="!teamList().length">
+  <ion-row *ngIf="(teamList$ | async)?.length === 0">
     <ion-col size="12">
       <ion-card>
         <ion-card-content class="ion-text-center">
@@ -61,6 +61,7 @@
     </ion-col>
   </ion-row>
 </ion-grid>
+
 
 
 

@@ -29,10 +29,12 @@ export class DashboardComponent {
   private router= inject(Router)
   teamList = signal<createTeam[]>([]);
   private teamStore=inject(TeamStore);
-
+  teamList$ = this.teamStore.team$;
   ngOnInit() {
     this.CreateForm();
-    this.getTeamList();
+    this.teamStore.getTeam();
+    // this.getTeamList();
+    console.log(this.teamList$)
   }
 
   goToProject(id: string) {
@@ -58,36 +60,39 @@ export class DashboardComponent {
 
 
   SubmitForm() {
-
     const response = this.teamForm.value;
     if (this.teamForm.valid) {
       this.teamStore.addTeam(response);
         this.setOpen(false);
         this.teamForm.reset();
         alert('Project created successfully!');
-        this.getTeamList()
+        // this.getTeamList()
      
     } else {
       this.teamForm.markAllAsTouched()
     }
   }
-  getTeamList() {
-    this.shareservice.GetData(this.url).subscribe((res: any[]) => {
-      const mappedData: createTeam[] = res.map(item => ({
-        id: item.id,
-        projectname: item.projectname,
-        projectLocation: item.projectlocation,
-        startDate: item.startdate,
-        endDate: item.enddate
-      }));
-      this.teamList.set(mappedData);
-    });
-  }
+  // getTeamList() {
+  //   // this.shareservice.GetData(this.url).subscribe((res: any[]) => {
+  //   //   const mappedData: createTeam[] = res.map(item => ({
+  //   //     id: item.id,
+  //   //     projectname: item.projectname,
+  //   //     projectLocation: item.projectlocation,
+  //   //     startDate: item.startdate,
+  //   //     endDate: item.enddate
+  //   //   }));
+
+  //   this.teamStore.getTeam()
+  //     this.teamList.set(mappedData);
+  //   });
+  // }
+
+
   deleteproject(item: any) {
     const fullUrl = `${this.url}/${item.id}`;
     this.shareservice.deleteData(fullUrl).subscribe(() => {
       alert('item deleted');
-      this.getTeamList()
+      // this.getTeamList()
     })
   }
 

@@ -1,0 +1,53 @@
+{
+  "teamslist": [
+    {
+      "id": "ad29",
+      "projectname": "Sarath",
+      "projectlocation": "Hyderabad",
+      "startdate": "4567-03-12",
+      "enddate": "4567-03-12"
+    },
+    {
+      "id": "e3bf",
+      "projectname": "dsfghifd",
+      "projectlocation": "qhjwkrnekngd",
+      "startdate": "2345-04-23",
+      "enddate": "5678-04-23"
+    },
+    {
+      "id": "32c6",
+      "projectname": "Prudhvi varma",
+      "projectlocation": "Dubai",
+      "startdate": "2026-04-12",
+      "enddate": "2029-03-12"
+    },
+    {
+      "id": "e333",
+      "projectname": "dfghjgfd",
+      "projectlocation": "glgnjl",
+      "startDate": "4564-03-12",
+      "endDate": "4563-03-12"
+    },
+    {
+      "id": "0458",
+      "projectname": "qweqweqwe",
+      "projectlocation": "asdasdasdad",
+      "startDate": "2025-05-12",
+      "endDate": "2025-06-06"
+    },
+    {
+      "id": "c6fd",
+      "projectname": "customer365",
+      "projectlocation": "Hyderabad",
+      "startDate": "2025-01-01",
+      "endDate": "2025-07-11"
+    },
+    {
+      "id": "9242",
+      "projectname": "dfghjhgf",
+      "projectlocation": "sgfdsdf",
+      "startDate": "4567-03-12",
+      "endDate": "45678-03-21"
+    }
+  ]
+}

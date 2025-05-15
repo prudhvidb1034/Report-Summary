@@ -13,7 +13,14 @@ export const routes: Routes = [
   {
     path: 'dashboard',
     loadComponent: () => import('../app/features/dashboard/dashboard.component').then((m) => m.DashboardComponent),
+    
   },
+
+
+    {
+      path: 'project/:id',
+      loadComponent: () => import('../app/features/projects/projects.component').then((m)=>m.ProjectsComponent)
+    },
   {
     path: '',
     redirectTo: 'login',

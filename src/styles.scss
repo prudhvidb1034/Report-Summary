@@ -2,3 +2,59 @@ app-header{
     background-color: rgb(25, 25, 71);
 
 }
+
+
+  
+
+  .project-title {
+    font-size: 20px;         // Bigger text
+    font-weight: 600;
+  }
+  
+  .large-button {
+    font-size: 12px;        
+    --padding-start: 20px;
+    --padding-end: 20px;
+    --padding-top: 12px;
+    --padding-bottom: 12px;
+  }
+
+  .project-table {
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  
+  .header-row {
+    background: #f1f1f1;
+    font-weight: bold;
+    font-size: 16px;
+  }
+  
+  .data-row {
+    font-size: 15px;
+    border-top: 1px solid #ddd;
+  }
+  .submit:hover{
+      background-color: blueviolet !important;
+      color: whitesmoke;
+  }
+  .error-message {
+    margin-left: 16px;       
+    margin-top: 4px;
+    font-size: 14px;
+    display: block;
+    color: red;
+  }
+  .link-id {
+    color: #007bff;       
+    text-decoration: underline;
+    cursor: pointer;
+    font-weight: 500;
+  }
+  
+  
+  
+.cursor{
+cursor: pointer;
+}

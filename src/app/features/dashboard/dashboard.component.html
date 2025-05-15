@@ -1,111 +1,141 @@
- 
+<ion-grid>
+  <ion-row class="ion-align-items-center">
+   
+    <ion-col class="ion-text-start">
+      <span class="project-title">Teams list</span>
+    </ion-col>
+
+    
+    <ion-col class="ion-text-end" size="auto">
+      <ion-button class="large-button" (click)="setOpen(true)">Create Team</ion-button>
+    </ion-col>
+  </ion-row>
+</ion-grid>
+
+
 
 <ion-grid>
-    <ion-row class="ion-align-items-center">
-      <!-- Bigger text -->
-      <ion-col class="ion-text-start">
-        <span class="project-title">Project list</span>
-      </ion-col>
-  
-      <!-- Bigger button, aligned right -->
-      <ion-col class="ion-text-end" size="auto">
-        <ion-button class="large-button" (click)="setOpen(true)">Open</ion-button>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-  
-  
-  
-  
-  <ion-grid class="project-table">
-    <!-- Table Header -->
-    <ion-row class="header-row ion-text-center">
-      <ion-col size="2">Project ID</ion-col>
-      <ion-col size="2">Project Name</ion-col>
-      <ion-col size="2">Project Location</ion-col>
-      <ion-col size="2">Start Date</ion-col>
-      <ion-col size="2">End Date</ion-col>
-      <ion-col size="2">Action</ion-col>
-    </ion-row>
-  
-    <!-- Static Data Rows -->
-    @for (project of projects; track project.id) {
-      <ion-row class="data-row ion-text-center">
-        <ion-col size="2">{{ project.id }}</ion-col>
-        <ion-col size="2">{{ project.name }}</ion-col>
-        <ion-col size="2">{{ project.location }}</ion-col>
-        <ion-col size="2">{{ project.startDate || '—' }}</ion-col>
-        <ion-col size="2">{{ project.endDate || '—' }}</ion-col>
-        <ion-col size="2">
-          <ion-icon name="create-outline" size="small" color="danger"></ion-icon>
-          <ion-icon name="trash-outline" size="small" color="danger"></ion-icon>
-        </ion-col>
-      </ion-row>
-    }
-    @empty {
-      <!-- Rendered if projects array is empty -->
-      <ion-row class="ion-text-center">
-        <ion-col size="12">No projects found.</ion-col>
-      </ion-row>
-    }
-    
-  </ion-grid>
-  
-  
-    <ion-modal [isOpen]="isModalOpen" cssClass="custom-modal">
-      <ng-template>
-        <ion-header>
-          <ion-toolbar>
-            <ion-title class="ion-padding ion-text-center ion-align-items-center">Create Team </ion-title>
-           
-          </ion-toolbar>
-        </ion-header>     
-      
-        <ion-item>
-          <ion-input
-            label="Project Name"
-            labelPlacement="stacked"
-            [clearOnEdit]="true"
-            placeholder="Enter project name"
-          >
-          </ion-input>
-        </ion-item>
-        <ion-item>
-          <ion-input
-            label="Project Location"
-            labelPlacement="stacked"
-            [clearOnEdit]="true"
-            placeholder="Enter project location"
-          >
-          </ion-input>
-        </ion-item>
-        <ion-item>
-          <ion-input
-            label="Start Date"
-            labelPlacement="stacked"
-            [clearOnEdit]="true"
-            type="Date"
-          >
-          </ion-input>
-        </ion-item>
-        <ion-item>
-          <ion-input
-            label="End Date"
-            labelPlacement="stacked"
-            [clearOnEdit]="true"
-           type="Date"
-          >
-          </ion-input>
-        </ion-item>
+  <ion-row>
+    <ion-col
+      *ngFor="let project of teamList(); "
+      size="12" size-sm="6" size-md="4" size-lg="3"
+    >
+      <ion-card (click)="goToProject(project.id)" class="project-card">
+        <ion-card-header>
+          <ion-card-title>{{ project.projectname }}</ion-card-title>
+          <ion-card-subtitle>ID: {{ project.id }}</ion-card-subtitle>
+        </ion-card-header>
+
+        <ion-card-content>
+          <p><strong>Location:</strong> {{ project.projectLocation }}</p>
+          <p><strong>Start:</strong> {{ project.startDate || '—' }}</p>
+          <p><strong>End:</strong> {{ project.endDate || '—' }}</p>
+
+          <ion-icon
+            name="create-outline"
+            size="small"
+            class="cursor"
+            color="primary"
+          ></ion-icon>
+
+          <ion-icon
+            name="trash-outline"
+            size="small"
+            class="cursor"
+            color="danger"
+            (click)="deleteproject(project); $event.stopPropagation()"
+          ></ion-icon>
+        </ion-card-content>
+      </ion-card>
+    </ion-col>
+  </ion-row>
+
+  <!-- Empty state -->
+  <ion-row *ngIf="!teamList().length">
+    <ion-col size="12">
+      <ion-card>
+        <ion-card-content class="ion-text-center">
+          No projects found.
+        </ion-card-content>
+      </ion-card>
+    </ion-col>
+  </ion-row>
+</ion-grid>
+
+
+
+
+<ion-modal [isOpen]="isModalOpen" cssClass="custom-modal">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar>
+        <ion-title class="ion-padding ion-text-center ion-align-items-center">Create Team </ion-title>
+
+      </ion-toolbar>
+    </ion-header>
+
+    <form [formGroup]="teamForm">
+          <ion-item>
+        <ion-input formControlName="projectname" label="Project Name" labelPlacement="stacked"
+          placeholder="Enter project name" [clearOnEdit]="true"></ion-input>
+      </ion-item>
+      @if (teamForm.get('projectname')?.invalid && (teamForm.get('projectname')?.dirty ||
+      teamForm.get('projectname')?.touched)) {
+      <ion-text color="danger" class="error-message">
+        @if (teamForm.get('projectname')?.errors?.['required']) {
+        <p>Project Name is required.</p>
+        }
+        @if (teamForm.get('projectname')?.errors?.['minlength']) {
+        <p>Minimum 3 characters required.</p>
+        }
+      </ion-text>
+      }
+
+     
+      <ion-item>
+        <ion-input formControlName="projectlocation" label="Project Location" labelPlacement="stacked"
+          placeholder="Enter project location" [clearOnEdit]="true"></ion-input>
+      </ion-item>
+      @if (teamForm.get('projectlocation')?.invalid && (teamForm.get('projectlocation')?.dirty ||
+      teamForm.get('projectlocation')?.touched)) {
+      <ion-text color="danger" class="error-message">
+        @if (teamForm.get('projectlocation')?.errors?.['required']) {
+        <p>Project Location is required.</p>
+        }
+        @if (teamForm.get('projectlocation')?.errors?.['minlength']) {
+        <p>Minimum 3 characters required.</p>
+        }
+      </ion-text>
+      }
+
+      <ion-item>
+        <ion-input formControlName="startDate" type="date" label="Start Date" labelPlacement="stacked"></ion-input>      
+      </ion-item>
+      @if (teamForm.get('startDate')?.invalid && (teamForm.get('startDate')?.dirty ||
+      teamForm.get('startDate')?.touched)) {
+      <ion-text color="danger" class="error-message">
+        @if (teamForm.get('startDate')?.errors?.['required']) {
+        <p>Start date is required.</p>
+        }
        
-  
-          <ion-footer>
-            <ion-toolbar>
-              <ion-buttons slot="end">
-                <ion-button (click)="setOpen(false)">Close</ion-button>
-                <ion-button class="submit" (click)="setOpen(false)">Submit</ion-button>
-              </ion-buttons>
-            </ion-toolbar>
-          </ion-footer>
-      </ng-template>
-    </ion-modal>
+      </ion-text>
+      }
+
+      <ion-item>
+        <ion-input formControlName="endDate" type="date" label="End Date" labelPlacement="stacked"></ion-input>
+      </ion-item>
+
+         </form>
+
+
+
+    <ion-footer>
+      <ion-toolbar>
+        <ion-buttons slot="end">
+          <ion-button (click)="setOpen(false)">Close</ion-button>
+          <ion-button class="submit" (click)="SubmitForm()">Submit</ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-footer>
+  </ng-template>
+</ion-modal>

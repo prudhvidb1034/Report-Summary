@@ -14,35 +14,66 @@
     <div>
       <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
         <ion-item>
-          
-          <ion-input labelPlacement="floating" label="Username" formControlName="username" type="text"></ion-input>
+          <ion-input
+            formControlName="username"
+            label="Project Name"
+            labelPlacement="stacked"
+            placeholder="Enter User Name"
+            [clearOnEdit]="true"
+          ></ion-input>
         </ion-item>
+        @if (loginForm.get('username')?.invalid &&
+        (loginForm.get('username')?.dirty ||
+        loginForm.get('username')?.touched)) {
+        <ion-text color="danger" class="error-message">
+          @if (loginForm.get('username')?.errors?.['required']) {
+          <p>Username is required.</p>
+          } @if (loginForm.get('username')?.errors?.['email']) {
+          <p>Invali email format</p>
+          }
+        </ion-text>
+        }
+
         <ion-item>
-        
-          <ion-input labelPlacement="floating" label="Password" formControlName="password" type="password"></ion-input>
+          <ion-input
+            placeholder="Enter Password"
+            labelPlacement="floating"
+            label="Password"
+            formControlName="password"
+              labelPlacement="stacked"
+            placeholder="Enter Password"
+            [clearOnEdit]="true"
+          >
+          </ion-input>
         </ion-item>
+          @if (loginForm.get('password')?.invalid &&
+        (loginForm.get('password')?.dirty ||
+        loginForm.get('password')?.touched)) {
+        <ion-text color="danger" class="error-message">
+          @if (loginForm.get('password')?.errors?.['required']) {
+          <p>Password is required.</p>
+          } @if (loginForm.get('password')?.errors?.['minlength']) {
+          <p>Password contains atleast 6 chars</p>
+          }
+        </ion-text>
+        }
 
-        <ion-grid [fixed]="true" style="margin-top: 10px; width: inherit;">
-            <ion-col size-md="4">
-              <ion-button type="submit" [disabled]="loginForm.invalid">
-                Login
-              </ion-button>
-            </ion-col>
-            <ion-col size-md="4"> 
-              <ion-button [disabled]="true"> Forgot Password </ion-button>
-            </ion-col>
-            <ion-col size-md="4">
-              <ion-button [disabled]="loginForm.valid" (click)="signUp()"> Register </ion-button>
-            </ion-col>
+        <ion-grid [fixed]="true" style="margin-top: 10px; width: inherit">
+          <ion-col size-md="4">
+            <ion-button type="submit" [disabled]="loginForm.invalid">
+              Login
+            </ion-button>
+          </ion-col>
+          <ion-col size-md="4">
+            <ion-button [disabled]="true"> Forgot Password </ion-button>
+          </ion-col>
+          <ion-col size-md="4">
+            <ion-button [disabled]="loginForm.valid" (click)="signUp()">
+              Register
+            </ion-button>
+          </ion-col>
         </ion-grid>
-
-        <!-- <ion-button expand="full" type="submit" [disabled]="loginForm.invalid">
-        Login
-      </ion-button> -->
       </form>
-      <!-- <ion-text color="danger" *ngIf="(error$ | async) as error">
-        <p>{{ error }}</p>
-      </ion-text> -->
     </div>
   </ion-card-content></ion-card
 >

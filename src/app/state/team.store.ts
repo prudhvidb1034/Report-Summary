@@ -1,6 +1,6 @@
 import { inject, Injectable } from "@angular/core";
 import { ComponentStore, tapResponse } from "@ngrx/component-store";
-import { exhaustMap } from "rxjs";
+import { exhaustMap, switchMap } from "rxjs";
 import { createTeam } from "../models/project.model";
 import { TeamListService } from "../services/team-list/team-list.service";
 
@@ -17,12 +17,7 @@ export class TeamStore extends ComponentStore<TeamState>{
             teamDetails:[]  ,error:''      })
     }
     private readonly teamListService = inject(TeamListService);
-
-
-
     readonly team$ = this.select(state =>state.teamDetails)
-
-
     readonly addTeam = this.effect((updatedVal$:any) =>
     updatedVal$.pipe(
       exhaustMap(updatedVal =>
@@ -40,29 +35,28 @@ export class TeamStore extends ComponentStore<TeamState>{
     )
   );
 
-//   readonly getTeamDetails=this.updater((state,details:teamDetails[])=>({
-//     teamDetails:[...state.teamDetails,details]
-//   })
 
-// readonly getTeamDetails =this.updater((state,details:any[])=>({
-//     teamDetails:[...state.teamDetails,details]
-// })
+readonly getTeam = this.effect((trigger$) =>
+  trigger$.pipe(
+    switchMap(() =>
+      this.teamListService.GetData('http://localhost:3000/teamslist').pipe(
+        tapResponse(
+          (data) =>
+            this.patchState({
+              teamDetails: data.map((item: any) => ({
+                id: item.id,
+                projectname: item.projectname,
+                projectLocation: item.projectlocation,
+                startDate: item.startdate,
+                endDate: item.enddate,
+              })),
+            }),
+          (error) => this.patchState({ error: 'Failed to load team data' })
+        )
+      )
+    )
+  )
+);
 
-// readonly getTeam = this.effect((getvalue$:any) =>
-// getvalue$.pipe(
-// this.teamListService.GetData('http://localhost:3000/teamslist').pipe(
-//     tapResponse((getval)=>{
-//         this.getTeamDetails(getval);
-//     //  this.updater(state=>{
-//     //     team
-//     //  })
-        
-//     },
-//     error => this.patchState({ error: '' })
-//   )
-// )
-// )
-// )
-// );
 
 }

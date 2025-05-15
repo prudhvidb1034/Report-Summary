@@ -1,33 +1,148 @@
 {
+  "register": [
+    {
+      "confirmPassword": "phani123#",
+      "email": "phani.gatta@gmail.com",
+      "employeeId": "qe2025",
+      "firstName": "Phaneendra",
+      "lastName": "Gatta",
+      "password": "phani123#",
+      "role": "Manager",
+      "id": "5c54"
+    },
+    {
+      "id": "2774",
+      "firstName": "Phaneendra",
+      "lastName": "Gatta",
+      "email": "phaneendra.gatta@gmail.com",
+      "password": "phani123",
+      "confirmPassword": "phani123",
+      "employeeId": "qe2025",
+      "role": "Manager"
+    },
+    {
+      "id": "f352",
+      "firstName": "Phaneendra",
+      "lastName": "Gatta",
+      "email": "phaneendra.gatta@gmail.com",
+      "password": "phani123",
+      "confirmPassword": "phani123",
+      "employeeId": "qe2025",
+      "role": "Manager"
+    },
+    {
+      "id": "3af4",
+      "firstName": "Phaneendra",
+      "lastName": "Gatta",
+      "email": "phaneendra.gatta@gmail.com",
+      "password": "phani123",
+      "confirmPassword": "phani123",
+      "employeeId": "qe2025",
+      "role": "Manager"
+    },
+    {
+      "id": "390c",
+      "firstName": "Phaneendra",
+      "lastName": "Gatta",
+      "email": "phaneendra.gatta@gmail.com",
+      "password": "qw",
+      "confirmPassword": "qw",
+      "employeeId": "12",
+      "role": "Manager"
+    },
+    {
+      "id": "754f",
+      "firstName": "Phaneendra",
+      "lastName": "Gatta",
+      "username": "phani.gatta@gmail.com",
+      "password": "qw",
+      "confirmPassword": "qw",
+      "employeeId": "12",
+      "role": "Manager"
+    },
+    {
+      "id": "0b5c",
+      "firstName": "Phaneendra",
+      "lastName": "Gatta",
+      "username": "phaneendra.gatta@gmail.com",
+      "password": "qw",
+      "confirmPassword": "qw",
+      "employeeId": "12",
+      "role": "Manager"
+    },
+    {
+      "id": "0b32",
+      "firstName": "Phaneendra",
+      "lastName": "Gatta",
+      "username": "phaneendra.gatta@gmail.com",
+      "password": "qw",
+      "confirmPassword": "qw",
+      "employeeId": "12",
+      "role": "Manager"
+    },
+    {
+      "id": "1ba9",
+      "firstName": "Phaneendra",
+      "lastName": "Gatta",
+      "username": "phaneendra.gatta@gmail.com",
+      "password": "qw",
+      "confirmPassword": "qw",
+      "employeeId": "qe12",
+      "role": "Manager"
+    },
+    {
+      "id": "2b3e",
+      "firstName": "Phaneendra",
+      "lastName": "Gatta",
+      "username": "phaneendra.gatta@gmail.com",
+      "password": "qw",
+      "confirmPassword": "qw",
+      "employeeId": "qe2025",
+      "role": "Manager"
+    },
+    {
+      "id": "c770",
+      "firstName": "Phaneendra",
+      "lastName": "Gatta",
+      "username": "phaneendra.gatta@gmail.com",
+      "password": "qw",
+      "confirmPassword": "qw",
+      "employeeId": "qw2025",
+      "userEntry": "new",
+      "role": "Manager"
+    },
+    {
+      "id": "e668",
+      "firstName": "qwe",
+      "lastName": "qwe",
+      "username": "qwe@gmail.com",
+      "password": "qe123",
+      "confirmPassword": "qe123",
+      "employeeId": "qe123",
+      "role": "Manager"
+    },
+    {
+      "id": "93c8",
+      "firstName": "prudhvi",
+      "lastName": "rgv",
+      "username": "prudhvi123@gmail.com",
+      "password": "prudhvi@123",
+      "confirmPassword": "prudhvi@123",
+      "employeeId": "qe456",
+      "role": "Manager"
+    },
+    {
+      "id": "5b88",
+      "firstName": "Phaneendra",
+      "lastName": "Gatta",
+      "username": "phaneendra.gatta@gmail.com",
+      "password": "qw",
+      "confirmPassword": "qw",
+      "employeeId": "qe2025",
+      "role": "Manager"
+    }
+  ],
   "teamslist": [
-    {
-      "id": "ad29",
-      "projectname": "Sarath",
-      "projectlocation": "Hyderabad",
-      "startdate": "4567-03-12",
-      "enddate": "4567-03-12"
-    },
-    {
-      "id": "e3bf",
-      "projectname": "dsfghifd",
-      "projectlocation": "qhjwkrnekngd",
-      "startdate": "2345-04-23",
-      "enddate": "5678-04-23"
-    },
-    {
-      "id": "32c6",
-      "projectname": "Prudhvi varma",
-      "projectlocation": "Dubai",
-      "startdate": "2026-04-12",
-      "enddate": "2029-03-12"
-    },
-    {
-      "id": "e333",
-      "projectname": "dfghjgfd",
-      "projectlocation": "glgnjl",
-      "startDate": "4564-03-12",
-      "endDate": "4563-03-12"
-    },
     {
       "id": "0458",
       "projectname": "qweqweqwe",
@@ -48,6 +163,34 @@
       "projectlocation": "sgfdsdf",
       "startDate": "4567-03-12",
       "endDate": "45678-03-21"
+    },
+    {
+      "id": "63dc",
+      "projectname": "asdsad",
+      "projectlocation": "asdasd",
+      "startDate": "2025-05-15",
+      "endDate": "2025-05-30"
+    },
+    {
+      "id": "fa1d",
+      "projectname": "asda",
+      "projectlocation": "asdasd",
+      "startDate": "2025-05-14",
+      "endDate": "2025-05-28"
+    },
+    {
+      "id": "7395",
+      "projectname": "rthietd",
+      "projectlocation": "thuho",
+      "startDate": "4562-03-12",
+      "endDate": "4564-03-12"
+    },
+    {
+      "id": "8b26",
+      "projectname": "Prudhvi varma",
+      "projectlocation": "HderABAD",
+      "startDate": "4567-03-12",
+      "endDate": "5678-03-12"
     }
   ]
 }

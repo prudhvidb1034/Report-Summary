@@ -170,6 +170,16 @@
       "confirmPassword": "",
       "employeeId": "",
       "role": "Manager"
+    },
+    {
+      "id": "31ce",
+      "firstName": "Prudhvi",
+      "lastName": "Vistalla",
+      "username": "prudhvidb1034@gmail.com",
+      "password": "Prudhvi@1998",
+      "confirmPassword": "Prudhvi@1998",
+      "employeeId": "Q1234",
+      "role": "Manager"
     }
   ],
   "teamslist": [

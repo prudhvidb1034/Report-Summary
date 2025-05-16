@@ -33,7 +33,7 @@ export class SignUpComponent {
       password: ['', [Validators.required, Validators.minLength(8)]],
       confirmPassword: ['', [Validators.required]],
       employeeId: ['', [Validators.required]],
-      role: ['Manager', Validators.requiredTrue]
+      role: ['Manager']
     },{ validators: this.passwordMatchValidator }
     )
   }
@@ -50,6 +50,7 @@ export class SignUpComponent {
   
 
   onSubmit() {
+    console.log(this.registrationForm.value)
     if (this.registrationForm.valid) {
       this.store.addregister((this.registrationForm.value));
       console.log(this.store, this.registrationForm);

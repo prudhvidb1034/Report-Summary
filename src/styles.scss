@@ -1,3 +1,7 @@
+*{
+  font-family: 'Roboto', Arial, sans-serif;
+}
+
 app-header{
     background-color: rgb(25, 25, 71);
 
@@ -7,8 +11,8 @@ app-header{
   
 
   .project-title {
-    font-size: 20px;         // Bigger text
-    font-weight: 600;
+    font-size: 20px;         
+        font-weight: 600;
   }
   
   .large-button {

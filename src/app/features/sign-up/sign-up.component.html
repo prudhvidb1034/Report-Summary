@@ -1,7 +1,14 @@
 <ion-card style="width: 500px; margin: 40px auto">
-  <ion-card-header>
-    <ion-card-title style="text-align: center">Sign-Up</ion-card-title>
-  </ion-card-header>
+  <!-- <ion-card-header>
+    <ion-card-title style="text-align: center">{{heading}}</ion-card-title>
+  </ion-card-header> -->
+
+  <ion-header>
+    <ion-toolbar>
+      <ion-title class="ion-padding" style="text-align: center;">{{heading}} </ion-title>
+
+    </ion-toolbar>
+  </ion-header>
 
   <ion-card-content>
     <ion-list>
@@ -16,7 +23,7 @@
           @if (registrationForm.get('firstName')?.errors?.['required']) {
           <p>First Name is required.</p>
           }
-         
+
         </ion-text>
         }
         <ion-item>
@@ -29,25 +36,25 @@
           @if (registrationForm.get('lastName')?.errors?.['required']) {
           <p>Last Name is required.</p>
           }
-         
+
         </ion-text>
         }
 
 
         <ion-item>
-          <ion-input formControlName="username" label="Email " labelPlacement="stacked"
-            placeholder="Enter your email" [clearOnEdit]="true"></ion-input>
+          <ion-input formControlName="username" label="Email " labelPlacement="stacked" placeholder="Enter your email"
+            [clearOnEdit]="true"></ion-input>
         </ion-item>
         @if (registrationForm.get('username')?.invalid && (registrationForm.get('username')?.dirty ||
         registrationForm.get('username')?.touched)) {
         <ion-text color="danger" class="error-message">
           @if (registrationForm.get('username')?.errors?.['required']) {
-          <p>Email  is required.</p>
+          <p>Email is required.</p>
           }
           @if (registrationForm.get('username')?.errors?.['email']) {
-            <p>Invalid email format.</p>
-            }
-         
+          <p>Invalid email format.</p>
+          }
+
         </ion-text>
         }
         <ion-item>
@@ -58,13 +65,13 @@
         registrationForm.get('employeeId')?.touched)) {
         <ion-text color="danger" class="error-message">
           @if (registrationForm.get('employeeId')?.errors?.['required']) {
-          <p>Employee id   is required.</p>
+          <p>Employee id is required.</p>
           }
-         
-         
+
+
         </ion-text>
         }
-       
+
         <ion-item>
           <ion-input formControlName="password" label="Password" labelPlacement="stacked"
             placeholder="Enter your password" [clearOnEdit]="true"></ion-input>
@@ -75,7 +82,7 @@
           @if (registrationForm.get('password')?.errors?.['required']) {
           <p>Password is required.</p>
           }
-         
+
         </ion-text>
         }
         <ion-item>
@@ -88,28 +95,21 @@
           @if (registrationForm.get('confirmPassword')?.errors?.['required']) {
           <p>Confirm Password is required.</p>
           }
-         
+
         </ion-text>
         }
-        @if (registrationForm.errors?.['passwordMismatch'] && 
+        @if (registrationForm.errors?.['passwordMismatch'] &&
         registrationForm.get('confirmPassword')?.touched) {
-     <ion-text color="danger">
-       <p>Passwords do not match.</p>
-     </ion-text>
-   }
+        <ion-text color="danger">
+          <p>Passwords do not match.</p>
+        </ion-text>
+        }
 
-        
+        <ng-content></ng-content>
         <ion-list>
           <ion-item>
-            <ion-input
-            
-              readonly
-              label="Role"
-              labelPlacement="floating"
-              formControlName="role"
-              type="text"
-            ></ion-input>
-                     </ion-item>
+            <ion-input readonly label="Role" labelPlacement="floating" formControlName="role" type="text"></ion-input>
+          </ion-item>
         </ion-list>
 
         <!-- Submit Button -->

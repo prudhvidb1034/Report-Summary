@@ -56,14 +56,24 @@
 
 <ion-modal [isOpen]="isModalOpen" cssClass="custom-modal">
     <ng-template>
-        <ion-header>
-            <ion-toolbar>
+        <!-- <ion-header>
+           
                 <ion-title class="ion-padding ion-text-center ion-align-items-center">Create Employee </ion-title>
 
-            </ion-toolbar>
-        </ion-header>
+           
+        </ion-header> -->
+<!-- create-employee.component.html -->
+<app-sign-up [heading]="'Create Employee'"  [includeProjectFields]="true">
 
-        <form [formGroup]="employeeForm">
+    <ion-item>
+        <ion-label position="floating">Project Name</ion-label>
+        <ion-input formControlName="projectName"></ion-input>
+      </ion-item>
+    
+    
+</app-sign-up>
+
+        <!-- <form [formGroup]="employeeForm">
             <ion-item>
                 <ion-input formControlName="employeeid" label="Employeee Id" labelPlacement="stacked"
                     placeholder="Enter your id" [clearOnEdit]="true"></ion-input>
@@ -128,7 +138,7 @@
 
             </ion-text>
             }
-        </form>
+        </form> -->
         <ion-footer>
             <ion-toolbar>
                 <ion-buttons slot="end">

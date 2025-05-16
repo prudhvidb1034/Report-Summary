@@ -5,6 +5,7 @@ import { LoginStore } from '../../state/login.store';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
+
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -32,14 +33,8 @@ export class LoginComponent {
       console.log(this.loginStore);
       
     }
-    // else{
-    //   alert('Please Register')
-    // }
   }
-  // get error$() {
-  //   return this.loginStore.select((state) => state.error);
-  // }
-
+ 
   signUp() {
   this.router.navigateByUrl('sign-up')
   }

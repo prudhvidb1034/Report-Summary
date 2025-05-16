@@ -1,14 +1,11 @@
 <ion-header>
-    <ion-toolbar class="custom-header">
-      <ion-title  class='white-color' >Welcome</ion-title>
-      <!-- <ion-buttons   class='white-color'  slot="end">
-         <ion-button  href="/careers">Careers</ion-button>
-        <ion-button href="/homes">Homes</ion-button>
-        <ion-button href="/login">Logout</ion-button>
-      </ion-buttons> -->
+  <ion-toolbar class="custom-header">
+    <ion-title class="white-color">Employee Tracking System</ion-title>
 
-
-      
-    </ion-toolbar>
-  </ion-header>
-  
+    <ion-buttons *ngIf="showLogout" class="white-color" slot="end">
+      <ion-button (click)="onLogout()">
+        <ion-icon color="info" name="log-out-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>

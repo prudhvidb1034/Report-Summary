@@ -30,10 +30,11 @@ export class SignUpComponent {
       firstName: ['', [Validators.required]],
       lastName: ['', [Validators.required]],
       username: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(8)]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
       confirmPassword: ['', [Validators.required]],
       employeeId: ['', [Validators.required]],
-      role: ['Manager', Validators.requiredTrue]
+      role: ['Manager'],
+      userEntry:['new']
     },{ validators: this.passwordMatchValidator }
     )
   }
@@ -53,7 +54,7 @@ export class SignUpComponent {
     if (this.registrationForm.valid) {
       this.store.addregister((this.registrationForm.value));
       console.log(this.store, this.registrationForm);
-        this.router.navigateByUrl('login')
+      this.router.navigateByUrl('login')
     } else {
       this.registrationForm.markAllAsTouched();
     }

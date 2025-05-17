@@ -53,99 +53,25 @@
 
 </ion-grid>
 
-
 <ion-modal [isOpen]="isModalOpen" cssClass="custom-modal">
     <ng-template>
-        <!-- <ion-header>
-           
-                <ion-title class="ion-padding ion-text-center ion-align-items-center">Create Employee </ion-title>
-
-           
-        </ion-header> -->
-<!-- create-employee.component.html -->
-<app-sign-up [heading]="'Create Employee'"  [includeProjectFields]="true">
-
-    <ion-item>
-        <ion-label position="floating">Project Name</ion-label>
-        <ion-input formControlName="projectName"></ion-input>
-      </ion-item>
+   
+        <app-sign-up [heading]="'Create Employee'" [includeProjectFields]="true"
+        [customMargin]="'0'"
+        (closeModal)="setOpen(false)"
+        >
+        
+        </app-sign-up>
     
-    
-</app-sign-up>
-
-        <!-- <form [formGroup]="employeeForm">
-            <ion-item>
-                <ion-input formControlName="employeeid" label="Employeee Id" labelPlacement="stacked"
-                    placeholder="Enter your id" [clearOnEdit]="true"></ion-input>
-            </ion-item>
-            @if (employeeForm.get('employeeid')?.invalid && (employeeForm.get('employeeid')?.dirty ||
-            employeeForm.get('employeeid')?.touched)) {
-            <ion-text color="danger" class="error-message">
-                @if (employeeForm.get('employeeid')?.errors?.['required']) {
-                <p>Employee id  is required.</p>
-                }
-                @if (employeeForm.get('employeeid')?.errors?.['minlength']) {
-                <p>Minimum 6 characters required.</p>
-                }
-            </ion-text>
-            }
-            <ion-item>
-                <ion-input formControlName="employeename" label="Employee Name" labelPlacement="stacked"
-                    placeholder="Enter your name" [clearOnEdit]="true"></ion-input>
-            </ion-item>
-            @if (employeeForm.get('employeename')?.invalid && (employeeForm.get('employeename')?.dirty ||
-            employeeForm.get('employeename')?.touched)) {
-            <ion-text color="danger" class="error-message">
-                @if (employeeForm.get('employeename')?.errors?.['required']) {
-                <p>Employee name is required.</p>
-                }
-
-            </ion-text>
-            }
-            <ion-item>
-                <ion-input formControlName="email" label="Enter your mail id" type="text" label="Email" labelPlacement="stacked"></ion-input>
-            </ion-item>
-            @if (employeeForm.get('email')?.invalid && (employeeForm.get('email')?.dirty ||
-            employeeForm.get('email')?.touched)) {
-            <ion-text color="danger" class="error-message">
-                @if (employeeForm.get('email')?.errors?.['required']) {
-                <p>Email id is required.</p>
-                }
-
-            </ion-text>
-            }
-           <ion-item>
-                <ion-input formControlName="phonenumber" label="Enter your number" type="number" label="Phone Number" labelPlacement="stacked"></ion-input>
-            </ion-item>
-            @if (employeeForm.get('phonenumber')?.invalid && (employeeForm.get('phonenumber')?.dirty ||
-            employeeForm.get('phonenumber')?.touched)) {
-            <ion-text color="danger" class="error-message">
-                @if (employeeForm.get('phonenumber')?.errors?.['required']) {
-                <p>phone number is required.</p>
-                }
-
-            </ion-text>
-            }
-            <ion-item>
-                <ion-input formControlName="designation" label="Enter your designation" type="text" label="Designation" labelPlacement="stacked"></ion-input>
-            </ion-item>
-            @if (employeeForm.get('designation')?.invalid && (employeeForm.get('designation')?.dirty ||
-            employeeForm.get('designation')?.touched)) {
-            <ion-text color="danger" class="error-message">
-                @if (employeeForm.get('designation')?.errors?.['required']) {
-                <p>designation is required.</p>
-                }
-
-            </ion-text>
-            }
-        </form> -->
-        <ion-footer>
-            <ion-toolbar>
-                <ion-buttons slot="end">
-                    <ion-button (click)="setOpen(false)">Close</ion-button>
-                    <ion-button class="submit" (click)="submitData()">Submit</ion-button>
-                </ion-buttons>
-            </ion-toolbar>
-        </ion-footer>
+  
+      <!-- <ion-footer>
+        <ion-toolbar>
+          <ion-buttons slot="end">
+            <ion-button (click)="setOpen(false)">Close</ion-button>
+            <ion-button class="submit" (click)="submitData()">Submit</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-footer> -->
     </ng-template>
-</ion-modal>
+  </ion-modal>
+  

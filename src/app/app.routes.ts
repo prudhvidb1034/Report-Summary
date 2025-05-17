@@ -5,6 +5,7 @@ export const routes: Routes = [
   {
     path: 'login',
     loadComponent: () => import('../app/features/login/login.component').then((m) => m.LoginComponent),
+    data: { hideLogout: true } 
   },
    {
     path: 'sign-up',

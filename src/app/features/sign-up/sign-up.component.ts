@@ -1,4 +1,4 @@
-import { Component, inject, Input } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output, output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, AbstractControl } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
@@ -18,7 +18,9 @@ export class SignUpComponent {
 
   @Input() heading: string = 'Sign Up';
   @Input() includeProjectFields: boolean = false
-  // @Input() buttonLabel: string = 'Register';
+   @Input() customMargin: string = 'auto';
+   @Output() closeModal = new EventEmitter<void>();
+
   private readonly fb = inject(FormBuilder);
   private readonly store = inject(RegisterStore);
   private signup = inject(SignUpService)
@@ -30,6 +32,17 @@ export class SignUpComponent {
 
   constructor() {
    
+    this.registrationForm = this.fb.group({
+      firstName: ['', [Validators.required]],
+      lastName: ['', [Validators.required]],
+      username: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
+      confirmPassword: ['', [Validators.required]],
+      employeeId: ['', [Validators.required]],
+      role: ['Manager'],
+      userEntry:['new']
+    },{ validators: this.passwordMatchValidator }
+    )
   }
 ngOnInit(){
   this.registrationForm = this.fb.group({
@@ -63,10 +76,13 @@ ngOnInit(){
     if (this.registrationForm.valid) {
       this.store.addregister((this.registrationForm.value));
       console.log(this.store, this.registrationForm);
-        this.router.navigateByUrl('login')
+      this.router.navigateByUrl('login')
     } else {
       this.registrationForm.markAllAsTouched();
     }
+  }
+  onCloseClick(){
+    this.closeModal.emit();
   }
 }
 

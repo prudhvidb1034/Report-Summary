@@ -181,15 +181,39 @@
       "employeeId": "Q1234",
       "role": "Manager"
     },
+  
     {
-      "id": "4c52",
-      "firstName": "Prudhvi",
-      "lastName": "varma",
-      "username": "prudhvidb1034@gmail.com",
-      "password": "Prudhvi@1998",
-      "confirmPassword": "Prudhvi@1998",
-      "employeeId": "Q689543",
-      "role": "Manager"
+      "id": "127d",
+      "firstName": "Phaneendra",
+      "lastName": "Gatta",
+      "username": "phani@gmail.com",
+      "password": "qwerty",
+      "confirmPassword": "qwerty",
+      "employeeId": "qe2025",
+      "role": "Manager",
+      "userEntry": "new"
+    },
+    {
+      "id": "da20",
+      "firstName": "Phaneendra",
+      "lastName": "Gatta",
+      "username": "phani.gatta@gmail.com",
+      "password": "qwerty",
+      "confirmPassword": "qwerty",
+      "employeeId": "qe2025",
+      "role": "Manager",
+      "userEntry": "new"
+    },
+    {
+      "id": "814a",
+      "firstName": "phani",
+      "lastName": "Venkat",
+      "username": "phani.gatta@gmail.com",
+      "password": "qwqwww",
+      "confirmPassword": "qwqwww",
+      "employeeId": "qwqwww",
+      "role": "Manager",
+      "userEntry": "new"
     }
   ],
   "teamslist": [

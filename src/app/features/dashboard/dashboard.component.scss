@@ -1,11 +1,37 @@
 ::ng-deep .custom-modal {
-    --width: 100%
-    --height: 100%;
-    --border-radius: 10px;
-    --box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+    --width: 40%;
+    --height: auto;
+    --border-radius: 16px;
+    --box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+    --background: #ffffff;
+      flex-direction: column;
     align-items: center;
     justify-content: center;
   }
-  .project-card{
-      cursor: pointer;
+  
+  ion-header, ion-footer, ion-toolbar {
+    --background: #ffffff;
+    box-shadow: none;
+    text-align: center;
   }
+  
+  ion-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: #333;
+  }
+  
+  form {
+    padding: 16px;
+  }
+  
+
+  
+
+  
+  ion-button.submit {
+    --background: #3880ff;
+    color: white;
+    margin-left: 8px;
+  }
+  

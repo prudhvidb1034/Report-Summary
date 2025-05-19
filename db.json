@@ -180,6 +180,40 @@
       "confirmPassword": "Prudhvi@1998",
       "employeeId": "Q1234",
       "role": "Manager"
+    },
+  
+    {
+      "id": "127d",
+      "firstName": "Phaneendra",
+      "lastName": "Gatta",
+      "username": "phani@gmail.com",
+      "password": "qwerty",
+      "confirmPassword": "qwerty",
+      "employeeId": "qe2025",
+      "role": "Manager",
+      "userEntry": "new"
+    },
+    {
+      "id": "da20",
+      "firstName": "Phaneendra",
+      "lastName": "Gatta",
+      "username": "phani.gatta@gmail.com",
+      "password": "qwerty",
+      "confirmPassword": "qwerty",
+      "employeeId": "qe2025",
+      "role": "Manager",
+      "userEntry": "new"
+    },
+    {
+      "id": "814a",
+      "firstName": "phani",
+      "lastName": "Venkat",
+      "username": "phani.gatta@gmail.com",
+      "password": "qwqwww",
+      "confirmPassword": "qwqwww",
+      "employeeId": "qwqwww",
+      "role": "Manager",
+      "userEntry": "new"
     }
   ],
   "teamslist": [

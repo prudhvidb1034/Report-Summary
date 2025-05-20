@@ -7,6 +7,7 @@ export interface RegistrationForm {
   password: string;
   role: string;
   id?: number;
+  projectName?:string;
 
 }
 

@@ -13,46 +13,38 @@
 </ion-grid>
 
 
-
-
+<!-- {{teamRegisterList$|async}} -->
 <ion-grid class="project-table">
     <ion-row class="header-row ion-text-center">
-        <ion-col size="2">Employee ID</ion-col>
-        <ion-col size="2">Employee Name</ion-col>
-        <ion-col size="2">Mail-id</ion-col>
-        <ion-col size="2">phone Number</ion-col>
-        <ion-col size="2">Employee Designation</ion-col>
-        <ion-col size="2">Action</ion-col>
-
-
+      <ion-col size="3">Employee ID</ion-col>
+      <ion-col size="3">Employee Name</ion-col>
+      <ion-col size="3">Mail-id</ion-col>
+      <ion-col size="3">Project Name</ion-col>
+      <!-- <ion-col size="2">Role</ion-col> -->
+      <!-- <ion-col size="2">Action</ion-col> -->
     </ion-row>
-
-    @for (item of employees; track item.employeeId) {
-    <ion-row class="data-row ion-text-center">
-
-        <ion-col size="2">{{ item.employeeId }}</ion-col>
-        <ion-col size="2">{{ item.employeeName }}</ion-col>
-        <ion-col size="2">{{ item.employeeMail}}</ion-col>
-        <ion-col size="2">{{ item.employeeNumber}}</ion-col>
-        <ion-col size="2">{{ item.employeeDesignation}}</ion-col>
-        <!-- <ion-col size="2">{{ item.techStack}}</ion-col> -->
-        <ion-col size="2">
-            <ion-icon name="create-outline" size="small" class="cursor" color="danger"></ion-icon>
-            <ion-icon name="trash-outline" size="small" class="cursor" color="danger">
-
-            </ion-icon>
-        </ion-col>
-    </ion-row>
+  
+    @for (item of teamRegisterList$ | async; track item.employeeId) {
+      <ion-row class="data-row ion-text-center">
+        <ion-col size="3">{{ item.employeeId }}</ion-col>
+        <ion-col size="3">{{ item.firstName }} {{ item.lastName }}</ion-col>
+        <ion-col size="3">{{ item.username }}</ion-col>
+        <ion-col size="3">{{item.projectName}}</ion-col>
+        <!-- <ion-col size="2">{{ item.role }}</ion-col> -->
+        <!-- <ion-col size="2">
+          <ion-icon name="create-outline" size="small" class="cursor" color="danger"></ion-icon>
+          <ion-icon name="trash-outline" size="small" class="cursor" color="danger"></ion-icon>
+        </ion-col> -->
+      </ion-row>
     }
+  
     @empty {
-
-    <ion-row class="ion-text-center">
-        <ion-col size="12">No projects found.</ion-col>
-    </ion-row>
+      <ion-row class="ion-text-center">
+        <ion-col size="12">No team members found.</ion-col>
+      </ion-row>
     }
-
-</ion-grid>
-
+  </ion-grid>
+  
 <ion-modal [isOpen]="isModalOpen" cssClass="custom-modal">
     <ng-template>
    

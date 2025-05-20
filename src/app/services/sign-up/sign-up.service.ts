@@ -23,7 +23,9 @@ export class SignUpService {
     // this.getUsers();
     return this.http.post<RegistrationForm>(this.apiUrl, reg);
   }
-  getUsers(){
-    return this.http.get<RegistrationForm>(this.apiUrl);
+ 
+  getUsers(): Observable<RegistrationForm[]> {
+    return this.http.get<RegistrationForm[]>(this.apiUrl);
   }
+  
 }

@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
-import { exhaustMap, Observable } from 'rxjs';
+import { exhaustMap, Observable, switchMap } from 'rxjs';
 import { RegistrationForm } from '../models/register.mode';
 import { SignUpService } from '../services/sign-up/sign-up.service';
 
@@ -49,5 +49,37 @@ export class RegisterStore extends ComponentStore<RegistrationState> {
             })
         )
     );
+
+    readonly getRegisterData = this.effect((gettrigger$) =>
+    gettrigger$.pipe(
+      switchMap(() =>
+        this.signup.getUsers().pipe(
+          tapResponse(
+            (data) =>
+              this.patchState({
+                register: data
+                  .filter((item: any) => item.role === 'Employee') 
+                  .map((item: any) => ({
+                    id: item.id,
+                    employeeId: item.employeeId,
+                    firstName: item.firstName,
+                    lastName: item.lastName,
+                    username: item.username,
+                    password: item.password,
+                    confirmPassword: item.confirmPassword,
+                    role: item.role,
+                    projectName: item.projectName,
+                  })),
+              }),
+            (error) => this.patchState({ error: 'Failed to load team data' })
+          )
+        )
+      )
+    )
+  );
+  
+
+
+
 }
 

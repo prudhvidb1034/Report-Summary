@@ -43,7 +43,7 @@ readonly getTeam = this.effect((trigger$) =>
         tapResponse(
           (data) =>
             this.patchState({
-              teamDetails: data.map((item: any) => ({
+              teamDetails: data.map((item:any) => ({
                 id: item.id,
                 projectname: item.projectname,
                 projectLocation: item.projectlocation,

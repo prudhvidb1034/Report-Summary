@@ -84,6 +84,9 @@
           @if (registrationForm.get('password')?.errors?.['required']) {
           <p>Password is required.</p>
           }
+          @if (registrationForm.get('password')?.errors?.['minlength']){
+            <p>Minimum 8 characters required</p>
+          }
 
         </ion-text>
         }

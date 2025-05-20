@@ -1,10 +1,12 @@
-import { Component, EventEmitter, inject, Input, Output, output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output, output, signal } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, AbstractControl } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { RegisterStore } from '../../state/register.store';
 import { SignUpService } from '../../services/sign-up/sign-up.service';
 import { Router } from '@angular/router';
+import { createTeam } from '../../models/project.model';
+import { TeamStore } from '../../state/team.store';
 
 @Component({
   selector: 'app-sign-up',
@@ -12,10 +14,12 @@ import { Router } from '@angular/router';
   imports: [IonicModule, CommonModule, ReactiveFormsModule],
   templateUrl: './sign-up.component.html',
   styleUrl: './sign-up.component.scss',
-  providers: [RegisterStore],
+  providers: [RegisterStore,TeamStore],
 })
 export class SignUpComponent {
-
+  teamList = signal<createTeam[]>([]);
+  private teamStore=inject(TeamStore);
+  teamList$ = this.teamStore.team$;
   @Input() heading: string = 'Sign Up';
   @Input() includeProjectFields: boolean = false
    @Input() customMargin: string = 'auto';
@@ -59,6 +63,12 @@ ngOnInit(){
     this.registrationForm.addControl('projectName', this.fb.control(''))
     this.registrationForm.get('role')?.setValue('Employee');
   }
+
+  console.log('prudhvi',this.teamList$)
+  this.teamStore.team$.subscribe((data:any)=>{
+    console.log(data)
+  })
+  console.log('varma', this.teamStore.team$)
 }
 
   passwordMatchValidator(formGroup: AbstractControl): { [key: string]: boolean } | null {
@@ -72,15 +82,20 @@ ngOnInit(){
   
 
   onSubmit() {
-    console.log(this.registrationForm.value)
     if (this.registrationForm.valid) {
-      this.store.addregister((this.registrationForm.value));
-      console.log(this.store, this.registrationForm);
-      this.router.navigateByUrl('login')
+      console.log('Submitting:', this.registrationForm.value);
+      this.store.addregister(this.registrationForm.value);
+  
+      if (this.includeProjectFields ) {
+        this.onCloseClick();
+      } else {
+        this.router.navigateByUrl('login');
+      }
     } else {
       this.registrationForm.markAllAsTouched();
     }
   }
+  
   onCloseClick(){
     this.closeModal.emit();
   }

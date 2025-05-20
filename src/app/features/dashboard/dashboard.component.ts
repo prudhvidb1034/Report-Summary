@@ -70,20 +70,7 @@ export class DashboardComponent {
       this.teamForm.markAllAsTouched()
     }
   }
-  // getTeamList() {
-  //   // this.shareservice.GetData(this.url).subscribe((res: any[]) => {
-  //   //   const mappedData: createTeam[] = res.map(item => ({
-  //   //     id: item.id,
-  //   //     projectname: item.projectname,
-  //   //     projectLocation: item.projectlocation,
-  //   //     startDate: item.startdate,
-  //   //     endDate: item.enddate
-  //   //   }));
-
-  //   this.teamStore.getTeam()
-  //     this.teamList.set(mappedData);
-  //   });
-  // }
+ 
 
 
   deleteproject(item: any) {

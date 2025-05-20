@@ -172,15 +172,16 @@
       "role": "Manager"
     },
     {
-      "id": "4500",
-      "firstName": "Phaneendra",
-      "lastName": "Gatta",
-      "username": "phani@gmail.com",
-      "password": "qwerty",
-      "confirmPassword": "qwerty",
-      "employeeId": "qe2025",
+      "id": "31ce",
+      "firstName": "Prudhvi",
+      "lastName": "Vistalla",
+      "username": "prudhvidb1034@gmail.com",
+      "password": "Prudhvi@1998",
+      "confirmPassword": "Prudhvi@1998",
+      "employeeId": "Q1234",
       "role": "Manager"
     },
+  
     {
       "id": "127d",
       "firstName": "Phaneendra",

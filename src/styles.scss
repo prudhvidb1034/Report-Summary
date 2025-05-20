@@ -1,3 +1,11 @@
+*{
+  font-family: 'Roboto', Arial, sans-serif;
+}
+
+app-header{
+    background-color: rgb(25, 25, 71);
+}
+
 body {
   background-color: #e5e5e5;
 }
@@ -11,6 +19,18 @@ app-header {
   font-weight: 600;
 }
 
+  .project-title {
+    font-size: 20px;         
+        font-weight: 600;
+  }
+  
+  .large-button {
+    font-size: 12px;        
+    --padding-start: 20px;
+    --padding-end: 20px;
+    --padding-top: 12px;
+    --padding-bottom: 12px;
+  }
 .large-button {
   font-size: 12px;
   --padding-start: 20px;
@@ -24,7 +44,17 @@ app-header {
   border-radius: 6px;
   overflow: hidden;
 }
+.error-message {
+  margin-left: 16px;
+  margin-top: 4px;
+  font-size: 10px;
+  display: block;
+  color: red;
+}
 
+.main::placeholder{
+  font-size: 10px;
+}
 .header-row {
   background: #f1f1f1;
   font-weight: bold;
@@ -39,13 +69,7 @@ app-header {
   background-color: blueviolet !important;
   color: whitesmoke;
 }
-.error-message {
-  margin-left: 16px;
-  margin-top: 4px;
-  font-size: 14px;
-  display: block;
-  color: red;
-}
+
 .link-id {
   color: #007bff;
   text-decoration: underline;
@@ -56,3 +80,5 @@ app-header {
 .cursor {
   cursor: pointer;
 }
+
+

@@ -24,6 +24,10 @@ export const routes: Routes = [
     path: 'summary',
     loadComponent: () => import('../app/features/summary/summary.component').then((m) => m.SummaryComponent)
   },
+   {
+    path: 'employee-update',
+    loadComponent: () => import('../app/features/employee-update/employee-update.component').then((m) => m.EmployeeUpdateComponent)
+  },
   {
     path: '',
     redirectTo: 'login',

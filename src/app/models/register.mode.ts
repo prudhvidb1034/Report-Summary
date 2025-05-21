@@ -8,6 +8,7 @@ export interface RegistrationForm {
   role: string;
   id?: number;
   projectName?:string;
+  techstack?:string;
 
 }
 

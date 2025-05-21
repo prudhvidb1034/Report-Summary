@@ -154,6 +154,24 @@
               [clearOnEdit]="true"
             ></ion-input>
           </ion-item>
+
+                   
+
+
+          <ion-item lines="full" class="stack-dropdown">
+            <ion-label position="stacked">Tech Stack</ion-label>
+            <ion-select
+              formControlName="techstack"
+              interface="popover"
+              placeholder="Select Tech Stack"
+            >
+              <ion-select-option value="Frontend">Frontend</ion-select-option>
+              <ion-select-option value="Backend">Backend</ion-select-option>
+              <ion-select-option value="Testing">Testing</ion-select-option>
+            </ion-select>
+          </ion-item>
+          
+
         </ng-container>
 
         <ion-item>

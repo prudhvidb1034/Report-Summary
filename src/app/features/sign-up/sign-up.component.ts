@@ -62,7 +62,8 @@ ngOnInit(){
   },{ validators: this.passwordMatchValidator }
   )
   if(this.includeProjectFields){
-    this.registrationForm.addControl('projectName', this.fb.control(''))
+    this.registrationForm.addControl('projectName', this.fb.control(''));
+    this.registrationForm.addControl('techstack', this.fb.control(''));
     this.registrationForm.get('role')?.setValue('Employee');
   }
 

@@ -1,76 +1,3 @@
-<!-- <ion-card
-  style="
-    width: 500px;
-    position: absolute;
-    top: 55%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  "
->
-  <ion-header>
-    <ion-toolbar>
-      <ion-title class="ion-padding" style="text-align: center"
-        >Week Summary
-      </ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-  <ion-card-content>
-    <ion-list>
-      <form class="register-form">
-        <ion-item>
-          <ion-select label="Projects" label-placement="floating">
-            <ion-select-option *ngFor="let p of projects" [value]="p">
-              {{ p.projectname }}
-            </ion-select-option>
-          </ion-select>
-        </ion-item>
-
-        <ion-item>
-          <ion-input
-            type="date"
-            formControlName="startDate"
-            label="Week Start Date"
-            labelPlacement="floating"
-            placeholder="Select start of week"
-            [clearOnEdit]="true"
-          ></ion-input>
-        </ion-item>
-
-        <ion-item>
-          <ion-input
-            type="date"
-            formControlName="endDate"
-            label="Week End Date"
-            labelPlacement="floating"
-            placeholder="End of week"
-          ></ion-input>
-        </ion-item>
-
-        <ion-item>
-          <ion-textarea
-            formControlName="description"
-            label="Description"
-            labelPlacement="floating"
-            placeholder="Enter"
-          ></ion-textarea>
-        </ion-item>
-
-        <ion-row class="ion-margin-top">
-          <ion-col>
-            <ion-button
-              expand="block"
-              type="submit"
-              style="--background: #000033"
-            >
-              Submit
-            </ion-button>
-          </ion-col>
-        </ion-row>
-      </form>
-    </ion-list>
-  </ion-card-content>
-</ion-card> -->
 <ion-card
   style="
     width: 500px;
@@ -91,8 +18,9 @@
   <ion-card-content>
     <ion-list>
       <form 
-      formGroup="weekSummaryForm" 
+      [formGroup]="weekSummaryForm" 
       class="register-form" 
+      (ngSubmit)="onSubmit()"
       >
         <ion-item>
           <ion-select 
@@ -103,9 +31,6 @@
               {{ p.projectname }}
             </ion-select-option>
           </ion-select>
-          <!-- <ion-text color="danger" *ngIf="weekSummaryForm.get('project').touched && weekSummaryForm.get('project').errors?.required">
-            Project is required
-          </ion-text> -->
         </ion-item>
 
         <ion-item>
@@ -117,9 +42,6 @@
             placeholder="Select start of week"
             [clearOnEdit]="true"
           ></ion-input>
-          <!-- <ion-text color="danger" *ngIf="weekSummaryForm.get('startDate').touched && weekSummaryForm.get('startDate').errors?.required">
-            Start date is required
-          </ion-text> -->
         </ion-item>
 
         <ion-item>
@@ -130,12 +52,6 @@
             labelPlacement="floating"
             placeholder="End of week"
           ></ion-input>
-          <!-- <ion-text color="danger" *ngIf="weekSummaryForm.get('endDate').touched && weekSummaryForm.get('endDate').errors?.required">
-            End date is required
-          </ion-text>
-          <ion-text color="danger" *ngIf="weekSummaryForm.get('endDate').errors?.dateRange">
-            End date must be after start date
-          </ion-text> -->
         </ion-item>
 
         <ion-item>
@@ -145,12 +61,6 @@
             labelPlacement="floating"
             placeholder="Enter"
           ></ion-textarea>
-          <!-- <ion-text color="danger" *ngIf="weekSummaryForm.get('description').touched && weekSummaryForm.get('description').errors?.required">
-            Description is required
-          </ion-text>
-          <ion-text color="danger" *ngIf="weekSummaryForm.get('description').errors?.maxlength">
-            Description cannot exceed 500 characters
-          </ion-text> -->
         </ion-item>
 
         <ion-row class="ion-margin-top">
@@ -159,7 +69,6 @@
               expand="block"
               type="submit"
               style="--background: #000033"
-              (click)="onSubmit()"
             >
               Submit
             </ion-button>

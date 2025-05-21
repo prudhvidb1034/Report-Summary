@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+// 
 
 
 export const routes: Routes = [
@@ -28,6 +29,13 @@ export const routes: Routes = [
     path: 'employee-update',
     loadComponent: () => import('../app/features/employee-update/employee-update.component').then((m) => m.EmployeeUpdateComponent)
   },
+ 
+ { 
+   
+  path:'view-reports',
+  loadComponent:() => import('../app/shared/view-reports/view-reports.component').then((m)=>m.ViewReportsComponent)
+
+},
   {
     path: '',
     redirectTo: 'login',

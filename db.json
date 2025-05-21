@@ -321,41 +321,13 @@
       "endDate": "5678-03-12"
     }
   ],
-  "weeklySummary": [
+  "projects": [
     {
-      "id": "7eb4",
-      "project": "",
-      "startDate": "",
-      "endDate": "",
-      "description": ""
-    },
-    {
-      "id": "0591",
-      "project": "",
-      "startDate": "",
-      "endDate": "",
-      "description": ""
-    },
-    {
-      "id": "1ee1",
-      "project": "",
-      "startDate": "",
-      "endDate": "",
-      "description": ""
-    },
-    {
-      "id": "a9e3",
-      "project": "",
-      "startDate": "",
-      "endDate": "",
-      "description": ""
-    },
-    {
-      "id": "2b2c",
-      "project": "",
-      "startDate": "",
-      "endDate": "",
-      "description": ""
+      "id": "1ce9",
+      "project_name": "customer365",
+      "start_date": "2025-05-19",
+      "end_date": "2025-05-23",
+      "employees": []
     }
   ]
 }

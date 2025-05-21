@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, inject } from '@angular/core';
+import { Router, RouterOutlet } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { HeaderComponent } from './features/header/header.component';
 @Component({
@@ -11,5 +11,12 @@ import { HeaderComponent } from './features/header/header.component';
 })
 export class AppComponent {
   title = 'report-summary';
+
+  private router= inject(Router)
   isLoggedIn=true;
+
+  navigateToWkSmry(){
+    this.router.navigate(['/summary'])
+  
+  }
 }

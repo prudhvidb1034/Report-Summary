@@ -5,7 +5,7 @@ export const routes: Routes = [
   {
     path: 'login',
     loadComponent: () => import('../app/features/login/login.component').then((m) => m.LoginComponent),
-    data: { hideLogout: true }
+
   },
   {
     path: 'sign-up',
@@ -18,7 +18,11 @@ export const routes: Routes = [
   },
   {
     path: 'project/:id',
-    loadComponent: () => import('../app/features/projects/projects.component').then((m) => m.ProjectsComponent)
+    loadComponent: () => import('../app/features/projects/projects.component').then((m) => m.ProjectsComponent),
+  },
+  {
+    path: 'summary',
+    loadComponent: () => import('../app/features/summary/summary.component').then((m) => m.SummaryComponent)
   },
   {
     path: '',

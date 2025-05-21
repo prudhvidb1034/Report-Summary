@@ -12,18 +12,13 @@ import { IonicModule } from '@ionic/angular';
 })
 export class HeaderComponent {
   showLogout: boolean = false;
-  // @Input() showLogout = true;
-  // showLogout: boolean = false
+
   ngOnInIt() {
-    // this.router.events.subscribe((val:any) => {
-    //   console.log(val.url)
-    //   // this.showLogout = !this.route.snapshot.firstChild?.data['hideLogout'];
-    // });
+
   }
 
   constructor(private router: Router, private route: ActivatedRoute) {
     this.router.events.subscribe((val: any) => {
-      console.log(val.url)
       if (val.url !== '/login' && val.url !== '/sign-up') {
         this.showLogout = true;
       } else {

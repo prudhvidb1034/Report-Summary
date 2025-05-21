@@ -1,87 +1,98 @@
+<div
+  style="
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  "
+>
+  <ion-card style="width: 500px; border-radius: 2%">
+    <ion-card-header>
+      <ion-card-title style="text-align: center">Login</ion-card-title>
+    </ion-card-header>
 
-  <div style="position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);">
-<ion-card style="width: 500px; border-radius: 2%;">
-  <ion-card-header>
-    <ion-card-title style="text-align: center">Login</ion-card-title>
-  </ion-card-header>
-
-  <ion-card-content>
-    <div>
-      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-        <ion-item>
-          <ion-input
-            formControlName="username"
-            label="User Name"
-            labelPlacement="floating"
-            placeholder="abc@gmail.com"
-            [clearOnEdit]="true"
-          ></ion-input>
-        </ion-item>
-        @if (loginForm.get('username')?.invalid &&
-        (loginForm.get('username')?.dirty ||
-        loginForm.get('username')?.touched)) {
-        <ion-text color="danger" class="error-message">
-          @if (loginForm.get('username')?.errors?.['required']) {
-          <p>Username is required.</p>
-          } @if (loginForm.get('username')?.errors?.['email']) {
-          <p>Invali email format</p>
+    <ion-card-content>
+      <div>
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+          <ion-item>
+            <ion-input
+              formControlName="username"
+              label="User Name"
+              labelPlacement="floating"
+              placeholder="abc@gmail.com"
+              [clearOnEdit]="true"
+            ></ion-input>
+          </ion-item>
+          @if (loginForm.get('username')?.invalid &&
+          (loginForm.get('username')?.dirty ||
+          loginForm.get('username')?.touched)) {
+          <ion-text color="danger" class="error-message">
+            @if (loginForm.get('username')?.errors?.['required']) {
+            <p>Username is required.</p>
+            } @if (loginForm.get('username')?.errors?.['email']) {
+            <p>Invali email format</p>
+            }
+          </ion-text>
           }
-        </ion-text>
-        }
 
-        <ion-item>
-          <ion-input
-            placeholder="Enter Password"
-            labelPlacement="floating"
-            label="Password"
-            formControlName="password"
-            labelPlacement="floating"
-            placeholder="Enter Password"
-            [clearOnEdit]="true"
-          >
-          </ion-input>
-        </ion-item>
+          <ion-item>
+            <ion-input
+              placeholder="Enter Password"
+              labelPlacement="floating"
+              label="Password"
+              formControlName="password"
+              labelPlacement="floating"
+              placeholder="Enter Password"
+              [clearOnEdit]="true"
+            >
+            </ion-input>
+          </ion-item>
           @if (loginForm.get('password')?.invalid &&
-        (loginForm.get('password')?.dirty ||
-        loginForm.get('password')?.touched)) {
-        <ion-text color="danger" class="error-message">
-          @if (loginForm.get('password')?.errors?.['required']) {
-          <p>Password is required.</p>
-          } @if (loginForm.get('password')?.errors?.['minlength']) {
-          <p>Password contains atleast 6 chars</p>
+          (loginForm.get('password')?.dirty ||
+          loginForm.get('password')?.touched)) {
+          <ion-text color="danger" class="error-message">
+            @if (loginForm.get('password')?.errors?.['required']) {
+            <p>Password is required.</p>
+            } @if (loginForm.get('password')?.errors?.['minlength']) {
+            <p>Password contains atleast 6 chars</p>
+            }
+          </ion-text>
           }
-        </ion-text>
-        }
-        <ion-grid [fixed]="true" style="margin-top: 10px; width: inherit">
-  <ion-row>
-    <ion-col size-md="6">
-      
-
-      <ion-button expand="block" [disabled]="true" fill="clear">
-        Forgot Password
-      </ion-button>
-    </ion-col>
-    <ion-col size-md="6">
-      <ion-button expand="block"  style=" --background: #000033;" type="submit" [disabled]="loginForm.invalid">
-        Login
-      </ion-button>
-    </ion-col>
-  </ion-row>
-  <ion-row>
-    <ion-col>
-       <div style="display: flex; justify-content: flex-end">
-        <span>Don't have an account ?</span>&nbsp;<a routerLink="/sign-up"> Register</a>
-      <!-- <ion-button fill="clear" [disabled]="loginForm.valid" (click)="signUp()">
+          <ion-grid [fixed]="true" style="margin-top: 10px; width: inherit">
+            <ion-row>
+              <ion-col size-md="6">
+                <ion-button expand="block" [disabled]="true" fill="clear">
+                  Forgot Password
+                </ion-button>
+              </ion-col>
+              <ion-col size-md="6">
+                <ion-button
+                  expand="block"
+                  style="--background: #000033"
+                  type="submit"
+                  [disabled]="loginForm.invalid"
+                >
+                  Login
+                </ion-button>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col>
+                <div style="display: flex; justify-content: flex-end">
+                  <span>Don't have an account ?</span>&nbsp;<a
+                    routerLink="/sign-up"
+                  >
+                    Register</a
+                  >
+                  <!-- <ion-button fill="clear" [disabled]="loginForm.valid" (click)="signUp()">
         Register
       </ion-button> -->
-    </div>
-    </ion-col>
-  </ion-row>
-</ion-grid>
-      </form>
-    </div>
-  </ion-card-content></ion-card>
-  </div>
+                </div>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </form>
+      </div>
+    </ion-card-content></ion-card
+  >
+</div>

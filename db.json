@@ -309,5 +309,42 @@
       "startDate": "4567-03-12",
       "endDate": "5678-03-12"
     }
+  ],
+  "weeklySummary": [
+    {
+      "id": "7eb4",
+      "project": "",
+      "startDate": "",
+      "endDate": "",
+      "description": ""
+    },
+    {
+      "id": "0591",
+      "project": "",
+      "startDate": "",
+      "endDate": "",
+      "description": ""
+    },
+    {
+      "id": "1ee1",
+      "project": "",
+      "startDate": "",
+      "endDate": "",
+      "description": ""
+    },
+    {
+      "id": "a9e3",
+      "project": "",
+      "startDate": "",
+      "endDate": "",
+      "description": ""
+    },
+    {
+      "id": "2b2c",
+      "project": "",
+      "startDate": "",
+      "endDate": "",
+      "description": ""
+    }
   ]
 }

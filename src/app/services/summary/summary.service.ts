@@ -17,6 +17,6 @@ export class SummaryService {
    }
 
    postWeeklySummary(summary:any):Observable<any>{
-     return this.http.post<any>('http://localhost:3000/weeklySummary', summary);
+     return this.http.post<any>('http://localhost:3000/projects', summary);
    }
 }

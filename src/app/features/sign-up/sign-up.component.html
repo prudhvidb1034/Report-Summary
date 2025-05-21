@@ -1,19 +1,35 @@
-
-<ion-card [ngStyle]="{ 'margin': customMargin }" style="width: 500px;">
-
+<ion-card
+  style="
+    width: 500px;
+    position: absolute;
+    top: 55%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  "
+>
   <ion-header>
     <ion-toolbar>
-      <ion-title class="ion-padding" style="text-align: center;">{{heading}} </ion-title>
-
+      <ion-title class="ion-padding" style="text-align: center"
+        >{{ heading }}
+      </ion-title>
     </ion-toolbar>
   </ion-header>
 
   <ion-card-content>
     <ion-list>
-      <form [formGroup]="registrationForm" class="register-form" (ngSubmit)="onSubmit()">
+      <form
+        [formGroup]="registrationForm"
+        class="register-form"
+        (ngSubmit)="onSubmit()"
+      >
         <ion-item>
-          <ion-input formControlName="firstName" label="First Name" labelPlacement="floating"
-            placeholder="Enter you first name" [clearOnEdit]="true"></ion-input>
+          <ion-input
+            formControlName="firstName"
+            label="First Name"
+            labelPlacement="floating"
+            placeholder="Enter you first name"
+            [clearOnEdit]="true"
+          ></ion-input>
         </ion-item>
         @if (registrationForm.get('firstName')?.invalid &&
         (registrationForm.get('firstName')?.dirty ||
@@ -22,12 +38,16 @@
           @if (registrationForm.get('firstName')?.errors?.['required']) {
           <p>First Name is required.</p>
           }
-
         </ion-text>
         }
         <ion-item>
-          <ion-input formControlName="lastName" label="Last Name" labelPlacement="floating"
-            placeholder="Enter your last name" [clearOnEdit]="true"></ion-input>
+          <ion-input
+            formControlName="lastName"
+            label="Last Name"
+            labelPlacement="floating"
+            placeholder="Enter your last name"
+            [clearOnEdit]="true"
+          ></ion-input>
         </ion-item>
         @if (registrationForm.get('lastName')?.invalid &&
         (registrationForm.get('lastName')?.dirty ||
@@ -36,13 +56,17 @@
           @if (registrationForm.get('lastName')?.errors?.['required']) {
           <p>Last Name is required.</p>
           }
-
         </ion-text>
         }
 
         <ion-item>
-          <ion-input formControlName="username" label="Email " labelPlacement="stacked" placeholder="Enter your email"
-            [clearOnEdit]="true"></ion-input>
+          <ion-input
+            formControlName="username"
+            label="Email "
+            labelPlacement="stacked"
+            placeholder="Enter your email"
+            [clearOnEdit]="true"
+          ></ion-input>
         </ion-item>
         @if (registrationForm.get('username')?.invalid &&
         (registrationForm.get('username')?.dirty ||
@@ -50,16 +74,19 @@
         <ion-text color="danger" class="error-message">
           @if (registrationForm.get('username')?.errors?.['required']) {
           <p>Email is required.</p>
-          }
-          @if (registrationForm.get('username')?.errors?.['email']) {
+          } @if (registrationForm.get('username')?.errors?.['email']) {
           <p>Invalid email format.</p>
           }
-
         </ion-text>
         }
         <ion-item>
-          <ion-input formControlName="employeeId" label="Employee id " labelPlacement="floating"
-            placeholder="Enter your employeeid" [clearOnEdit]="true"></ion-input>
+          <ion-input
+            formControlName="employeeId"
+            label="Employee id "
+            labelPlacement="floating"
+            placeholder="Enter your employeeid"
+            [clearOnEdit]="true"
+          ></ion-input>
         </ion-item>
         @if (registrationForm.get('employeeId')?.invalid &&
         (registrationForm.get('employeeId')?.dirty ||
@@ -68,14 +95,17 @@
           @if (registrationForm.get('employeeId')?.errors?.['required']) {
           <p>Employee id is required.</p>
           }
-
-
         </ion-text>
         }
 
         <ion-item>
-          <ion-input formControlName="password" label="Password" labelPlacement="floating"
-            placeholder="Enter your password" [clearOnEdit]="true"></ion-input>
+          <ion-input
+            formControlName="password"
+            label="Password"
+            labelPlacement="floating"
+            placeholder="Enter your password"
+            [clearOnEdit]="true"
+          ></ion-input>
         </ion-item>
         @if (registrationForm.get('password')?.invalid &&
         (registrationForm.get('password')?.dirty ||
@@ -91,8 +121,13 @@
         </ion-text>
         }
         <ion-item>
-          <ion-input formControlName="confirmPassword" label="Confirm Password" labelPlacement="floating"
-            placeholder="Enter your password" [clearOnEdit]="true"></ion-input>
+          <ion-input
+            formControlName="confirmPassword"
+            label="Confirm Password"
+            labelPlacement="floating"
+            placeholder="Enter your password"
+            [clearOnEdit]="true"
+          ></ion-input>
         </ion-item>
         @if (registrationForm.get('confirmPassword')?.invalid &&
         (registrationForm.get('confirmPassword')?.dirty ||
@@ -101,10 +136,8 @@
           @if (registrationForm.get('confirmPassword')?.errors?.['required']) {
           <p>Confirm Password is required.</p>
           }
-
         </ion-text>
-        }
-        @if (registrationForm.errors?.['passwordMismatch'] &&
+        } @if (registrationForm.errors?.['passwordMismatch'] &&
         registrationForm.get('confirmPassword')?.touched) {
         <ion-text color="danger">
           <p>Passwords do not match.</p>
@@ -113,38 +146,45 @@
 
         <ng-container *ngIf="includeProjectFields">
           <ion-item>
-            <ion-input formControlName="projectName" label="Project Name" labelPlacement="floating"
-              placeholder="Enter your project name" [clearOnEdit]="true"></ion-input>
+            <ion-input
+              formControlName="projectName"
+              label="Project Name"
+              labelPlacement="floating"
+              placeholder="Enter your project name"
+              [clearOnEdit]="true"
+            ></ion-input>
           </ion-item>
         </ng-container>
-       
-          <ion-item>
-            <ion-input readonly label="Role" labelPlacement="floating" formControlName="role" type="text"></ion-input>
-          </ion-item>
-    
 
-       
+        <ion-item>
+          <ion-input
+            readonly
+            label="Role"
+            labelPlacement="floating"
+            formControlName="role"
+            type="text"
+          ></ion-input>
+        </ion-item>
+
         <ion-row class="ion-margin-top">
-         
           <ion-col size="6" *ngIf="includeProjectFields">
             <ion-button expand="block" colo (click)="onCloseClick()">
               Close
             </ion-button>
           </ion-col>
-        
-         
+
           <ion-col [size]="includeProjectFields ? '6' : '12'">
-            <ion-button expand="block" type="submit" [disabled]="registrationForm.invalid" style="--background: #000033;">
+            <ion-button
+              expand="block"
+              type="submit"
+              [disabled]="registrationForm.invalid"
+              style="--background: #000033"
+            >
               Register
             </ion-button>
           </ion-col>
         </ion-row>
-        
-        
       </form>
     </ion-list>
   </ion-card-content>
 </ion-card>
-
-
-

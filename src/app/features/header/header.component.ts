@@ -17,15 +17,11 @@ export class HeaderComponent {
 
   
   ngOnInIt() {
-    // this.router.events.subscribe((val:any) => {
-    //   console.log(val.url)
-    //   // this.showLogout = !this.route.snapshot.firstChild?.data['hideLogout'];
-    // });
+
   }
 
   constructor(private router: Router, private route: ActivatedRoute,private menuCtrl: MenuController) {
     this.router.events.subscribe((val: any) => {
-      console.log(val.url)
       if (val.url !== '/login' && val.url !== '/sign-up') {
         this.showLogout = true;
       } else {

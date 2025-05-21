@@ -20,12 +20,13 @@ export class SignUpComponent {
   teamList = signal<createTeam[]>([]);
   private teamStore=inject(TeamStore);
   teamList$ = this.teamStore.team$;
+  private readonly fb = inject(FormBuilder);
   @Input() heading: string = 'Sign Up';
   @Input() includeProjectFields: boolean = false
    @Input() customMargin: string = 'auto';
    @Output() closeModal = new EventEmitter<void>();
 
-  private readonly fb = inject(FormBuilder);
+  
   private readonly store = inject(RegisterStore);
   private signup = inject(SignUpService)
   private router = inject(Router)
@@ -36,17 +37,17 @@ export class SignUpComponent {
 
   constructor() {
    
-    this.registrationForm = this.fb.group({
-      firstName: ['', [Validators.required]],
-      lastName: ['', [Validators.required]],
-      username: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
-      confirmPassword: ['', [Validators.required]],
-      employeeId: ['', [Validators.required]],
-      role: ['Manager'],
-      userEntry:['new']
-    },{ validators: this.passwordMatchValidator }
-    )
+  //   this.registrationForm = this.fb.group({
+  //     firstName: ['', [Validators.required]],
+  //     lastName: ['', [Validators.required]],
+  //     username: ['', [Validators.required, Validators.email]],
+  //     password: ['', [Validators.required, Validators.minLength(6)]],
+  //     confirmPassword: ['', [Validators.required]],
+  //     employeeId: ['', [Validators.required]],
+  //     role: ['Manager'],
+      
+  //   },{ validators: this.passwordMatchValidator }
+  //   )
   }
 ngOnInit(){
   this.registrationForm = this.fb.group({
@@ -56,7 +57,8 @@ ngOnInit(){
     password: ['', [Validators.required, Validators.minLength(8)]],
     confirmPassword: ['', [Validators.required]],
     employeeId: ['', [Validators.required]],
-    role: ['Manager']
+    role: ['Manager'],
+    userEntry:['new']
   },{ validators: this.passwordMatchValidator }
   )
   if(this.includeProjectFields){

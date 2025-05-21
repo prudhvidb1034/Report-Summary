@@ -35,7 +35,7 @@ export class LoginComponent {
     }
   }
  
-  signUp() {
-  this.router.navigateByUrl('sign-up')
-  }
+  // signUp() {
+  // this.router.navigate(['/summary'])
+  // }
 }

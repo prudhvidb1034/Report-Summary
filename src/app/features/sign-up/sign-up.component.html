@@ -84,6 +84,9 @@
           @if (registrationForm.get('password')?.errors?.['required']) {
           <p>Password is required.</p>
           }
+          @if (registrationForm.get('password')?.errors?.['minlength']){
+            <p>Minimum 8 characters required</p>
+          }
 
         </ion-text>
         }
@@ -124,7 +127,7 @@
         <ion-row class="ion-margin-top">
          
           <ion-col size="6" *ngIf="includeProjectFields">
-            <ion-button expand="block" (click)="onCloseClick()">
+            <ion-button expand="block" colo (click)="onCloseClick()">
               Close
             </ion-button>
           </ion-col>

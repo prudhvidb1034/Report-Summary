@@ -31,7 +31,6 @@
 
 <ion-grid>
   <ion-row>
-
     <ion-col *ngFor="let project of teamList$ | async" size="12" size-sm="6" size-md="4" size-lg="3">
       <ion-card (click)="goToProject(project.id)" class="project-card">
         <ion-card-header>

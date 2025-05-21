@@ -181,7 +181,6 @@
       "employeeId": "Q1234",
       "role": "Manager"
     },
-  
     {
       "id": "127d",
       "firstName": "Phaneendra",
@@ -214,6 +213,61 @@
       "employeeId": "qwqwww",
       "role": "Manager",
       "userEntry": "new"
+    },
+    {
+      "id": "7eb1",
+      "firstName": "fguihnidglj",
+      "lastName": "hlh",
+      "username": "prudhvi@gmail.com",
+      "password": "Prudhvi@1998",
+      "confirmPassword": "Prudhvi@1998",
+      "employeeId": "Q123456yu",
+      "role": "Employee",
+      "projectName": "Zensar"
+    },
+    {
+      "id": "4f56",
+      "firstName": "fguihnidglj",
+      "lastName": "hlh",
+      "username": "prudhvi@gmail.com",
+      "password": "Prudhvi@1998",
+      "confirmPassword": "Prudhvi@1998",
+      "employeeId": "Q123456yu",
+      "role": "Employee",
+      "projectName": "Zensar"
+    },
+    {
+      "id": "95d8",
+      "firstName": "Sarath",
+      "lastName": "Chnadra",
+      "username": "sarath@gmail.com",
+      "password": "Sarath@123",
+      "confirmPassword": "Sarath@123",
+      "employeeId": "Q23456",
+      "role": "Employee",
+      "projectName": ""
+    },
+    {
+      "id": "6f53",
+      "firstName": "Madhu",
+      "lastName": "varma",
+      "username": "madhu@gmail.com",
+      "password": "Madhu@123",
+      "confirmPassword": "Madhu@123",
+      "employeeId": "Q1234567",
+      "role": "Employee",
+      "projectName": "Google"
+    },
+    {
+      "id": "ee46",
+      "firstName": "Zaheer",
+      "lastName": "Khan",
+      "username": "zaheer@gmail.com",
+      "password": "Zaheer@123",
+      "confirmPassword": "Zaheer@123",
+      "employeeId": "Q7634",
+      "role": "Employee",
+      "projectName": "Wells Forgo"
     }
   ],
   "teamslist": [

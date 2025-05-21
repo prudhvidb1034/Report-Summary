@@ -41,6 +41,9 @@ export class DashboardComponent {
   
 
   setOpen(isOpen: boolean) {
+    // this.teamList$.subscribe((data:any)=>{
+    //   console.log(data)
+    // })
     this.isModalOpen = isOpen;
     this.teamForm.reset()
   }

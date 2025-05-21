@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+// 
 
 
 export const routes: Routes = [
@@ -24,6 +25,13 @@ export const routes: Routes = [
     path: 'summary',
     loadComponent: () => import('../app/features/summary/summary.component').then((m) => m.SummaryComponent)
   },
+ 
+ { 
+   
+  path:'view-reports',
+  loadComponent:() => import('../app/shared/view-reports/view-reports.component').then((m)=>m.ViewReportsComponent)
+
+},
   {
     path: '',
     redirectTo: 'login',

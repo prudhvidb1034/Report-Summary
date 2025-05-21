@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, MenuController } from '@ionic/angular';
 
 @Component({
   selector: 'app-header',
@@ -14,6 +14,8 @@ export class HeaderComponent {
   showLogout: boolean = false;
   // @Input() showLogout = true;
   // showLogout: boolean = false
+
+  
   ngOnInIt() {
     // this.router.events.subscribe((val:any) => {
     //   console.log(val.url)
@@ -21,7 +23,7 @@ export class HeaderComponent {
     // });
   }
 
-  constructor(private router: Router, private route: ActivatedRoute) {
+  constructor(private router: Router, private route: ActivatedRoute,private menuCtrl: MenuController) {
     this.router.events.subscribe((val: any) => {
       console.log(val.url)
       if (val.url !== '/login' && val.url !== '/sign-up') {
@@ -31,6 +33,11 @@ export class HeaderComponent {
       }
     });
   }
+
+  
+toggleMenu() {
+  this.menuCtrl.toggle();
+}
 
   onLogout() {
     // Add your logout logic here

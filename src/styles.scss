@@ -81,4 +81,14 @@ app-header {
   cursor: pointer;
 }
 
+ion-header {
+  padding-top: env(safe-area-inset-top);
+ }
+ion-content::part(scroll) {
+  padding-top: var(--ion-safe-area-top, 0);
+}
+
+ion-menu-button {
+  display: block !important;
+}
 

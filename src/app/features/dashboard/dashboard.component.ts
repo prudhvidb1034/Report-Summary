@@ -42,7 +42,10 @@ export class DashboardComponent {
      }
 
   goToProject(id: string) {
+
+    localStorage.setItem('selectedTeamId',id)
     this.router.navigate(['/project', id]);
+
   }
   
 
@@ -86,13 +89,6 @@ export class DashboardComponent {
  
 
 
-  // deleteproject(item: any) {
-  //   const fullUrl = `${this.url}/${item.id}`;
-  //   this.shareservice.deleteData(fullUrl).subscribe(() => {
-  //     alert('item deleted');
-  //     // this.getTeamList()
-  //   })
-  // }
-
+  
 
 }

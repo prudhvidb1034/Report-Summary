@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { createTeam } from '../../models/project.model';
 import { TeamStore } from '../../state/team.store';
 import { ToastService } from '../../shared/toast.service';
+import { SummaryService } from '../../services/summary/summary.service';
 
 @Component({
   selector: 'app-sign-up',
@@ -19,6 +20,7 @@ import { ToastService } from '../../shared/toast.service';
 })
 export class SignUpComponent {
   teamList = signal<createTeam[]>([]);
+  teamListData :any[]=[]
   private teamStore=inject(TeamStore);
   teamList$ = this.teamStore.team$;
   private readonly fb = inject(FormBuilder);
@@ -30,7 +32,8 @@ export class SignUpComponent {
   
   private readonly store = inject(RegisterStore);
   private signup = inject(SignUpService);
-
+  projects: any = [];
+  private summary = inject(SummaryService);
   private toast =inject( ToastService)
   private router = inject(Router)
   registrationForm !: FormGroup;
@@ -39,20 +42,21 @@ export class SignUpComponent {
   register$ = this.store.register$;
 
   constructor() {
-   
-  //   this.registrationForm = this.fb.group({
-  //     firstName: ['', [Validators.required]],
-  //     lastName: ['', [Validators.required]],
-  //     username: ['', [Validators.required, Validators.email]],
-  //     password: ['', [Validators.required, Validators.minLength(6)]],
-  //     confirmPassword: ['', [Validators.required]],
-  //     employeeId: ['', [Validators.required]],
-  //     role: ['Manager'],
-      
-  //   },{ validators: this.passwordMatchValidator }
-  //   )
-  }
+     }
 ngOnInit(){
+  this.teamStore.getTeam();
+this.createForm();
+  console.log('prudhvi',this.teamList$)
+  this.teamStore.team$.subscribe((data:any)=>{
+     this.teamListData= data
+  console.log(this.teamListData,'ZaheerKhan')
+  })
+  console.log('varma', this.teamStore.team$)
+
+  this.getProjects()
+}
+
+createForm(){
   this.registrationForm = this.fb.group({
     firstName: ['', [Validators.required]],
     lastName: ['', [Validators.required]],
@@ -69,12 +73,6 @@ ngOnInit(){
     this.registrationForm.addControl('techstack', this.fb.control(''));
     this.registrationForm.get('role')?.setValue('Employee');
   }
-
-  console.log('prudhvi',this.teamList$)
-  this.teamStore.team$.subscribe((data:any)=>{
-    console.log(data)
-  })
-  console.log('varma', this.teamStore.team$)
 }
 
   passwordMatchValidator(formGroup: AbstractControl): { [key: string]: boolean } | null {
@@ -89,10 +87,20 @@ ngOnInit(){
 
   onSubmit() {
     if (this.registrationForm.valid) {
-      console.log('Submitting:', this.registrationForm.value);
-      this.store.addregister(this.registrationForm.value);
+      const formData = { ...this.registrationForm.value };
+  
+      if (this.includeProjectFields) {
+        const teamId = localStorage.getItem('selectedTeamId');
+        if (teamId) {
+          formData.teamId = teamId; 
+        }
+      }
+  
+      console.log('Submitting:', formData);
+      this.store.addregister(formData); 
       this.toast.show('success', 'Registration completed successfully!');
-      if (this.includeProjectFields ) {
+  
+      if (this.includeProjectFields) {
         this.onCloseClick();
       } else {
         this.router.navigateByUrl('login');
@@ -102,8 +110,15 @@ ngOnInit(){
     }
   }
   
+  
   onCloseClick(){
     this.closeModal.emit();
+  }
+
+  getProjects() {
+    this.summary.getProjectTitles().subscribe((val: any) => {
+      this.projects = val.map((project: any) => project.projectname);
+    })
   }
 }
 

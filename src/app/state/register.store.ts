@@ -55,28 +55,35 @@ export class RegisterStore extends ComponentStore<RegistrationState> {
       switchMap(() =>
         this.signup.getUsers().pipe(
           tapResponse(
-            (data) =>
+            (data) => {
+              const selectedTeamId = localStorage.getItem('selectedTeamId'); 
+  
+              const filtered = data.filter((item: any) =>
+                item.role === 'Employee' &&
+                item.teamId === selectedTeamId 
+              );
+  
               this.patchState({
-                register: data
-                  .filter((item: any) => item.role === 'Employee') 
-                  .map((item: any) => ({
-                    id: item.id,
-                    employeeId: item.employeeId,
-                    firstName: item.firstName,
-                    lastName: item.lastName,
-                    username: item.username,
-                    password: item.password,
-                    confirmPassword: item.confirmPassword,
-                    role: item.role,
-                    projectName: item.projectName,
-                  })),
-              }),
+                register: filtered.map((item: any) => ({
+                  id: item.id,
+                  employeeId: item.employeeId,
+                  firstName: item.firstName,
+                  lastName: item.lastName,
+                  username: item.username,
+                  password: item.password,
+                  confirmPassword: item.confirmPassword,
+                  role: item.role,
+                  projectName: item.projectName?.projectname ?? '',
+                })),
+              });
+            },
             (error) => this.patchState({ error: 'Failed to load team data' })
           )
         )
       )
     )
   );
+  
   
 
 

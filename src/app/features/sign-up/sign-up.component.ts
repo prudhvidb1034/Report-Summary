@@ -23,8 +23,8 @@ export class SignUpComponent {
   private readonly fb = inject(FormBuilder);
   @Input() heading: string = 'Sign Up';
   @Input() includeProjectFields: boolean = false
-   @Input() customMargin: string = 'auto';
-   @Output() closeModal = new EventEmitter<void>();
+  @Input() customMargin: string = 'auto';
+  @Output() closeModal = new EventEmitter<void>();
 
   
   private readonly store = inject(RegisterStore);

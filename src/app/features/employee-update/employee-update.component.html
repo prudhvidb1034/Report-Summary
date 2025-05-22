@@ -1,0 +1,241 @@
+
+
+<!-- <ion-list>
+  <ion-grid>
+    <form
+      [formGroup]="employeeUpdateForm"
+      (ngSubmit)="onSubmit()"
+      class="register-form"
+    >
+    <ion-row>
+         <ion-item>
+            <ion-textarea label="Outline input" label-placement="floating" fill="outline" placeholder="Enter text"></ion-textarea>
+         </ion-item>
+    </ion-row>
+      <ion-row>
+         <ion-col>
+          <ion-item>
+            <ion-input
+              formControlName="task"
+              label="Task"
+              labelPlacement="floating"
+              placeholder="Enter Task"
+              [clearOnEdit]="true"
+            ></ion-input> </ion-item
+        ></ion-col>
+        <ion-col>
+          <ion-item>
+            <ion-input
+              type="date"
+              formControlName="startDate"
+              label="Start Date"
+              labelPlacement="floating"
+              placeholder="Select Date"
+              [clearOnEdit]="true"
+            ></ion-input
+          ></ion-item>
+        </ion-col>
+         <ion-col>
+          <ion-item>
+            <ion-input
+              type="date"
+              formControlName="endDate"
+              label="End Date"
+              labelPlacement="floating"
+              placeholder="Select Date"
+              [clearOnEdit]="true"
+            ></ion-input
+          ></ion-item>
+        </ion-col>
+       
+        <ion-col>
+          <ion-item>
+            <ion-select
+              label="Status"
+              formControlName="status"
+              label-placement="floating"
+            >
+              <ion-select-option value="Pending">Pending</ion-select-option>
+              <ion-select-option value="Completed">Completed</ion-select-option>
+              <ion-select-option value="Blocker">Blocker</ion-select-option>
+            </ion-select>
+          </ion-item></ion-col
+        >
+        <ion-col>
+          <ion-button
+            expand="block"
+            type="submit"
+            style="--background: #000033"
+          >
+            Add More
+          </ion-button></ion-col
+        >
+      </ion-row>
+    </form>
+  </ion-grid>
+</ion-list> -->
+<ion-card style="margin: 10px auto;">
+  <ion-header>
+  <ion-toolbar>
+    <ion-title class="ion-padding"><marquee  direction="left">Project Status Update</marquee> </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+  <!-- <ion-header>
+    <ion-toolbar>
+      <ion-title class="ion-padding" style="text-align: center">
+        Weekly Update
+      </ion-title>
+    </ion-toolbar>
+  </ion-header> -->
+
+  <ion-card-content>
+    <ion-list>
+      <ion-grid>
+        <form [formGroup]="employeeUpdateForm" (ngSubmit)="onSubmit()" class="register-form">
+          <!-- Summary Field -->
+          <ion-row>
+            <ion-item style="width: 100%">
+              <ion-textarea 
+                formControlName="summary"
+                label="Summary" 
+                label-placement="floating" 
+                fill="outline" 
+                placeholder="Enter Summary"
+                rows="3">
+              </ion-textarea>
+            </ion-item>
+          </ion-row>
+
+          <!-- Weekly Updates FormArray -->
+          <div formArrayName="weeklyUpdates">
+            <div *ngFor="let update of weeklyUpdates.controls; let i = index" [formGroupName]="i">
+              <ion-row>
+                <ion-col size="12" size-md="2">
+                  <ion-item>
+                    <ion-input
+                      formControlName="task"
+                      label="Task"
+                      labelPlacement="floating"
+                      placeholder="Enter Task"
+                      [clearOnEdit]="true"
+                    ></ion-input>
+                    <ion-note slot="error" *ngIf="update.get('task')?.hasError('required') && update.get('task')?.touched">
+                      Task is required
+                    </ion-note>
+                  </ion-item>
+                </ion-col>
+
+                <ion-col size="12" size-md="2">
+                  <ion-item>
+                    <ion-input
+                      type="date"
+                      formControlName="startDate"
+                      label="Start Date"
+                      labelPlacement="floating"
+                      placeholder="Select Date"
+                      [clearOnEdit]="true"
+                    ></ion-input>
+                    <ion-note slot="error" *ngIf="update.get('startDate')?.hasError('required') && update.get('startDate')?.touched">
+                      Start date is required
+                    </ion-note>
+                  </ion-item>
+                </ion-col>
+
+                <ion-col size="12" size-md="2">
+                  <ion-item>
+                    <ion-input
+                      type="date"
+                      formControlName="endDate"
+                      label="End Date"
+                      labelPlacement="floating"
+                      placeholder="Select Date"
+                      [clearOnEdit]="true"
+                    ></ion-input>
+                    <ion-note slot="error" *ngIf="update.get('endDate')?.hasError('required') && update.get('endDate')?.touched">
+                      End date is required
+                    </ion-note>
+                  </ion-item>
+                </ion-col>
+
+                <ion-col size="12" size-md="2">
+                  <ion-item>
+                    <ion-select
+                      label="Status"
+                      formControlName="status"
+                      label-placement="floating"
+                    >
+                    <ion-select-option value="Progress">Progress</ion-select-option>
+                      <ion-select-option value="Pending">Pending</ion-select-option>
+                      <ion-select-option value="Completed">Completed</ion-select-option>
+                      <ion-select-option value="Blocker">Blocker</ion-select-option>
+                    </ion-select>
+                    <ion-note slot="error" *ngIf="update.get('status')?.hasError('required') && update.get('status')?.touched">
+                      Status is required
+                    </ion-note>
+                  </ion-item>
+                </ion-col>
+
+                <ion-col size="12" size-md="2">
+                  <ion-button
+                    expand="block"
+                    type="button"
+                    class="danger"
+                    fill="outline"
+                    (click)="removeUpdate(i)"
+                    *ngIf="weeklyUpdates.length > 1"
+                    style="height: 56px; margin-top: 8px"
+                  >
+                    Remove
+                  </ion-button>
+                </ion-col>
+
+                <ion-col size="12" size-md="2" *ngIf="i === weeklyUpdates.controls.length - 1">
+                  <ion-button
+                    expand="block"
+                    type="button"
+                    fill="outline"
+                    (click)="addMore()"
+                    style="height: 56px; margin-top: 8px"
+                  >
+                    Add More
+                  </ion-button>
+                </ion-col>
+              </ion-row>
+            </div>
+          </div>
+
+          <!-- <ion-row class="ion-margin-top">
+            <ion-col>
+              <ion-button
+                expand="block"
+                type="submit"
+                style="--background: #000033"
+                [disabled]="employeeUpdateForm.invalid"
+              >
+                Submit All Updates
+              </ion-button>
+            </ion-col>
+          </ion-row> -->
+
+          <ion-grid>
+  <ion-row>
+    <ion-col>
+              <ion-button
+                expand="block"
+                type="submit"
+                style="--background: #000033"
+                [disabled]="employeeUpdateForm.invalid"
+              >
+                Submit All Updates
+              </ion-button>
+            </ion-col>
+    <ion-col offset="3"></ion-col>
+    <ion-col offset="3"></ion-col>
+  </ion-row>
+</ion-grid>
+        </form>
+      </ion-grid>
+    </ion-list>
+  </ion-card-content>
+</ion-card>

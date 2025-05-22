@@ -4,6 +4,8 @@ import { IonicModule } from '@ionic/angular';
 import { LoginStore } from '../../state/login.store';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { ToastComponent } from '../../shared/toast/toast.component';
+import { ToastService } from '../../shared/toast.service';
 
 
 @Component({
@@ -17,7 +19,7 @@ import { CommonModule } from '@angular/common';
 export class LoginComponent {
   loginForm: FormGroup;
   loginStore = inject(LoginStore);
-
+private toast = inject(ToastService)
   constructor(private fb: FormBuilder, private router: Router) {
     this.loginForm = this.fb.group({
      username: ['', [Validators.required, Validators.email]],

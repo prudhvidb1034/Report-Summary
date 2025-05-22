@@ -7,6 +7,7 @@ import { environment } from '../../../environments/environment';
 import { Constants } from '../../constants/string-constants';
 import { createTeam } from '../../models/project.model';
 import { TeamListService } from '../../services/team-list/team-list.service';
+import { ToastService } from '../../shared/toast.service';
 import { TeamStore } from '../../state/team.store';
 
 @Component({
@@ -25,6 +26,7 @@ export class DashboardComponent {
   isModalOpen = false;
   teamForm !: FormGroup;
   private fb = inject(FormBuilder)
+  private toast = inject(ToastService)
   private shareservice = inject(TeamListService)
   private router= inject(Router)
   teamList = signal<createTeam[]>([]);
@@ -66,10 +68,14 @@ export class DashboardComponent {
       this.teamStore.addTeam(response);
         this.setOpen(false);
         this.teamForm.reset();
-        alert('Project created successfully!');
-      
+     
+        this.toast.show('success','Project created successfully!')
      
     } else {
+
+     
+        this.toast.show('error','Please fill in all required fields.')
+      
       this.teamForm.markAllAsTouched()
     }
   }

@@ -7,6 +7,7 @@ import { SignUpService } from '../../services/sign-up/sign-up.service';
 import { Router } from '@angular/router';
 import { createTeam } from '../../models/project.model';
 import { TeamStore } from '../../state/team.store';
+import { ToastService } from '../../shared/toast.service';
 
 @Component({
   selector: 'app-sign-up',
@@ -28,7 +29,9 @@ export class SignUpComponent {
 
   
   private readonly store = inject(RegisterStore);
-  private signup = inject(SignUpService)
+  private signup = inject(SignUpService);
+
+  private toast =inject( ToastService)
   private router = inject(Router)
   registrationForm !: FormGroup;
   error$ = this.store.error$;
@@ -88,7 +91,7 @@ ngOnInit(){
     if (this.registrationForm.valid) {
       console.log('Submitting:', this.registrationForm.value);
       this.store.addregister(this.registrationForm.value);
-  
+      this.toast.show('success', 'Registration completed successfully!');
       if (this.includeProjectFields ) {
         this.onCloseClick();
       } else {

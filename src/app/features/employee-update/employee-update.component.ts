@@ -8,50 +8,50 @@ import { Router } from '@angular/router';
 import { createTeam } from '../../models/project.model';
 import { TeamStore } from '../../state/team.store';
 import { EmployeeUpdateService } from '../../services/employee-update/employee-update.service';
+import { SummaryStore } from '../../state/summary.store';
 
 @Component({
   selector: 'app-employee-update',
   standalone: true,
+  providers: [SummaryStore],
   imports: [IonicModule, CommonModule, ReactiveFormsModule],
   templateUrl: './employee-update.component.html',
   styleUrl: './employee-update.component.scss'
 })
 export class EmployeeUpdateComponent {
-//   projects: any = [];
-//   private update = inject(EmployeeUpdateService);
-//   employeeUpdateForm !: FormGroup;
-//   today = new Date();
-//   formattedDate = this.today.toISOString().split('T')[0];
+  private readonly summary = inject(SummaryStore);
+  //   projects: any = [];
+  //   private update = inject(EmployeeUpdateService);
+  //   employeeUpdateForm !: FormGroup;
+  //   today = new Date();
+  //   formattedDate = this.today.toISOString().split('T')[0];
 
-// private readonly fb = inject(FormBuilder);
-  // ngOnInit() {
-  //   this.employeeUpdateForm = this.fb.group({
-  //     summary:[''],
-  //     startDate: [this.formattedDate, [Validators.required]],
-  //     endDate: [this.formattedDate, [Validators.required]],
-  //     task: ['', [Validators.required, Validators.minLength(3)]],
-  //     status: ['Pending', Validators.required]
-  //   });
-    
+  // private readonly fb = inject(FormBuilder);
+  ngOnInit() {
+    //   this.employeeUpdateForm = this.fb.group({
+    //     summary:[''],
+    //     startDate: [this.formattedDate, [Validators.required]],
+    //     endDate: [this.formattedDate, [Validators.required]],
+    //     task: ['', [Validators.required, Validators.minLength(3)]],
+    //     status: ['Pending', Validators.required]
+    //   });
+  
+  }
+
+  //  getSummaryUpdates() {
+  //   this.summary.getProjectTitles().subscribe((val: any) => {
+  //     this.projects = val
+  //   })
   // }
-
-  //   onSubmit(): void {
- 
-  //     console.log('Form submitted:', this.employeeUpdateForm.value);
-   
-    
-  // }
-
 
   employeeUpdateForm !: FormGroup;
-     today = new Date();
+  today = new Date();
   formattedDate = this.today.toISOString().split('T')[0];
-  // formattedDate: string;
-
   constructor(private fb: FormBuilder) {
     // this.formattedDate = this.datePipe.transform(new Date(), 'yyyy-MM-dd') || '';
     this.initializeForm();
   }
+
 
   initializeForm(): void {
     this.employeeUpdateForm = this.fb.group({

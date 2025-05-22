@@ -66,13 +66,17 @@
     }
   ],
   "projects": [
-
     {
       "id": "7ae6",
       "project_name": "customer365",
       "start_date": "2025-05-13",
       "end_date": "2025-05-20",
-      "employees": []
+      "employees": [
+        {
+          "date": "2025-05-22",
+          "task": "asd"
+        }
+      ]
     }
   ]
 }

@@ -28,6 +28,11 @@ export class EmployeeUpdateComponent {
 
   // private readonly fb = inject(FormBuilder);
   ngOnInit() {
+    this.summary.getDetails();
+    this.summary.projects$.subscribe((data:any)=>{
+      console.log(data);
+    })
+
     //   this.employeeUpdateForm = this.fb.group({
     //     summary:[''],
     //     startDate: [this.formattedDate, [Validators.required]],
@@ -83,8 +88,14 @@ export class EmployeeUpdateComponent {
     }
   }
 
-  onSubmit(): void {
+  onSubmit() {
     if (this.employeeUpdateForm.valid) {
+      const d={
+        projectId: '',
+        date: this.employeeUpdateForm.value.weeklyUpdates[0].startDate,
+        task:this.employeeUpdateForm.value.weeklyUpdates[0].task
+      }
+      this.summary.addEmployeeTask(d);
       console.log('Form submitted:', this.employeeUpdateForm.value);
       // Here you can process the form data
       // For example, send to a service:

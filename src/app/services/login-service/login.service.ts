@@ -12,6 +12,7 @@ export class LoginService {
   private readonly baseUrl=environment.apiUrl+Constants.GET_LOGIN_DETAILS;
   private readonly http = inject(HttpClient);
      private readonly apiUrl = 'http://localhost:3000/register';
+  userList: any;
 
   
   loginCheck(credentials: LoginCredentials) {
@@ -21,6 +22,7 @@ export class LoginService {
         const user = response.find(
          ( u:any) =>u.username === credentials.username && u.password === credentials.password
         );
+        this.userList=user;
         console.log('Matched User:', user);
 
         return { user: user || null };

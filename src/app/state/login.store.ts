@@ -19,50 +19,45 @@ export class LoginStore extends ComponentStore<LoginState> {
   }
 
   login = this.effect((credentials$: Observable<LoginCredentials>) =>
-  credentials$.pipe(
-    switchMap(credentials =>
-      this.auth.loginCheck(credentials).pipe(
-        tap(({user})=>{
-             console.log(credentials);
-            if(user){
+    credentials$.pipe(
+      switchMap(credentials =>
+        this.auth.loginCheck(credentials).pipe(
+          tap(({ user }) => {
+            console.log(credentials);
+            if (user) {
               this.router.navigate(['/dashboard']);
-                // if(user.userEntry==='existingUser'){
-                //     this.router.navigate(['/dashboard']);
-                // }else{
-                //     this.router.navigate(['/reset-password']);
-                // }
-                this.toast.show('success', 'Login  successfully!');
+              this.toast.show('success', 'Login  successfully!');
             }
-            else{
-              this.toast.show('error','Invalid User name and password.')
+            else {
+              this.toast.show('error', 'Invalid User name and password.')
             }
-        }),
-            tap(() => this.patchState({ loading: false }))
+          }),
+          tap(() => this.patchState({ loading: false }))
 
         )
+      )
     )
-  )
-);
+  );
 
-//   readonly login = this.effect((credentials$) =>
-//     credentials$.pipe(
-//       tap(() => this.setState({ loading: true, error: null })),
-//       switchMap(credentials =>
-//         this.auth.loginCheck(credentials).pipe(
-//           tap(({ user }) => {
-//             if (user) {
-//               if (user.userEntry === 'existingUser') {
-//                 this.router.navigate(['/dashboard']);
-//               } else {
-//                 this.router.navigate(['/reset-password']);
-//               }
-//             } else {
-//               this.patchState({ error: 'Invalid username or password' });
-//             }
-//           }),
-//           tap(() => this.patchState({ loading: false }))
-//         )
-//       )
-//     )
-//   );
+  //   readonly login = this.effect((credentials$) =>
+  //     credentials$.pipe(
+  //       tap(() => this.setState({ loading: true, error: null })),
+  //       switchMap(credentials =>
+  //         this.auth.loginCheck(credentials).pipe(
+  //           tap(({ user }) => {
+  //             if (user) {
+  //               if (user.userEntry === 'existingUser') {
+  //                 this.router.navigate(['/dashboard']);
+  //               } else {
+  //                 this.router.navigate(['/reset-password']);
+  //               }
+  //             } else {
+  //               this.patchState({ error: 'Invalid username or password' });
+  //             }
+  //           }),
+  //           tap(() => this.patchState({ loading: false }))
+  //         )
+  //       )
+  //     )
+  //   );
 }

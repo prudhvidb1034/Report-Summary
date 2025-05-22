@@ -6,8 +6,10 @@ import { IonicModule } from '@ionic/angular';
 import { environment } from '../../../environments/environment';
 import { Constants } from '../../constants/string-constants';
 import { createTeam } from '../../models/project.model';
+import { LoginService } from '../../services/login-service/login.service';
 import { TeamListService } from '../../services/team-list/team-list.service';
 import { ToastService } from '../../shared/toast.service';
+import { LoginStore } from '../../state/login.store';
 import { TeamStore } from '../../state/team.store';
 
 @Component({
@@ -31,10 +33,12 @@ export class DashboardComponent {
   private router= inject(Router)
   teamList = signal<createTeam[]>([]);
   private teamStore=inject(TeamStore);
+  private loginService=inject(LoginService);
   teamList$ = this.teamStore.team$;
   ngOnInit() {
     this.CreateForm();
     this.teamStore.getTeam();
+    console.log(this.loginService.userList)
      }
 
   goToProject(id: string) {

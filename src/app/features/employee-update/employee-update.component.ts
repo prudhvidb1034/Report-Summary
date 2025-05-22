@@ -19,7 +19,8 @@ import { SummaryStore } from '../../state/summary.store';
   styleUrl: './employee-update.component.scss'
 })
 export class EmployeeUpdateComponent {
-  private readonly summary = inject(SummaryStore);
+  private readonly employeeupdate = inject(EmployeeUpdateService);
+  Dates:any=[];
   //   projects: any = [];
   //   private update = inject(EmployeeUpdateService);
   //   employeeUpdateForm !: FormGroup;
@@ -35,14 +36,15 @@ export class EmployeeUpdateComponent {
     //     task: ['', [Validators.required, Validators.minLength(3)]],
     //     status: ['Pending', Validators.required]
     //   });
-  
+  this.getProjetcDates()
   }
 
-  //  getSummaryUpdates() {
-  //   this.summary.getProjectTitles().subscribe((val: any) => {
-  //     this.projects = val
-  //   })
-  // }
+   getProjetcDates() {
+    this.employeeupdate.getDates().subscribe((val: any) => {
+    console.log(val);
+    this.Dates = val
+    })
+  }
 
   employeeUpdateForm !: FormGroup;
   today = new Date();
@@ -62,8 +64,8 @@ export class EmployeeUpdateComponent {
 
   createWeeklyUpdateGroup(): FormGroup {
     return this.fb.group({
-      startDate: [this.formattedDate, [Validators.required]],
-      endDate: [this.formattedDate, [Validators.required]],
+      startDate: [this.Dates.start_date, [Validators.required]],
+      endDate: [this.Dates.end_date, [Validators.required]],
       task: ['', [Validators.required, Validators.minLength(3)]],
       status: ['Progress', Validators.required]
     });

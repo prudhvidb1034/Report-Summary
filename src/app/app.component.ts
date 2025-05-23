@@ -37,11 +37,11 @@ export class AppComponent {
 
   navigateToWkSmry() {
     this.router.navigate(['/summary'])
-    
+    this.menuCtrl.toggle();
   }
   navigateToEmployeeUpdate() {
     this.router.navigate(['/employee-update'])
-  
+  this.menuCtrl.toggle();
   }
 
   toggleMenu() {

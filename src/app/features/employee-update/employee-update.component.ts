@@ -21,6 +21,7 @@ import { SummaryStore } from '../../state/summary.store';
 export class EmployeeUpdateComponent {
   private readonly employeeupdate = inject(EmployeeUpdateService);
   Dates:any=[];
+   dateError: string | null = null;
   //   projects: any = [];
   //   private update = inject(EmployeeUpdateService);
   //   employeeUpdateForm !: FormGroup;
@@ -36,6 +37,7 @@ export class EmployeeUpdateComponent {
     //     task: ['', [Validators.required, Validators.minLength(3)]],
     //     status: ['Pending', Validators.required]
     //   });
+    
   this.getProjetcDates()
   }
 
@@ -47,8 +49,8 @@ export class EmployeeUpdateComponent {
   }
 
   employeeUpdateForm !: FormGroup;
-  today = new Date();
-  formattedDate = this.today.toISOString().split('T')[0];
+  // today = new Date();
+  // formattedDate = this.today.toISOString().split('T')[0];
   constructor(private fb: FormBuilder) {
     // this.formattedDate = this.datePipe.transform(new Date(), 'yyyy-MM-dd') || '';
     this.initializeForm();
@@ -60,15 +62,51 @@ export class EmployeeUpdateComponent {
       summary: [''],
       weeklyUpdates: this.fb.array([this.createWeeklyUpdateGroup()])
     });
+     
+  }
+
+   validateDates(): boolean {
+    const startDate = this.employeeUpdateForm.get('startDate')?.value;
+    const endDate = this.employeeUpdateForm.get('endDate')?.value;
+    if (!startDate || !endDate) {
+      this.dateError = null;
+      return true;
+    }
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+    if (start > end) {
+      this.dateError = 'Start date cannot be greater than end date';
+      return false;
+    }
+    this.dateError = null;
+    return true;
   }
 
   createWeeklyUpdateGroup(): FormGroup {
-    return this.fb.group({
-      startDate: [this.Dates.start_date, [Validators.required]],
-      endDate: [this.Dates.end_date, [Validators.required]],
+    let group:FormGroup = this.fb.group({
+      startDate: ['', [Validators.required]],
+      endDate: ['', [Validators.required]],
       task: ['', [Validators.required, Validators.minLength(3)]],
-      status: ['Progress', Validators.required]
+      status: ['', [Validators.required]]
     });
+    group.get('endDate')?.valueChanges.subscribe(() => {
+    const startDate = group.get('startDate')?.value;
+    const endDate = group.get('endDate')?.value;
+    if (!startDate || !endDate) {
+      this.dateError = null;
+      return true;
+    }
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+    if (start > end) {
+      this.dateError = 'Start date cannot be greater than end date';
+      return false;
+    }
+    this.dateError = null;
+    return true;
+    });
+
+    return group;
   }
 
   get weeklyUpdates(): FormArray {

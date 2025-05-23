@@ -33,11 +33,9 @@ private toast = inject(ToastService)
       console.log(this.loginForm.value)
       this.loginStore.login(this.loginForm.value);
       console.log(this.loginStore);
-      
+          }else{
+      this.toast.show('error','Please fill in all required fields.')
     }
   }
  
-  // signUp() {
-  // this.router.navigate(['/summary'])
-  // }
-}
+  }

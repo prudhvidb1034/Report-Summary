@@ -36,7 +36,8 @@ toggleMenu() {
 }
 
   onLogout() {
-    // Add your logout logic here
-    this.router.navigate(['/login']);
+        this.router.navigate(['/login']);
+    // localStorage.removeItem('userRole');
+ localStorage.clear()
   }
 }

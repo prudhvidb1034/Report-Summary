@@ -9,35 +9,46 @@ import { ToastService } from '../shared/toast.service';
 interface LoginState {
   loading: boolean;
   error: string | null;
+  user: { role: string } | null;
 }
 
-@Injectable()
+@Injectable({
+  providedIn: 'root' 
+})
 export class LoginStore extends ComponentStore<LoginState> {
   private toast = inject(ToastService)
   constructor(private auth: LoginService, private router: Router) {
-    super({ loading: false, error: null });
+    super({ loading: false, error: null,user:null });
   }
 
   login = this.effect((credentials$: Observable<LoginCredentials>) =>
-    credentials$.pipe(
-      switchMap(credentials =>
-        this.auth.loginCheck(credentials).pipe(
-          tap(({ user }) => {
-            console.log(credentials);
-            if (user) {
+  credentials$.pipe(
+    switchMap(credentials =>
+      this.auth.loginCheck(credentials).pipe(
+        tap(({ user }) => {
+          if (user) {
+            
+            const role = user.role?.toLowerCase(); 
+            localStorage.setItem('userRole', role);
+            if (role === 'manager') {
               this.router.navigate(['/dashboard']);
-              this.toast.show('success', 'Login  successfully!');
+            } else if (role === 'employee') {
+              this.router.navigate(['/employee-dashboard']);
+            } else {
+              this.toast.show('error', 'Unknown role.');
+              return;
             }
-            else {
-              this.toast.show('error', 'Invalid User name and password.')
-            }
-          }),
-          tap(() => this.patchState({ loading: false }))
 
-        )
+            this.toast.show('success', 'Login successfully!');
+          } else {
+            this.toast.show('error', 'Invalid User name and password.');
+          }
+        }),
+        tap(() => this.patchState({ loading: false }))
       )
     )
-  );
+  )
+);
 
   //   readonly login = this.effect((credentials$) =>
   //     credentials$.pipe(

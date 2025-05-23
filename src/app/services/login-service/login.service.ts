@@ -9,25 +9,52 @@ import { LoginCredentials, LoginResponse, User } from '../../models/login.model'
   providedIn: 'root',
 })
 export class LoginService {
-  private readonly baseUrl=environment.apiUrl+Constants.GET_LOGIN_DETAILS;
+  private readonly baseUrl = environment.apiUrl + Constants.GET_LOGIN_DETAILS;
   private readonly http = inject(HttpClient);
-     private readonly apiUrl = 'http://localhost:3000/register';
+  private readonly apiUrl = 'http://localhost:3000/register';
   userList: any;
 
-  
+
   loginCheck(credentials: LoginCredentials) {
     return this.http.get<any>(this.apiUrl).pipe(
       map(response => {
-        console.log(response,credentials);
+        console.log(response, credentials);
         const user = response.find(
-         ( u:any) =>u.username === credentials.username && u.password === credentials.password
+          (u: any) => u.username === credentials.username && u.password === credentials.password
         );
-        this.userList=user;
+        this.userList = user;
         console.log('Matched User:', user);
 
         return { user: user || null };
       })
     );
   }
+
+  // loginCheck(credentials?: LoginCredentials) {
+  //   return this.http.get<any[]>(this.apiUrl).pipe(
+  //     map(response => {
+  //       console.log(response, credentials);
+  //       const user = response.find(
+  //         (u: any) => u.username === credentials?.username && u.password === credentials?.password
+  //       );
+  //       this.userList = user || null;
+  //       console.log('Matched User:', user);
+
+  //       // Call getRoles and include roles in the response
+  //       const roles = this.getRoles();
+  //       return { user: user || null, roles };
+  //     })
+  //   );
+  // }
+
+  // getRoles(): string[] {
+  //   if (!this.userList) {
+  //     return [this.userList.roles];
+  //   }
+  //   // Return the roles if they exist, otherwise return empty array
+  //   console.log(this.userList?.roles);
+
+  //   return this.userList.roles || [];
+  // }
 
 }

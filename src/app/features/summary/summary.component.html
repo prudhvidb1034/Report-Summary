@@ -15,7 +15,7 @@
     </ion-toolbar>
   </ion-header>
 
-  <ion-card-content>
+  <!-- <ion-card-content>
     <ion-list>
       <form 
       [formGroup]="weekSummaryForm" 
@@ -69,6 +69,134 @@
               expand="block"
               type="submit"
               style="--background: #000033"
+            >
+              Submit
+            </ion-button>
+          </ion-col>
+        </ion-row>
+      </form>
+    </ion-list>
+  </ion-card-content> -->
+
+  <ion-card-content>
+    <ion-list>
+      <form
+        [formGroup]="weekSummaryForm"
+        class="register-form"
+        (ngSubmit)="onSubmit()"
+      >
+        <!-- Project Selection -->
+        <ion-item>
+          <ion-select
+            label="Projects"
+            label-placement="floating"
+            formControlName="project"
+          >
+            <ion-select-option *ngFor="let p of projects" [value]="p">
+              {{ p.projectname }}
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
+        @if (weekSummaryForm.get('project')?.invalid &&
+        (weekSummaryForm.get('project')?.dirty ||
+        weekSummaryForm.get('project')?.touched)) {
+        <ion-note color="danger">
+          @if (weekSummaryForm.get('project')?.errors?.['required']) {
+          <span>Project selection is required</span>
+          }
+        </ion-note>
+        }
+
+        <!-- Start Date -->
+        <ion-item>
+          <ion-input
+            type="date"
+            formControlName="startDate"
+            label="Week Start Date"
+            labelPlacement="floating"
+            placeholder="Select start of week"
+            [clearOnEdit]="true"
+          ></ion-input>
+        </ion-item>
+        @if (weekSummaryForm.get('startDate')?.invalid &&
+        (weekSummaryForm.get('startDate')?.dirty ||
+        weekSummaryForm.get('startDate')?.touched)) {
+        <ion-note color="danger">
+          @if (weekSummaryForm.get('startDate')?.errors?.['required']) {
+          <span>Start date is required</span>
+          }
+        </ion-note>
+        }
+
+        <!-- End Date -->
+        <ion-item>
+          <ion-input
+            type="date"
+            formControlName="endDate"
+            label="Week End Date"
+            labelPlacement="floating"
+            placeholder="End of week"
+            (ionBlur)="validateDates()"
+          ></ion-input>
+        </ion-item>
+        <!-- @if (weekSummaryForm.get('endDate')?.invalid && (weekSummaryForm.get('endDate')?.dirty || weekSummaryForm.get('endDate')?.touched)) {
+        <ion-note color="danger">
+          @if (weekSummaryForm.get('endDate')?.errors?.['required']) {
+            <span>End date is required</span>
+          }
+          @if (weekSummaryForm.get('endDate')?.errors?.['invalidDate']) {
+            <span>Please enter a valid date</span>
+          }
+          @if (weekSummaryForm.get('endDate')?.errors?.['endDateBeforeStart']) {
+            <span>End date must be after start date</span>
+          }
+        </ion-note>
+      } -->
+        @if (dateError && weekSummaryForm.get('endDate')?.touched) {
+        <ion-note color="danger">
+          {{ dateError }}
+          @if (dateError &&
+          weekSummaryForm.get('endDate')?.errors?.['required']) {
+          <span>End date is required</span>
+          }
+          <!-- @if (weekSummaryForm.get('endDate')?.errors?.['invalidDate']) {
+            <span>Please enter a valid date</span>
+          }
+          @if (weekSummaryForm.get('endDate')?.errors?.['endDateBeforeStart']) {
+            <span>End date must be after start date</span>
+          } -->
+        </ion-note>
+        }
+
+        <!-- Description -->
+        <ion-item>
+          <ion-textarea
+            formControlName="description"
+            label="Description"
+            labelPlacement="floating"
+            placeholder="Enter"
+          ></ion-textarea>
+        </ion-item>
+        @if (weekSummaryForm.get('description')?.invalid &&
+        (weekSummaryForm.get('description')?.dirty ||
+        weekSummaryForm.get('description')?.touched)) {
+        <ion-note color="danger">
+          @if (weekSummaryForm.get('description')?.errors?.['required']) {
+          <span>Description is required</span>
+          } @if (weekSummaryForm.get('description')?.errors?.['minlength']) { }
+          <!-- @if (weekSummaryForm.get('description')?.errors?.['maxlength']) {
+            <span>Description cannot exceed {{weekSummaryForm.get('description')?.errors?.['maxlength']?.requiredLength}} characters</span>
+          } -->
+        </ion-note>
+        }
+
+        <ion-row class="ion-margin-top">
+          <ion-col>
+            <ion-button
+              expand="block"
+              type="submit"
+              style="--background: #000033"
+              [disabled]="!weekSummaryForm.valid || dateError"
             >
               Submit
             </ion-button>

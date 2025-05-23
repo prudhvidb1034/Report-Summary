@@ -82,58 +82,12 @@
       "project_name": "customer365",
       "start_date": "2025-05-13",
       "end_date": "2025-05-20",
-<<<<<<< HEAD
       "employees": [
         {
           "date": "2025-05-22",
           "task": "asd"
         }
       ]
-=======
-      "employees": []
-    },
-    {
-      "id": "d953",
-      "project_name": "Prudhvi varma",
-      "start_date": "2025-05-20",
-      "end_date": "2025-05-04",
-      "employees": []
-    },
-    {
-      "id": "a6c3",
-      "project_name": "Prudhvi varma",
-      "start_date": "2025-05-20",
-      "end_date": "2025-05-27",
-      "employees": []
-    },
-    {
-      "id": "5c7a",
-      "project_name": "Prudhvi varma",
-      "start_date": "2025-05-20",
-      "end_date": "2025-05-27",
-      "employees": []
-    },
-    {
-      "id": "04f3",
-      "project_name": "Prudhvi varma",
-      "start_date": "2025-05-20",
-      "end_date": "2025-05-05",
-      "employees": []
-    },
-    {
-      "id": "ebec",
-      "project_name": "asdsad",
-      "start_date": "2025-05-21",
-      "end_date": "2025-05-28",
-      "employees": []
-    },
-    {
-      "id": "2082",
-      "project_name": "Prudhvi varma",
-      "start_date": "2025-05-21",
-      "end_date": "2025-05-29",
-      "employees": []
->>>>>>> 48b2df1ca22b73d38ff6dd79c80d67f9dc8eeca9
     }
   ]
 }

@@ -23,6 +23,20 @@
       "employeeId": "qe2025",
       "role": "Manager",
       "userEntry": "new"
+    },
+    {
+      "id": "c756",
+      "firstName": "prudhvi",
+      "lastName": "varma",
+      "username": "qwerty@gmail.com",
+      "password": "Prudhvi11@",
+      "confirmPassword": "Prudhvi11@",
+      "employeeId": "1234567",
+      "role": "Employee",
+      "userEntry": "new",
+      "projectName": "Prudhvi varma",
+      "techstack": "Testing",
+      "teamId": "8b26"
     }
   ],
   "teamslist": [
@@ -82,58 +96,57 @@
       "project_name": "customer365",
       "start_date": "2025-05-13",
       "end_date": "2025-05-20",
-<<<<<<< HEAD
       "employees": [
         {
-          "date": "2025-05-22",
-          "task": "asd"
+          "employee_id": "8369",
+          "employee_name": "sarath",
+          "summary": "asdadsasd",
+          "daily_updates": [
+            {
+              "startDate": "2025-05-21",
+              "endDate": "2025-05-22",
+              "task": "12332131",
+              "status": "Completed"
+            },
+            {
+              "startDate": "2025-05-19",
+              "endDate": "2025-05-22",
+              "task": "qweqwewqe",
+              "status": "Pending"
+            }
+          ],
+          "projectName": "customer365"
         }
       ]
-=======
-      "employees": []
     },
     {
-      "id": "d953",
+      "id": "b022",
       "project_name": "Prudhvi varma",
-      "start_date": "2025-05-20",
-      "end_date": "2025-05-04",
-      "employees": []
-    },
-    {
-      "id": "a6c3",
-      "project_name": "Prudhvi varma",
-      "start_date": "2025-05-20",
-      "end_date": "2025-05-27",
-      "employees": []
-    },
-    {
-      "id": "5c7a",
-      "project_name": "Prudhvi varma",
-      "start_date": "2025-05-20",
-      "end_date": "2025-05-27",
-      "employees": []
-    },
-    {
-      "id": "04f3",
-      "project_name": "Prudhvi varma",
-      "start_date": "2025-05-20",
-      "end_date": "2025-05-05",
-      "employees": []
-    },
-    {
-      "id": "ebec",
-      "project_name": "asdsad",
-      "start_date": "2025-05-21",
-      "end_date": "2025-05-28",
-      "employees": []
-    },
-    {
-      "id": "2082",
-      "project_name": "Prudhvi varma",
-      "start_date": "2025-05-21",
-      "end_date": "2025-05-29",
-      "employees": []
->>>>>>> 48b2df1ca22b73d38ff6dd79c80d67f9dc8eeca9
+      "start_date": "2025-05-26",
+      "end_date": "2025-05-30",
+      "employees": [
+        {
+          "employee_id": "c756",
+          "project_id": "b022",
+          "employee_name": "prudhvi",
+          "summary": "tcb screeb",
+          "daily_updates": [
+            {
+              "startDate": "2025-05-19",
+              "endDate": "2025-05-22",
+              "task": "tcb sreen details",
+              "status": "Pending"
+            },
+            {
+              "startDate": "2025-05-20",
+              "endDate": "2025-05-21",
+              "task": "tcb details",
+              "status": "Completed"
+            }
+          ],
+          "projectName": "Prudhvi varma"
+        }
+      ]
     }
   ]
 }

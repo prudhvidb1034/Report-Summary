@@ -1,11 +1,10 @@
 import { Routes } from '@angular/router';
-// 
 
 
 export const routes: Routes = [
   {
     path: 'login',
-    loadComponent: () => import('../app/features/login/login.component').then((m) => m.LoginComponent),
+   loadComponent: () => import('../app/features/login/login.component').then((m) => m.LoginComponent),
 
   },
   {
@@ -14,7 +13,7 @@ export const routes: Routes = [
   },
   {
     path: 'dashboard',
-    loadComponent: () => import('../app/features/dashboard/dashboard.component').then((m) => m.DashboardComponent),
+   loadComponent: () => import('../app/features/dashboard/dashboard.component').then((m) => m.DashboardComponent),
 
   },
   {

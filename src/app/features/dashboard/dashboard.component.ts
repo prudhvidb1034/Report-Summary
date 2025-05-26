@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router, RouterModule } from '@angular/router';
+import { NavigationStart, Router, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
+import { filter, Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { Constants } from '../../constants/string-constants';
 import { createTeam } from '../../models/project.model';
@@ -16,9 +17,9 @@ import { TeamStore } from '../../state/team.store';
   selector: 'app-dashboard',
   standalone: true,
   imports: [
-    FormsModule,RouterModule,
+    FormsModule, RouterModule,
     IonicModule, CommonModule, ReactiveFormsModule, RouterModule],
-    providers:[TeamStore],
+  providers: [TeamStore, LoginStore],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
 })
@@ -30,24 +31,38 @@ export class DashboardComponent {
   private fb = inject(FormBuilder)
   private toast = inject(ToastService)
   private shareservice = inject(TeamListService)
-  private router= inject(Router)
+  private router = inject(Router)
   teamList = signal<createTeam[]>([]);
-  private teamStore=inject(TeamStore);
-  private loginService=inject(LoginService);
+  private teamStore = inject(TeamStore);
   teamList$ = this.teamStore.team$;
+  private loginStore = inject(LoginStore);
+  userList$: Observable<any[] | null>;
+  constructor(){
+    this.userList$=this.loginStore.userList$;
+
+  }
+
+ // userList$ = this.loginStore.select((state) => state.userList);
+
   ngOnInit() {
     this.CreateForm();
     this.teamStore.getTeam();
-    console.log(this.loginService.userList)
-     }
+
+    const userList = JSON.parse(localStorage.getItem('userList') || '[]');
+    console.log("userList",userList)
+    
+    this.userList$.subscribe((data: any) => {
+      console.log("login", data)
+    })
+  }
 
   goToProject(id: string) {
 
-    localStorage.setItem('selectedTeamId',id)
+    localStorage.setItem('selectedTeamId', id)
     this.router.navigate(['/project', id]);
 
   }
-  
+
 
   setOpen(isOpen: boolean) {
     // this.teamList$.subscribe((data:any)=>{
@@ -73,22 +88,22 @@ export class DashboardComponent {
     const response = this.teamForm.value;
     if (this.teamForm.valid) {
       this.teamStore.addTeam(response);
-        this.setOpen(false);
-        this.teamForm.reset();
-     
-        this.toast.show('success','Project created successfully!')
-     
+      this.setOpen(false);
+      this.teamForm.reset();
+
+      this.toast.show('success', 'Project created successfully!')
+
     } else {
 
-     
-        this.toast.show('error','Please fill in all required fields.')
-      
+
+      this.toast.show('error', 'Please fill in all required fields.')
+
       this.teamForm.markAllAsTouched()
     }
   }
- 
 
 
-  
+
+
 
 }

@@ -74,29 +74,47 @@ readonly getDetails = this.effect((trigger$: Observable<void>) =>
 );
 
 
-readonly addEmployeeTask = this.effect<{
-  projectId: string;
-  date: string;
-  task: string;
-}>((employee$) =>
+readonly addEmployeeTask = this.effect<any>((employee$) =>
   employee$.pipe(
-    switchMap(({ projectId, date, task }) => {
-      const newTask = { date, task };
+    switchMap(( employeeInfo) => {
+     // const newTask = { date, task };
       return this.summeryService
-        .postWeeklyReport (projectId, newTask )
+        .postWeeklyReport (employeeInfo.project_id, employeeInfo )
         .pipe(
           tapResponse(
             () => {
-              console.log(this.state)
-              // const updatedProjects = this.get().projects.map((project:an) =>
-              //   project.id === projectId
-              //     ? {
-              //         ...project,
-              //         employees: [...project.employees, newTask],
-              //       }
-              //     : project
-              // );
-              // this.setProjects(updatedProjects);
+              this.patchState((state) => {
+                const updatedProjects = state.projects.map((project: any) =>
+                  project.project_name ===employeeInfo. projectName
+                    ? {
+                        ...project,
+                        employees: project.employees.some(
+                          (emp: any) => emp.employee_id === employeeInfo.employeeId
+                        )
+                          ? project.employees.map((emp: any) =>
+                              emp.employee_id === employeeInfo.employeeId
+                                ? {
+                                    ...emp,
+                                    daily_updates: [
+                                      ...emp.daily_updates,
+                                      employeeInfo.daily_updates,
+                                    ],
+                                  }
+                                : emp
+                            )
+                          : [
+                              ...project.employees,
+                              {
+                                employee_id: employeeInfo.employeeId,
+                                employee_name: 'New Employee', // Customize as needed
+                                daily_updates: [employeeInfo.daily_updates],
+                              },
+                            ],
+                      }
+                    : project
+                );
+                return { projects: updatedProjects };
+              });
             },
             (error) => {
               // this.patchState({

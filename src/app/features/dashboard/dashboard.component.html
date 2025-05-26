@@ -28,7 +28,11 @@
   </ion-row>
 </ion-grid>
 
-
+<div *ngIf="userList$ | async as userList">
+  <div *ngFor="let user of userList">
+    <p>{{ user.name }}</p>
+  </div>
+</div>
 <ion-grid>
   <ion-row>
     <ion-col *ngFor="let project of teamList$ | async" size="12" size-sm="6" size-md="4" size-lg="3">

@@ -25,7 +25,7 @@ export class SummaryService {
    }
 
    postWeeklyReport(projectId:any, newTask:any){
-    return this.http.patch<any>(`http://localhost:3000/projects/7ae6/`, {
+    return this.http.patch<any>('http://localhost:3000/projects/'+projectId+'/', {
       employees: [newTask]});
    }
 }

@@ -9,11 +9,13 @@ import { createTeam } from '../../models/project.model';
 import { TeamStore } from '../../state/team.store';
 import { EmployeeUpdateService } from '../../services/employee-update/employee-update.service';
 import { SummaryStore } from '../../state/summary.store';
+import { LoginStore } from '../../state/login.store';
+import { LoginService } from '../../services/login-service/login.service';
 
 @Component({
   selector: 'app-employee-update',
   standalone: true,
-  providers: [SummaryStore],
+  providers: [SummaryStore,LoginStore],
   imports: [IonicModule, CommonModule, ReactiveFormsModule],
   templateUrl: './employee-update.component.html',
   styleUrl: './employee-update.component.scss'
@@ -22,13 +24,26 @@ export class EmployeeUpdateComponent {
   private readonly employeeupdate = inject(EmployeeUpdateService);
   Dates:any=[];
    dateError: string | null = null;
-  private summary =  inject(SummaryStore)
+  private summary =  inject(SummaryStore);
+  private loginStore=inject(LoginStore);
+  private loginService=inject(LoginService)
+  userList$ = this.loginStore.select((state) => state.userList);
+  userInfo:any;
+  projectInfo='';
   ngOnInit() {
+    this.userInfo = JSON.parse(localStorage.getItem('userList') || '[]');
+    console.log("userList",this.userInfo)
     this.summary.getDetails();
     this.summary.projects$.subscribe((data:any)=>{
+      var d=data.find((ele:any)=>ele.project_name===this.userInfo.projectName);
+      this.projectInfo=d.id;
+      console.log("filter",d)
       console.log(data);
     })
-
+    this.userList$.subscribe((data:any)=>{
+      console.log("login",data)
+    })
+    
    
   this.getProjetcDates()
   }
@@ -121,7 +136,15 @@ export class EmployeeUpdateComponent {
         date: this.employeeUpdateForm.value.weeklyUpdates[0].startDate,
         task:this.employeeUpdateForm.value.weeklyUpdates[0].task
       }
-      this.summary.addEmployeeTask(d);
+      const employee={
+        employee_id:this.userInfo.id,
+        project_id:this.projectInfo,
+        employee_name:this.userInfo.firstName,
+        summary:this.employeeUpdateForm.value.summary,
+        daily_updates:this.employeeUpdateForm.value.weeklyUpdates,
+        projectName:this.userInfo.projectName
+      }
+      this.summary.addEmployeeTask(employee);
       console.log('Form submitted:', this.employeeUpdateForm.value);
       // Here you can process the form data
       // For example, send to a service:

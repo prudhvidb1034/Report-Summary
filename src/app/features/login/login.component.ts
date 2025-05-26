@@ -19,10 +19,10 @@ import { ToastService } from '../../shared/toast.service';
 export class LoginComponent {
   loginForm: FormGroup;
   loginStore = inject(LoginStore);
-private toast = inject(ToastService)
+  private toast = inject(ToastService)
   constructor(private fb: FormBuilder, private router: Router) {
     this.loginForm = this.fb.group({
-     username: ['', [Validators.required, Validators.email]],
+      username: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]]
     });
   }
@@ -33,10 +33,10 @@ private toast = inject(ToastService)
       console.log(this.loginForm.value)
       this.loginStore.login(this.loginForm.value);
       console.log(this.loginStore);
-      
+
     }
   }
- 
+
   // signUp() {
   // this.router.navigate(['/summary'])
   // }

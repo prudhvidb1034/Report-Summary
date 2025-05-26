@@ -11,11 +11,12 @@ import { EmployeeUpdateService } from '../../services/employee-update/employee-u
 import { SummaryStore } from '../../state/summary.store';
 import { LoginStore } from '../../state/login.store';
 import { LoginService } from '../../services/login-service/login.service';
+import { tap } from 'rxjs';
 
 @Component({
   selector: 'app-employee-update',
   standalone: true,
-  providers: [SummaryStore,LoginStore],
+  providers: [SummaryStore],
   imports: [IonicModule, CommonModule, ReactiveFormsModule],
   templateUrl: './employee-update.component.html',
   styleUrl: './employee-update.component.scss'
@@ -29,7 +30,13 @@ export class EmployeeUpdateComponent {
   private loginService=inject(LoginService)
   userInfo:any;
   projectInfo='';
+
   ngOnInit() {
+    this.loginStore.user$.pipe(
+      tap(res => {
+        console.log(res)
+      },() => {})
+    ).subscribe()
     this.userInfo = JSON.parse(localStorage.getItem('userList') || '[]');
     console.log("userList",this.userInfo)
     this.summary.getDetails();

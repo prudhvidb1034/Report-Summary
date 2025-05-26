@@ -14,7 +14,6 @@ import { ToastService } from '../../shared/toast.service';
   imports: [IonicModule, ReactiveFormsModule, RouterModule, CommonModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
-  providers: [LoginStore]
 })
 export class LoginComponent {
   loginForm: FormGroup;

@@ -14,13 +14,13 @@
       "techstack": "Frontend"
     },
     {
-      "id": "76b3",
-      "firstName": "Phani",
-      "lastName": "Venkat",
-      "username": "phani@gmail.com",
-      "password": "qwertyui",
-      "confirmPassword": "qwertyui",
-      "employeeId": "qe2025",
+      "id": "91ce",
+      "firstName": "Abhi",
+      "lastName": "Ram",
+      "username": "abhi@gmail.com",
+      "password": "abi@12345",
+      "confirmPassword": "abi@12345",
+      "employeeId": "QE235945",
       "role": "Manager",
       "userEntry": "new"
     },

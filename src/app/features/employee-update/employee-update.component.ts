@@ -27,7 +27,6 @@ export class EmployeeUpdateComponent {
   private summary =  inject(SummaryStore);
   private loginStore=inject(LoginStore);
   private loginService=inject(LoginService)
-  userList$ = this.loginStore.select((state) => state.userList);
   userInfo:any;
   projectInfo='';
   ngOnInit() {
@@ -40,10 +39,7 @@ export class EmployeeUpdateComponent {
       console.log("filter",d)
       console.log(data);
     })
-    this.userList$.subscribe((data:any)=>{
-      console.log("login",data)
-    })
-    
+
    
   this.getProjetcDates()
   }

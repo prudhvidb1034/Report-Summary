@@ -1,60 +1,54 @@
+<ion-card>
+  <ion-card-header class="card-header">
+    <ion-title>Project List</ion-title>
+    <div class="items">
+      <!-- <ion-input
+       class="custom"
+        label="search"
+        label-placement="floating"
+        fill="outline"
+        placeholder="Enter text"
+      ></ion-input> -->
+      <ion-searchbar></ion-searchbar>
 
-<ion-grid>
-  <ion-row class="ion-align-items-center">
+      <ion-col class="ion-text-end" size="auto">
+        <ion-button  style="--background: #000033" class="large-button" (click)="setOpen(true)"
+          >Create Team</ion-button>
+      </ion-col>
+    </div>
+  </ion-card-header>
 
-   <ion-col class="ion-text-start" style="display: flex; align-items: center; gap: 10px;">
-  <p style="margin: 0;">
-    <ion-menu contentId="main-content" [disabled]="false">
-      <ion-header>
-        <ion-toolbar>
-          <ion-title>Menu</ion-title>
-        </ion-toolbar>
-      </ion-header>
-      <ion-content class="ion-padding">
-        This is menu content
-      </ion-content>
-    </ion-menu>
-    
-  
-  </p>
-  <span class="project-title">Teams list</span>
-</ion-col>
+  <ion-card-content style="height: calc(100vh - 190px);
+    overflow: auto;">
+    <ion-list>
+      <ion-grid>
+        <ion-row>
+          <ion-col
+            *ngFor="let project of teamList$ | async"
+            size="12"
+            size-sm="6"
+            size-md="6"
+            size-lg="6"
+          >
+            <ion-card (click)="goToProject(project.id)" class="project-card">
+              <ion-card-header>
+                <ion-card-title style="font-weight: bold;">Project: {{ project.projectname }}</ion-card-title>
+                <ion-card-subtitle>ID: {{ project.id }}</ion-card-subtitle>
+              </ion-card-header>
 
+              <ion-card-content>
+                <p><strong>Location:</strong> {{ project.projectLocation }}</p>
+                <p><strong>Start:</strong> {{ project.startDate || "—" }}</p>
+                <p><strong>End:</strong> {{ project.endDate || "—" }}</p>
+              </ion-card-content>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-list>
+  </ion-card-content>
+</ion-card>
 
-
-    <ion-col class="ion-text-end" size="auto">
-      <ion-button class="large-button" (click)="setOpen(true)">Create Team</ion-button>
-    </ion-col>
-  </ion-row>
-</ion-grid>
-
-<div *ngIf="userList$ | async as userList">
-  <div *ngFor="let user of userList">
-    <p>{{ user.name }}</p>
-  </div>
-</div>
-<ion-grid>
-  <ion-row>
-    <ion-col *ngFor="let project of teamList$ | async" size="12" size-sm="6" size-md="4" size-lg="3">
-      <ion-card (click)="goToProject(project.id)" class="project-card">
-        <ion-card-header>
-          <ion-card-title>{{ project.projectname }}</ion-card-title>
-          <ion-card-subtitle>ID: {{ project.id }}</ion-card-subtitle>
-        </ion-card-header>
-
-        <ion-card-content>
-          <p><strong>Location:</strong> {{ project.projectLocation }}</p>
-          <p><strong>Start:</strong> {{ project.startDate || '—' }}</p>
-          <p><strong>End:</strong> {{ project.endDate || '—' }}</p>
-
-          <!-- <ion-icon name="create-outline" size="small" class="cursor" color="primary"></ion-icon> -->
-
-          <!-- <ion-icon name="trash-outline" size="small" class="cursor" color="danger"
-            (click)="deleteproject(project); $event.stopPropagation()"></ion-icon> -->
-        </ion-card-content>
-      </ion-card>
-    </ion-col>
-  </ion-row>
 
   <ion-row *ngIf="(teamList$ | async)?.length === 0">
     <ion-col size="12">
@@ -65,13 +59,11 @@
       </ion-card>
     </ion-col>
   </ion-row>
-</ion-grid>
 
 
 
 
-
-<ion-modal [isOpen]="isModalOpen" cssClass="custom-modal">
+  <ion-modal [isOpen]="isModalOpen" cssClass="custom-modal">
   <ng-template>
     <ion-header>
       <ion-toolbar>

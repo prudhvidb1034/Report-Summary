@@ -36,9 +36,7 @@ export class DashboardComponent {
   private teamStore = inject(TeamStore);
   teamList$ = this.teamStore.team$;
   private loginStore = inject(LoginStore);
-  userList$: Observable<any[] | null>;
   constructor(){
-    this.userList$=this.loginStore.userList$;
 
   }
 
@@ -51,9 +49,6 @@ export class DashboardComponent {
     const userList = JSON.parse(localStorage.getItem('userList') || '[]');
     console.log("userList",userList)
     
-    this.userList$.subscribe((data: any) => {
-      console.log("login", data)
-    })
   }
 
   goToProject(id: string) {

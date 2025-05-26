@@ -1,4 +1,6 @@
 import { Routes } from '@angular/router';
+import { RoleGuard } from './guards/role.guard';
+
 
 
 export const routes: Routes = [
@@ -13,7 +15,9 @@ export const routes: Routes = [
   },
   {
     path: 'dashboard',
-   loadComponent: () => import('../app/features/dashboard/dashboard.component').then((m) => m.DashboardComponent),
+    loadComponent: () => import('../app/features/dashboard/dashboard.component').then((m) => m.DashboardComponent),
+    canActivate: [RoleGuard],
+    data: { expectedRole: 'manager' }
 
   },
   {
@@ -22,12 +26,26 @@ export const routes: Routes = [
   },
   {
     path: 'summary',
-    loadComponent: () => import('../app/features/summary/summary.component').then((m) => m.SummaryComponent)
+    loadComponent: () => import('../app/features/summary/summary.component').then((m) => m.SummaryComponent),
+   
+    canActivate: [RoleGuard],
+    data: { expectedRole: 'manager' }
   },
    {
-    path: 'employee-update',
-    loadComponent: () => import('../app/features/employee-update/employee-update.component').then((m) => m.EmployeeUpdateComponent)
+    path: 'employee-dashboard',
+    loadComponent: () => import('../app/features/employee-update/employee-update.component').then((m) => m.EmployeeUpdateComponent),
+    canActivate: [RoleGuard],
+    data: { expectedRole: 'employee' }
+  
   },
+  {
+    path: 'not-authorized',
+    loadComponent: () =>
+      import('../app/features/not-authorized/not-authorized.component').then(
+        (m) => m.NotAuthorizedComponent
+      ),
+  }
+,  
  
  { 
    
@@ -35,6 +53,7 @@ export const routes: Routes = [
   loadComponent:() => import('../app/shared/view-reports/view-reports.component').then((m)=>m.ViewReportsComponent)
 
 },
+
   {
     path: '',
     redirectTo: 'login',

@@ -391,7 +391,7 @@
                 </ion-item>
               </ion-col>
 
-              <ion-col size="12" size-md="2">
+              <ion-col size="12" size-md="2" style="text-align: center;">
                 <!-- <ion-button
                   expand="block"
                   type="button"
@@ -411,8 +411,8 @@
                   fill="outline"
                   (click)="removeUpdate(i)"
                   *ngIf="weeklyUpdates.length > 1"
-                  style="height: 56px; margin-top: 8px; cursor: pointer"
-                  color="warning"
+                  style="height: 56px; margin-top: 8px; cursor: pointer;"
+                  color="danger"
                   size="large"
                   name="trash-outline"
                 ></ion-icon>
@@ -434,6 +434,7 @@
                 </ion-button> -->
                 <ion-icon
                   expand="block"
+                  color="primary"
                   type="button"
                   fill="outline"
                   (click)="addMore()"

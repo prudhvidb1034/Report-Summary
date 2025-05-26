@@ -17,34 +17,36 @@ import { ToastComponent } from './shared/toast/toast.component';
 
 })
 export class AppComponent {
-  title = 'report-summary';
-
-  private readonly http = inject(HttpClient);
+   private readonly http = inject(HttpClient);
   private readonly apiUrl = 'http://localhost:3000/register';
   private readonly login = inject(LoginService);
   roles: any = ''
   private router = inject(Router)
   public loginService = inject(LoginService);
    private menuCtrl = inject(MenuController)
-
+   userRole: string = '';
   isLoggedIn = true;
+ 
+  
   ngOnInit() {
     // this.loginService.loginCheck().subscribe((s) => {
     //   console.log(s);
     // })
+    this.userRole = localStorage.getItem('userRole') || '';
+
   }
 
 
   navigateToWkSmry() {
-    this.router.navigate(['/summary'])
-    this.menuCtrl.toggle();
+    this.router.navigate(['/summary']).then(() => {
+    
+      this.menuCtrl.close();
+    });
   }
-  navigateToEmployeeUpdate() {
-    this.router.navigate(['/employee-update'])
-  this.menuCtrl.toggle();
-  }
+  
+//    toggleMenu() {
+//   this.menuCtrl.toggle();
+// }
+}
 
-  toggleMenu() {
-  this.menuCtrl.toggle();
-}
-}
+

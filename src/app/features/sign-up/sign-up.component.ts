@@ -16,12 +16,12 @@ import { SummaryService } from '../../services/summary/summary.service';
   imports: [IonicModule, CommonModule, ReactiveFormsModule],
   templateUrl: './sign-up.component.html',
   styleUrl: './sign-up.component.scss',
-  providers: [RegisterStore,TeamStore],
+  providers: [RegisterStore, TeamStore],
 })
 export class SignUpComponent {
   teamList = signal<createTeam[]>([]);
-  teamListData :any[]=[]
-  private teamStore=inject(TeamStore);
+  teamListData: any[] = []
+  private teamStore = inject(TeamStore);
   teamList$ = this.teamStore.team$;
   private readonly fb = inject(FormBuilder);
   @Input() heading: string = 'Sign Up';
@@ -29,12 +29,12 @@ export class SignUpComponent {
   @Input() customMargin: string = 'auto';
   @Output() closeModal = new EventEmitter<void>();
 
-  
+
   private readonly store = inject(RegisterStore);
   private signup = inject(SignUpService);
   projects: any = [];
   private summary = inject(SummaryService);
-  private toast =inject( ToastService)
+  private toast = inject(ToastService)
   private router = inject(Router)
   registrationForm !: FormGroup;
   error$ = this.store.error$;
@@ -42,64 +42,64 @@ export class SignUpComponent {
   register$ = this.store.register$;
 
   constructor() {
-     }
-ngOnInit(){
-  this.teamStore.getTeam();
-this.createForm();
-  console.log('prudhvi',this.teamList$)
-  this.teamStore.team$.subscribe((data:any)=>{
-     this.teamListData= data
-  console.log(this.teamListData,'ZaheerKhan')
-  })
-  console.log('varma', this.teamStore.team$)
-
-  this.getProjects()
-}
-
-createForm(){
-  this.registrationForm = this.fb.group({
-    firstName: ['', [Validators.required]],
-    lastName: ['', [Validators.required]],
-    username: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required, Validators.minLength(8)]],
-    confirmPassword: ['', [Validators.required]],
-    employeeId: ['', [Validators.required]],
-    role: ['Manager'],
-    userEntry:['new']
-  },{ validators: this.passwordMatchValidator }
-  )
-  if(this.includeProjectFields){
-    this.registrationForm.addControl('projectName', this.fb.control(''));
-    this.registrationForm.addControl('techstack', this.fb.control(''));
-    this.registrationForm.get('role')?.setValue('Employee');
   }
-}
+  ngOnInit() {
+    this.teamStore.getTeam();
+    this.createForm();
+    console.log('prudhvi', this.teamList$)
+    this.teamStore.team$.subscribe((data: any) => {
+      this.teamListData = data
+      console.log(this.teamListData, 'ZaheerKhan')
+    })
+    console.log('varma', this.teamStore.team$)
+
+    this.getProjects()
+  }
+
+  createForm() {
+    this.registrationForm = this.fb.group({
+      firstName: ['', [Validators.required]],
+      lastName: ['', [Validators.required]],
+      username: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(8)]],
+      confirmPassword: ['', [Validators.required]],
+      employeeId: ['', [Validators.required]],
+      role: ['Manager'],
+      userEntry: ['new']
+    }, { validators: this.passwordMatchValidator }
+    )
+    if (this.includeProjectFields) {
+      this.registrationForm.addControl('projectName', this.fb.control(''));
+      this.registrationForm.addControl('techstack', this.fb.control(''));
+      this.registrationForm.get('role')?.setValue('Employee');
+    }
+  }
 
   passwordMatchValidator(formGroup: AbstractControl): { [key: string]: boolean } | null {
     const password = formGroup.get('password')?.value;
     const confirmPassword = formGroup.get('confirmPassword')?.value;
-  
+
     return password && confirmPassword && password !== confirmPassword
       ? { passwordMismatch: true }
       : null;
   }
-  
+
 
   onSubmit() {
     if (this.registrationForm.valid) {
       const formData = { ...this.registrationForm.value };
-  
+
       if (this.includeProjectFields) {
         const teamId = localStorage.getItem('selectedTeamId');
         if (teamId) {
-          formData.teamId = teamId; 
+          formData.teamId = teamId;
         }
       }
-  
+
       console.log('Submitting:', formData);
-      this.store.addregister(formData); 
+      this.store.addregister(formData);
       this.toast.show('success', 'Registration completed successfully!');
-  
+
       if (this.includeProjectFields) {
         this.onCloseClick();
       } else {
@@ -109,9 +109,9 @@ createForm(){
       this.registrationForm.markAllAsTouched();
     }
   }
-  
-  
-  onCloseClick(){
+
+
+  onCloseClick() {
     this.closeModal.emit();
   }
 

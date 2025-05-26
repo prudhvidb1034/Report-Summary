@@ -2,11 +2,6 @@ import { Component, EventEmitter, inject, Input, Output, output, signal } from '
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, AbstractControl, FormArray } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
-import { RegisterStore } from '../../state/register.store';
-import { SignUpService } from '../../services/sign-up/sign-up.service';
-import { Router } from '@angular/router';
-import { createTeam } from '../../models/project.model';
-import { TeamStore } from '../../state/team.store';
 import { EmployeeUpdateService } from '../../services/employee-update/employee-update.service';
 import { SummaryStore } from '../../state/summary.store';
 import { LoginStore } from '../../state/login.store';
@@ -46,8 +41,8 @@ export class EmployeeUpdateComponent {
 
    getProjetcDates() {
     this.employeeupdate.getDates().subscribe((val: any) => {
-    console.log(val);
-    this.Dates = val
+       this.Dates = val;
+       console.log(this.Dates)
     })
   }
 

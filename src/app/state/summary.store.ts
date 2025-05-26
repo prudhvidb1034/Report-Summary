@@ -77,8 +77,7 @@ readonly getDetails = this.effect((trigger$: Observable<void>) =>
 readonly addEmployeeTask = this.effect<any>((employee$) =>
   employee$.pipe(
     switchMap(( employeeInfo) => {
-     // const newTask = { date, task };
-      return this.summeryService
+           return this.summeryService
         .postWeeklyReport (employeeInfo.project_id, employeeInfo )
         .pipe(
           tapResponse(

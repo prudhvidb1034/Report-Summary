@@ -12,10 +12,8 @@ import { IonicModule, MenuController } from '@ionic/angular';
 })
 export class HeaderComponent {
   showLogout: boolean = false;
-  // @Input() showLogout = true;
-  // showLogout: boolean = false
 
-  
+
   ngOnInIt() {
 
   }
@@ -30,14 +28,14 @@ export class HeaderComponent {
     });
   }
 
-  
-toggleMenu() {
-  this.menuCtrl.toggle();
-}
+
+  toggleMenu() {
+    this.menuCtrl.toggle();
+  }
 
   onLogout() {
-        this.router.navigate(['/login']);
-    // localStorage.removeItem('userRole');
- localStorage.clear()
+    this.router.navigate(['/login']);
+
+    localStorage.clear()
   }
 }

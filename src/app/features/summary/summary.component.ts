@@ -50,23 +50,6 @@ export class SummaryComponent {
     this.dateError = null;
     return true;
   }
-  // // For proper object comparison in select
-  // compareWith(o1: any, o2: any): boolean {
-  //   return o1 && o2 ? o1.id === o2.id : o1 === o2;
-  // }
-
-  // Custom date validator
-
-  // dateComparisonValidator(weekSummaryForm: FormGroup) {
-  //   const start = weekSummaryForm.get('startDate')?.value;
-  //   const end = weekSummaryForm.get('endDate')?.value;
-  //   if (!start || !end) return null;
-  //   const startDate = new Date(start);
-  //   const endDate = new Date(end);
-  //   return startDate <= endDate ? null : { endDateBeforeStart: true };
-  // }
-
-
 
   getProjects() {
     this.summary.getProjectTitles().subscribe((val: any) => {
@@ -76,17 +59,12 @@ export class SummaryComponent {
 
   onSubmit() {
 
-    // const startDate = new Date(this.weekSummaryForm.value.startDate);
-    // const endDate = new Date(this.weekSummaryForm.value.endDate);
-
     if (!this.validateDates()) {
       alert(this.dateError);
       return;
     }
     if (this.weekSummaryForm) {
-      // Handle form submission if dates are valid
       console.log(this.weekSummaryForm.value);
-      // Your submission logic here
       const transformedState = {
         project_id: this.weekSummaryForm.value.id,
         project_name: this.weekSummaryForm.value.project.projectname,
@@ -99,10 +77,6 @@ export class SummaryComponent {
 
 
   }
-  // this.summary.postWeeklySummary(this.weekSummaryForm.value).subscribe((val:any)=>{
-  //   console.log(val);
-
-  // })
 }
 
 

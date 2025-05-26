@@ -27,9 +27,7 @@ export class ProjectsComponent {
     this.createEmployeeForm();
     this.getRegisterStore.getRegisterData();
 
-    //  this.teamRegisterList$.subscribe((data:any)=>{
-    //   console.log(data)
-    // })
+   
   }
 
   createEmployeeForm() {

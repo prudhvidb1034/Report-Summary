@@ -20,7 +20,7 @@ import { SummaryService } from '../../services/summary/summary.service';
 })
 export class SignUpComponent {
   teamList = signal<createTeam[]>([]);
-  teamListData: any[] = []
+  teamListData: createTeam[] = []
   private teamStore = inject(TeamStore);
   teamList$ = this.teamStore.team$;
   private readonly fb = inject(FormBuilder);
@@ -32,7 +32,7 @@ export class SignUpComponent {
 
   private readonly store = inject(RegisterStore);
   private signup = inject(SignUpService);
-  projects: any = [];
+  projects: createTeam[] = [];
   private summary = inject(SummaryService);
   private toast = inject(ToastService)
   private router = inject(Router)
@@ -117,7 +117,9 @@ export class SignUpComponent {
 
   getProjects() {
     this.summary.getProjectTitles().subscribe((val: any) => {
+
       this.projects = val.map((project: any) => project.projectname);
+
     })
   }
 }

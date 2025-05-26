@@ -4,6 +4,7 @@ import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { FormGroup, FormControl, Validators, FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { SummaryStore } from '../../state/summary.store';
+import { createTeam } from '../../models/project.model';
 
 @Component({
   selector: 'app-summary',
@@ -14,7 +15,7 @@ import { SummaryStore } from '../../state/summary.store';
   styleUrl: './summary.component.scss'
 })
 export class SummaryComponent {
-  projects: any = [];
+  projects: createTeam[] = [];
   private summary = inject(SummaryService);
   weekSummaryForm !: FormGroup;
   private readonly store = inject(SummaryStore);

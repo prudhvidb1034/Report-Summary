@@ -6,6 +6,7 @@ import { EmployeeUpdateService } from '../../services/employee-update/employee-u
 import { SummaryStore } from '../../state/summary.store';
 import { LoginStore } from '../../state/login.store';
 import { LoginService } from '../../services/login-service/login.service';
+import { Project } from '../../models/summary.model';
 
 @Component({
   selector: 'app-employee-update',
@@ -17,7 +18,7 @@ import { LoginService } from '../../services/login-service/login.service';
 })
 export class EmployeeUpdateComponent {
   private readonly employeeupdate = inject(EmployeeUpdateService);
-  Dates:any=[];
+  Dates:Project[]=[];
    dateError: string | null = null;
   private summary =  inject(SummaryStore);
   private loginStore=inject(LoginStore);
@@ -25,6 +26,9 @@ export class EmployeeUpdateComponent {
   userInfo:any;
   projectInfo='';
   ngOnInit() {
+
+     
+  this.getProjetcDates()
     this.userInfo = JSON.parse(localStorage.getItem('userList') || '[]');
     console.log("userList",this.userInfo)
     this.summary.getDetails();
@@ -35,8 +39,7 @@ export class EmployeeUpdateComponent {
       console.log(data);
     })
 
-   
-  this.getProjetcDates()
+  
   }
 
    getProjetcDates() {

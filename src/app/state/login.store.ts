@@ -30,6 +30,7 @@ export class LoginStore extends ComponentStore<LoginState> {
           if (user) {
             
             const role = user.role?.toLowerCase(); 
+            localStorage.setItem('userList', role);
             localStorage.setItem('userRole', role);
             if (role === 'manager') {
               this.router.navigate(['/dashboard']);

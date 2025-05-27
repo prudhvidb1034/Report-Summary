@@ -39,6 +39,7 @@
       "teamId": "8b26"
     },
     {
+<<<<<<< HEAD
       "id": "1d0c",
       "firstName": "Phaneendra",
       "lastName": "Gatta",
@@ -61,6 +62,20 @@
       "userEntry": "new",
       "projectName": "customer365",
       "techstack": "Frontend"
+=======
+      "id": "678b",
+      "firstName": "sarathchandra",
+      "lastName": "tenneti",
+      "username": "sarath123@qentelli.com",
+      "password": "Sarath11@",
+      "confirmPassword": "Sarath11@",
+      "employeeId": "QW9090",
+      "role": "Employee",
+      "userEntry": "new",
+      "projectName": "instaBiZZ",
+      "techstack": "Backend",
+      "teamId": "8ede"
+>>>>>>> 7bec575138752b8a7fbfdcae5c4d0c26b5899523
     }
   ],
   "teamslist": [
@@ -114,6 +129,7 @@
       "endDate": "5678-03-12"
     },
     {
+<<<<<<< HEAD
       "id": "221e",
       "projectname": "service360",
       "projectlocation": "Hyd",
@@ -126,6 +142,13 @@
       "projectlocation": "vjd",
       "startDate": "2025-05-20",
       "endDate": "2025-05-28"
+=======
+      "id": "8ede",
+      "projectname": "instaBiZZ",
+      "projectlocation": "Hyderabad",
+      "startDate": "2025-05-12",
+      "endDate": null
+>>>>>>> 7bec575138752b8a7fbfdcae5c4d0c26b5899523
     }
   ],
   "projects": [

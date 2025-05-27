@@ -3,13 +3,13 @@ import { ComponentStore } from '@ngrx/component-store';
 import { Router } from '@angular/router';
 import { Observable, switchMap, tap } from 'rxjs';
 import { LoginService } from '../services/login-service/login.service';
-import { LoginCredentials } from '../models/login.model';
+import { LoginCredentials, User } from '../models/login.model';
 import { ToastService } from '../shared/toast.service';
 
 interface LoginState {
   loading: boolean;
   error: string | null;
-  user: { role: string } | null;
+  user: User | null;
 }
 
 @Injectable({
@@ -17,7 +17,6 @@ interface LoginState {
 })
 export class LoginStore extends ComponentStore<LoginState> {
   private toast = inject(ToastService);
-
   constructor(private auth: LoginService, private router: Router) {
     super({ loading: false, error: null,user:null });
   }
@@ -28,10 +27,13 @@ export class LoginStore extends ComponentStore<LoginState> {
       this.auth.loginCheck(credentials).pipe(
         tap(({ user }) => {
           if (user) {
-            
+            this.patchState({
+              user
+            })
             const role = user.role?.toLowerCase(); 
-            localStorage.setItem('userList', role);
-            localStorage.setItem('userRole', role);
+            
+            // localStorage.setItem('userList', role);
+            // localStorage.setItem('', role);
             if (role === 'manager') {
               this.router.navigate(['/dashboard']);
             } else if (role === 'employee') {
@@ -52,4 +54,27 @@ export class LoginStore extends ComponentStore<LoginState> {
   )
 );
 
+  //   readonly login = this.effect((credentials$) =>
+  //     credentials$.pipe(
+  //       tap(() => this.setState({ loading: true, error: null })),
+  //       switchMap(credentials =>
+  //         this.auth.loginCheck(credentials).pipe(
+  //           tap(({ user }) => {
+  //             if (user) {
+  //               if (user.userEntry === 'existingUser') {
+  //                 this.router.navigate(['/dashboard']);
+  //               } else {
+  //                 this.router.navigate(['/reset-password']);
+  //               }
+  //             } else {
+  //               this.patchState({ error: 'Invalid username or password' });
+  //             }
+  //           }),
+  //           tap(() => this.patchState({ loading: false }))
+  //         )
+  //       )
+  //     )
+  //   );
+
+  readonly user$ = this.select(state => state.user);
 }

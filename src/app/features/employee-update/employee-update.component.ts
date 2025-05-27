@@ -7,11 +7,12 @@ import { SummaryStore } from '../../state/summary.store';
 import { LoginStore } from '../../state/login.store';
 import { LoginService } from '../../services/login-service/login.service';
 import { Project } from '../../models/summary.model';
+import { tap } from 'rxjs';
 
 @Component({
   selector: 'app-employee-update',
   standalone: true,
-  providers: [SummaryStore,LoginStore],
+  providers: [SummaryStore],
   imports: [IonicModule, CommonModule, ReactiveFormsModule],
   templateUrl: './employee-update.component.html',
   styleUrl: './employee-update.component.scss'
@@ -25,16 +26,24 @@ export class EmployeeUpdateComponent {
   private loginService=inject(LoginService)
   userInfo:any;
   projectInfo='';
+
   ngOnInit() {
 
      
   this.getProjetcDates()
-    this.userInfo = JSON.parse(localStorage.getItem('userList') || '[]');
+    this.loginStore.user$.pipe(
+      tap(res => {
+        console.log(res)
+        this.userInfo=res;
+      },() => {})
+    ).subscribe()
+    
+    // this.userInfo = JSON.parse(localStorage.getItem('userList') || '[]');
     console.log("userList",this.userInfo)
     this.summary.getDetails();
     this.summary.projects$.subscribe((data:any)=>{
       var d=data.find((ele:any)=>ele.project_name===this.userInfo.projectName);
-      this.projectInfo=d.id;
+      this.projectInfo=d?.id;
       console.log("filter",d)
       console.log(data);
     })

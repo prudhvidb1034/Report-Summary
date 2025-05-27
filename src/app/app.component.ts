@@ -3,9 +3,11 @@ import { HttpClient } from '@angular/common/http';
 import { Component, inject } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 import { IonicModule, MenuController } from '@ionic/angular';
+import { tap } from 'rxjs';
 import { HeaderComponent } from './features/header/header.component';
 import { LoginService } from './services/login-service/login.service';
 import { ToastComponent } from './shared/toast/toast.component';
+import { LoginStore } from './state/login.store';
 
 
 @Component({
@@ -26,15 +28,31 @@ export class AppComponent {
   private router = inject(Router)
   public loginService = inject(LoginService);
    private menuCtrl = inject(MenuController)
-   userRole: string = '';
+   userRole: string |undefined;
   isLoggedIn = true;
- 
+  private  loginStore = inject(LoginStore)
   
-  ngOnInit() {
+  // ngOnInit() {
     
-    this.userRole = localStorage.getItem('userRole') || '';
+  //   // this.userRole = localStorage.getItem('userRole') || '';
 
+  //   this.loginStore.user$.pipe(
+  //     tap(res => {
+  //       console.log(res)
+  //       this.userRole =res?.role.toLocaleLowerCase()
+  //     }).subscribe()
+
+  // }
+
+  ngOnInit() {
+    this.loginStore.user$.pipe(
+      tap(res => {
+        console.log(res);
+        this.userRole = res?.role.toLocaleLowerCase();
+      })
+    ).subscribe();
   }
+  
 
 
   navigateToWkSmry() {

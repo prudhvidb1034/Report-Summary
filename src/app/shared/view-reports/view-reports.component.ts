@@ -7,12 +7,18 @@ import { SummaryStore } from '../../state/summary.store';
   standalone: true,
   imports: [IonicModule],
   templateUrl: './view-reports.component.html',
-  styleUrl: './view-reports.component.scss'
+  styleUrl: './view-reports.component.scss',
+  providers:[SummaryStore]
+  
 })
 export class ViewReportsComponent {
 
   private summary = inject(SummaryStore)
    ngOnInit(){
-    console.log(this.summary)
+    // this.summary.projects$.subscribe((s)=>{
+    //   console.log(s);
+
+    // })
+    // console.log(this.summary.getDetails())
    }
 }

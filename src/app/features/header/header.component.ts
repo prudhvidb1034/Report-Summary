@@ -12,11 +12,17 @@ import { IonicModule, MenuController } from '@ionic/angular';
 })
 export class HeaderComponent {
   showLogout: boolean = false;
-  // @Input() showLogout = true;
+   @Input() showSideMenu :boolean = false;
   // showLogout: boolean = false
 
   
   ngOnInIt() {
+    // if(this.showSideMenu){
+    //   this.toggleMenu();
+    //   alert('hi')
+    // }
+    console.log(this.showSideMenu);
+    
 
   }
 

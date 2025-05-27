@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
+import { SummaryStore } from '../../state/summary.store';
 
 @Component({
   selector: 'app-view-reports',
@@ -10,4 +11,8 @@ import { IonicModule } from '@ionic/angular';
 })
 export class ViewReportsComponent {
 
+  private summary = inject(SummaryStore)
+   ngOnInit(){
+    console.log(this.summary)
+   }
 }

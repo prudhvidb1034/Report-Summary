@@ -138,7 +138,8 @@ export class EmployeeUpdateComponent {
         employee_name:this.userInfo.firstName,
         summary:this.employeeUpdateForm.value.summary,
         daily_updates:this.employeeUpdateForm.value.weeklyUpdates,
-        projectName:this.userInfo.projectName
+        projectName:this.userInfo.projectName,
+        techstack:this.userInfo.techstack
       }
       this.summary.addEmployeeTask(employee);
       console.log('Form submitted:', this.employeeUpdateForm.value);

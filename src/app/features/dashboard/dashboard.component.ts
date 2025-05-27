@@ -36,25 +36,29 @@ export class DashboardComponent {
   private teamStore = inject(TeamStore);
   teamList$ = this.teamStore.team$;
   private loginStore = inject(LoginStore);
-  constructor(){
+  constructor() {
 
   }
 
- // userList$ = this.loginStore.select((state) => state.userList);
+  // userList$ = this.loginStore.select((state) => state.userList);
 
   ngOnInit() {
     this.CreateForm();
     this.teamStore.getTeam();
 
     const userList = JSON.parse(localStorage.getItem('userList') || '[]');
-    console.log("userList",userList)
-    
+    console.log("userList", userList)
+
   }
 
-  goToProject(id: string) {
+  goToProject(project: createTeam) {
+    console.log(project);
 
-    localStorage.setItem('selectedTeamId', id)
-    this.router.navigate(['/project', id]);
+    // localStorage.setItem('selectedTeamId', id)
+
+    // console.log(localStorage.getItem('id'));
+
+    this.router.navigate(['/project', project.id]);
 
   }
 
@@ -76,6 +80,7 @@ export class DashboardComponent {
       endDate: ['']
 
     })
+    
   }
 
 
@@ -85,20 +90,17 @@ export class DashboardComponent {
       this.teamStore.addTeam(response);
       this.setOpen(false);
       this.teamForm.reset();
-
       this.toast.show('success', 'Project created successfully!')
-
     } else {
-
-
       this.toast.show('error', 'Please fill in all required fields.')
-
       this.teamForm.markAllAsTouched()
     }
   }
 
 
+// deleteProject(){
 
+// }
 
 
 }

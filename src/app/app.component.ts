@@ -11,13 +11,15 @@ import { ToastComponent } from './shared/toast/toast.component';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, HeaderComponent, IonicModule, CommonModule,ToastComponent],
+  imports: [RouterOutlet, HeaderComponent, IonicModule, CommonModule, ToastComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 
 })
 export class AppComponent {
-   private readonly http = inject(HttpClient);
+  title = 'report-summary';
+  showSideNav: boolean = false;
+  private readonly http = inject(HttpClient);
   private readonly apiUrl = 'http://localhost:3000/register';
   private readonly login = inject(LoginService);
   roles: any = ''
@@ -39,7 +41,6 @@ export class AppComponent {
 
   navigateToWkSmry() {
     this.router.navigate(['/summary']).then(() => {
-    
       this.menuCtrl.close();
     });
   }

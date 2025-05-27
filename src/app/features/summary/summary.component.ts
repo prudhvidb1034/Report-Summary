@@ -92,6 +92,7 @@ export class SummaryComponent {
         project_name: this.weekSummaryForm.value.project.projectname,
         start_date: this.weekSummaryForm.value.startDate,
         end_date: this.weekSummaryForm.value.endDate,
+        description: this.weekSummaryForm.value.description,
         employees: []
       };
       this.store.weeklyReport(transformedState)

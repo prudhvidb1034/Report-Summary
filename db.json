@@ -37,6 +37,30 @@
       "projectName": "Prudhvi varma",
       "techstack": "Testing",
       "teamId": "8b26"
+    },
+    {
+      "id": "1d0c",
+      "firstName": "Phaneendra",
+      "lastName": "Gatta",
+      "username": "phani@gmail.com",
+      "password": "phani123#G",
+      "confirmPassword": "phani123#G",
+      "employeeId": "qe2025",
+      "role": "Manager",
+      "userEntry": "new"
+    },
+    {
+      "id": "9000",
+      "firstName": "Phnai",
+      "lastName": "Gatta",
+      "username": "phani.gatta@gmail.com",
+      "password": "phani123#G",
+      "confirmPassword": "phani123#G",
+      "employeeId": "qe2025",
+      "role": "Employee",
+      "userEntry": "new",
+      "projectName": "customer365",
+      "techstack": "Frontend"
     }
   ],
   "teamslist": [
@@ -88,6 +112,20 @@
       "projectlocation": "HderABAD",
       "startDate": "4567-03-12",
       "endDate": "5678-03-12"
+    },
+    {
+      "id": "221e",
+      "projectname": "service360",
+      "projectlocation": "Hyd",
+      "startDate": "2025-05-12",
+      "endDate": "2025-05-28"
+    },
+    {
+      "id": "03cf",
+      "projectname": "service360",
+      "projectlocation": "vjd",
+      "startDate": "2025-05-20",
+      "endDate": "2025-05-28"
     }
   ],
   "projects": [

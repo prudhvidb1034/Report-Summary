@@ -7,9 +7,9 @@
             <span class="card-title">Summary</span>
           </ion-card-header>
           <ion-card-content>
-            <ul>
-              <li>BE: Focus on party domain service from MuleSoft</li>
-              <li>UI: Focus on analyzing bugs on ACH payments in credit now</li>
+            
+            <ul *ngFor="let p of foundProject.employees">
+              <li>{{p.summary}}</li>
             </ul>
           </ion-card-content>
         </ion-card>
@@ -22,11 +22,9 @@
             <span class="card-title">Key Accomplishments</span>
           </ion-card-header>
           <ion-card-content>
-            <ul class="tick-list">
-              <li>UI – Analyzed bugs and fixed issues in ACH payments</li>
-              <li>Updated Service IDs & domain services</li>
-              <li>Created placeholders for controller/services</li>
-              <li>Completed Git Repo creation and Infra setup</li>
+            <ul *ngFor="let p of dailyUpdates">
+              <li>{{p.task}}</li>
+              
             </ul>
           </ion-card-content>
         </ion-card>
@@ -41,10 +39,10 @@
             <ion-icon name="people-circle-outline" class="card-icon"></ion-icon>
             <span class="card-title">Resources Allocated</span>
           </ion-card-header>
-          <ion-card-content>
-            <p><strong>Frontend:</strong> Raghava B</p>
-            <p><strong>Backend:</strong> Ramesh G</p>
-            <p><strong>Other:</strong> (Optional)</p>
+          <ion-card-content *ngFor="let s of foundProject.employees">
+            <p><strong>{{s.techstack}}</strong>&nbsp;{{s.employee_name}}</p>
+            <!-- <p><strong>Backend:</strong> Ramesh G</p>
+            <p><strong>Other:</strong> (Optional)</p> -->
           </ion-card-content>
         </ion-card>
       </ion-col>
@@ -56,7 +54,7 @@
             <span class="card-title">Activities for Upcoming Week</span>
           </ion-card-header>
           <ion-card-content>
-            <ol class="numbered-list">
+            <!-- <ol class="numbered-list">
               <li>No new stories – Will continue working on bugs</li>
               <li>Promote FIS, Sageworks, Credit facility to staging</li>
               <li>Microsoft Graph Adapter – Sanity deployment</li>
@@ -68,7 +66,8 @@
               <li>Infra: Setup monitoring dashboards</li>
               <li>Update test cases for ACH modules</li>
               
-            </ol>
+            </ol> -->
+          <p><strong>There are no upcoming tasks as of now...</strong></p>
           </ion-card-content>
         </ion-card>
       </ion-col>

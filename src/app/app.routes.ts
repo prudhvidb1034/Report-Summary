@@ -49,7 +49,7 @@ export const routes: Routes = [
  
  { 
    
-  path:'view-reports',
+  path:'view-reports/:id',
   loadComponent:() => import('../app/shared/view-reports/view-reports.component').then((m)=>m.ViewReportsComponent)
 
 },

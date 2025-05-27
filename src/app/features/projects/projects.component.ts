@@ -35,7 +35,8 @@ export class ProjectsComponent {
   projectid: any = ''
   projects: any = [];
   selectedProject: any = []
-  employeesofproject: any;
+  employeesofproject: any=[];
+  matchingProject:any={}
 
   // private teamStore = inject(TeamStore);
   // teamList$ = this.teamStore.team$;
@@ -66,14 +67,18 @@ export class ProjectsComponent {
           this.selectedProject = teams.find((team:any)=> team.id == this.projectid);
           if (!this.selectedProject) return;
 
+          console.log(this.selectedProject);
+
           // Find and process matching project
-          const matchingProject = this.projects.find(
+          this.matchingProject = this.projects.find(
             (project:any)=> project.project_name === this.selectedProject.projectname
           );
 
-          if (matchingProject) {
+          console.log(this.matchingProject);
+          
+          if (this.matchingProject) {
             // Extract all employees of the project
-            const employeesOfProject = matchingProject.employees.flat();
+            const employeesOfProject = this.matchingProject.employees.flat();
             console.log('Employees of Project:', employeesOfProject);
             
             // Store it in a class variable if you need to use it in the template
@@ -110,6 +115,6 @@ export class ProjectsComponent {
 
 
   openModal() {
-    this.route.navigateByUrl('view-reports')
+    this.route.navigate(['/view-reports', this.matchingProject.id])
   }
 }

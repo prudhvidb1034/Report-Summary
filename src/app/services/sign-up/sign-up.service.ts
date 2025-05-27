@@ -12,20 +12,14 @@ import { RegistrationForm } from '../../models/register.mode';
 export class SignUpService {
 
   private readonly http = inject(HttpClient);
-  // constructor() { }
-
-   private readonly apiUrl = 'http://localhost:3000/register';
-
-  // constructor(private http: HttpClient) {}
-
-    registerUser(reg: RegistrationForm): Observable<RegistrationForm> {
+  private readonly apiUrl = 'http://localhost:3000/register';
+  registerUser(reg: RegistrationForm): Observable<RegistrationForm> {
     console.log(reg)
-    // this.getUsers();
     return this.http.post<RegistrationForm>(this.apiUrl, reg);
   }
- 
+
   getUsers(): Observable<RegistrationForm[]> {
     return this.http.get<RegistrationForm[]>(this.apiUrl);
   }
-  
+
 }

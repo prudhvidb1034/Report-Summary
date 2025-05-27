@@ -1,13 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { NavigationStart, Router, RouterModule } from '@angular/router';
+import {  Router, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
-import { filter, Observable } from 'rxjs';
-import { environment } from '../../../environments/environment';
-import { Constants } from '../../constants/string-constants';
 import { createTeam } from '../../models/project.model';
-import { LoginService } from '../../services/login-service/login.service';
 import { TeamListService } from '../../services/team-list/team-list.service';
 import { ToastService } from '../../shared/toast.service';
 import { LoginStore } from '../../state/login.store';
@@ -30,7 +26,6 @@ export class DashboardComponent {
   teamForm !: FormGroup;
   private fb = inject(FormBuilder)
   private toast = inject(ToastService)
-  private shareservice = inject(TeamListService)
   private router = inject(Router)
   teamList = signal<createTeam[]>([]);
   private teamStore = inject(TeamStore);
@@ -39,34 +34,25 @@ export class DashboardComponent {
   constructor() {
 
   }
-
-  // userList$ = this.loginStore.select((state) => state.userList);
-
   ngOnInit() {
     this.CreateForm();
     this.teamStore.getTeam();
-
     const userList = JSON.parse(localStorage.getItem('userList') || '[]');
     console.log("userList", userList)
 
+   
   }
 
-  goToProject(project: createTeam) {
-    console.log(project);
+  goToProject(id: string) {
 
-    // localStorage.setItem('selectedTeamId', id)
-
-    // console.log(localStorage.getItem('id'));
-
-    this.router.navigate(['/project', project.id]);
+    localStorage.setItem('selectedTeamId', id)
+    this.router.navigate(['/project', id]);
 
   }
 
 
   setOpen(isOpen: boolean) {
-    // this.teamList$.subscribe((data:any)=>{
-    //   console.log(data)
-    // })
+  
     this.isModalOpen = isOpen;
     this.teamForm.reset()
   }
@@ -92,7 +78,7 @@ export class DashboardComponent {
       this.teamForm.reset();
       this.toast.show('success', 'Project created successfully!')
     } else {
-      this.toast.show('error', 'Please fill in all required fields.')
+     this.toast.show('error', 'Please fill in all required fields.')
       this.teamForm.markAllAsTouched()
     }
   }

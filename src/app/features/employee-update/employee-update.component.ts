@@ -2,15 +2,11 @@ import { Component, EventEmitter, inject, Input, Output, output, signal } from '
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, AbstractControl, FormArray } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
-import { RegisterStore } from '../../state/register.store';
-import { SignUpService } from '../../services/sign-up/sign-up.service';
-import { Router } from '@angular/router';
-import { createTeam } from '../../models/project.model';
-import { TeamStore } from '../../state/team.store';
 import { EmployeeUpdateService } from '../../services/employee-update/employee-update.service';
 import { SummaryStore } from '../../state/summary.store';
 import { LoginStore } from '../../state/login.store';
 import { LoginService } from '../../services/login-service/login.service';
+import { Project } from '../../models/summary.model';
 
 @Component({
   selector: 'app-employee-update',
@@ -22,7 +18,7 @@ import { LoginService } from '../../services/login-service/login.service';
 })
 export class EmployeeUpdateComponent {
   private readonly employeeupdate = inject(EmployeeUpdateService);
-  Dates:any=[];
+  Dates:Project[]=[];
    dateError: string | null = null;
   private summary =  inject(SummaryStore);
   private loginStore=inject(LoginStore);
@@ -30,6 +26,9 @@ export class EmployeeUpdateComponent {
   userInfo:any;
   projectInfo='';
   ngOnInit() {
+
+     
+  this.getProjetcDates()
     this.userInfo = JSON.parse(localStorage.getItem('userList') || '[]');
     console.log("userList",this.userInfo)
     this.summary.getDetails();
@@ -40,14 +39,13 @@ export class EmployeeUpdateComponent {
       console.log(data);
     })
 
-   
-  this.getProjetcDates()
+  
   }
 
    getProjetcDates() {
     this.employeeupdate.getDates().subscribe((val: any) => {
-    console.log(val);
-    this.Dates = val
+       this.Dates = val;
+       console.log(this.Dates)
     })
   }
 

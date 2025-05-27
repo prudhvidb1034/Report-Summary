@@ -31,9 +31,7 @@ export class AppComponent {
  
   
   ngOnInit() {
-    // this.loginService.loginCheck().subscribe((s) => {
-    //   console.log(s);
-    // })
+    
     this.userRole = localStorage.getItem('userRole') || '';
 
   }
@@ -42,6 +40,8 @@ export class AppComponent {
   navigateToWkSmry() {
     this.router.navigate(['/summary']).then(() => {
       this.menuCtrl.close();
+    
+      // this.menuCtrl.close();
     });
   }
   

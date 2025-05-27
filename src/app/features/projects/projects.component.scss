@@ -7,8 +7,7 @@
     justify-content: center;
   }
     ion-modal.custom-modal::part(content) {
-    // height: 96%;
-       --width: 500px;
+           --width: 500px;
     --border-radius: 10px;
     --box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
     margin-top: 0px;

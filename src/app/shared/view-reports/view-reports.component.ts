@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 import { SummaryStore } from '../../state/summary.store';
+import { LoginStore } from '../../state/login.store';
 
 @Component({
   selector: 'app-view-reports',
@@ -8,17 +9,12 @@ import { SummaryStore } from '../../state/summary.store';
   imports: [IonicModule],
   templateUrl: './view-reports.component.html',
   styleUrl: './view-reports.component.scss',
-  providers:[SummaryStore]
+  providers:[SummaryStore,LoginStore]
   
 })
 export class ViewReportsComponent {
 
-  private summary = inject(SummaryStore)
+  private login = inject(LoginStore)
    ngOnInit(){
-    // this.summary.projects$.subscribe((s)=>{
-    //   console.log(s);
-
-    // })
-    // console.log(this.summary.getDetails())
    }
 }

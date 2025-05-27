@@ -39,6 +39,30 @@
       "teamId": "8b26"
     },
     {
+<<<<<<< HEAD
+      "id": "1d0c",
+      "firstName": "Phaneendra",
+      "lastName": "Gatta",
+      "username": "phani@gmail.com",
+      "password": "phani123#G",
+      "confirmPassword": "phani123#G",
+      "employeeId": "qe2025",
+      "role": "Manager",
+      "userEntry": "new"
+    },
+    {
+      "id": "9000",
+      "firstName": "Phnai",
+      "lastName": "Gatta",
+      "username": "phani.gatta@gmail.com",
+      "password": "phani123#G",
+      "confirmPassword": "phani123#G",
+      "employeeId": "qe2025",
+      "role": "Employee",
+      "userEntry": "new",
+      "projectName": "customer365",
+      "techstack": "Frontend"
+=======
       "id": "678b",
       "firstName": "sarathchandra",
       "lastName": "tenneti",
@@ -51,6 +75,7 @@
       "projectName": "instaBiZZ",
       "techstack": "Backend",
       "teamId": "8ede"
+>>>>>>> 7bec575138752b8a7fbfdcae5c4d0c26b5899523
     }
   ],
   "teamslist": [
@@ -104,11 +129,26 @@
       "endDate": "5678-03-12"
     },
     {
+<<<<<<< HEAD
+      "id": "221e",
+      "projectname": "service360",
+      "projectlocation": "Hyd",
+      "startDate": "2025-05-12",
+      "endDate": "2025-05-28"
+    },
+    {
+      "id": "03cf",
+      "projectname": "service360",
+      "projectlocation": "vjd",
+      "startDate": "2025-05-20",
+      "endDate": "2025-05-28"
+=======
       "id": "8ede",
       "projectname": "instaBiZZ",
       "projectlocation": "Hyderabad",
       "startDate": "2025-05-12",
       "endDate": null
+>>>>>>> 7bec575138752b8a7fbfdcae5c4d0c26b5899523
     }
   ],
   "projects": [

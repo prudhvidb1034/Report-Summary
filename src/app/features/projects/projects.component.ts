@@ -34,7 +34,8 @@ export class ProjectsComponent {
   projectid: any = ''
   projects: any = [];
   selectedProject: any = []
-  employeesofproject: any;
+  employeesofproject: any=[];
+  matchingProject:any={}
 
   // private teamStore = inject(TeamStore);
   // teamList$ = this.teamStore.team$;
@@ -43,9 +44,51 @@ export class ProjectsComponent {
     this.getRegisterStore.getRegisterData();
   
     this.router.paramMap.subscribe((params: ParamMap) => {
-      this.projectid = params.get('id');
-      console.log('Project ID:', this.projectid);
-    }); // ✅ Properly closed subscribe
+  this.projectid = params.get('id');
+  console.log('Project ID:', this.projectid);
+
+  if (!this.projectid) return;
+
+  // Fetch projects
+  this.http.get('http://localhost:3000/projects').subscribe(
+    (projects: any) => {
+      this.projects = projects;
+      console.log('Projects:', this.projects);
+
+      // Fetch teams
+      this.http.get('http://localhost:3000/teamslist').subscribe(
+        (teams: any) => {
+          console.log('Teams:', teams);
+
+          // Find selected project
+          this.selectedProject = teams.find((team:any)=> team.id == this.projectid);
+          if (!this.selectedProject) return;
+
+          console.log(this.selectedProject);
+
+          // Find and process matching project
+          this.matchingProject = this.projects.find(
+            (project:any)=> project.project_name === this.selectedProject.projectname
+          );
+
+          console.log(this.matchingProject);
+          
+          if (this.matchingProject) {
+            // Extract all employees of the project
+            const employeesOfProject = this.matchingProject.employees.flat();
+            console.log('Employees of Project:', employeesOfProject);
+            
+            // Store it in a class variable if you need to use it in the template
+            this.employeesofproject = employeesOfProject;
+          }
+        },
+        (err) => console.error('Error fetching teams:', err)
+      );
+    },
+    (err) => console.error('Error fetching projects:', err)
+  );
+});
+  
   }
   
 
@@ -70,6 +113,6 @@ export class ProjectsComponent {
 
 
   openModal() {
-    this.route.navigateByUrl('view-reports')
+    this.route.navigate(['/view-reports', this.matchingProject.id])
   }
 }

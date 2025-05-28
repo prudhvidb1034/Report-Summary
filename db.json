@@ -75,6 +75,32 @@
       "projectName": "Prudhvi varma",
       "techstack": "Frontend",
       "teamId": "8b26"
+      "id": "678b",
+      "firstName": "sarathchandra",
+      "lastName": "tenneti",
+      "username": "sarath123@qentelli.com",
+      "password": "Sarath11@",
+      "confirmPassword": "Sarath11@",
+      "employeeId": "QW9090",
+      "role": "Employee",
+      "userEntry": "new",
+      "projectName": "instaBiZZ",
+      "techstack": "Backend",
+      "teamId": "8ede"
+    },
+    {
+      "id": "4718",
+      "firstName": "Phani",
+      "lastName": "Gatta",
+      "username": "phani.gatta@gmail.com",
+      "password": "phani123#G",
+      "confirmPassword": "phani123#G",
+      "employeeId": "qe2371",
+      "role": "Employee",
+      "userEntry": "new",
+      "projectName": "instaBiZZ",
+      "techstack": "Frontend",
+      "teamId": "8ede"
     }
   ],
   "teamslist": [
@@ -140,6 +166,11 @@
       "projectlocation": "vjd",
       "startDate": "2025-05-20",
       "endDate": "2025-05-28"
+      "id": "8ede",
+      "projectname": "instaBiZZ",
+      "projectlocation": "Hyderabad",
+      "startDate": "2025-05-12",
+      "endDate": null
     }
   ],
   "projects": [
@@ -221,6 +252,29 @@
       "projectName": "Prudhvi varma",
       "techstack": "Frontend",
       "teamId": "8b26"
+      "id": "e1d9",
+      "project_name": "instaBiZZ",
+      "start_date": "2025-05-26",
+      "end_date": "2025-05-30",
+      "description": "instabizz screen",
+      "employees": [
+        {
+          "employee_id": "4718",
+          "project_id": "e1d9",
+          "employee_name": "Phani",
+          "summary": "Instabizz screenc completed",
+          "daily_updates": [
+            {
+              "startDate": "2025-05-26",
+              "endDate": "2025-05-28",
+              "task": "screen",
+              "status": "Completed"
+            }
+          ],
+          "projectName": "instaBiZZ",
+          "techstack": "Frontend"
+        }
+      ]
     }
   ]
 }

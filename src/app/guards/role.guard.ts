@@ -19,8 +19,7 @@ export class RoleGuard implements CanActivate {
         console.log(res)
         this.userRole =res?.role.toLocaleLowerCase()
 
-  console.log(this.userRole,'prasaduuu')
-      },() => {})
+       },() => {})
     ).subscribe()
 
     console.log('Expected:', expectedRole);

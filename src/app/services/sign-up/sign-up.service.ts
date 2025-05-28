@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { delay, map, Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { Constants } from '../../constants/string-constants';
+import { Constants, urls } from '../../constants/string-constants';
 import { LoginCredentials, LoginResponse, User } from '../../models/login.model';
 import { RegistrationForm } from '../../models/register.mode';
 
@@ -12,7 +12,7 @@ import { RegistrationForm } from '../../models/register.mode';
 export class SignUpService {
 
   private readonly http = inject(HttpClient);
-  private readonly apiUrl = 'http://localhost:3000/register';
+  private readonly apiUrl = urls.REGISTRATION_DETAILS;;
   registerUser(reg: RegistrationForm): Observable<RegistrationForm> {
     console.log(reg)
     return this.http.post<RegistrationForm>(this.apiUrl, reg);

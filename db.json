@@ -39,7 +39,6 @@
       "teamId": "8b26"
     },
     {
-<<<<<<< HEAD
       "id": "1d0c",
       "firstName": "Phaneendra",
       "lastName": "Gatta",
@@ -62,20 +61,20 @@
       "userEntry": "new",
       "projectName": "customer365",
       "techstack": "Frontend"
-=======
-      "id": "678b",
-      "firstName": "sarathchandra",
-      "lastName": "tenneti",
-      "username": "sarath123@qentelli.com",
-      "password": "Sarath11@",
-      "confirmPassword": "Sarath11@",
-      "employeeId": "QW9090",
+    },
+    {
+      "id": "3ddd",
+      "firstName": "ZZZZZZZZZZZZZZ",
+      "lastName": "ZZZZZZZZZZZZZZZZZZZZZZZZZ",
+      "username": "Z@gmail.com",
+      "password": "12334565767",
+      "confirmPassword": "12334565767",
+      "employeeId": "QW1234567",
       "role": "Employee",
       "userEntry": "new",
-      "projectName": "instaBiZZ",
-      "techstack": "Backend",
-      "teamId": "8ede"
->>>>>>> 7bec575138752b8a7fbfdcae5c4d0c26b5899523
+      "projectName": "Prudhvi varma",
+      "techstack": "Frontend",
+      "teamId": "8b26"
     }
   ],
   "teamslist": [
@@ -129,7 +128,6 @@
       "endDate": "5678-03-12"
     },
     {
-<<<<<<< HEAD
       "id": "221e",
       "projectname": "service360",
       "projectlocation": "Hyd",
@@ -142,13 +140,6 @@
       "projectlocation": "vjd",
       "startDate": "2025-05-20",
       "endDate": "2025-05-28"
-=======
-      "id": "8ede",
-      "projectname": "instaBiZZ",
-      "projectlocation": "Hyderabad",
-      "startDate": "2025-05-12",
-      "endDate": null
->>>>>>> 7bec575138752b8a7fbfdcae5c4d0c26b5899523
     }
   ],
   "projects": [
@@ -208,6 +199,28 @@
           "projectName": "Prudhvi varma"
         }
       ]
+    },
+    {
+      "id": "a4a9",
+      "project_name": "Prudhvi varma",
+      "start_date": "2025-05-19",
+      "end_date": "2025-05-23",
+      "description": "Tracking of users list",
+      "employees": []
+    },
+    {
+      "id": "aa79",
+      "firstName": "Praveen",
+      "lastName": "Kumar",
+      "username": "prudhvi@gmail.com",
+      "password": "123456789",
+      "confirmPassword": "123456789",
+      "employeeId": "Q34567887654",
+      "role": "Employee",
+      "userEntry": "new",
+      "projectName": "Prudhvi varma",
+      "techstack": "Frontend",
+      "teamId": "8b26"
     }
   ]
 }

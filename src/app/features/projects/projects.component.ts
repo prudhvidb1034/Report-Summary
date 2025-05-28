@@ -30,8 +30,7 @@ export class ProjectsComponent {
   teamList = signal<createTeam[]>([]);
   private teamStore = inject(TeamStore);
   teamList$ = this.teamStore.team$;
-  private url = "http://localhost:3000/projects"
-  private http = inject(HttpClient)
+   private http = inject(HttpClient)
   projectid: any = ''
   projects: any = [];
   selectedProject: any = []
@@ -42,52 +41,13 @@ export class ProjectsComponent {
   ngOnInit() {
     this.createEmployeeForm();
     this.getRegisterStore.getRegisterData();
-
   
-
     this.router.paramMap.subscribe((params: ParamMap) => {
-  this.projectid = params.get('id');
-  console.log('Project ID:', this.projectid);
-
-  if (!this.projectid) return;
-
-  // Fetch projects
-  this.http.get('http://localhost:3000/projects').subscribe(
-    (projects: any) => {
-      this.projects = projects;
-      console.log('Projects:', this.projects);
-
-      // Fetch teams
-      this.http.get('http://localhost:3000/teamslist').subscribe(
-        (teams: any) => {
-          console.log('Teams:', teams);
-
-          // Find selected project
-          this.selectedProject = teams.find((team:any)=> team.id == this.projectid);
-          if (!this.selectedProject) return;
-
-          // Find and process matching project
-          const matchingProject = this.projects.find(
-            (project:any)=> project.project_name === this.selectedProject.projectname
-          );
-
-          if (matchingProject) {
-            // Extract all employees of the project
-            const employeesOfProject = matchingProject.employees.flat();
-            console.log('Employees of Project:', employeesOfProject);
-            
-            // Store it in a class variable if you need to use it in the template
-            this.employeesofproject = employeesOfProject;
-          }
-        },
-        (err) => console.error('Error fetching teams:', err)
-      );
-    },
-    (err) => console.error('Error fetching projects:', err)
-  );
-});
-  
+      this.projectid = params.get('id');
+      console.log('Project ID:', this.projectid);
+    }); // ✅ Properly closed subscribe
   }
+  
 
   createEmployeeForm() {
     this.employeeForm = this.fb.group({

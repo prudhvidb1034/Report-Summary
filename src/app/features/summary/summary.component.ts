@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { FormGroup, FormControl, Validators, FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { SummaryStore } from '../../state/summary.store';
 import { createTeam } from '../../models/project.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-summary',
@@ -18,6 +19,7 @@ export class SummaryComponent {
   projects: createTeam[] = [];
   private summary = inject(SummaryService);
   weekSummaryForm !: FormGroup;
+  private route = inject(Router)
   private readonly store = inject(SummaryStore);
   dateError: string | null = null;
   private readonly fb = inject(FormBuilder);
@@ -75,6 +77,7 @@ export class SummaryComponent {
         employees: []
       };
       this.store.weeklyReport(transformedState)
+      this.route.navigate(['/dashboard'])
     }
 
 

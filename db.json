@@ -63,32 +63,6 @@
       "techstack": "Frontend"
     },
     {
-      "id": "3ddd",
-      "firstName": "ZZZZZZZZZZZZZZ",
-      "lastName": "ZZZZZZZZZZZZZZZZZZZZZZZZZ",
-      "username": "Z@gmail.com",
-      "password": "12334565767",
-      "confirmPassword": "12334565767",
-      "employeeId": "QW1234567",
-      "role": "Employee",
-      "userEntry": "new",
-      "projectName": "Prudhvi varma",
-      "techstack": "Frontend",
-      "teamId": "8b26"
-      "id": "678b",
-      "firstName": "sarathchandra",
-      "lastName": "tenneti",
-      "username": "sarath123@qentelli.com",
-      "password": "Sarath11@",
-      "confirmPassword": "Sarath11@",
-      "employeeId": "QW9090",
-      "role": "Employee",
-      "userEntry": "new",
-      "projectName": "instaBiZZ",
-      "techstack": "Backend",
-      "teamId": "8ede"
-    },
-    {
       "id": "4718",
       "firstName": "Phani",
       "lastName": "Gatta",
@@ -101,76 +75,76 @@
       "projectName": "instaBiZZ",
       "techstack": "Frontend",
       "teamId": "8ede"
+    },
+    {
+      "id": "3a68",
+      "firstName": "Viswa ",
+      "lastName": "kartheek reddy",
+      "username": "viswa@gmai.com",
+      "password": "viswa@123",
+      "confirmPassword": "viswa@123",
+      "employeeId": "QE1456",
+      "role": "Employee",
+      "userEntry": "new",
+      "projectName": "Onboarding/Initio",
+      "techstack": "Frontend"
+    },
+    {
+      "id": "9477",
+      "firstName": "Viswa ",
+      "lastName": "kartheek reddy",
+      "username": "viswa@gmai.com",
+      "password": "viswa@123",
+      "confirmPassword": "viswa@123",
+      "employeeId": "QE1456",
+      "role": "Employee",
+      "userEntry": "new",
+      "projectName": "Onboarding/Initio",
+      "techstack": "Frontend"
+    },
+    {
+      "id": "267a",
+      "firstName": "Viswa ",
+      "lastName": "kartheek reddy",
+      "username": "viswa@gmai.com",
+      "password": "viswa@123",
+      "confirmPassword": "viswa@123",
+      "employeeId": "QE1456",
+      "role": "Employee",
+      "userEntry": "new",
+      "projectName": "Onboarding/Initio",
+      "techstack": "Frontend",
+      "teamId": "1be0"
+    },
+    {
+      "id": "1474",
+      "firstName": "Prudhvi",
+      "lastName": "Vistalla",
+      "username": "prudhvidb1034@gmail.com",
+      "password": "123456789",
+      "confirmPassword": "123456789",
+      "employeeId": "QE@#$%^",
+      "role": "Employee",
+      "userEntry": "new",
+      "projectName": "Customer-365",
+      "techstack": "Frontend",
+      "teamId": "1be0"
     }
   ],
   "teamslist": [
     {
-      "id": "0458",
-      "projectname": "qweqweqwe",
-      "projectlocation": "asdasdasdad",
-      "startDate": "2025-05-12",
-      "endDate": "2025-06-06"
-    },
-    {
-      "id": "c6fd",
-      "projectname": "customer365",
-      "projectlocation": "Hyderabad",
-      "startDate": "2025-01-01",
-      "endDate": "2025-07-11"
-    },
-    {
-      "id": "9242",
-      "projectname": "dfghjhgf",
-      "projectlocation": "sgfdsdf",
-      "startDate": "4567-03-12",
-      "endDate": "45678-03-21"
-    },
-    {
-      "id": "63dc",
-      "projectname": "asdsad",
-      "projectlocation": "asdasd",
-      "startDate": "2025-05-15",
-      "endDate": "2025-05-30"
-    },
-    {
-      "id": "fa1d",
-      "projectname": "asda",
-      "projectlocation": "asdasd",
-      "startDate": "2025-05-14",
-      "endDate": "2025-05-28"
-    },
-    {
-      "id": "7395",
-      "projectname": "rthietd",
-      "projectlocation": "thuho",
-      "startDate": "4562-03-12",
-      "endDate": "4564-03-12"
-    },
-    {
-      "id": "8b26",
-      "projectname": "Prudhvi varma",
-      "projectlocation": "HderABAD",
-      "startDate": "4567-03-12",
-      "endDate": "5678-03-12"
-    },
-    {
-      "id": "221e",
-      "projectname": "service360",
-      "projectlocation": "Hyd",
-      "startDate": "2025-05-12",
-      "endDate": "2025-05-28"
-    },
-    {
-      "id": "03cf",
-      "projectname": "service360",
-      "projectlocation": "vjd",
-      "startDate": "2025-05-20",
-      "endDate": "2025-05-28"
-      "id": "8ede",
-      "projectname": "instaBiZZ",
-      "projectlocation": "Hyderabad",
-      "startDate": "2025-05-12",
+      "id": "04da",
+      "projectname": "Customer-365",
+      "projectlocation": "United States",
+      "startDate": "2023-02-07",
       "endDate": null
+    },
+    {
+      "id": "1be0",
+      "projectname": "Onboarding/Initio",
+      "projectlocation": "United States",
+      "startDate": "2022-02-15",
+      "endDate": "2028-12-29"
     }
   ],
   "projects": [
@@ -240,7 +214,7 @@
       "employees": []
     },
     {
-      "id": "aa79",
+      "id": "e1d9",
       "firstName": "Praveen",
       "lastName": "Kumar",
       "username": "prudhvi@gmail.com",
@@ -251,8 +225,7 @@
       "userEntry": "new",
       "projectName": "Prudhvi varma",
       "techstack": "Frontend",
-      "teamId": "8b26"
-      "id": "e1d9",
+      "teamId": "8b26",
       "project_name": "instaBiZZ",
       "start_date": "2025-05-26",
       "end_date": "2025-05-30",

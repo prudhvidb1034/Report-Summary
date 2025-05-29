@@ -10,29 +10,50 @@
     </div>
   </ion-card-header>
 
-  <ion-card-content style="height: calc(100vh - 190px);
-    overflow: auto;">
-    <ion-list>
+  <ion-card-content style="height: calc(100vh - 190px); overflow-y: auto;">
+    <!-- Responsive Scroll Wrapper -->
+    <div style="min-width: 600px; overflow-x: auto;">
       <ion-grid>
-        <ion-row>
-          <ion-col *ngFor="let project of teamList$ | async" size="12" size-sm="6" size-md="6" size-lg="6">
-            <ion-card (click)="goToProject(project.id)" class="project-card">
-              <ion-card-header>
-                <ion-card-title style="font-weight: bold;">Project: {{ project.projectname }}</ion-card-title>
-                <ion-card-subtitle>ID: {{ project.id }}</ion-card-subtitle>
-              </ion-card-header>
 
-              <ion-card-content>
-                <p><strong>Location:</strong> {{ project.projectLocation }}</p>
-                <p><strong>Start:</strong> {{ project.startDate || "—" }}</p>
-                <p><strong>End:</strong> {{ project.endDate || "—" }}</p>
-              </ion-card-content>
-            </ion-card>
+        <!-- Table Header -->
+        <ion-row class="table-header" style="font-weight: bold; border-bottom: 1px solid #ccc;">
+
+          <ion-col size="2">ID</ion-col>
+          <ion-col size="2">Project Name</ion-col>
+          <ion-col size="3">Location</ion-col>
+          <ion-col size="2">Start Date</ion-col>
+          <ion-col size="2">End Date</ion-col>
+          <ion-col size="1">Action</ion-col>
+        </ion-row>
+
+        <!-- Table Rows -->
+        <ion-row *ngFor="let project of teamList$ | async" style="border-bottom: 1px solid #eee; align-items: center;">
+          <ion-col size="2">{{ project.id }}</ion-col>
+          <ion-col size="2">{{ project.projectname }}</ion-col>
+          <ion-col size="3">{{ project.projectLocation }}</ion-col>
+          <ion-col size="2">{{ project.startDate || '—' }}</ion-col>
+          <ion-col size="2">{{ project.endDate || '—' }}</ion-col>
+          <ion-col size="1">
+            <div style="display: flex; gap: 6px; justify-content: center;">
+              <ion-button fill="clear" size="small" title="View" (click)="goToProject(project.id)">
+                <ion-icon name="eye-outline" slot="icon-only"></ion-icon>
+              </ion-button>
+              <ion-button fill="clear" size="small" color="primary" title="Edit">
+                <ion-icon name="create-outline" slot="icon-only"></ion-icon>
+              </ion-button>
+              <ion-button fill="clear" size="small" color="danger" title="Delete">
+                <ion-icon name="trash-outline" slot="icon-only"></ion-icon>
+              </ion-button>
+            </div>
           </ion-col>
         </ion-row>
+
       </ion-grid>
-    </ion-list>
+    </div>
   </ion-card-content>
+
+
+
 </ion-card>
 
 

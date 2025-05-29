@@ -3,5 +3,5 @@ export interface createTeam{
     projectname: string;
     projectLocation: string;
     startDate:number;
-    endDate:number
+    endDate:number;
 }

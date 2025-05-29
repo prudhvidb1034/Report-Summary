@@ -8,6 +8,6 @@ export const Constants = {
 
 export const urls = {
     REGISTRATION_DETAILS: environment.apiUrls + 'register',
-    PROJect_DETAILS: environment.apiUrls + 'proects',
+    PROJect_DETAILS: environment.apiUrls + 'projects',
     TEAMS_DETAILS: environment.apiUrls + 'teamslist'
 }

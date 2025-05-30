@@ -2,12 +2,20 @@
   <ion-toolbar class="custom-header">
     <ion-title class="white-color">Employee Tracking System</ion-title>
     <ion-buttons slot="start" class="white-color" (click)="toggleMenu()">
-      <ion-menu-button menu="main-menu"></ion-menu-button>
+      <ion-menu-button *ngIf="showLogout" menu="main-menu"></ion-menu-button>
     </ion-buttons>
     <ion-buttons *ngIf="showLogout" class="white-color" slot="end">
       <ion-button (click)="onLogout()">
-        <ion-icon color="info" name="log-out-outline"></ion-icon>
-      </ion-button>
+        <!-- <ion-icon color="info" name="log-out-outline"></ion-icon> -->
+        
+      
+      <ion-icon name="person-circle-outline" id="cover-trigger" *ngIf="showLogout"></ion-icon>
+    </ion-button>
+      <ion-popover trigger="cover-trigger" size="cover">
+        <ng-template>
+          <ion-content class="ion-padding">Hello!</ion-content>
+        </ng-template>
+      </ion-popover>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>

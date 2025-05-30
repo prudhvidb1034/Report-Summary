@@ -65,16 +65,16 @@
         </ion-note>
         }
         <ion-item>
-          <ion-textarea formControlName="description" label="Description" labelPlacement="floating" placeholder="Enter">
+          <ion-textarea formControlName="upcomingTasks" label="Upcoming Tasks" labelPlacement="floating" placeholder="Enter">
           </ion-textarea>
         </ion-item>
-        @if (weekSummaryForm.get('description')?.invalid &&
-        (weekSummaryForm.get('description')?.dirty ||
-        weekSummaryForm.get('description')?.touched)) {
+        @if (weekSummaryForm.get('upcomingTasks')?.invalid &&
+        (weekSummaryForm.get('upcomingTasks')?.dirty ||
+        weekSummaryForm.get('upcomingTasks')?.touched)) {
         <ion-note color="danger">
-          @if (weekSummaryForm.get('description')?.errors?.['required']) {
-          <span>Description is required</span>
-          } @if (weekSummaryForm.get('description')?.errors?.['minlength']) { }
+          @if (weekSummaryForm.get('upcomingTasks')?.errors?.['required']) {
+          <span>Upcoming Tasks are required</span>
+          } @if (weekSummaryForm.get('upcomingTasks')?.errors?.['minlength']) { }
         </ion-note>
         }
 

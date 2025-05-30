@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { SummaryService } from '../../services/summary/summary.service';
 import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
-import { FormGroup, FormControl, Validators, FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { FormGroup, FormControl, Validators, FormBuilder, ReactiveFormsModule, FormArray } from '@angular/forms';
 import { SummaryStore } from '../../state/summary.store';
 import { createTeam } from '../../models/project.model';
 import { Router } from '@angular/router';
@@ -28,7 +28,7 @@ export class SummaryComponent {
       project: [null, Validators.required],
       startDate: ['', [Validators.required]],
       endDate: ['', [Validators.required]],
-      description: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(500)]]
+      upcomingTasks: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(500)]]
     });
     this.weekSummaryForm.get('endDate')?.valueChanges.subscribe(() => {
       this.validateDates();
@@ -36,6 +36,10 @@ export class SummaryComponent {
     this.getProjects()
   }
 
+  // create a formArray for upcoming tasks
+  get upcomingTasks(): FormArray {
+    return this.weekSummaryForm.get('upcomingTasks') as FormArray;
+  }
 
   validateDates(): boolean {
     const startDate = this.weekSummaryForm.get('startDate')?.value;
@@ -73,16 +77,11 @@ export class SummaryComponent {
         project_name: this.weekSummaryForm.value.project.projectname,
         start_date: this.weekSummaryForm.value.startDate,
         end_date: this.weekSummaryForm.value.endDate,
-        description: this.weekSummaryForm.value.description,
+        upcomingTasks: this.weekSummaryForm.value.upcomingTasks,
         employees: []
       };
       this.store.weeklyReport(transformedState)
       this.route.navigate(['/dashboard'])
     }
-
-
   }
 }
-
-
-

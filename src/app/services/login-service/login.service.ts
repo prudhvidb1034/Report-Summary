@@ -15,7 +15,6 @@ export class LoginService {
   // private readonly apiUrl = 'this./register';
   userList: RegistrationForm[]=[];
 
-
   loginCheck(credentials: LoginCredentials) {
     return this.http.get<any>(urls.REGISTRATION_DETAILS).pipe(
       map(response => {

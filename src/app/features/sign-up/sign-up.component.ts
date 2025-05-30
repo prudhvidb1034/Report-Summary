@@ -4,7 +4,7 @@ import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { RegisterStore } from '../../state/register.store';
 import { SignUpService } from '../../services/sign-up/sign-up.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { createTeam } from '../../models/project.model';
 import { TeamStore } from '../../state/team.store';
 import { ToastService } from '../../shared/toast.service';
@@ -28,7 +28,7 @@ export class SignUpComponent {
   @Input() includeProjectFields: boolean = false
   @Input() customMargin: string = 'auto';
   @Output() closeModal = new EventEmitter<void>();
-
+projectid:any;
 
   private readonly store = inject(RegisterStore);
   private signup = inject(SignUpService);
@@ -40,22 +40,33 @@ export class SignUpComponent {
   error$ = this.store.error$;
   loading$ = this.store.loading$;
   register$ = this.store.register$;
-
+  private routering = inject(ActivatedRoute)
   constructor() {
   }
   ngOnInit() {
+
+     this.routering.paramMap.subscribe((params: ParamMap) => {
+      this.projectid = params.get('id');
+
+     })
     this.teamStore.getTeam();
     this.createForm();
     console.log('prudhvi', this.teamList$)
     this.teamStore.team$.subscribe((data: any) => {
       this.teamListData = data
-      console.log(this.teamListData, 'ZaheerKhan')
+      console.log( 'Sarath',this.teamListData, )
     })
     console.log('varma', this.teamStore.team$)
 
     this.getProjects()
   }
-
+ngAfterViewInit() {
+  this.routering.paramMap.subscribe((params: ParamMap) => {
+      this.projectid = params.get('id');
+      console.log('Project ID:', this.projectid);
+}
+  )
+}
   createForm() {
     this.registrationForm = this.fb.group({
       firstName: ['', [Validators.required]],
@@ -90,9 +101,15 @@ export class SignUpComponent {
       const formData = { ...this.registrationForm.value };
 
       if (this.includeProjectFields) {
-        const teamId = localStorage.getItem('selectedTeamId');
-        if (teamId) {
-          formData.teamId = teamId;
+
+    //       this.teamStore.team$.subscribe((data: any) => {
+    //   this.teamListData = data
+    //   console.log( 'Sarathchandra',this.teamListData, )
+    // })
+        // const teamId = localStorage.getItem('selectedTeamId');
+        const teamid = this.projectid
+        if (teamid) {
+          formData.teamId = teamid;
         }
       }
 

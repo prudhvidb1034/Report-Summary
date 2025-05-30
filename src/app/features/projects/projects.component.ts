@@ -41,11 +41,11 @@ export class ProjectsComponent {
   // teamList$ = this.teamStore.team$;
   ngOnInit() {
     this.createEmployeeForm();
-    this.getRegisterStore.getRegisterData();
-  
+    
     this.router.paramMap.subscribe((params: ParamMap) => {
   this.projectid = params.get('id');
   console.log('Project ID:', this.projectid);
+   this.getRegisterStore.getRegisterData(this.projectid);
 
   if (!this.projectid) return;
 

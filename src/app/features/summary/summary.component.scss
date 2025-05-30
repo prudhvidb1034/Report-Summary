@@ -1,0 +1,36 @@
+.week-table {
+  ion-row {
+    align-items: center;
+
+    ion-col {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px 4px;
+      word-break: break-word;
+    }
+  }
+
+  .header-row {
+    font-weight: bold;
+    border-bottom: 1px solid #ccc;
+    background-color: #f9f9f9;
+  }
+
+  .data-row {
+    border-bottom: 1px solid #eee;
+    background-color: #fff;
+  }
+
+  @media (max-width: 768px) {
+    ion-row {
+      flex-wrap: wrap;
+    }
+
+    ion-col {
+      flex: 0 0 100%;
+      max-width: 100%;
+      justify-content: flex-start;
+    }
+  }
+}

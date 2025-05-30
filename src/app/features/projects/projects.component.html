@@ -14,26 +14,44 @@
 </ion-grid>
 
 <ion-grid class="project-table">
-  <ion-row class="header-row ion-text-center">
-    <ion-col size="3">Employee ID</ion-col>
+  <!-- Header Row -->
+  <ion-row class="header-row ion-text-center" style="font-weight: bold; border-bottom: 1px solid #ccc;">
+    <ion-col size="2">Employee ID</ion-col>
     <ion-col size="3">Employee Name</ion-col>
     <ion-col size="3">Mail-id</ion-col>
-    <ion-col size="3">Project Name</ion-col>
+    <ion-col size="2">Project Name</ion-col>
+    <ion-col size="2">Action</ion-col>
   </ion-row>
 
+  <!-- Data Rows -->
   @for (item of teamRegisterList$ | async; track item.employeeId) {
-  <ion-row class="data-row ion-text-center">
-    <ion-col size="3">{{ item.employeeId }}</ion-col>
-    <ion-col size="3">{{ item.firstName }} {{ item.lastName }}</ion-col>
-    <ion-col size="3">{{ item.username }}</ion-col>
-    <ion-col size="3">{{ item.projectName }}</ion-col>
-  </ion-row>
+    <ion-row class="data-row ion-text-center" style="border-bottom: 1px solid #eee; align-items: center;">
+      <ion-col size="2">{{ item.employeeId }}</ion-col>
+      <ion-col size="3">{{ item.firstName }} {{ item.lastName }}</ion-col>
+      <ion-col size="3">{{ item.username }}</ion-col>
+      <ion-col size="2">{{ item.projectName }}</ion-col>
+      <ion-col size="2">
+        <div style="display: flex; gap: 10px; justify-content: center;">
+          <ion-button fill="clear" size="small" title="View">
+            <ion-icon name="eye-outline" slot="icon-only"></ion-icon>
+          </ion-button>
+          <ion-button fill="clear" size="small" color="primary" title="Edit">
+            <ion-icon name="create-outline" slot="icon-only"></ion-icon>
+          </ion-button>
+          <ion-button fill="clear" size="small" color="danger" title="Delete">
+            <ion-icon name="trash-outline" slot="icon-only"></ion-icon>
+          </ion-button>
+        </div>
+      </ion-col>
+    </ion-row>
   } @empty {
-  <ion-row class="ion-text-center">
-    <ion-col size="12">No team members found.</ion-col>
-  </ion-row>
+    <ion-row class="ion-text-center">
+      <ion-col size="12">No team members found.</ion-col>
+    </ion-row>
   }
 </ion-grid>
+
+
 
 <ion-modal [isOpen]="isModalOpen" cssClass="custom-modal">
   <ng-template>

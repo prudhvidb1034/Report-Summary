@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import {  Router, RouterModule } from '@angular/router';
+import { Router, RouterLink, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { createTeam } from '../../models/project.model';
 import { ToastService } from '../../shared/toast.service';
@@ -13,8 +13,8 @@ import { TeamStore } from '../../state/team.store';
   standalone: true,
   imports: [
     FormsModule, RouterModule,
-    IonicModule, CommonModule, ReactiveFormsModule, RouterModule],
-  providers: [TeamStore, LoginStore],
+    IonicModule, CommonModule, ReactiveFormsModule, RouterModule, RouterLink],
+  providers: [TeamStore],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
 })
@@ -36,15 +36,14 @@ export class DashboardComponent {
   ngOnInit() {
     this.CreateForm();
     this.teamStore.getTeam();
-    const userList = JSON.parse(localStorage.getItem('userList') || '[]');
-    console.log("userList", userList)
 
-   
+
+
   }
 
   goToProject(id: string) {
 
-    localStorage.setItem('selectedTeamId', id)
+    // localStorage.setItem('selectedTeamId', id)
     this.router.navigate(['/project', id]);
 
   }
@@ -64,7 +63,7 @@ export class DashboardComponent {
       endDate: ['']
 
     })
-    
+
   }
 
 
@@ -76,15 +75,15 @@ export class DashboardComponent {
       this.teamForm.reset();
       this.toast.show('success', 'Project created successfully!')
     } else {
-     this.toast.show('error', 'Please fill in all required fields.')
+      this.toast.show('error', 'Please fill in all required fields.')
       this.teamForm.markAllAsTouched()
     }
   }
 
 
-// deleteProject(){
+  // deleteProject(){
 
-// }
+  // }
 
 
 }

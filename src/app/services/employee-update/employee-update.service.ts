@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { urls } from '../../constants/string-constants';
 
 @Injectable({
   providedIn: 'root'
@@ -8,11 +9,9 @@ import { Observable } from 'rxjs';
 export class EmployeeUpdateService {
 
   private readonly http = inject(HttpClient);
- 
-  private readonly apiUrl = 'http://localhost:3000/projects';
- 
+private  url = urls.PROJect_DETAILS;
    getDates():Observable<any[]>{
-     return this.http.get<any[]>(this.apiUrl);
+     return this.http.get<any[]>(this.url);
    }
 
 

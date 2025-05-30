@@ -50,17 +50,19 @@ export class RegisterStore extends ComponentStore<RegistrationState> {
         )
     );
 
+   
+
     readonly getRegisterData = this.effect((gettrigger$) =>
     gettrigger$.pipe(
-      switchMap(() =>
+      switchMap((getId) =>
         this.signup.getUsers().pipe(
           tapResponse(
             (data) => {
-              const selectedTeamId = localStorage.getItem('selectedTeamId'); 
-  
+              // const selectedTeamId = localStorage.getItem('selectedTeamId'); 
+              console.log(getId,'sarath');
               const filtered = data.filter((item: any) =>
                 item.role === 'Employee' &&
-                item.teamId === selectedTeamId 
+                item.teamId === getId 
               );
   
               this.patchState({
@@ -73,7 +75,7 @@ export class RegisterStore extends ComponentStore<RegistrationState> {
                   password: item.password,
                   confirmPassword: item.confirmPassword,
                   role: item.role,
-                  projectName: item.projectName?.projectname ?? '',
+                  projectName: item.projectName,
                 })),
               });
             },

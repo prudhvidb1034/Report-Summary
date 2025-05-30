@@ -39,18 +39,28 @@
       "teamId": "8b26"
     },
     {
-      "id": "678b",
-      "firstName": "sarathchandra",
-      "lastName": "tenneti",
-      "username": "sarath123@qentelli.com",
-      "password": "Sarath11@",
-      "confirmPassword": "Sarath11@",
-      "employeeId": "QW9090",
+      "id": "1d0c",
+      "firstName": "Phaneendra",
+      "lastName": "Gatta",
+      "username": "phani@gmail.com",
+      "password": "phani123#G",
+      "confirmPassword": "phani123#G",
+      "employeeId": "qe2025",
+      "role": "Manager",
+      "userEntry": "new"
+    },
+    {
+      "id": "9000",
+      "firstName": "Phnai",
+      "lastName": "Gatta",
+      "username": "phani.gatta@gmail.com",
+      "password": "phani123#G",
+      "confirmPassword": "phani123#G",
+      "employeeId": "qe2025",
       "role": "Employee",
       "userEntry": "new",
-      "projectName": "instaBiZZ",
-      "techstack": "Backend",
-      "teamId": "8ede"
+      "projectName": "customer365",
+      "techstack": "Frontend"
     },
     {
       "id": "4718",
@@ -67,363 +77,74 @@
       "teamId": "8ede"
     },
     {
-      "id": "0102",
-      "firstName": "sarath",
-      "lastName": "tenneti",
-      "username": "aaa@gmail.com",
-      "password": "Sarath11@",
-      "confirmPassword": "Sarath11@",
-      "employeeId": "12313123",
+      "id": "3a68",
+      "firstName": "Viswa ",
+      "lastName": "kartheek reddy",
+      "username": "viswa@gmai.com",
+      "password": "viswa@123",
+      "confirmPassword": "viswa@123",
+      "employeeId": "QE1456",
       "role": "Employee",
       "userEntry": "new",
-      "projectName": "customer365",
+      "projectName": "Onboarding/Initio",
+      "techstack": "Frontend"
+    },
+    {
+      "id": "9477",
+      "firstName": "Viswa ",
+      "lastName": "kartheek reddy",
+      "username": "viswa@gmai.com",
+      "password": "viswa@123",
+      "confirmPassword": "viswa@123",
+      "employeeId": "QE1456",
+      "role": "Employee",
+      "userEntry": "new",
+      "projectName": "Onboarding/Initio",
+      "techstack": "Frontend"
+    },
+    {
+      "id": "267a",
+      "firstName": "Viswa ",
+      "lastName": "kartheek reddy",
+      "username": "viswa@gmai.com",
+      "password": "viswa@123",
+      "confirmPassword": "viswa@123",
+      "employeeId": "QE1456",
+      "role": "Employee",
+      "userEntry": "new",
+      "projectName": "Onboarding/Initio",
       "techstack": "Frontend",
-      "teamId": "c6fd"
+      "teamId": "1be0"
+    },
+    {
+      "id": "1474",
+      "firstName": "Prudhvi",
+      "lastName": "Vistalla",
+      "username": "prudhvidb1034@gmail.com",
+      "password": "123456789",
+      "confirmPassword": "123456789",
+      "employeeId": "QE@#$%^",
+      "role": "Employee",
+      "userEntry": "new",
+      "projectName": "Customer-365",
+      "techstack": "Frontend",
+      "teamId": "1be0"
     }
   ],
   "teamslist": [
     {
-      "id": "0458",
-      "projectname": "qweqweqwe",
-      "projectlocation": "asdasdasdad",
-      "startDate": "2025-05-12",
-      "endDate": "2025-06-06"
-    },
-    {
-      "id": "c6fd",
-      "projectname": "customer365",
-      "projectlocation": "Hyderabad",
-      "startDate": "2025-01-01",
-      "endDate": "2025-07-11"
-    },
-    {
-      "id": "9242",
-      "projectname": "dfghjhgf",
-      "projectlocation": "sgfdsdf",
-      "startDate": "4567-03-12",
-      "endDate": "45678-03-21"
-    },
-    {
-      "id": "63dc",
-      "projectname": "asdsad",
-      "projectlocation": "asdasd",
-      "startDate": "2025-05-15",
-      "endDate": "2025-05-30"
-    },
-    {
-      "id": "fa1d",
-      "projectname": "asda",
-      "projectlocation": "asdasd",
-      "startDate": "2025-05-14",
-      "endDate": "2025-05-28"
-    },
-    {
-      "id": "7395",
-      "projectname": "rthietd",
-      "projectlocation": "thuho",
-      "startDate": "4562-03-12",
-      "endDate": "4564-03-12"
-    },
-    {
-      "id": "8b26",
-      "projectname": "Prudhvi varma",
-      "projectlocation": "HderABAD",
-      "startDate": "4567-03-12",
-      "endDate": "5678-03-12"
-    },
-    {
-      "id": "8ede",
-      "projectname": "instaBiZZ",
-      "projectlocation": "Hyderabad",
-      "startDate": "2025-05-12",
+      "id": "04da",
+      "projectname": "Customer-365",
+      "projectlocation": "United States",
+      "startDate": "2023-02-07",
       "endDate": null
     },
     {
-      "id": "a283",
-      "projectname": "SPP CANADA",
-      "projectlocation": "Hyderabad",
-      "startDate": "2025-05-05",
-      "endDate": null
-    },
-    {
-      "id": "ba4f",
-      "projectname": "spp india",
-      "projectlocation": "hyderabad",
-      "startDate": "2025-05-12",
-      "endDate": null
-    },
-    {
-      "id": "1601",
-      "projectname": "customer365",
-      "projectlocation": "Hyderabad",
-      "startDate": "2025-05-26",
-      "endDate": null
-    },
-    {
-      "id": "939d",
-      "projectname": "customer365",
-      "projectlocation": "Hyderabad",
-      "startDate": "2025-05-26",
-      "endDate": null
-    },
-    {
-      "id": "b538",
-      "projectname": "customer365",
-      "projectlocation": "Hyderabad",
-      "startDate": "2025-05-26",
-      "endDate": null
-    },
-    {
-      "id": "eca0",
-      "projectname": "customer365",
-      "projectlocation": "Hyderabad",
-      "startDate": "2025-05-26",
-      "endDate": null
-    },
-    {
-      "id": "f1ef",
-      "projectname": "customer365",
-      "projectlocation": "Hyderabad",
-      "startDate": "2025-05-26",
-      "endDate": null
-    },
-    {
-      "id": "c844",
-      "projectname": "customer365",
-      "projectlocation": "Hyderabad",
-      "startDate": "2025-05-26",
-      "endDate": null
-    },
-    {
-      "id": "a920",
-      "projectname": "customer365",
-      "projectlocation": "Hyderabad",
-      "startDate": "2025-05-26",
-      "endDate": null
-    },
-    {
-      "id": "ae77",
-      "projectname": "customer365",
-      "projectlocation": "Hyderabad",
-      "startDate": "2025-05-26",
-      "endDate": null
-    },
-    {
-      "id": "94f9",
-      "projectname": "customer365",
-      "projectlocation": "Hyderabad",
-      "startDate": "2025-05-26",
-      "endDate": null
-    },
-    {
-      "id": "3734",
-      "projectname": "customer365",
-      "projectlocation": "Hyderabad",
-      "startDate": "2025-05-26",
-      "endDate": null
-    },
-    {
-      "id": "e5e1",
-      "projectname": "customer365",
-      "projectlocation": "Hyderabad",
-      "startDate": "2025-05-26",
-      "endDate": null
-    },
-    {
-      "id": "c79b",
-      "projectname": "customer365",
-      "projectlocation": "Hyderabad",
-      "startDate": "2025-05-26",
-      "endDate": null
-    },
-    {
-      "id": "6ce7",
-      "projectname": "customer365",
-      "projectlocation": "Hyderabad",
-      "startDate": "2025-05-26",
-      "endDate": null
-    },
-    {
-      "id": "2bfd",
-      "projectname": "customer365",
-      "projectlocation": "Hyderabad",
-      "startDate": "2025-05-26",
-      "endDate": null
-    },
-    {
-      "id": "18dd",
-      "projectname": "customer365",
-      "projectlocation": "Hyderabad",
-      "startDate": "2025-05-26",
-      "endDate": null
-    },
-    {
-      "id": "e6e4",
-      "projectname": "customer365",
-      "projectlocation": "Hyderabad",
-      "startDate": "2025-05-26",
-      "endDate": null
-    },
-    {
-      "id": "acd0",
-      "projectname": "customer365",
-      "projectlocation": "Hyderabad",
-      "startDate": "2025-05-26",
-      "endDate": null
-    },
-    {
-      "id": "0104",
-      "projectname": "customer365",
-      "projectlocation": "Hyderabad",
-      "startDate": "2025-05-26",
-      "endDate": null
-    },
-    {
-      "id": "4086",
-      "projectname": "customer365",
-      "projectlocation": "Hyderabad",
-      "startDate": "2025-05-26",
-      "endDate": null
-    },
-    {
-      "id": "33f3",
-      "projectname": "customer365",
-      "projectlocation": "Hyderabad",
-      "startDate": "2025-05-26",
-      "endDate": null
-    },
-    {
-      "id": "1a65",
-      "projectname": "customer365",
-      "projectlocation": "Hyderabad",
-      "startDate": "2025-05-26",
-      "endDate": null
-    },
-    {
-      "id": "b106",
-      "projectname": "customer365",
-      "projectlocation": "Hyderabad",
-      "startDate": "2025-05-26",
-      "endDate": null
-    },
-    {
-      "id": "7df4",
-      "projectname": "customer365",
-      "projectlocation": "Hyderabad",
-      "startDate": "2025-05-26",
-      "endDate": null
-    },
-    {
-      "id": "ca70",
-      "projectname": "customer365",
-      "projectlocation": "Hyderabad",
-      "startDate": "2025-05-26",
-      "endDate": null
-    },
-    {
-      "id": "9b99",
-      "projectname": "customer365",
-      "projectlocation": "Hyderabad",
-      "startDate": "2025-05-26",
-      "endDate": null
-    },
-    {
-      "id": "d316",
-      "projectname": "customer365",
-      "projectlocation": "Hyderabad",
-      "startDate": "2025-05-26",
-      "endDate": null
-    },
-    {
-      "id": "2e02",
-      "projectname": "customer365",
-      "projectlocation": "Hyderabad",
-      "startDate": "2025-05-26",
-      "endDate": null
-    },
-    {
-      "id": "d8a4",
-      "projectname": "customer365",
-      "projectlocation": "Hyderabad",
-      "startDate": "2025-05-26",
-      "endDate": null
-    },
-    {
-      "id": "c153",
-      "projectname": "customer365",
-      "projectlocation": "Hyderabad",
-      "startDate": "2025-05-26",
-      "endDate": null
-    },
-    {
-      "id": "0fb3",
-      "projectname": "customer365",
-      "projectlocation": "Hyderabad",
-      "startDate": "2025-05-26",
-      "endDate": null
-    },
-    {
-      "id": "bc85",
-      "projectname": "customer365",
-      "projectlocation": "Hyderabad",
-      "startDate": "2025-05-26",
-      "endDate": null
-    },
-    {
-      "id": "9d8c",
-      "projectname": "customer365",
-      "projectlocation": "Hyderabad",
-      "startDate": "2025-05-26",
-      "endDate": null
-    },
-    {
-      "id": "7172",
-      "projectname": "customer365",
-      "projectlocation": "Hyderabad",
-      "startDate": "2025-05-26",
-      "endDate": null
-    },
-    {
-      "id": "5359",
-      "projectname": "customer365",
-      "projectlocation": "Hyderabad",
-      "startDate": "2025-05-26",
-      "endDate": null
-    },
-    {
-      "id": "2b97",
-      "projectname": "customer365",
-      "projectlocation": "Hyderabad",
-      "startDate": "2025-05-26",
-      "endDate": null
-    },
-    {
-      "id": "08a2",
-      "projectname": "customer365",
-      "projectlocation": "Hyderabad",
-      "startDate": "2025-05-26",
-      "endDate": null
-    },
-    {
-      "id": "20cd",
-      "projectname": "customer365",
-      "projectlocation": "Hyderabad",
-      "startDate": "2025-05-26",
-      "endDate": null
-    },
-    {
-      "id": "c9cc",
-      "projectname": "customer365",
-      "projectlocation": "Hyderabad",
-      "startDate": "2025-05-26",
-      "endDate": null
-    },
-    {
-      "id": "0419",
-      "projectname": "asd",
-      "projectlocation": "adasd",
-      "startDate": "2025-05-26",
-      "endDate": null
+      "id": "1be0",
+      "projectname": "Onboarding/Initio",
+      "projectlocation": "United States",
+      "startDate": "2022-02-15",
+      "endDate": "2028-12-29"
     }
   ],
   "projects": [
@@ -481,7 +202,26 @@
       ]
     },
     {
+      "id": "a4a9",
+      "project_name": "Prudhvi varma",
+      "start_date": "2025-05-19",
+      "end_date": "2025-05-23",
+      "description": "Tracking of users list",
+      "employees": []
+    },
+    {
       "id": "e1d9",
+      "firstName": "Praveen",
+      "lastName": "Kumar",
+      "username": "prudhvi@gmail.com",
+      "password": "123456789",
+      "confirmPassword": "123456789",
+      "employeeId": "Q34567887654",
+      "role": "Employee",
+      "userEntry": "new",
+      "projectName": "Prudhvi varma",
+      "techstack": "Frontend",
+      "teamId": "8b26",
       "project_name": "instaBiZZ",
       "start_date": "2025-05-26",
       "end_date": "2025-05-30",

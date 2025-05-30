@@ -30,8 +30,7 @@ export class ProjectsComponent {
   teamList = signal<createTeam[]>([]);
   private teamStore = inject(TeamStore);
   teamList$ = this.teamStore.team$;
-  private url = "http://localhost:3000/projects"
-  private http = inject(HttpClient)
+   private http = inject(HttpClient)
   projectid: any = ''
   projects: any = [];
   selectedProject: any = []
@@ -42,13 +41,11 @@ export class ProjectsComponent {
   // teamList$ = this.teamStore.team$;
   ngOnInit() {
     this.createEmployeeForm();
-    this.getRegisterStore.getRegisterData();
-
-  
-
+    
     this.router.paramMap.subscribe((params: ParamMap) => {
   this.projectid = params.get('id');
   console.log('Project ID:', this.projectid);
+   this.getRegisterStore.getRegisterData(this.projectid);
 
   if (!this.projectid) return;
 
@@ -93,6 +90,7 @@ export class ProjectsComponent {
 });
   
   }
+  
 
   createEmployeeForm() {
     this.employeeForm = this.fb.group({

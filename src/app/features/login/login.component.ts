@@ -10,7 +10,7 @@ import { RouterLink } from '@angular/router';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [IonicModule, ReactiveFormsModule, CommonModule, RouterLink],
+  imports: [IonicModule, ReactiveFormsModule,  CommonModule,RouterLink],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })

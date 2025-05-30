@@ -82,6 +82,20 @@ export class SummaryComponent {
 
 
   }
+
+   weekList = [
+    {
+      weekId: 'WEEK001',
+      startDate: '2025-05-01',
+      endDate: '2025-05-07'
+    },
+    {
+      weekId: 'WEEK002',
+      startDate: '2025-05-08',
+      endDate: '2025-05-14'
+    }
+  ];
+
 }
 
 

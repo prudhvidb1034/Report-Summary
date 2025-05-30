@@ -1,4 +1,39 @@
-<ion-card style="
+<ion-grid class="week-table">
+  <!-- Table Header -->
+  <ion-row class="header-row ion-text-center">
+    <ion-col size="3">Week ID</ion-col>
+    <ion-col size="3">Start Date</ion-col>
+    <ion-col size="3">End Date</ion-col>
+    <ion-col size="3">Action</ion-col>
+  </ion-row>
+
+  <!-- Table Rows with @for -->
+  @for (week of weekList; track week.weekId) {
+    <ion-row class="data-row ion-text-center">
+      <ion-col size="3">{{ week.weekId }}</ion-col>
+      <ion-col size="3">{{ week.startDate }}</ion-col>
+      <ion-col size="3">{{ week.endDate }}</ion-col>
+      <ion-col size="3">
+        <ion-button fill="clear" size="small" title="View" >
+          <ion-icon name="eye-outline" slot="icon-only"></ion-icon>
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  } @empty {
+    <ion-row class="ion-text-center">
+      <ion-col size="12">No week data available.</ion-col>
+    </ion-row>
+  }
+</ion-grid>
+
+
+
+
+
+
+
+
+<!-- <ion-card style="
     width: 500px;
     position: absolute;
     top: 55%;
@@ -89,4 +124,4 @@
       </form>
     </ion-list>
   </ion-card-content>
-</ion-card>
+</ion-card> -->

@@ -17,12 +17,13 @@ export const routes: Routes = [
     path: 'dashboard',
     loadComponent: () => import('../app/features/dashboard/dashboard.component').then((m) => m.DashboardComponent),
     canActivate: [RoleGuard],
-    data: { expectedRole: 'manager' }
+    data: { expectedRole: 'manager', breadcrumb: 'Dashboard'}
 
   },
   {
     path: 'project/:id',
     loadComponent: () => import('../app/features/projects/projects.component').then((m) => m.ProjectsComponent),
+    data: {  breadcrumb: 'Projects'}
   },
   {
     path: 'summary',
@@ -35,7 +36,7 @@ export const routes: Routes = [
     path: 'employee-dashboard',
     loadComponent: () => import('../app/features/employee-update/employee-update.component').then((m) => m.EmployeeUpdateComponent),
     canActivate: [RoleGuard],
-    data: { expectedRole: 'employee' }
+    data: { expectedRole: 'employee',breadcrumb:'Employee Update' }
   
   },
   {

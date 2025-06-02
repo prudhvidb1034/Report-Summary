@@ -13,7 +13,7 @@
       <div>
         <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
           <ion-item>
-            <ion-input formControlName="username" label="User Name" labelPlacement="floating"
+            <ion-input formControlName="username" label="Email " labelPlacement="floating"
               placeholder="abc@gmail.com" [clearOnEdit]="true"></ion-input>
           </ion-item>
           @if (loginForm.get('username')?.invalid &&

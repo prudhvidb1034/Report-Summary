@@ -66,6 +66,10 @@ export class AppComponent {
 //    toggleMenu() {
 //   this.menuCtrl.toggle();
 // }
+
+navigatetoregister(){
+  this.router.navigate(['/sign-up'])
 }
 
+}
 

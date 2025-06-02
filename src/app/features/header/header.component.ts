@@ -20,7 +20,7 @@ export class HeaderComponent {
 
   constructor(private router: Router, private route: ActivatedRoute, private menuCtrl: MenuController) {
     this.router.events.subscribe((val: any) => {
-      if (val.url !== '/login' && val.url !== '/sign-up') {
+      if (val.url !== '/login' ) {
         this.showLogout = true;
       } else {
         this.showLogout = false;

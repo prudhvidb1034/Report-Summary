@@ -114,5 +114,6 @@ export class ProjectsComponent {
 
   openModal() {
     this.route.navigate(['/view-reports', this.matchingProject.id])
+    
   }
 }

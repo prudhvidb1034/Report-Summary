@@ -34,11 +34,17 @@ export class ViewReportsComponent {
 
       this.http.get('http://localhost:3000/projects').subscribe(
         (projects: any) => {
+          console.log(projects);
           // Find the project with matching ID
           this.foundProject = projects.find((project: any) => project.id === projectId);
 
           if (this.foundProject) {
-            console.log('Found project:', this.foundProject);
+            console.log('Found project:', this.foundProject, Array.isArray(this.foundProject));
+
+            // this.foundProject.forEach((s:any)=>{
+            //   console.log(s);
+              
+            // })
 
             // Check if employees exist
             if (this.foundProject.employees && this.foundProject.employees.length > 0) {

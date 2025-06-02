@@ -6,17 +6,34 @@
         <ion-title>Menu</ion-title>
       </ion-toolbar>  
     </ion-header>
-    <ion-content>
-      <ion-menu-toggle>
-      <ion-list *ngIf="userRole === 'manager'">
-        <ion-item menuClose class="cursor" (click)="navigateToWkSmry()">
-          <ion-icon name="home" slot="start"></ion-icon>
-          Weekly Summary
-        </ion-item>
-      </ion-list>
-    </ion-menu-toggle>
-      <ion-list>
-      </ion-list>
+    <ion-content >
+   <ion-menu-toggle style="display: flex; flex-direction: column; height: 100%;">
+  <!-- Top section -->
+  <ion-list *ngIf="userRole === 'manager'" style="flex-grow: 11;">
+    <ion-item menuClose class="cursor hover-item" style="border-bottom: 1px solid #ccc;--background-hover: #f5f5f5;" (click)="navigateToWkSmry()">
+      <ion-icon name="home"slot="start"></ion-icon>
+      Home
+    </ion-item>
+    <ion-item menuClose class="cursor hover-item" style="border-bottom: 1px solid #ccc;" (click)="navigateToWkSmry()">
+      <ion-icon name="book" slot="start"></ion-icon>
+      Projects
+    </ion-item>
+    <ion-item menuClose class="cursor hover-item" style="border-bottom: 1px solid #ccc;" (click)="navigateToWkSmry()">
+      <ion-icon name="document-text" slot="start"></ion-icon>
+      Weekly Summary
+    </ion-item>
+  </ion-list>
+
+  <!-- Bottom section (Settings) -->
+  <ion-list *ngIf="userRole === 'manager'" style="flex-grow: 1; margin-top: auto;">
+    <ion-item menuClose class="cursor hover-item" style="border-bottom: 1px solid #ccc; border-top: 1px solid #ccc;" (click)="navigateToWkSmry()">
+      <ion-icon name="settings" slot="start"></ion-icon>
+      Settings
+    </ion-item>
+  </ion-list>
+</ion-menu-toggle>
+
+
     </ion-content>
   </ion-menu>
   <ion-router-outlet id="main-content"></ion-router-outlet>

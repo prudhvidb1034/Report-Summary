@@ -2,7 +2,7 @@
   <ion-header>
     <ion-toolbar>
       <ion-title class="ion-padding">
-        <marquee direction="left">Project Status Update</marquee>
+        <h4>Project Status Update</h4>
       </ion-title>
     </ion-toolbar>
   </ion-header>
@@ -105,14 +105,16 @@
 
           <ion-grid>
             <ion-row>
+              <ion-col offset="3">
+                
+              </ion-col>
+              <ion-col offset="3"></ion-col>
               <ion-col>
                 <ion-button expand="block" type="submit" style="--background: #000033"
                   [disabled]="employeeUpdateForm.invalid || dateError">
                   Submit All Updates
                 </ion-button>
               </ion-col>
-              <ion-col offset="3"></ion-col>
-              <ion-col offset="3"></ion-col>
             </ion-row>
           </ion-grid>
         </form>

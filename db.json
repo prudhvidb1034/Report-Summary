@@ -153,6 +153,7 @@
       "project_name": "customer365",
       "start_date": "2025-05-13",
       "end_date": "2025-05-20",
+      "upcomingTasks":"Setup monitoring dashboards",
       "employees": [
         {
           "employee_id": "8369",
@@ -181,6 +182,7 @@
       "project_name": "Prudhvi varma",
       "start_date": "2025-05-26",
       "end_date": "2025-05-30",
+      "upcomingTasks":"Setup monitoring dashboards",
       "employees": [
         {
           "employee_id": "c756",
@@ -210,7 +212,7 @@
       "project_name": "Prudhvi varma",
       "start_date": "2025-05-19",
       "end_date": "2025-05-23",
-      "description": "Tracking of users list",
+      "upcomingTasks": "Tracking of users list",
       "employees": []
     },
     {
@@ -229,7 +231,7 @@
       "project_name": "instaBiZZ",
       "start_date": "2025-05-26",
       "end_date": "2025-05-30",
-      "description": "instabizz screen",
+      "upcomingTasks": " to create instabizz screens",
       "employees": [
         {
           "employee_id": "4718",

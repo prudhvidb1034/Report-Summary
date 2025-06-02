@@ -1,13 +1,69 @@
-<ion-card style="
-    width: 500px;
-    position: absolute;
-    top: 55%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  ">
+
+<ion-grid>
+  <ion-row class="ion-align-items-center">
+    <ion-col class="ion-text-start">
+      <span class="project-title"> {{ title }} List</span>
+    </ion-col>
+
+    <ion-col class="ion-text-end" size="auto">
+      <ion-button style="--background: #000033" (click)="openModal()">View</ion-button>
+      <ion-button style="--background: #000033" class="large-button" (click)="setOpen(true)"
+        >Create {{title}}</ion-button
+      >
+    </ion-col>
+  </ion-row>
+</ion-grid>
+
+<ion-grid class="project-table">
+  <!-- Header Row -->
+  <ion-row class="header-row ion-text-center" style="font-weight: bold; border-bottom: 1px solid #ccc;">
+    <ion-col size="2">{{ title }} ID</ion-col>
+    <ion-col size="3">{{ title }} Name</ion-col>
+    <ion-col size="3">Mail-id</ion-col>
+    <ion-col size="2">Project Name</ion-col>
+    <ion-col size="2">Action</ion-col>
+  </ion-row>
+
+  <!-- Data Rows -->
+  @for (item of teamRegisterList$ | async; track item.employeeId) {
+    <ion-row class="data-row ion-text-center" style="border-bottom: 1px solid #eee; align-items: center;">
+      <ion-col size="2">{{ item.employeeId }}</ion-col>
+      <ion-col size="3">{{ item.firstName }} {{ item.lastName }}</ion-col>
+      <ion-col size="3">{{ item.username }}</ion-col>
+      <ion-col size="2">{{ item.projectName }}</ion-col>
+      <ion-col size="2">
+        <div style="display: flex; gap: 10px; justify-content: center;">
+          <ion-button fill="clear" size="small" title="View">
+            <ion-icon name="eye-outline" slot="icon-only"></ion-icon>
+          </ion-button>
+          <ion-button fill="clear" size="small" color="primary" title="Edit">
+            <ion-icon name="create-outline" slot="icon-only"></ion-icon>
+          </ion-button>
+          <ion-button fill="clear" size="small" color="danger" title="Delete">
+            <ion-icon name="trash-outline" slot="icon-only"></ion-icon>
+          </ion-button>
+        </div>
+      </ion-col>
+    </ion-row>
+  } @empty {
+    <ion-row class="ion-text-center">
+      <ion-col size="12">No team members found.</ion-col>
+    </ion-row>
+  }
+</ion-grid>
+
+
+
+<ion-modal [isOpen]="isModalOpen" cssClass="custom-modal"
+ (didDismiss)="onModalDismiss()"
+ 
+ >
+  <ng-template>
+<ion-card
+   >
   <ion-header>
     <ion-toolbar>
-      <ion-title class="ion-padding" style="text-align: center">{{ heading }}
+      <ion-title class="ion-padding" > Create {{ title }}
       </ion-title>
     </ion-toolbar>
   </ion-header>
@@ -107,7 +163,7 @@
         </ion-text>
         }
 
-        <ng-container *ngIf="includeProjectFields">
+        <ng-container >
           <ion-item>
             <ion-select label="Projects" label-placement="floating" formControlName="projectName">
               <ion-select-option *ngFor="let p of projects" [value]="p">
@@ -134,13 +190,13 @@
         </ion-item>
 
         <ion-row class="ion-margin-top">
-          <ion-col size="6" *ngIf="includeProjectFields">
-            <ion-button expand="block" colo (click)="onCloseClick()">
+          <ion-col size="6" >
+            <ion-button expand="block"  (click)="onCloseClick()">
               Close
             </ion-button>
           </ion-col>
 
-          <ion-col [size]="includeProjectFields ? '6' : '12'">
+          <ion-col [size]="6">
             <ion-button expand="block" type="submit" [disabled]="registrationForm.invalid"
               style="--background: #000033">
               Register
@@ -151,3 +207,5 @@
     </ion-list>
   </ion-card-content>
 </ion-card>
+</ng-template>
+</ion-modal>

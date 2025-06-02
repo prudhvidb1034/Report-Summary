@@ -28,7 +28,7 @@ export class RoleGuard implements CanActivate {
     if (this.userRole === expectedRole) {
       return true;
     } else {
-      // this.router.navigate(['/not-authorized']);
+       this.router.navigate(['/login']);
       // alert('You dont have an access')
        return false;
     }

@@ -9,6 +9,9 @@ export interface LoginCredentials {
     userEntry: 'existingUser' | 'new';
     userName: string;
     password: string;
+    firstName:string;
+    lastName: string;
+
   }
   
   export interface LoginResponse {

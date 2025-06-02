@@ -5,15 +5,60 @@
       <ion-menu-button *ngIf="showLogout" menu="main-menu"></ion-menu-button>
     </ion-buttons>
     <ion-buttons *ngIf="showLogout" class="white-color" slot="end">
-      <ion-button (click)="onLogout()">
-        <!-- <ion-icon color="info" name="log-out-outline"></ion-icon> -->
-        
-      
-      <ion-icon name="person-circle-outline" id="cover-trigger" *ngIf="showLogout"></ion-icon>
-    </ion-button>
-      <ion-popover trigger="cover-trigger" size="cover">
+      <!-- <ion-popover trigger="cover-trigger" size="cover">
         <ng-template>
           <ion-content class="ion-padding">Hello!</ion-content>
+        </ng-template>
+      </ion-popover> -->
+
+      <ion-button id="popover-button"
+        ><ion-icon
+          name="person-circle-outline"
+          id="cover-trigger"
+          *ngIf="showLogout"
+        >
+        </ion-icon
+      ></ion-button>
+
+      <!-- <ion-popover  trigger="hover-trigger" triggerAction="hover">
+        <ng-template >
+          <ion-content class="popOverLayout">
+            <ion-list>{{fullName}}</ion-list>
+            <ion-list>{{role}}</ion-list>
+            <ion-list (click)="onLogout()">Logout</ion-list>
+          </ion-content>
+        </ng-template>
+      </ion-popover> -->
+
+      <ion-popover trigger="popover-button" [dismissOnSelect]="true">
+        <ng-template>
+          <ion-content>
+            <ion-list>
+              <ion-item [button]="true" [detail]="false">{{fullName}}</ion-item>
+              <ion-item [button]="true" [detail]="false">{{role}}</ion-item>
+              <ion-item [button]="true" [detail]="false" 
+                ><ion-button (click)="onLogout()">
+                  Logout
+                </ion-button></ion-item
+              >
+
+              <ion-popover
+                trigger="nested-trigger"
+                [dismissOnSelect]="true"
+                side="end"
+              >
+                <ng-template>
+                  <ion-content>
+                    <ion-list>
+                      <ion-item [button]="true" [detail]="false"
+                        >Nested option</ion-item
+                      >
+                    </ion-list>
+                  </ion-content>
+                </ng-template>
+              </ion-popover>
+            </ion-list>
+          </ion-content>
         </ng-template>
       </ion-popover>
     </ion-buttons>

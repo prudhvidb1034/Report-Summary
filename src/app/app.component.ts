@@ -25,10 +25,11 @@ export class AppComponent {
   private readonly apiUrl = 'http://localhost:3000/register';
   private readonly login = inject(LoginService);
   roles: any = ''
+  fullName:any=''
   private router = inject(Router)
   public loginService = inject(LoginService);
    private menuCtrl = inject(MenuController)
-   userRole: string |undefined;
+   userRole: string | undefined;
   isLoggedIn = true;
   private  loginStore = inject(LoginStore)
   
@@ -47,8 +48,12 @@ export class AppComponent {
   ngOnInit() {
     this.loginStore.user$.pipe(
       tap(res => {
-        console.log(res);
+        console.log(res)
+       
+        console.log(this.fullName);
+        this.fullName = `${res?.['firstName']}${res?.['lastName']}`;
         this.userRole = res?.role.toLocaleLowerCase();
+        console.log(this.userRole);
       })
     ).subscribe();
   }

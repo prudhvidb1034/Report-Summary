@@ -139,7 +139,7 @@
       "password": "123456789",
       "confirmPassword": "123456789",
       "employeeId": "QE123465",
-      "role": "Super Admin",
+      "role": "superadmin",
       "userEntry": "new"     
     }
   ],

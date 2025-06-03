@@ -34,7 +34,7 @@ export class LoginStore extends ComponentStore<LoginState> {
             
             // localStorage.setItem('userList', role);
             // localStorage.setItem('', role);
-            if (role === 'manager') {
+            if (role === 'manager' || role === 'superadmin') {
               this.router.navigate(['/dashboard']);
             } else if (role === 'employee') {
               this.router.navigate(['/employee-dashboard']);

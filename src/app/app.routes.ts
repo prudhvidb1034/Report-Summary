@@ -12,12 +12,14 @@ export const routes: Routes = [
   {
     path: 'sign-up',
     loadComponent: () => import('../app/features/sign-up/sign-up.component').then((m) => m.SignUpComponent),
+     canActivate: [RoleGuard],
+    data: { expectedRole: 'superadmin' }
   },
   {
     path: 'dashboard',
     loadComponent: () => import('../app/features/dashboard/dashboard.component').then((m) => m.DashboardComponent),
     canActivate: [RoleGuard],
-    data: { expectedRole: 'manager' }
+     data: { expectedRoles: ['manager', 'superadmin'] }
 
   },
   {

@@ -14,7 +14,7 @@ import { TeamStore } from '../../state/team.store';
   standalone: true,
   imports: [
     FormsModule, RouterModule,
-    IonicModule, CommonModule, ReactiveFormsModule, RouterModule, RouterLink],
+    IonicModule, CommonModule, ReactiveFormsModule, RouterModule],
   providers: [TeamStore],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
@@ -37,9 +37,6 @@ export class DashboardComponent {
   ngOnInit() {
     this.CreateForm();
     this.teamStore.getTeam();
-
-
-
   }
 
   goToProject(id: string) {

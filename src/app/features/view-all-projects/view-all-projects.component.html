@@ -1,0 +1,101 @@
+<ion-card style="height: calc(100vh - 85px);">
+<ion-grid>
+  <ion-row>
+    <ion-col size="3">
+      <ion-list>
+        <ion-item *ngFor="let project of projects">
+          <ion-label (click)="selectProject(project)">{{
+            project?.project_name
+          }}</ion-label>
+        </ion-item>
+      </ion-list>
+    </ion-col>
+    <ion-col size="9">
+      <ion-row>
+        <ion-col size="6">
+          <ion-card class="report-card">
+            <ion-card-header class="card-header">
+              <ion-icon name="reader-outline" class="card-icon"></ion-icon>
+              <span class="card-title">Summary</span>
+            </ion-card-header>
+            <ion-card-content>
+              <ul *ngFor="let p of projectDetails.employees">
+                <li>{{ p.summary }}</li>
+              </ul>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+        <ion-col size="6">
+          <ion-card class="report-card">
+            <ion-card-header class="card-header">
+              <ion-icon
+                name="checkmark-done-circle-outline"
+                class="card-icon"
+              ></ion-icon>
+              <span class="card-title">Key Accomplishments</span>
+            </ion-card-header>
+            <ion-card-content>
+              <ul *ngFor="let p of dailyUpdates">
+                <li>{{ p.task }}</li>
+              </ul>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="4">
+          <ion-card class="report-card">
+            <ion-card-header class="card-header">
+              <ion-icon
+                name="people-circle-outline"
+                class="card-icon"
+              ></ion-icon>
+              <span class="card-title">Resources Allocated</span>
+            </ion-card-header>
+            <ion-card-content *ngFor="let s of projectDetails.employees">
+              <p>
+                <strong>{{ s.techstack }}</strong
+                >&nbsp;{{ s.employee_name }}
+              </p>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+
+        <ion-col size="8">
+          <ion-card class="report-card">
+            <ion-card-header class="card-header">
+              <ion-icon name="calendar-outline" class="card-icon"></ion-icon>
+              <span class="card-title">Activities for Upcoming Week</span>
+            </ion-card-header>
+            <ion-card-content>
+              <ol class="numbered-list">
+                <li>{{ projectDetails.upcomingTasks }}</li>
+                <!-- <li>Promote FIS, Sageworks, Credit facility to staging</li>
+              <li>Microsoft Graph Adapter – Sanity deployment</li>
+              <li>Infra: Setup monitoring dashboards</li>
+              <li>Update test cases for ACH modules</li>
+              <li>Review service contracts</li>
+              <li>Finalize deployment scripts</li>
+              <li>Cleanup obsolete code & configs</li>
+              <li>Infra: Setup monitoring dashboards</li>
+              <li>Update test cases for ACH modules</li> -->
+              </ol>
+              <!-- <p><strong>{{foundProject.upcomingTasks}}There are no upcoming tasks as of now...</strong></p> -->
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+      <!-- <ion-list>
+        <ion-item>
+          <ion-label>{{projectDetails.id}}</ion-label>
+          <ion-label>{{projectDetails.project_name}}</ion-label>
+          <ion-label>{{projectDetails.start_date}}</ion-label>
+          <ion-label>{{projectDetails.end_date}}</ion-label>
+          <ion-label>{{projectDetails.upcomingTasks}}</ion-label>
+
+        </ion-item>
+      </ion-list> -->
+    </ion-col>
+  </ion-row>
+</ion-grid>
+</ion-card>

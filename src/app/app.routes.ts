@@ -6,7 +6,7 @@ import { RoleGuard } from './guards/role.guard';
 export const routes: Routes = [
   {
     path: 'login',
-   loadComponent: () => import('../app/features/login/login.component').then((m) => m.LoginComponent),
+    loadComponent: () => import('../app/features/login/login.component').then((m) => m.LoginComponent),
 
   },
   {
@@ -27,16 +27,16 @@ export const routes: Routes = [
   {
     path: 'summary',
     loadComponent: () => import('../app/features/summary/summary.component').then((m) => m.SummaryComponent),
-   
+
     canActivate: [RoleGuard],
     data: { expectedRole: 'manager' }
   },
-   {
+  {
     path: 'employee-dashboard',
     loadComponent: () => import('../app/features/employee-update/employee-update.component').then((m) => m.EmployeeUpdateComponent),
     canActivate: [RoleGuard],
     data: { expectedRole: 'employee' }
-  
+
   },
   {
     path: 'not-authorized',
@@ -45,15 +45,16 @@ export const routes: Routes = [
         (m) => m.NotAuthorizedComponent
       ),
   }
-,  
- 
- { 
-   
-  path:'view-reports/:id',
-  loadComponent:() => import('../app/shared/view-reports/view-reports.component').then((m)=>m.ViewReportsComponent)
+  ,
 
-},
-
+  {
+    path: 'view-reports/:id',
+    loadComponent: () => import('../app/shared/view-reports/view-reports.component').then((m) => m.ViewReportsComponent)
+  },
+ {
+    path: 'view-all-projects',
+    loadComponent: () => import('../app/features/view-all-projects/view-all-projects.component').then((m) => m.ViewAllProjectsComponent)
+  },
   {
     path: '**',
     redirectTo: 'login',

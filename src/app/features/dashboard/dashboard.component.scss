@@ -48,6 +48,7 @@ ion-col {
 .card-header {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   justify-content: flex-start;
   gap: 8px;
   font-weight: 600;

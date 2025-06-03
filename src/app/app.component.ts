@@ -49,15 +49,19 @@ export class AppComponent {
     this.loginStore.user$.pipe(
       tap(res => {
         console.log(res)
-       
+        this.fullName = `${res?.['firstName']}`+' '+`${res?.['lastName']}`;
         console.log(this.fullName);
-        this.fullName = `${res?.['firstName']}${res?.['lastName']}`;
         this.userRole = res?.role.toLocaleLowerCase();
         console.log(this.userRole);
       })
     ).subscribe();
+    
+    if(this.userRole == undefined) {
+      this.router.navigate(['/login']).then(() => {
+        this.menuCtrl.close();
+      });
+    }
   }
-  
 
 
   navigateToWkSmry() {
@@ -76,5 +80,9 @@ navigatetoregister(){
   this.router.navigate(['/sign-up'])
 }
 
+
+navigateViewAllProjects() {
+  this.router.navigate(['/view-all-projects'])
 }
+}   
 

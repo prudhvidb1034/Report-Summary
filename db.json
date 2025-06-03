@@ -129,6 +129,18 @@
       "projectName": "Customer-365",
       "techstack": "Frontend",
       "teamId": "1be0"
+    },
+
+     {
+      "id": "147q",
+      "firstName": "Super",
+      "lastName": "Admin",
+      "username": "superadmin@gmail.com",
+      "password": "123456789",
+      "confirmPassword": "123456789",
+      "employeeId": "QE123465",
+      "role": "Super Admin",
+      "userEntry": "new"     
     }
   ],
   "teamslist": [

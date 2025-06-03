@@ -13,7 +13,7 @@ import { createTeam } from '../../models/project.model';
 @Component({
   selector: 'app-projects',
   standalone: true,
-  imports: [CommonModule, IonicModule, ReactiveFormsModule, SignUpComponent],
+  imports: [CommonModule, IonicModule, ReactiveFormsModule,SignUpComponent],
   providers: [TeamStore, RegisterStore],
   templateUrl: './projects.component.html',
   styleUrl: './projects.component.scss'
@@ -45,7 +45,7 @@ export class ProjectsComponent {
     this.router.paramMap.subscribe((params: ParamMap) => {
   this.projectid = params.get('id');
   console.log('Project ID:', this.projectid);
-   this.getRegisterStore.getRegisterData(this.projectid);
+  //  this.getRegisterStore.getRegisterData(this.projectid);
 
   if (!this.projectid) return;
 
@@ -113,6 +113,7 @@ export class ProjectsComponent {
 
 
   openModal() {
-    this.route.navigate(['/view-reports', '0o4d'])
+    this.route.navigate(['/view-reports', this.matchingProject.id])
+    
   }
 }

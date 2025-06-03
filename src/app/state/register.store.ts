@@ -6,9 +6,9 @@ import { SignUpService } from '../services/sign-up/sign-up.service';
 
 
 export interface RegistrationState {
-    register: RegistrationForm[];
-    loading: boolean;
-    error: string | null;
+  register: RegistrationForm[];
+  loading: boolean;
+  error: string | null;
 }
 
 
@@ -16,55 +16,56 @@ export interface RegistrationState {
 export class RegisterStore extends ComponentStore<RegistrationState> {
 
 
-    private signup = inject(SignUpService);
+  private signup = inject(SignUpService);
 
-    constructor() {
-        super({ register: [], loading: false, error: null });
-    }
+  constructor() {
+    super({ register: [], loading: false, error: null });
+  }
 
-    readonly register$ = this.select(state => state.register);
-    readonly loading$ = this.select(state => state.loading);
-    readonly error$ = this.select(state => state.error);
-    readonly addregister = this.effect((register$: Observable<RegistrationForm>) =>
-        register$.pipe(
-            exhaustMap(register => {
-                this.patchState({ loading: true, error: null });
-                return this.signup.registerUser(register).pipe(
-                    tapResponse(
-                        (savedData) => {
-                            this.patchState(state => ({
-                                register: [...state.register, savedData],
-                                loading: false,
-                                error: null
-                            }));
-                        },
-                        (error: any) => {
-                            this.patchState({
-                                loading: false,
-                                error: error?.message ?? 'Unknown error'
-                            });
-                        }
-                    )
-                );
-            })
-        )
-    );
+  readonly register$ = this.select(state => state.register);
+  readonly loading$ = this.select(state => state.loading);
+  readonly error$ = this.select(state => state.error);
+  readonly addregister = this.effect((register$: Observable<RegistrationForm>) =>
+    register$.pipe(
+      exhaustMap(register => {
+        this.patchState({ loading: true, error: null });
+        return this.signup.registerUser(register).pipe(
+          tapResponse(
+            (savedData) => {
+              this.patchState(state => ({
+                register: [...state.register, savedData],
+                loading: false,
+                error: null
+              }));
+            },
+            (error: any) => {
+              this.patchState({
+                loading: false,
+                error: error?.message ?? 'Unknown error'
+              });
+            }
+          )
+        );
+      })
+    )
+  );
 
-   
 
-    readonly getRegisterData = this.effect((gettrigger$) =>
-    gettrigger$.pipe(
-      switchMap((getId) =>
+
+  readonly getRegisterData = this.effect<{ projectId?: string, role: string }>((trigger$) =>
+    trigger$.pipe(
+      switchMap(({ projectId, role }) =>
         this.signup.getUsers().pipe(
           tapResponse(
             (data) => {
-              // const selectedTeamId = localStorage.getItem('selectedTeamId'); 
-              console.log(getId,'sarath');
-              const filtered = data.filter((item: any) =>
-                item.role === 'Employee' &&
-                item.teamId === getId 
-              );
-  
+              const filtered = data.filter((item: any) => {
+                if (role === 'Manager') {
+                  return item.role === 'Manager';
+                }
+
+                return item.role === role && item.teamId === projectId;
+              });
+
               this.patchState({
                 register: filtered.map((item: any) => ({
                   id: item.id,
@@ -85,8 +86,10 @@ export class RegisterStore extends ComponentStore<RegistrationState> {
       )
     )
   );
-  
-  
+
+
+
+
 
 
 

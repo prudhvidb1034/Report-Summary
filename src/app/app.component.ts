@@ -52,14 +52,24 @@ export class AppComponent {
       })
     ).subscribe();
   }
-  
+
+
+  navigateToHome(){
+ this.router.navigate(['/home']).then(() => {
+      this.menuCtrl.close();
+    });
+  }
+
+  navigateToProjectList(){
+       this.router.navigate(['/dashboard']).then(() => {
+      this.menuCtrl.close();
+    });
+  }
 
 
   navigateToWkSmry() {
     this.router.navigate(['/summary']).then(() => {
       this.menuCtrl.close();
-    
-      // this.menuCtrl.close();
     });
   }
   

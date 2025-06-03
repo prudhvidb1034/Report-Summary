@@ -5,6 +5,10 @@ import { RoleGuard } from './guards/role.guard';
 
 export const routes: Routes = [
   {
+    path:'home',
+   loadComponent: () => import('../app/features/home/home.component').then((m) => m.HomeComponent),
+  },
+  {
     path: 'login',
    loadComponent: () => import('../app/features/login/login.component').then((m) => m.LoginComponent),
 
@@ -53,6 +57,10 @@ export const routes: Routes = [
   path:'view-reports/:id',
   loadComponent:() => import('../app/shared/view-reports/view-reports.component').then((m)=>m.ViewReportsComponent)
 
+},
+{path:'',
+   redirectTo: 'login',
+     pathMatch: 'full',
 },
 
   {

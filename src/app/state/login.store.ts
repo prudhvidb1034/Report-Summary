@@ -31,17 +31,18 @@ export class LoginStore extends ComponentStore<LoginState> {
               user
             })
             const role = user.role?.toLowerCase(); 
-            
+             this.router.navigate(['/home']);
+            //this.router.navigate['/home'];
             // localStorage.setItem(('','userList', role);
             // localStorage.setItem role);
-            if (role === 'manager') {
-              this.router.navigate(['/dashboard']);
-            } else if (role === 'employee') {
-              this.router.navigate(['/employee-dashboard']);
-            } else {
-              this.toast.show('error', 'Unknown role.');
-              return;
-            }
+            // if (role === 'manager') {
+            //   this.router.navigate(['/dashboard']);
+            // } else if (role === 'employee') {
+            //   this.router.navigate(['/employee-dashboard']);
+            // } else {
+            //   this.toast.show('error', 'Unknown role.');
+            //   return;
+            // }
 
             this.toast.show('success', 'Login successfully!');
           } else {

@@ -57,16 +57,12 @@ export class SignUpComponent {
 });
 
 if (this.title === 'Manager') {
-  this.getRegisterStore.getRegisterData({ role: 'Manager' }); // No projectId
+  this.getRegisterStore.getRegisterData({ role: 'Manager' }); 
 } else {
   this.getRegisterStore.getRegisterData({ projectId: this.projectid, role: this.title });
 }
-
     
-    this.teamStore.getTeam();
-  //  this.getRegisterStore.getRegisterData({ projectId: this.projectid, role: this.title });
-
-    
+    this.teamStore.getTeam(); 
     this.createForm();
     console.log('prudhvi', this.teamList$)
     this.teamStore.team$.subscribe((data: any) => {
@@ -94,8 +90,8 @@ if (this.title === 'Manager') {
       employeeId: ['', [Validators.required]],
       role: [{ value: this.title, disabled: true }],
       userEntry: ['new'],
-      projectName: [''],  // Always include
-      techstack: ['']     // Always include
+      projectName: [''],  
+      techstack: ['']     
     }, {
       validators: this.passwordMatchValidator
     });
@@ -116,6 +112,7 @@ if (this.title === 'Manager') {
   }
   onCloseClick() {
     this.isModalOpen = false;
+     this.registrationForm.reset();
   }
 
 
@@ -152,7 +149,7 @@ if (this.title === 'Manager') {
 
   setOpen(isOpen: boolean) {
     this.isModalOpen = isOpen;
-    // this.employeeForm.reset()
+     this.registrationForm.reset()
 
   }
 

@@ -1,5 +1,5 @@
 <ion-app>
-  <app-header></app-header>
+  <app-header [fullName]="fullName" [role]="userRole"></app-header>
   <ion-menu side="start" menuId="main-menu" contentId="main-content">
     <ion-header>
       <ion-toolbar>
@@ -10,15 +10,19 @@
    <ion-menu-toggle style="display: flex; flex-direction: column; height: 100%;">
   <!-- Top section -->
   <ion-list  style="flex-grow: 11;">
-    <ion-item menuClose class="cursor hover-item" style="border-bottom: 1px solid #ccc;--background-hover: #f5f5f5;" (click)="navigateToWkSmry()">
+    <ion-item menuClose class="cursor hover-item" style="border-bottom: 1px solid #ccc;" (click)="navigateToWkSmry()">
       <ion-icon name="home"slot="start"></ion-icon>
       Home
     </ion-item>
-    <ion-item menuClose class="cursor hover-item" style="border-bottom: 1px solid #ccc;" (click)="navigateToWkSmry()">
+    <ion-item menuClose class="cursor hover-item" style="border-bottom: 1px solid #ccc;" (click)="navigateToDashboard()">
       <ion-icon name="book" slot="start"></ion-icon>
       Projects
     </ion-item>
-    <ion-item menuClose class="cursor hover-item" style="border-bottom: 1px solid #ccc;" (click)="navigateToWkSmry()">
+    <ion-item menuClose class="cursor hover-item" style="border-bottom: 1px solid #ccc;" (click)="navigateToManagerList()">
+     <ion-icon name="people" slot="start"></ion-icon>
+      Managers
+    </ion-item>
+     <ion-item menuClose class="cursor hover-item" style="border-bottom: 1px solid #ccc;" (click)="navigateToWkSmry()">
       <ion-icon name="document-text" slot="start"></ion-icon>
       Weekly Summary
     </ion-item>
@@ -26,6 +30,13 @@
       <ion-item  *ngIf="userRole === 'superadmin'" menuClose class="cursor hover-item" style="border-bottom: 1px solid #ccc;" (click)="navigatetoregister()" >
       <ion-icon name="people" slot="start"></ion-icon>
       Managers List
+      <!-- <ion-item menuClose class="cursor hover-item" style="border-bottom: 1px solid #ccc;" (click)="navigatetoregister()" >
+      <ion-icon name="people" slot="start"></ion-icon>
+      Create Managers-->
+    </ion-item> 
+    <ion-item menuClose class="cursor hover-item" style="border-bottom: 1px solid #ccc;" (click)="navigateViewAllProjects()">
+      <ion-icon name="documents" slot="start"></ion-icon>
+      View Projects
     </ion-item>
   </ion-list>
 

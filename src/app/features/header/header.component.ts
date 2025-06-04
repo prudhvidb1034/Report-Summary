@@ -12,9 +12,11 @@ import { IonicModule, MenuController } from '@ionic/angular';
 })
 export class HeaderComponent {
   showLogout: boolean = false;
+  @Input() fullName: any = '';
+  @Input() role: any = '';
 
 
-  ngOnInIt() {
+  ngOnInit() {
 
   }
 

@@ -25,10 +25,11 @@ export class AppComponent {
   private readonly apiUrl = 'http://localhost:3000/register';
   private readonly login = inject(LoginService);
   roles: any = ''
+  fullName:any=''
   private router = inject(Router)
   public loginService = inject(LoginService);
    private menuCtrl = inject(MenuController)
-   userRole: string |undefined;
+   userRole: string | undefined;
   isLoggedIn = true;
   private  loginStore = inject(LoginStore)
   
@@ -47,29 +48,46 @@ export class AppComponent {
   ngOnInit() {
     this.loginStore.user$.pipe(
       tap(res => {
-        console.log(res);
+        console.log(res)
+        this.fullName = `${res?.['firstName']}`+' '+`${res?.['lastName']}`;
+        console.log(this.fullName);
         this.userRole = res?.role.toLocaleLowerCase();
+        console.log(this.userRole);
       })
     ).subscribe();
+    
+    if(this.userRole == undefined) {
+      this.router.navigate(['/login']).then(() => {
+        this.menuCtrl.close();
+      });
+    }
   }
-  
 
 
   navigateToWkSmry() {
     this.router.navigate(['/summary']).then(() => {
       this.menuCtrl.close();
-    
-      // this.menuCtrl.close();
     });
   }
   
-//    toggleMenu() {
-//   this.menuCtrl.toggle();
-// }
+navigateToDashboard(){
+this.router.navigate(['/dashboard']).then(() => {
+      this.menuCtrl.close();
+    });
+}
 
+navigateToManagerList(){
+  this.router.navigate(['/sign-up']).then(() => {
+      this.menuCtrl.close();
+    });
+}
+
+
+navigateViewAllProjects() {
+  this.router.navigate(['/view-all-projects'])
+}
 navigatetoregister(){
   this.router.navigate(['/sign-up'])
 }
-
-}
+}   
 

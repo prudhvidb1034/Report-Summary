@@ -4,7 +4,6 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { Router, RouterLink, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { createTeam } from '../../models/project.model';
-import { TeamListService } from '../../services/team-list/team-list.service';
 import { ToastService } from '../../shared/toast.service';
 import { LoginStore } from '../../state/login.store';
 import { TeamStore } from '../../state/team.store';

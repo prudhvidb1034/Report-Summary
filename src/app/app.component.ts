@@ -70,6 +70,13 @@ export class AppComponent {
     });
   }
   
+    navigateToHome(){
+ this.router.navigate(['/home']).then(() => {
+      this.menuCtrl.close();
+    });
+  }
+
+  
 navigateToDashboard(){
 this.router.navigate(['/dashboard']).then(() => {
       this.menuCtrl.close();

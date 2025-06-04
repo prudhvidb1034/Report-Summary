@@ -29,9 +29,9 @@ export class LoginComponent {
   onSubmit() {
     if (this.loginForm.valid) {
       this.loginStore.login(this.loginForm.value);
-          }else{
-      this.toast.show('error','Please fill in all required fields.')
+    } else {
+      this.toast.show('error', 'Please fill in all required fields.')
     }
   }
- 
-  }
+
+}

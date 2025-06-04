@@ -8,7 +8,7 @@
       "password": "123456789",
       "confirmPassword": "123456789",
       "employeeId": "12345",
-      "role": "Employee",
+      "role": " ",
       "userEntry": "new",
       "projectName": "customer365",
       "techstack": "Frontend"
@@ -157,6 +157,13 @@
       "projectlocation": "United States",
       "startDate": "2022-02-15",
       "endDate": "2028-12-29"
+    },
+    {
+      "id": "83f2",
+      "projectname": "spp canada",
+      "projectlocation": "hyderabad",
+      "startDate": "2025-05-12",
+      "endDate": null
     }
   ],
   "projects": [
@@ -169,23 +176,19 @@
       "employees": [
         {
           "employee_id": "8369",
+          "project_id": "7ae6",
           "employee_name": "sarath",
-          "summary": "asdadsasd",
+          "summary": "tcb data",
           "daily_updates": [
             {
-              "startDate": "2025-05-21",
-              "endDate": "2025-05-22",
-              "task": "12332131",
+              "startDate": "2025-05-26",
+              "endDate": "2025-05-30",
+              "task": "tcb screen design",
               "status": "Completed"
-            },
-            {
-              "startDate": "2025-05-19",
-              "endDate": "2025-05-22",
-              "task": "qweqwewqe",
-              "status": "Pending"
             }
           ],
-          "projectName": "customer365"
+          "projectName": "customer365",
+          "techstack": "Frontend"
         }
       ]
     },
@@ -262,6 +265,30 @@
           "techstack": "Frontend"
         }
       ]
+    },
+    {
+      "id": "2e54",
+      "project_name": "customer365",
+      "start_date": "2025-05-26",
+      "end_date": "2025-05-30",
+      "description": "tcb screen",
+      "employees": []
+    },
+    {
+      "id": "745e",
+      "project_name": "customer365",
+      "start_date": "2025-05-26",
+      "end_date": "2025-05-30",
+      "description": "tcb screen",
+      "employees": []
+    },
+    {
+      "id": "3062",
+      "project_name": "customer365",
+      "start_date": "2025-05-26",
+      "end_date": "2025-05-30",
+      "description": "tcb screen",
+      "employees": []
     }
   ]
 }

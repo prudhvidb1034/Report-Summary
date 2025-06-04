@@ -1,0 +1,5 @@
+<ion-breadcrumbs  [maxItems]="3">
+  <ion-breadcrumb *ngFor="let breadcrumb of breadcrumbs$ | async" [href]="breadcrumb.url">
+    {{ breadcrumb.label }}
+  </ion-breadcrumb>
+</ion-breadcrumbs>

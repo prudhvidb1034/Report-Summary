@@ -1,0 +1,110 @@
+<ion-card style="height: calc(100vh - 85px);">
+<ion-grid>
+  <ion-row>
+    <ion-col size="3" style="height: calc(100vh - 95px);background-color: rgb(25, 25, 71);">
+      <ion-list>
+        <ion-item menuClose class="cursor hover-item" style="border-bottom: 1px solid #ccc;" *ngFor="let project of projects">
+          <ion-label (click)="selectProject(project)">{{
+            project?.project_name
+          }}</ion-label>
+        </ion-item>
+      </ion-list>
+    </ion-col>
+    <ion-col size="9">
+      <ion-row>
+        <ion-col size="6">
+          <ion-card class="report-card">
+            <ion-card-header class="card-header">
+              <ion-icon name="reader-outline" class="card-icon"></ion-icon>
+              <span class="card-title">Summary</span>
+            </ion-card-header>
+            <ion-card-content>
+              <ul *ngFor="let p of projectDetails.employees">
+                <li>{{ p.summary }}</li>
+              </ul>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+        <ion-col size="6">
+          <ion-card class="report-card">
+            <ion-card-header class="card-header">
+              <ion-icon
+                name="checkmark-done-circle-outline"
+                class="card-icon"
+              ></ion-icon>
+              <span class="card-title">Key Accomplishments</span>
+            </ion-card-header>
+            <ion-card-content>
+              <ul *ngFor="let p of dailyUpdates">
+                <li>{{ p.task }}</li>
+              </ul>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="4">
+          <ion-card class="report-card">
+            <ion-card-header class="card-header">
+              <ion-icon
+                name="people-circle-outline"
+                class="card-icon"
+              ></ion-icon>
+              <span class="card-title">Resources Allocated</span>
+            </ion-card-header>
+            <ion-card-content *ngFor="let s of projectDetails.employees">
+              <p>
+                <strong>{{ s.techstack }}</strong
+                >&nbsp;{{ s.employee_name }}
+              </p>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+
+        <ion-col size="8">
+          <ion-card class="report-card">
+            <ion-card-header class="card-header">
+              <ion-icon name="calendar-outline" class="card-icon"></ion-icon>
+              <span class="card-title">Activities for Upcoming Week</span>
+            </ion-card-header>
+            <ion-card-content>
+              <ol class="numbered-list">
+                <li>{{ projectDetails.upcomingTasks }}</li>
+              
+              </ol>
+              
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+     
+    </ion-col>
+  </ion-row>
+</ion-grid>
+</ion-card>
+
+<!-- <ion-button (click)="navigateToFragment('section2')">Go to Section 2</ion-button>
+ <nav>
+      <ul>
+        <li><a [routerLink]="['/']" fragment="section1">Section 1</a></li>
+        <li><a [routerLink]="['/']" fragment="section2">Section 2</a></li>
+        <li><a [routerLink]="['/']" fragment="section3">Section 3</a></li>
+      </ul>
+    </nav>
+
+    <div style="height: 1000px; padding-top: 60px;">
+      <section id="section1" style="min-height: 500px; background: #f0f0f0;">
+        <h2>Section 1</h2>
+        <p>Content for section 1</p>
+      </section>
+
+      <section id="section2" style="min-height: 500px; background: #e0e0e0;">
+        <h2>Section 2</h2>
+        <p>Content for section 2</p>
+      </section>
+
+      <section id="section3" style="min-height: 500px; background: #d0d0d0;">
+        <h2>Section 3</h2>
+        <p>Content for section 3</p>
+      </section>
+    </div> -->

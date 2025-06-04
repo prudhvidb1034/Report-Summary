@@ -13,9 +13,11 @@ import { BreadcrumbComponent } from '../../shared/bread-crumb/bread-crumb.compon
 })
 export class HeaderComponent {
   showLogout: boolean = false;
+  @Input() fullName: any = '';
+  @Input() role: any = '';
 
 
-  ngOnInIt() {
+  ngOnInit() {
 
   }
 

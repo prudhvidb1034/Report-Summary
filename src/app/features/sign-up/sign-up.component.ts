@@ -154,7 +154,7 @@ if (this.title === 'Manager') {
   }
 
   openModal() {
-    this.router.navigate(['view-reports/:id', ]);  
+    this.router.navigate(['view-all-projects']);  
   }
 
 

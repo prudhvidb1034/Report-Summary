@@ -1,79 +1,73 @@
+.stack-dropdown {
+  ion-label {
+    margin-bottom: 6px;
+    font-weight: 500;
+    color: #333;
+    font-size: 20px;
+  }
+
+  ion-select {
+    padding-top: 4px;
+    font-size: 14px;
+  }
+}
 ::ng-deep .custom-modal {
-  --width: 40%;
-  --height: auto;
-  --border-radius: 16px;
-  --box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
-  --background: #ffffff;
-  flex-direction: column;
+  // --width: 300px;
+  --height: 557px;
+  --border-radius: 10px;
+  --box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
   align-items: center;
   justify-content: center;
 }
-
-ion-header,
-ion-footer,
-ion-toolbar {
-  --background: #ffffff;
-  box-shadow: none;
-  text-align: center;
+ion-modal.custom-modal::part(content) {
+  --width: 500px;
+  --border-radius: 10px;
+  --box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  margin-top: 0px;
+  overflow-y: auto;
 }
+.project-table {
+  ion-row {
+    align-items: center;
 
-ion-title {
-  font-size: 20px;
-  font-weight: 600;
-  color: #333;
-}
-
-form {
-  padding: 16px;
-}
-
-.project-card {
-  cursor: pointer;
-  background-color: rgb(235 245 245);
-  color: #67627e;
-}
-
-
-
-ion-row {
-  display: flex;
-  flex-wrap: wrap;
-}
-ion-col {
-  display: flex;
-  flex-direction: column;
-}
-
-
-.card-header {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  gap: 8px;
-  font-weight: 600;
-  font-size: 16px;
-  color: #2c3e50;
-  border-bottom: 2px solid #eee;
-  .items {
-    display: flex;
-    flex-direction: row;
+    ion-col {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px 4px;
+      word-break: break-word;
+    }
+    
   }
-}
-.card-icon {
-  flex-shrink: 0;
-  font-size: 20px;
-  color: rgb(25, 25, 71);
+
+  .header-row {
+    background-color: #f4f4f4;
+  }
+
+  .data-row {
+    background-color: #f9f9f9;
+  }
+
+  @media (max-width: 768px) {
+    ion-row {
+      flex-wrap: wrap;
+    }
+    ion-col {
+      flex: 0 0 100%;
+      max-width: 100%;
+      justify-content: flex-start;
+    }
+    .header-row,
+    .data-row {
+      font-size: 14px;
+    }
+  }
+ 
 }
 
-.card-title {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-ion-card-content {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
+
+
+ ::ng-deep .searchbar-input{
+    border-radius: 4px !important;
+  }
   
-}

@@ -1,9 +1,9 @@
 <ion-card style="height: calc(100vh - 85px);">
 <ion-grid>
   <ion-row>
-    <ion-col size="3">
+    <ion-col size="3" style="height: calc(100vh - 95px);background-color: rgb(25, 25, 71);">
       <ion-list>
-        <ion-item *ngFor="let project of projects">
+        <ion-item menuClose class="cursor hover-item" style="border-bottom: 1px solid #ccc;" *ngFor="let project of projects">
           <ion-label (click)="selectProject(project)">{{
             project?.project_name
           }}</ion-label>
@@ -70,32 +70,41 @@
             <ion-card-content>
               <ol class="numbered-list">
                 <li>{{ projectDetails.upcomingTasks }}</li>
-                <!-- <li>Promote FIS, Sageworks, Credit facility to staging</li>
-              <li>Microsoft Graph Adapter – Sanity deployment</li>
-              <li>Infra: Setup monitoring dashboards</li>
-              <li>Update test cases for ACH modules</li>
-              <li>Review service contracts</li>
-              <li>Finalize deployment scripts</li>
-              <li>Cleanup obsolete code & configs</li>
-              <li>Infra: Setup monitoring dashboards</li>
-              <li>Update test cases for ACH modules</li> -->
+              
               </ol>
-              <!-- <p><strong>{{foundProject.upcomingTasks}}There are no upcoming tasks as of now...</strong></p> -->
+              
             </ion-card-content>
           </ion-card>
         </ion-col>
       </ion-row>
-      <!-- <ion-list>
-        <ion-item>
-          <ion-label>{{projectDetails.id}}</ion-label>
-          <ion-label>{{projectDetails.project_name}}</ion-label>
-          <ion-label>{{projectDetails.start_date}}</ion-label>
-          <ion-label>{{projectDetails.end_date}}</ion-label>
-          <ion-label>{{projectDetails.upcomingTasks}}</ion-label>
-
-        </ion-item>
-      </ion-list> -->
+     
     </ion-col>
   </ion-row>
 </ion-grid>
 </ion-card>
+
+<!-- <ion-button (click)="navigateToFragment('section2')">Go to Section 2</ion-button>
+ <nav>
+      <ul>
+        <li><a [routerLink]="['/']" fragment="section1">Section 1</a></li>
+        <li><a [routerLink]="['/']" fragment="section2">Section 2</a></li>
+        <li><a [routerLink]="['/']" fragment="section3">Section 3</a></li>
+      </ul>
+    </nav>
+
+    <div style="height: 1000px; padding-top: 60px;">
+      <section id="section1" style="min-height: 500px; background: #f0f0f0;">
+        <h2>Section 1</h2>
+        <p>Content for section 1</p>
+      </section>
+
+      <section id="section2" style="min-height: 500px; background: #e0e0e0;">
+        <h2>Section 2</h2>
+        <p>Content for section 2</p>
+      </section>
+
+      <section id="section3" style="min-height: 500px; background: #d0d0d0;">
+        <h2>Section 3</h2>
+        <p>Content for section 3</p>
+      </section>
+    </div> -->

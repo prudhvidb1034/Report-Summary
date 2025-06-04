@@ -1,11 +1,11 @@
-::ng-deep .custom-modal {
-  --width: 500px;
-  --height: 600px;
-  --border-radius: 10px;
-  --box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
-  align-items: center;
-  justify-content: center;
-}
+// ::ng-deep .custom-modal {
+//   --width: 500px;
+//   --height: 600px;
+//   --border-radius: 10px;
+//   --box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+//   align-items: center;
+//   justify-content: center;
+// }
 ion-modal.custom-modal::part(content) {
   --width: 500px;
   --border-radius: 10px;

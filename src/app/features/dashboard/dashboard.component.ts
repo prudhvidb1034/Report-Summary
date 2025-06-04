@@ -40,7 +40,6 @@ export class DashboardComponent {
   }
 
   goToProject(id: string) {
-
     // localStorage.setItem('selectedTeamId', id)
     this.router.navigate(['/project', id]);
 
@@ -48,7 +47,6 @@ export class DashboardComponent {
 
 
   setOpen(isOpen: boolean) {
-
     this.isModalOpen = isOpen;
     this.teamForm.reset()
   }

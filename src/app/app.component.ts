@@ -67,17 +67,19 @@ export class AppComponent {
   navigateToWkSmry() {
     this.router.navigate(['/summary']).then(() => {
       this.menuCtrl.close();
-    
-      // this.menuCtrl.close();
     });
   }
   
-//    toggleMenu() {
-//   this.menuCtrl.toggle();
-// }
+navigateToDashboard(){
+this.router.navigate(['/dashboard']).then(() => {
+      this.menuCtrl.close();
+    });
+}
 
-navigatetoregister(){
-  this.router.navigate(['/sign-up'])
+navigateToManagerList(){
+  this.router.navigate(['/sign-up']).then(() => {
+      this.menuCtrl.close();
+    });
 }
 
 

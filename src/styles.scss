@@ -14,14 +14,11 @@ app-header {
   background-color: rgb(25, 25, 71);
 }
 
-.project-title {
-  font-size: 20px; // Bigger text
-  font-weight: 600;
-}
+
 
   .project-title {
-    font-size: 20px;         
-        font-weight: 600;
+    font-size: 16px;         
+    font-weight: 600;
   }
   
   .large-button {
@@ -58,11 +55,11 @@ app-header {
 .header-row {
   background: #f1f1f1;
   font-weight: bold;
-  font-size: 16px;
+  font-size: 14px;
 }
 
 .data-row {
-  font-size: 15px;
+  font-size: 14px;
   border-top: 1px solid #ddd;
 }
 .submit:hover {

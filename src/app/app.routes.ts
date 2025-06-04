@@ -52,7 +52,18 @@ export const routes: Routes = [
         (m) => m.NotAuthorizedComponent
       ),
   }
-  ,
+,  
+ 
+ { 
+   
+  path:'view-reports/:id',
+  loadComponent:() => import('../app/shared/view-reports/view-reports.component').then((m)=>m.ViewReportsComponent)
+
+},
+{path:'',
+   redirectTo: 'login',
+     pathMatch: 'full',
+},
 
   {
     path: 'view-reports/:id',

@@ -27,6 +27,7 @@ export class ProjectListComponent {
     { header: 'Location', field: 'projectLocation'},
     { header: 'Start Date', field: 'startDate'},
     { header: 'End Date', field: 'endDate'},
+    {header:'Action',field:'action'}
 
   ];
 
@@ -60,7 +61,7 @@ export class ProjectListComponent {
 
   setOpen(isOpen: boolean) {
     this.isModalOpen = isOpen;
-    this.teamForm.reset()
+    this.teamForm.reset();
   }
 
 

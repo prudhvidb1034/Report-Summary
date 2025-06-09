@@ -13,8 +13,23 @@ export class ReusableTableComponent {
   @Input() data: any;
   @Input() columns: any[] | undefined;
   @Output() rowAction = new EventEmitter<any>();
+  @Input() theme='';
 
   trackByFn(index: number, item: any): any {
     return item ? item['id'] : undefined; // Adjust 'id' based on your data structure
   }
+
+  ngOnInit(){
+  //  this.loadTheme(this.theme);
+  }
+
+//   loadTheme(theme:any){
+// switch(theme){
+
+//   case 'projects':
+//     this.
+// }
+
+
+//   }
 }

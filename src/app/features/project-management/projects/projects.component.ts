@@ -21,15 +21,10 @@ import { ReusableTableComponent } from '../../../shared/reusable-table/reusable-
 })
 export class ProjectListComponent {
 
-employees: any[] = [
-    { id: 1, name: 'John Doe', email: 'john.doe@example.com', project: 'Project A' },
-    { id: 2, name: 'Jane Smith', email: 'jane.smith@example.com', project: 'Project B' }
-  ];
-
   columns = [
     { header: 'ID', field: 'id' },
-    { header: 'Project Name', field: 'projectName' },
-    { header: 'Location', field: 'location'},
+    { header: 'Project Name', field: 'projectname' },
+    { header: 'Location', field: 'projectLocation'},
     { header: 'Start Date', field: 'startDate'},
     { header: 'End Date', field: 'endDate'},
 
@@ -52,11 +47,10 @@ employees: any[] = [
   teamList$ = this.teamStore.team$;
   private loginStore = inject(LoginStore);
   constructor(private route:ActivatedRoute) {
-
+    this.teamStore.getTeam();
   }
   ngOnInit() {
     this.CreateForm();
-    this.teamStore.getTeam();
   }
 
   goToProject(id: string) {

@@ -5,7 +5,7 @@
     </ion-col>
   </ion-row>
 
-  <ion-row *ngFor="let item of data; trackBy: trackByFn" class="data-row ion-text-center" style="border-bottom: 1px solid #eee; align-items: center;">
+  <ion-row *ngFor="let item of data | async; trackBy: trackByFn" class="data-row ion-text-center" style="border-bottom: 1px solid #eee; align-items: center;">
     <ion-col *ngFor="let column of columns" [size]="column.size || 'auto'">
       <ng-container *ngIf="column.cellTemplate; else defaultTemplate">
         <ng-template [ngTemplateOutlet]="column.cellTemplate" [ngTemplateOutletContext]="{ $implicit: item }"></ng-template>

@@ -114,14 +114,6 @@ if (this.title === 'Manager') {
   onSubmit() {
     if (this.registrationForm.valid) {
        const formData = { ...this.registrationForm.getRawValue() };
-
-
-
-      //       this.teamStore.team$.subscribe((data: any) => {
-      //   this.teamListData = data
-      //   console.log( 'Sarathchandra',this.teamListData, )
-      // })
-      // const teamId = localStorage.getItem('selectedTeamId');
       const teamid = this.projectid
        if (teamid && this.title === 'Employee') {
         formData.teamId = teamid;
@@ -132,11 +124,6 @@ if (this.title === 'Manager') {
       this.store.addregister(formData);
       this.toast.show('success', 'Registration completed successfully!');
       this.onCloseClick();
-      // if (this.includeProjectFields) {
-      //   this.onCloseClick();
-      // } else {
-      //   this.router.navigateByUrl('login');
-      // }
     } else {
       this.registrationForm.markAllAsTouched();
     }

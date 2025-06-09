@@ -1,1 +1,1 @@
-<app-reusable-table  [columns]="columns" [data]="teamList$ " [theme]="'projects'"></app-reusable-table>
+<app-reusable-table  [columns]="columns" [data]="teamList$" (rowAction)="handleRowAction($event)"></app-reusable-table>

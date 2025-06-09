@@ -24,15 +24,20 @@ export class ProjectListComponent {
   columns = [
     { header: 'ID', field: 'id' },
     { header: 'Project Name', field: 'projectname' },
-    { header: 'Location', field: 'projectLocation'},
-    { header: 'Start Date', field: 'startDate'},
-    { header: 'End Date', field: 'endDate'},
-    {header:'Action',field:'action'}
-
+    { header: 'Location', field: 'projectLocation' },
+    { header: 'Start Date', field: 'startDate' },
+    { header: 'End Date', field: 'endDate' },
+    { header: 'Action', field: 'action', type: ['view', 'edit', 'delete'] }
   ];
 
-  handleRowAction(employee: any): void {
-    console.log('Row action triggered for:', employee);
+  handleRowAction(action: any) {
+    switch(action.type){
+      case 'view':
+      this.router.navigate(['/projects/employees' ,action.item.id]);
+      break;
+      default:
+      console.log('failing')
+    }
   }
 
 

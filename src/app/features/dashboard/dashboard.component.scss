@@ -25,6 +25,7 @@ ion-modal.custom-modal::part(content) {
   --box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
   margin-top: 0px;
   overflow-y: auto;
+  height: auto;
 }
 .project-table {
   ion-row {

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, Input, SimpleChanges } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IonicModule, MenuController } from '@ionic/angular';
 import { BreadcrumbComponent } from '../../shared/bread-crumb/bread-crumb.component';
@@ -7,28 +7,34 @@ import { BreadcrumbComponent } from '../../shared/bread-crumb/bread-crumb.compon
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [IonicModule, CommonModule,BreadcrumbComponent],
+  imports: [IonicModule, CommonModule, BreadcrumbComponent],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'
 })
 export class HeaderComponent {
-  showLogout: boolean = false;
+  @Input() showLogoutIcon: boolean = false;
   @Input() fullName: any = '';
   @Input() role: any = '';
 
-
-  ngOnInit() {
+  constructor(private router: Router, private route: ActivatedRoute, private menuCtrl: MenuController) {
 
   }
 
-  constructor(private router: Router, private route: ActivatedRoute, private menuCtrl: MenuController) {
-    this.router.events.subscribe((val: any) => {
-      if (val.url !== '/login' ) {
-        this.showLogout = true;
-      } else {
-        this.showLogout = false;
-      }
-    });
+
+  ngOnInit() {
+    console.log(this.showLogoutIcon);
+
+    // if ((this.fullName || this.role) === undefined || null) {
+    //    this.router.navigate(['/login']).then(() => {
+    //     this.menuCtrl.close();
+    //   });
+    //   this.showLogoutIcon = false;
+
+    // }
+    // else {
+    //   this.showLogoutIcon = true;
+    // }
+
   }
 
 
@@ -38,7 +44,7 @@ export class HeaderComponent {
 
   onLogout() {
     this.router.navigate(['/login']);
-
+    this.showLogoutIcon = false;
     localStorage.clear()
   }
 }

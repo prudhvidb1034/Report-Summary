@@ -38,6 +38,7 @@ export class ViewAllProjectsComponent {
     this.projectDetails;
   }
   selectProject(project: any) {
+     this.route.navigateByUrl('/'+'#'+project?.project_name );
     console.log(project)
     this.projectDetails = project
     console.log(this.projectDetails)
@@ -56,7 +57,7 @@ export class ViewAllProjectsComponent {
       }
     })
   }
-  // navigateToFragment(fragment: string) {
-  //   this.route.navigateByUrl('#'+ fragment );
-  // }
+  navigateToFragment(fragment: string) {
+    this.route.navigateByUrl('/'+'#'+fragment );
+  }
 } 

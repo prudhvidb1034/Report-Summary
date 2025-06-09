@@ -1,5 +1,5 @@
 <ion-app>
-  <app-header [fullName]="fullName" [role]="userRole"></app-header>
+  <app-header [showLogoutIcon]="showIcons" [fullName]="fullName" [role]="userRole">{{showIcons}}</app-header>
   <ion-menu side="start" menuId="main-menu" contentId="main-content">
     <ion-header>
       <ion-toolbar>

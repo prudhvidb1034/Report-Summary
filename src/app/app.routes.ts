@@ -74,7 +74,7 @@ export const routes: Routes = [
     loadComponent: () => import('../app/features/view-all-projects/view-all-projects.component').then((m) => m.ViewAllProjectsComponent)
   },
   {
-    path: '**',
+    path: '**/',
     redirectTo: 'login',
     pathMatch: 'full',
   },

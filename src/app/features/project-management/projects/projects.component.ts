@@ -1,24 +1,45 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router, RouterLink, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
-import { createTeam } from '../../models/project.model';
-import { ToastService } from '../../shared/toast.service';
-import { LoginStore } from '../../state/login.store';
-import { TeamStore } from '../../state/team.store';
+import { createTeam } from '../../../models/project.model';
+import { ToastService } from '../../../shared/toast.service';
+import { LoginStore } from '../../../state/login.store';
+import { TeamStore } from '../../../state/team.store';
+import { ReusableTableComponent } from '../../../shared/reusable-table/reusable-table.component';
 
 @Component({
-  selector: 'app-dashboard',
+  selector: 'app-projects',
   standalone: true,
   imports: [
     FormsModule, RouterModule,
-    IonicModule, CommonModule, ReactiveFormsModule, RouterModule],
+    IonicModule, CommonModule, ReactiveFormsModule, RouterModule,ReusableTableComponent],
   providers: [TeamStore],
-  templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.scss'
+  templateUrl: './projects.component.html',
+  styleUrl: './projects.component.scss'
 })
-export class DashboardComponent {
+export class ProjectListComponent {
+
+employees: any[] = [
+    { id: 1, name: 'John Doe', email: 'john.doe@example.com', project: 'Project A' },
+    { id: 2, name: 'Jane Smith', email: 'jane.smith@example.com', project: 'Project B' }
+  ];
+
+  columns = [
+    { header: 'ID', field: 'id' },
+    { header: 'Project Name', field: 'projectName' },
+    { header: 'Location', field: 'location'},
+    { header: 'Start Date', field: 'startDate'},
+    { header: 'End Date', field: 'endDate'},
+
+  ];
+
+  handleRowAction(employee: any): void {
+    console.log('Row action triggered for:', employee);
+  }
+
+
 
   private url = "http://localhost:3000/teamslist"
   isModalOpen = false;
@@ -30,7 +51,7 @@ export class DashboardComponent {
   private teamStore = inject(TeamStore);
   teamList$ = this.teamStore.team$;
   private loginStore = inject(LoginStore);
-  constructor() {
+  constructor(private route:ActivatedRoute) {
 
   }
   ngOnInit() {
@@ -39,9 +60,7 @@ export class DashboardComponent {
   }
 
   goToProject(id: string) {
-    // localStorage.setItem('selectedTeamId', id)
-    this.router.navigate(['/project', id]);
-
+    this.router.navigate(['/projects/employees' ,id]);
   }
 
 
@@ -75,11 +94,5 @@ export class DashboardComponent {
       this.teamForm.markAllAsTouched()
     }
   }
-
-
-  // deleteProject(){
-
-  // }
-
 
 }

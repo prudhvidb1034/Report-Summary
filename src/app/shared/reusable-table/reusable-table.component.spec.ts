@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { BreadcrumbComponent } from './bread-crumb.component';
+import { ReusableTableComponent } from './reusable-table.component';
 
-describe('BreadcrumbComponent', () => {
-  let component: BreadcrumbComponent;
-  let fixture: ComponentFixture<BreadcrumbComponent>;
+describe('ReusableTableComponent', () => {
+  let component: ReusableTableComponent;
+  let fixture: ComponentFixture<ReusableTableComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [BreadcrumbComponent]
+      imports: [ReusableTableComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(BreadcrumbComponent);
+    fixture = TestBed.createComponent(ReusableTableComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

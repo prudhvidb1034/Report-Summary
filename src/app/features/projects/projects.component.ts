@@ -5,7 +5,7 @@ import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { RegistrationForm } from '../../models/register.mode';
 import { RegisterStore } from '../../state/register.store';
-import { SignUpComponent } from '../sign-up/sign-up.component';
+import { RegisterComponent } from '../register/register.component';
 import { TeamStore } from '../../state/team.store';
 import { HttpClient } from '@angular/common/http';
 import { createTeam } from '../../models/project.model';
@@ -13,7 +13,7 @@ import { createTeam } from '../../models/project.model';
 @Component({
   selector: 'app-projects',
   standalone: true,
-  imports: [CommonModule, IonicModule, ReactiveFormsModule,SignUpComponent],
+  imports: [CommonModule, IonicModule, ReactiveFormsModule,RegisterComponent],
   providers: [TeamStore, RegisterStore],
   templateUrl: './projects.component.html',
   styleUrl: './projects.component.scss'

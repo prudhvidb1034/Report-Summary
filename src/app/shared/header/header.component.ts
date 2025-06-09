@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IonicModule, MenuController } from '@ionic/angular';
-import { BreadcrumbComponent } from '../../shared/bread-crumb/bread-crumb.component';
+import { BreadcrumbComponent } from '../bread-crumb/bread-crumb.component';
 
 @Component({
   selector: 'app-header',

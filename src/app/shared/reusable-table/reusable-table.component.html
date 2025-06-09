@@ -1,0 +1,18 @@
+<ion-grid>
+  <ion-row class="header-row ion-text-center" style="font-weight: bold; border-bottom: 1px solid #ccc">
+    <ion-col *ngFor="let column of columns" [size]="column.size || 'auto'">
+      {{ column.header }}
+    </ion-col>
+  </ion-row>
+
+  <ion-row *ngFor="let item of data; trackBy: trackByFn" class="data-row ion-text-center" style="border-bottom: 1px solid #eee; align-items: center;">
+    <ion-col *ngFor="let column of columns" [size]="column.size || 'auto'">
+      <ng-container *ngIf="column.cellTemplate; else defaultTemplate">
+        <ng-template [ngTemplateOutlet]="column.cellTemplate" [ngTemplateOutletContext]="{ $implicit: item }"></ng-template>
+      </ng-container>
+      <ng-template #defaultTemplate>
+        {{ item[column.field] }}
+      </ng-template>
+    </ion-col>
+  </ion-row>
+</ion-grid>

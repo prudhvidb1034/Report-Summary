@@ -9,7 +9,7 @@ import { RegistrationForm } from '../../models/register.mode';
 @Injectable({
   providedIn: 'root'
 })
-export class SignUpService {
+export class RegisterService {
 
   private readonly http = inject(HttpClient);
   private readonly apiUrl = urls.REGISTRATION_DETAILS;;

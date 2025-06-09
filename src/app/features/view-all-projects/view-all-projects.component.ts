@@ -4,7 +4,7 @@ import { Component, inject } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router, RouterOutlet ,RouterModule, RouterLink} from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { ToastComponent } from '../../shared/toast/toast.component';
-import { HeaderComponent } from '../header/header.component';
+import { HeaderComponent } from '../../shared/header/header.component';
 
 @Component({
   selector: 'app-view-all-projects',

@@ -3,7 +3,6 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, AbstractContro
 import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { RegisterStore } from '../../state/register.store';
-import { SignUpService } from '../../services/sign-up/sign-up.service';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { createTeam } from '../../models/project.model';
 import { TeamStore } from '../../state/team.store';
@@ -12,14 +11,14 @@ import { SummaryService } from '../../services/summary/summary.service';
 import { RegistrationForm } from '../../models/register.mode';
 
 @Component({
-  selector: 'app-sign-up',
+  selector: 'app-register',
   standalone: true,
   imports: [IonicModule, CommonModule, ReactiveFormsModule],
-  templateUrl: './sign-up.component.html',
-  styleUrl: './sign-up.component.scss',
+  templateUrl: './register.component.html',
+  styleUrl: './register.component.scss',
   providers: [RegisterStore, TeamStore],
 })
-export class SignUpComponent {
+export class RegisterComponent {
   teamList = signal<createTeam[]>([]);
   teamListData: createTeam[] = []
   private teamStore = inject(TeamStore);
@@ -36,7 +35,6 @@ export class SignUpComponent {
   projectid: any;
 
   private readonly store = inject(RegisterStore);
-  private signup = inject(SignUpService);
   projects: createTeam[] = [];
   private summary = inject(SummaryService);
   private toast = inject(ToastService)
@@ -49,6 +47,7 @@ export class SignUpComponent {
   isModalOpen: boolean = false;
   constructor() {
   }
+
   ngOnInit() {
 
    this.routering.paramMap.subscribe((params: ParamMap) => {
@@ -74,11 +73,7 @@ if (this.title === 'Manager') {
     this.getProjects()
   }
   ngAfterViewInit() {
-    this.routering.paramMap.subscribe((params: ParamMap) => {
-      this.projectid = params.get('id');
-      console.log('Project ID:', this.projectid);
-    }
-    )
+    this.projectid = this.routering.snapshot.paramMap.get('id')
   }
   createForm() {
     this.registrationForm = this.fb.group({

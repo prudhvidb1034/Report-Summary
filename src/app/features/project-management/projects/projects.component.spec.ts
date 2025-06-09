@@ -1,14 +1,14 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DashboardComponent } from './dashboard.component';
+import { ProjectListComponent } from './projects.component';
 import { provideRouter, Router } from '@angular/router';
 import { provideHttpClient } from '@angular/common/http';
-import { TeamStore } from '../../state/team.store';
-import { ToastService } from '../../shared/toast.service';
+import { TeamStore } from '../../../state/team.store';
+import { ToastService } from '../../../shared/toast.service';
 
-fdescribe('DashboardComponent', () => {
-  let component: DashboardComponent;
-  let fixture: ComponentFixture<DashboardComponent>;
+fdescribe('ProjectListComponent', () => {
+  let component: ProjectListComponent;
+  let fixture: ComponentFixture<ProjectListComponent>;
   let router = {
     navigate: jasmine.createSpy('navigate')
   };
@@ -21,7 +21,7 @@ fdescribe('DashboardComponent', () => {
     toastServiceSpy = jasmine.createSpyObj('ToastService', ['show']);
 
     await TestBed.configureTestingModule({
-      imports: [DashboardComponent],
+      imports: [ProjectListComponent],
       providers: [provideHttpClient(), provideRouter([]),
       { provide: Router, useValue: router },
       { provide: TeamStore, useValue: teamStoreSpy },
@@ -29,7 +29,7 @@ fdescribe('DashboardComponent', () => {
     })
       .compileComponents();
 
-    fixture = TestBed.createComponent(DashboardComponent);
+    fixture = TestBed.createComponent(ProjectListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

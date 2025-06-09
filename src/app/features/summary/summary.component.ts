@@ -81,7 +81,7 @@ export class SummaryComponent {
         employees: []
       };
       this.store.weeklyReport(transformedState)
-      this.route.navigate(['/dashboard'])
+      this.route.navigate(['/projects'])
     }
   }
 

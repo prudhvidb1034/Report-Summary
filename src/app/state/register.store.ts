@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { exhaustMap, Observable, switchMap } from 'rxjs';
 import { RegistrationForm } from '../models/register.mode';
-import { SignUpService } from '../services/sign-up/sign-up.service';
+import { RegisterService } from '../services/register-service/register.service';
 
 
 export interface RegistrationState {
@@ -16,7 +16,7 @@ export interface RegistrationState {
 export class RegisterStore extends ComponentStore<RegistrationState> {
 
 
-  private signup = inject(SignUpService);
+  private register = inject(RegisterService);
 
   constructor() {
     super({ register: [], loading: false, error: null });
@@ -29,7 +29,7 @@ export class RegisterStore extends ComponentStore<RegistrationState> {
     register$.pipe(
       exhaustMap(register => {
         this.patchState({ loading: true, error: null });
-        return this.signup.registerUser(register).pipe(
+        return this.register.registerUser(register).pipe(
           tapResponse(
             (savedData) => {
               this.patchState(state => ({
@@ -55,14 +55,13 @@ export class RegisterStore extends ComponentStore<RegistrationState> {
   readonly getRegisterData = this.effect<{ projectId?: string, role: string }>((trigger$) =>
     trigger$.pipe(
       switchMap(({ projectId, role }) =>
-        this.signup.getUsers().pipe(
+        this.register.getUsers().pipe(
           tapResponse(
             (data) => {
               const filtered = data.filter((item: any) => {
                 if (role === 'Manager') {
                   return item.role === 'Manager';
                 }
-
                 return item.role === role && item.teamId === projectId;
               });
 

@@ -130,17 +130,16 @@
       "techstack": "Frontend",
       "teamId": "1be0"
     },
-
-     {
+    {
       "id": "147q",
       "firstName": "Super",
       "lastName": "Admin",
       "username": "superadmin@gmail.com",
-      "password": "123456789",
-      "confirmPassword": "123456789",
+      "password": "Sarath11@",
+      "confirmPassword": "Sarath11@",
       "employeeId": "QE123465",
       "role": "superadmin",
-      "userEntry": "new"     
+      "userEntry": "new"
     }
   ],
   "teamslist": [
@@ -172,7 +171,7 @@
       "project_name": "customer365",
       "start_date": "2025-05-13",
       "end_date": "2025-05-20",
-      "upcomingTasks":"Setup monitoring dashboards",
+      "upcomingTasks": "Setup monitoring dashboards",
       "employees": [
         {
           "employee_id": "8369",
@@ -197,7 +196,7 @@
       "project_name": "Prudhvi varma",
       "start_date": "2025-05-26",
       "end_date": "2025-05-30",
-      "upcomingTasks":"Setup monitoring dashboards",
+      "upcomingTasks": "Setup monitoring dashboards",
       "employees": [
         {
           "employee_id": "c756",

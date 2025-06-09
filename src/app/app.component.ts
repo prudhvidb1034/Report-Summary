@@ -4,16 +4,17 @@ import { Component, inject } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 import { IonicModule, MenuController } from '@ionic/angular';
 import { tap } from 'rxjs';
-import { HeaderComponent } from './features/header/header.component';
+import { HeaderComponent } from './shared/header/header.component';
 import { LoginService } from './services/login-service/login.service';
 import { ToastComponent } from './shared/toast/toast.component';
 import { LoginStore } from './state/login.store';
+import { SideMenuComponent } from './shared/side-menu/side-menu.component';
 
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, HeaderComponent, IonicModule, CommonModule, ToastComponent],
+  imports: [RouterOutlet, HeaderComponent, IonicModule, CommonModule, ToastComponent,SideMenuComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 
@@ -62,39 +63,5 @@ export class AppComponent {
       });
     }
   }
-
-
-  navigateToWkSmry() {
-    this.router.navigate(['/summary']).then(() => {
-      this.menuCtrl.close();
-    });
-  }
-  
-    navigateToHome(){
- this.router.navigate(['/home']).then(() => {
-      this.menuCtrl.close();
-    });
-  }
-
-  
-navigateToDashboard(){
-this.router.navigate(['/dashboard']).then(() => {
-      this.menuCtrl.close();
-    });
-}
-
-navigateToManagerList(){
-  this.router.navigate(['/sign-up']).then(() => {
-      this.menuCtrl.close();
-    });
-}
-
-
-navigateViewAllProjects() {
-  this.router.navigate(['/view-all-projects'])
-}
-navigatetoregister(){
-  this.router.navigate(['/sign-up'])
-}
 }   
 

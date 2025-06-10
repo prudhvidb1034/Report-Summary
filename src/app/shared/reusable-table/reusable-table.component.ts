@@ -24,6 +24,11 @@ export class ReusableTableComponent {
     //  this.loadTheme(this.theme);
   }
 
+    action(type:string,item:any){
+    this.rowAction.emit({type:type,item:item})
+   }
+
+
   //   loadTheme(theme:any){
   //    switch(theme){
   //    case 'projects':

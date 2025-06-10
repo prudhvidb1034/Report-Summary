@@ -5,22 +5,17 @@
     </ion-col>
 
     <ion-col class="ion-text-end" size="auto">
-      <!-- <ion-button style="--background: #000033" 
-      (click)="openModal()"
-        >View</ion-button
-      > -->
       <ion-button
         style="--background: #000033"
         class="large-button"
-      
         >Create {{ title }}</ion-button
       >
     </ion-col>
+    {{ teamRegisterList$ | async}}
   </ion-row>
 </ion-grid>
 
-<ion-grid class="project-table">
-  <!-- Header Row -->
+<!-- <ion-grid class="project-table"> 
   <ion-row
     class="header-row ion-text-center"
     style="font-weight: bold; border-bottom: 1px solid #ccc"
@@ -32,7 +27,7 @@
     <ion-col size="2">Action</ion-col>
   </ion-row>
 
-  <!-- Data Rows -->
+
   @for (item of teamRegisterList$ | async; track item.employeeId) {
     <ion-row class="data-row ion-text-center" style="border-bottom: 1px solid #eee; align-items: center;">
       <ion-col size="2">{{ item.employeeId }}</ion-col>
@@ -41,9 +36,7 @@
       <ion-col size="2">{{ item.projectName }}</ion-col>
       <ion-col size="2">
         <div style="display: flex; gap: 10px; justify-content: center;">
-          <!-- <ion-button fill="clear" size="small" title="View">
-            <ion-icon name="eye-outline" slot="icon-only"></ion-icon>
-          </ion-button> -->
+         
           <ion-button fill="clear" size="small" color="primary" title="Edit">
             <ion-icon name="create-outline" slot="icon-only"></ion-icon>
           </ion-button>
@@ -81,4 +74,11 @@
     <ion-col size="12">No team members found.</ion-col>
   </ion-row>
   }
-</ion-grid>
+</ion-grid> -->
+
+
+<app-reusable-table 
+    [columns]="columns" 
+    [data]="teamRegisterList$" 
+    [theme]="'employees'">
+</app-reusable-table>

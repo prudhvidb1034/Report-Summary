@@ -59,8 +59,9 @@ export class ProjectListComponent {
     this.CreateForm();
   }
 
-  goToProject(id: string) {
-    this.router.navigate(['/projects/employees' ,id]);
+  goToProject(project: any) {
+    console.log(project);
+    this.router.navigate(['/projects/employees' ,project.id]);
   }
 
 

@@ -81,8 +81,8 @@ export const routes: Routes = [
     loadComponent: () => import('../app/shared/view-reports/view-reports.component').then((m) => m.ViewReportsComponent)
   },
   {
-    path: 'view-all-projects',
-    loadComponent: () => import('../app/features/view-all-projects/view-all-projects.component').then((m) => m.ViewAllProjectsComponent)
+    path: 'project-status',
+    loadComponent: () => import('../app/features/project-status/project-status.component').then((m) => m.ProjectStatusComponent)
   },
   {
     path: '**',

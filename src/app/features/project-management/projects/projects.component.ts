@@ -33,7 +33,7 @@ export class ProjectListComponent {
   handleRowAction(action: any) {
     switch(action.type){
       case 'view':
-      this.router.navigate(['/projects/employees' ,action.item.id]);
+      this.router.navigate(['/projects/employees' ]);
       break;
       default:
       console.log('failing')
@@ -61,7 +61,7 @@ export class ProjectListComponent {
 
   goToProject(project: any) {
     console.log(project);
-    this.router.navigate(['/projects/employees' ,project.id]);
+    this.router.navigate(['/projects/employees']);
   }
 
 

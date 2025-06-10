@@ -31,7 +31,7 @@ export const routes: Routes = [
         data: { expectedRoles: ['manager', 'superadmin'], breadcrumb: 'Projects'}
       },
       {
-        path: 'employees/:id',
+        path: 'employees',
         loadComponent: () => import('./features/project-management/employees/employees.component').then((m) => m.EmployeesComponent),
         data: { breadcrumb: 'EmployeeList' }
       }
@@ -84,9 +84,9 @@ export const routes: Routes = [
     path: 'project-status',
     loadComponent: () => import('../app/features/project-status/project-status.component').then((m) => m.ProjectStatusComponent)
   },
-  {
-    path: '**',
-    redirectTo: 'login',
-    pathMatch: 'full',
-  },
+  // {
+  //   path: '**',
+  //   redirectTo: 'login',
+  //   pathMatch: 'full',
+  // },
 ];

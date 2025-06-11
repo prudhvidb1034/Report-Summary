@@ -31,7 +31,6 @@ export class EmployeesComponent {
     { header: 'Employee Name', field: 'employeeName' },
     { header: 'Mail id', field: 'mailId' },
     { header: 'Project', field: 'project' },
-    // { header: 'End Date', field: 'endDate' },
     { header: 'Action', field: 'action', type: ['edit', 'delete'] }
   ];
 

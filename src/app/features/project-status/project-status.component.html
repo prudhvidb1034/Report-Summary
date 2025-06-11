@@ -28,10 +28,88 @@
                [attr.data-index]="idx"
                [attr.id]="'project-status-' + idx"
                >
+
+
+          <ion-card-title class="project-title">customer365</ion-card-title>
+
+      
+          <ion-row>
+            <ion-col size="6">
+
+              <ion-card class="report-card">
+
+                <ion-card-header class="card-header">
+                  <ion-icon name="reader-outline" class="card-icon"></ion-icon>
+                  <span class="card-title">Summary</span>
+                </ion-card-header>
+                <ion-card-content>
+                  <ul >
+                    <li>statusss</li>
+                  </ul>
+                </ion-card-content>
+              </ion-card>
+            </ion-col>
+            <ion-col size="6">
+              <ion-card class="report-card">
+                <ion-card-header class="card-header">
+                  <ion-icon
+                    name="checkmark-done-circle-outline"
+                    class="card-icon"
+                  ></ion-icon>
+                  <span class="card-title">Key Accomplishments</span>
+                </ion-card-header>
+                <ion-card-content>
+                  <ul >
+                    <li>syayisa</li>
+                  </ul>
+                </ion-card-content>
+              </ion-card>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col size="4">
+              <ion-card class="report-card">
+                <ion-card-header class="card-header">
+                  <ion-icon
+                    name="people-circle-outline"
+                    class="card-icon"
+                  ></ion-icon>
+                  <span class="card-title">Resources Allocated</span>
+                </ion-card-header>
+                <ion-card-content>
+                  <p>
+                    <strong>frontend</strong
+                    >&nbsp;Sarath
+                  </p>
+                </ion-card-content>
+              </ion-card>
+            </ion-col>
+
+            <ion-col size="8">
+              <ion-card class="report-card">
+                <ion-card-header class="card-header">
+                  <ion-icon
+                    name="calendar-outline"
+                    class="card-icon"
+                  ></ion-icon>
+                  <span class="card-title">Activities for Upcoming Week</span>
+                </ion-card-header>
+                <!-- <ion-card-content>
+                  <ol class="numbered-list">
+                    <li>{{ e.upcomingTasks }}</li>
+                  </ol>
+                </ion-card-content> -->
+              </ion-card>
+            </ion-col>
+          </ion-row>
+
+    
+
+<!--                
             <h2>{{ status.projectName }}</h2>
             <p class="status-label">Status: <span>{{ status.status }}</span></p>
             <p class="updated-label">Last Updated: {{ status.lastUpdated | date:'medium' }}</p>
-            <p class="details">{{ status.details }}</p>
+            <p class="details">{{ status.details }}</p> -->
           </div>
           <div *ngIf="isLoading" class="loading-indicator" aria-live="assertive">
             Loading more projects...

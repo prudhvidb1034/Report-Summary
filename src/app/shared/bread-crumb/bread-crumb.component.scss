@@ -9,6 +9,7 @@ ion-breadcrumbs {
 ion-breadcrumb {
     font-size: 14px;
     text-decoration: none;
+    font-weight: bold;
     color: #333;
 }
 
@@ -20,7 +21,7 @@ ion-breadcrumb:not(:last-child)::after {
 
 ion-breadcrumb[disabled] {
     color: #777;
-    cursor: default;
+    cursor: pointer;
 }
 
 ion-breadcrumb[disabled]::after {

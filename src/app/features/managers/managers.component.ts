@@ -85,7 +85,7 @@ label = 'Manager';
    this.modalController.create({
        component: RegisterComponent,
        componentProps: {
-       role:'Employee',
+       role:'manager',
        }
      }).then((modal) => {
        modal.present();

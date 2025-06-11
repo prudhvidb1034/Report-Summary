@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { Form, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, ModalController } from '@ionic/angular';
 import { ToastService } from '../../shared/toast.service';
 
 @Component({
@@ -17,6 +17,7 @@ export class CreateProjectComponent {
 private toast = inject(ToastService)
 teamForm!:FormGroup
   isModalOpen = false;
+private modalCtrl = inject(ModalController);
 
 
   ngOnInit() {
@@ -35,6 +36,8 @@ teamForm!:FormGroup
 
  setOpen(isOpen: boolean) {
     this.isModalOpen = isOpen;
+    
+    this.modalCtrl.dismiss(); // Close modal
     this.teamForm.reset()
   }
 

@@ -99,7 +99,7 @@ handleRowAction(event:any) {
   this.modalController.create({
       component: RegisterComponent,
       componentProps: {
-      role:'Employee',
+      role:'employee',
       }
     }).then((modal) => {
       modal.present();

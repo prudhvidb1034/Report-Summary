@@ -4,7 +4,7 @@ import { createTeam } from '../../models/project.model';
 import { SummaryService } from '../../services/summary/summary.service';
 import { Router } from '@angular/router';
 import { SummaryStore } from '../../state/summary.store';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, ModalController } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -19,7 +19,8 @@ export class CreateSummaryComponent {
   projects: createTeam[] = [];
   private summary = inject(SummaryService);
   weekSummaryForm !: FormGroup;
-  private route = inject(Router)
+  private route = inject(Router);
+    private modalCtrl = inject(ModalController);
   private readonly store = inject(SummaryStore);
   dateError: string | null = null;
   private readonly fb = inject(FormBuilder);
@@ -63,6 +64,12 @@ export class CreateSummaryComponent {
       this.projects = val
     })
   }
+  setOpen(isOpen: boolean) {
+    this.modalCtrl.dismiss();
+
+    this.weekSummaryForm.reset()
+
+  }
 
   onSubmit() {
 
@@ -70,7 +77,7 @@ export class CreateSummaryComponent {
       alert(this.dateError);
       return;
     }
-    if (this.weekSummaryForm) {
+    if (this.weekSummaryForm.valid) {
       console.log(this.weekSummaryForm.value);
       const transformedState = {
         project_id: this.weekSummaryForm.value.id,
@@ -82,6 +89,8 @@ export class CreateSummaryComponent {
       };
       this.store.weeklyReport(transformedState)
       this.route.navigate(['/dashboard'])
+    }else{
+      this.weekSummaryForm.markAllAsTouched();
     }
   }
 }

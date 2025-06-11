@@ -24,10 +24,10 @@ export class RegisterComponent {
   private teamStore = inject(TeamStore);
   teamList$ = this.teamStore.team$;
   private readonly fb = inject(FormBuilder);
- 
-role:string;
-  
-  @Input() title: string = 'Manager';
+
+  role: string;
+
+  // @Input() title: string = 'Manager';
   teamRegisterList = signal<RegistrationForm[]>([]);
   private getRegisterStore = inject(RegisterStore);
   teamRegisterList$ = this.getRegisterStore.register$;
@@ -41,6 +41,7 @@ role:string;
   registrationForm !: FormGroup;
   error$ = this.store.error$;
   loading$ = this.store.loading$;
+  private modalCtrl = inject(ModalController);
   register$ = this.store.register$;
   private routering = inject(ActivatedRoute)
   isModalOpen: boolean = false;
@@ -51,18 +52,18 @@ role:string;
 
   ngOnInit() {
 
-   this.routering.paramMap.subscribe((params: ParamMap) => {
-  this.projectid = params.get('id');
- 
-});
+    this.routering.paramMap.subscribe((params: ParamMap) => {
+      this.projectid = params.get('id');
 
-if (this.title === 'Manager') {
-  this.getRegisterStore.getRegisterData({ role: 'Manager' }); 
-} else {
-  this.getRegisterStore.getRegisterData({ projectId: this.projectid, role: this.title });
-}
-    
-    this.teamStore.getTeam(); 
+    });
+
+    // if (this.title === 'Manager') {
+    //   this.getRegisterStore.getRegisterData({ role: 'Manager' });
+    // } else {
+    //   this.getRegisterStore.getRegisterData({ projectId: this.projectid, role: this.title });
+    // }
+
+    this.teamStore.getTeam();
     this.createForm();
     console.log('prudhvi', this.teamList$)
     this.teamStore.team$.subscribe((data: any) => {
@@ -84,10 +85,10 @@ if (this.title === 'Manager') {
       password: ['', [Validators.required, Validators.minLength(8)]],
       confirmPassword: ['', [Validators.required]],
       employeeId: ['', [Validators.required]],
-      role: [{ value: this.title, disabled: true }],
+       role: [{ value: this.role, disabled: true }],
       userEntry: ['new'],
-      projectName: [''],  
-      techstack: ['']     
+      projectName: [''],
+      techstack: ['']
     }, {
       validators: this.passwordMatchValidator
     });
@@ -108,17 +109,17 @@ if (this.title === 'Manager') {
   }
   onCloseClick() {
     this.isModalOpen = false;
-     this.registrationForm.reset();
+    this.registrationForm.reset();
   }
 
 
   onSubmit() {
     if (this.registrationForm.valid) {
-       const formData = { ...this.registrationForm.getRawValue() };
+      const formData = { ...this.registrationForm.getRawValue() };
       const teamid = this.projectid
-       if (teamid && this.title === 'Employee') {
-        formData.teamId = teamid;
-      }
+      // if (teamid && this.title === 'Employee') {
+      //   formData.teamId = teamid;
+      // }
 
 
       console.log('Submitting:', formData);
@@ -131,13 +132,14 @@ if (this.title === 'Manager') {
   }
 
   setOpen(isOpen: boolean) {
-    this.isModalOpen = isOpen;
-     this.registrationForm.reset()
+    this.modalCtrl.dismiss();
+
+    this.registrationForm.reset()
 
   }
 
   openModal() {
-    this.router.navigate(['view-all-projects']);  
+    this.router.navigate(['view-all-projects']);
   }
 
 

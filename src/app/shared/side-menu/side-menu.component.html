@@ -9,7 +9,7 @@
         <ion-menu-toggle *ngIf="userRole && item.roles.includes(userRole)" style="display: flex; flex-direction: column;">
           <ion-list >
             <!-- Single clean ion-item per menu item -->
-            <ion-item *ngIf="userRole" menuClose class="cursor hover-item"
+            <ion-item  menuClose class="cursor hover-item"
               style="border-bottom: 1px solid #ccc;" (click)="navigate(item.path)">
               <ion-icon [name]="item.icon" slot="start"></ion-icon>
               {{ item.label }}

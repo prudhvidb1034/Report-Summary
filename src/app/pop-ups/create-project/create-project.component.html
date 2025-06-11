@@ -1,21 +1,17 @@
 
-    <ion-header>
-      <ion-toolbar>
-        <ion-title class="ion-padding ion-text-center ion-align-items-center"
-          >Create Project
-        </ion-title>
-      </ion-toolbar>
-    </ion-header>
+<ion-header>
+  <ion-toolbar color="light">
+    <ion-title class="ion-text-center">
+      <b>Create Project</b>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
 
+<ion-content class="ion-padding" >
     <form [formGroup]="teamForm">
       <ion-item>
-        <ion-input
-          formControlName="projectname"
-          label="Project Name"
-          labelPlacement="stacked"
-          placeholder="Enter project name"
-          [clearOnEdit]="true"
-        ></ion-input>
+        <ion-input formControlName="projectname" label="Project Name" labelPlacement="stacked"
+          placeholder="Enter project name" [clearOnEdit]="true"></ion-input>
       </ion-item>
       @if (teamForm.get('projectname')?.invalid &&
       (teamForm.get('projectname')?.dirty ||
@@ -30,13 +26,8 @@
       }
 
       <ion-item>
-        <ion-input
-          formControlName="projectlocation"
-          label="Project Location"
-          labelPlacement="stacked"
-          placeholder="Enter project location"
-          [clearOnEdit]="true"
-        ></ion-input>
+        <ion-input formControlName="projectlocation" label="Project Location" labelPlacement="stacked"
+          placeholder="Enter project location" [clearOnEdit]="true"></ion-input>
       </ion-item>
       @if (teamForm.get('projectlocation')?.invalid &&
       (teamForm.get('projectlocation')?.dirty ||
@@ -51,12 +42,7 @@
       }
 
       <ion-item>
-        <ion-input
-          formControlName="startDate"
-          type="date"
-          label="Start Date"
-          labelPlacement="stacked"
-        ></ion-input>
+        <ion-input formControlName="startDate" type="date" label="Start Date" labelPlacement="stacked"></ion-input>
       </ion-item>
       @if (teamForm.get('startDate')?.invalid &&
       (teamForm.get('startDate')?.dirty || teamForm.get('startDate')?.touched))
@@ -69,20 +55,18 @@
       }
 
       <ion-item>
-        <ion-input
-          formControlName="endDate"
-          type="date"
-          label="End Date"
-          labelPlacement="stacked"
-        ></ion-input>
+        <ion-input formControlName="endDate" type="date" label="End Date" labelPlacement="stacked"></ion-input>
       </ion-item>
     </form>
 
-    <ion-footer>
-      <ion-toolbar>
-        <ion-buttons slot="end">
-          <ion-button (click)="setOpen(false)">Close</ion-button>
-          <ion-button class="submit" (click)="SubmitForm()">Submit</ion-button>
-        </ion-buttons>
-      </ion-toolbar>
-    </ion-footer>
+  
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-buttons slot="end">
+      <ion-button (click)="setOpen(false)">Close</ion-button>
+      <ion-button class="submit" (click)="SubmitForm()">Submit</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

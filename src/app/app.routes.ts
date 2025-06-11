@@ -37,11 +37,11 @@ export const routes: Routes = [
       }
     ]
   },
-  {
-    path: 'project/:id',
-    loadComponent: () => import('../app/features/projects/projects.component').then((m) => m.ProjectsComponent),
-    data: { breadcrumb: 'EmployeeList' }
-  },
+  // {
+  //   path: 'project/:id',
+  //   loadComponent: () => import('../app/features/projects/projects.component').then((m) => m.ProjectsComponent),
+  //   data: { breadcrumb: 'EmployeeList' }
+  // },
   {
     path: 'summary',
     loadComponent: () => import('../app/features/summary/summary.component').then((m) => m.SummaryComponent),

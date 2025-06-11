@@ -1,5 +1,4 @@
 import { Component, inject } from '@angular/core';
-import { ManagerEmpListComponent } from '../../../shared/manager-emp-list/manager-emp-list.component';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { ReusableTableComponent } from "../../../shared/reusable-table/reusable-table.component";
 import { Observable, of } from 'rxjs';

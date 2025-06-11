@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ReusableTableComponent } from "../../shared/reusable-table/reusable-table.component";
 import { Observable, of } from 'rxjs';
+import { ModalController } from '@ionic/angular';
+import { RegisterComponent } from '../../shared/register/register.component';
 
 @Component({
   selector: 'app-managers',
@@ -12,7 +14,8 @@ import { Observable, of } from 'rxjs';
 export class ManagersComponent {
 
 label = 'Manager';
-
+ private modalController = inject(ModalController);
+  
    columns = [
     { header: 'manager ID', field: 'managerid' },
     { header: 'Manager Name', field: 'managername' },
@@ -57,4 +60,39 @@ label = 'Manager';
 ];
  managerlist$: Observable<any[]> = of(this.managers);
 
+
+
+
+ handleRowAction(event:any) {
+     switch(event.type){
+       case 'create' :
+         this.loadCreateEmployeeModal();
+         //this.route.navigate(['/projects/employees/create']);
+         break
+       // case 'edit':
+       //   this.route.navigate(['/projects/employees/edit', event.item.employeeId]);
+       //   break;
+       // case 'delete':
+       //   console.log('Delete action for', event.item);
+       //   // Implement delete logic here
+       //   break;
+       default:
+         console.log('Unknown action type:', event.type);
+     }
+   } 
+ 
+   loadCreateEmployeeModal(){
+   this.modalController.create({
+       component: RegisterComponent,
+       componentProps: {
+       role:'Employee',
+       }
+     }).then((modal) => {
+       modal.present();
+       modal.onDidDismiss().then((data) => {
+         console.log('Modal dismissed with data:', data);
+         // Handle any data returned from the modal if needed
+       });
+     });
+   }
 }

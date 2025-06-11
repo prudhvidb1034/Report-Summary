@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ManagerEmpListComponent } from './manager-emp-list.component';
+import { CreateSummaryComponent } from './create-summary.component';
 
-describe('ManagerEmpListComponent', () => {
-  let component: ManagerEmpListComponent;
-  let fixture: ComponentFixture<ManagerEmpListComponent>;
+describe('CreateSummaryComponent', () => {
+  let component: CreateSummaryComponent;
+  let fixture: ComponentFixture<CreateSummaryComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ManagerEmpListComponent]
+      imports: [CreateSummaryComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(ManagerEmpListComponent);
+    fixture = TestBed.createComponent(CreateSummaryComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

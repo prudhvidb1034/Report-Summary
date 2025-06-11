@@ -1,0 +1,79 @@
+
+<ion-card>
+<ion-card-content>
+    <ion-list>
+      <form [formGroup]="weekSummaryForm" class="register-form" (ngSubmit)="onSubmit()">
+
+        <ion-item>
+          <ion-select label="Projects" label-placement="floating" formControlName="project">
+            <ion-select-option *ngFor="let p of projects" [value]="p">
+              {{ p.projectname }}
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
+        @if (weekSummaryForm.get('project')?.invalid &&
+        (weekSummaryForm.get('project')?.dirty ||
+        weekSummaryForm.get('project')?.touched)) {
+        <ion-note color="danger">
+          @if (weekSummaryForm.get('project')?.errors?.['required']) {
+          <span>Project selection is required</span>
+          }
+        </ion-note>
+        }
+
+
+        <ion-item>
+          <ion-input type="date" formControlName="startDate" label="Week Start Date" labelPlacement="floating"
+            placeholder="Select start of week" [clearOnEdit]="true"></ion-input>
+        </ion-item>
+        @if (weekSummaryForm.get('startDate')?.invalid &&
+        (weekSummaryForm.get('startDate')?.dirty ||
+        weekSummaryForm.get('startDate')?.touched)) {
+        <ion-note color="danger">
+          @if (weekSummaryForm.get('startDate')?.errors?.['required']) {
+          <span>Start date is required</span>
+          }
+        </ion-note>
+        }
+
+
+        <ion-item>
+          <ion-input type="date" formControlName="endDate" label="Week End Date" labelPlacement="floating"
+            placeholder="End of week" (ionBlur)="validateDates()"></ion-input>
+        </ion-item>
+        @if (dateError && weekSummaryForm.get('endDate')?.touched) {
+        <ion-note color="danger">
+          {{ dateError }}
+          @if (dateError &&
+          weekSummaryForm.get('endDate')?.errors?.['required']) {
+          <span>End date is required</span>
+          }
+
+        </ion-note>
+        }
+        <ion-item>
+          <ion-textarea formControlName="upcomingTasks" label="Upcoming Tasks" labelPlacement="floating" placeholder="Enter">
+          </ion-textarea>
+        </ion-item>
+        @if (weekSummaryForm.get('upcomingTasks')?.invalid &&
+        (weekSummaryForm.get('upcomingTasks')?.dirty ||
+        weekSummaryForm.get('upcomingTasks')?.touched)) {
+        <ion-note color="danger">
+          @if (weekSummaryForm.get('upcomingTasks')?.errors?.['required']) {
+          <span>Upcoming Tasks are required</span>
+          } @if (weekSummaryForm.get('upcomingTasks')?.errors?.['minlength']) { }
+        </ion-note>
+        }
+
+        <ion-row class="ion-margin-top">
+          <ion-col>
+            <ion-button expand="block" type="submit" style="--background: #000033"
+              [disabled]="!weekSummaryForm.valid || dateError">
+              Submit
+            </ion-button>
+          </ion-col>
+        </ion-row>
+      </form>
+    </ion-list>
+  </ion-card-content>
+</ion-card> -->

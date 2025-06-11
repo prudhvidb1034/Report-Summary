@@ -5,7 +5,7 @@ import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { RegistrationForm } from '../../models/register.mode';
 import { RegisterStore } from '../../state/register.store';
-import { RegisterComponent } from '../register/register.component';
+import { RegisterComponent } from '../../shared/register/register.component';
 import { TeamStore } from '../../state/team.store';
 import { HttpClient } from '@angular/common/http';
 import { createTeam } from '../../models/project.model';

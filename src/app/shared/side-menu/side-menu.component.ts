@@ -66,6 +66,6 @@ export class SideMenuComponent {
     this.router.navigate(['/project-status'])
   }
   navigatetoregister() {
-    this.router.navigate(['/register'])
+    this.router.navigate(['/managers'])
   }
 }

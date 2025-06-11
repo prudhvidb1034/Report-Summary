@@ -1,15 +1,9 @@
 
 
-<ion-modal
-  [isOpen]="isModalOpen"
-  cssClass="custom-modal"
-  (didDismiss)="onModalDismiss()"
->
-  <ng-template>
     <ion-card>
       <ion-header>
         <ion-toolbar>
-          <ion-title class="ion-padding"> Create {{ title }} </ion-title>
+          <ion-title class="ion-padding"> Create {{ role }} </ion-title>
         </ion-toolbar>
       </ion-header>
 
@@ -202,5 +196,4 @@
         </ion-list>
       </ion-card-content>
     </ion-card>
-  </ng-template>
-</ion-modal>
+  

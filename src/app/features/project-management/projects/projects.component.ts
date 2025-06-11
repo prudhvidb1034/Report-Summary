@@ -20,7 +20,7 @@ import { ReusableTableComponent } from '../../../shared/reusable-table/reusable-
   styleUrl: './projects.component.scss'
 })
 export class ProjectListComponent {
-
+label = 'Project';
   columns = [
     { header: 'ID', field: 'id' },
     { header: 'Project Name', field: 'projectname' },

@@ -1,6 +1,6 @@
 import { Component, EventEmitter, inject, Input, Output, output, signal } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, AbstractControl } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, ModalController, NavParams } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { RegisterStore } from '../../state/register.store';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
@@ -24,10 +24,9 @@ export class RegisterComponent {
   private teamStore = inject(TeamStore);
   teamList$ = this.teamStore.team$;
   private readonly fb = inject(FormBuilder);
-  // @Input() heading: string = 'Create Manager';
-  // @Input() includeProjectFields: boolean = false
-  // @Input() customMargin: string = 'auto';
-  // @Output() closeModal = new EventEmitter<void>();
+ 
+role:string;
+  
   @Input() title: string = 'Manager';
   teamRegisterList = signal<RegistrationForm[]>([]);
   private getRegisterStore = inject(RegisterStore);
@@ -45,7 +44,9 @@ export class RegisterComponent {
   register$ = this.store.register$;
   private routering = inject(ActivatedRoute)
   isModalOpen: boolean = false;
-  constructor() {
+  constructor(private navParams: NavParams) {
+    this.role = this.navParams.get('role');
+    console.log('Received role:', this.role);
   }
 
   ngOnInit() {

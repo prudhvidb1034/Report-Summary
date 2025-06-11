@@ -15,8 +15,8 @@ export const routes: Routes = [
   },
 
   {
-    path: 'register',
-    loadComponent: () => import('./features/register/register.component').then((m) => m.RegisterComponent),
+    path: 'managers',
+    loadComponent: () => import('./features/managers/managers.component').then((m) => m.ManagersComponent),
     canActivate: [RoleGuard],
     data: { expectedRoles: 'superadmin' }
   },
@@ -55,6 +55,7 @@ export const routes: Routes = [
     data: { expectedRole: 'employee' }
 
   },
+
   {
     path: 'not-authorized',
     loadComponent: () =>

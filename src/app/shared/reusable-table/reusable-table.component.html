@@ -1,5 +1,22 @@
+<ion-grid>
+  <ion-row style="display: flex;align-items: center;" 
+  >
+    <ion-col class="ion-text-start">
+      <span class="project-title"> {{label}} List</span>
+    </ion-col>
 
+    <ion-col class="ion-text-end" size="auto" style="display: flex; align-items: center;">
+      <ion-searchbar class="search-bar-input" style="flex-grow: 4;"></ion-searchbar>
+      <ion-button style="--background: #000033;
 
+        flex-grow: 8;
+
+        width: 60%;" class="large-button" (click)="action('create', null)">
+
+        Create {{label}}</ion-button>
+    </ion-col>
+  </ion-row>
+</ion-grid>
 
 
 <ion-grid class="project-table">
@@ -9,23 +26,29 @@
     </ion-col>
   </ion-row>
 
-  <ion-row *ngFor="let item of data | async; trackBy: trackByFn" class="data-row ion-text-center" style="border-bottom: 1px solid #eee; align-items: center;">
-    <ion-col *ngFor="let column of columns" >
+  <ion-row *ngFor="let item of data | async; trackBy: trackByFn" class="data-row ion-text-center"
+    style="border-bottom: 1px solid #eee; align-items: center;">
+
+    <ion-col *ngFor="let column of columns">
       <ng-container *ngIf="column.cellTemplate; else defaultTemplate">
-        <ng-template [ngTemplateOutlet]="column.cellTemplate" [ngTemplateOutletContext]="{ $implicit: item }"></ng-template>
+        <ng-template [ngTemplateOutlet]="column.cellTemplate"
+          [ngTemplateOutletContext]="{ $implicit: item }"></ng-template>
       </ng-container>
       <ng-template #defaultTemplate>
-        <div  style="display: flex; gap: 10px; justify-content: center;"  *ngIf="column.field==='action'">
+        <div style="display: flex; gap: 10px; justify-content: center;" *ngIf="column.field==='action'">
           <div *ngFor="let actionArray of column.type">
-          <ion-button *ngIf=" actionArray==='view'" fill="clear" size="small" title="View" (click)="action('view',item)">
-            <ion-icon name="eye-outline" slot="icon-only"></ion-icon>
-          </ion-button>
-          <ion-button *ngIf=" actionArray==='edit'"  fill="clear" size="small" color="primary" title="Edit"  (click)="action('edit',item)">
-            <ion-icon name="create-outline" slot="icon-only"></ion-icon>
-          </ion-button>
-          <ion-button *ngIf=" actionArray==='delete'"  fill="clear" size="small" color="danger" title="Delete"  (click)="action('delete',item)">
-            <ion-icon name="trash-outline" slot="icon-only"></ion-icon>
-          </ion-button>
+            <ion-button *ngIf=" actionArray==='view'" fill="clear" size="small" title="View"
+              (click)="action('view',item)">
+              <ion-icon name="eye-outline" slot="icon-only"></ion-icon>
+            </ion-button>
+            <ion-button *ngIf=" actionArray==='edit'" fill="clear" size="small" color="primary" title="Edit"
+              (click)="action('edit',item)">
+              <ion-icon name="create-outline" slot="icon-only"></ion-icon>
+            </ion-button>
+            <ion-button *ngIf=" actionArray==='delete'" fill="clear" size="small" color="danger" title="Delete"
+              (click)="action('delete',item)">
+              <ion-icon name="trash-outline" slot="icon-only"></ion-icon>
+            </ion-button>
           </div>
         </div>
         {{ item[column.field] }}

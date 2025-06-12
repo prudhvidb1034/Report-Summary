@@ -35,8 +35,8 @@ export class ReusableTableComponent {
   //     this.
   // }
   //   }
-  onSelect(s: any) {
-    console.log(s)
-    this.rowAction.emit(s)
-  }
+  // onSelect(s: any) {
+  //   console.log(s)
+  //   this.rowAction.emit(s)
+  // }
 }

@@ -1,41 +1,124 @@
-    <ion-header translucent>
-      <ion-toolbar>
-        <ion-title class="header-title">Projects &amp; Status</ion-title>
-      </ion-toolbar>
-    </ion-header>
+<!-- Move fixed side nav OUTSIDE ion-content -->
 
-    <div fullscreen class="project-status-container">
-      <div class="container">
-        <aside class="project-list" role="list" aria-label="Projects List" #projectList>
-          <nav>
-            <ul>
-              <li *ngFor="let project of projects; let i = index"
-                  (click)="onProjectClick(i)"
-                  [class.active]="i === selectedProjectIndex"
-                  role="listitem"
-                  tabindex="0"
-                  (keydown.enter)="onProjectClick(i)"
-                  (keydown.space)="onProjectClick(i)">
-                {{ project.name }}
-              </li>
-            </ul>
-          </nav>
-        </aside>
+<div class="fixed-side-nav">
+  <ion-content class="ion-padding">
+    <ion-list class="side-nav-container">
+      <ion-item
+        button
+        *ngFor="let project of projects; let i = index"
+        (click)="scrollToProject(i)"
+        [class.active]="i === activeProjectIndex"
+        class="side-link"
+      >
+        {{ project.project_name }}
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</div>
 
-        <section #statusContainer class="project-status-section" (scroll)="onScroll()" aria-live="polite" aria-label="Project Status Content">
-          <div *ngFor="let status of loadedProjectStatuses; let idx = index"
-               class="project-status-card"
-               [attr.data-index]="idx"
-               [attr.id]="'project-status-' + idx"
-               >
-            <h2>{{ status.projectName }}</h2>
-            <p class="status-label">Status: <span>{{ status.status }}</span></p>
-            <p class="updated-label">Last Updated: {{ status.lastUpdated | date:'medium' }}</p>
-            <p class="details">{{ status.details }}</p>
-          </div>
-          <div *ngIf="isLoading" class="loading-indicator" aria-live="assertive">
-            Loading more projects...
-          </div>
-        </section>
-      </div>
-    </div>
+<ion-content>
+  <div class="content-wrapper">
+    <section
+      *ngFor="let project of projects; let i = index"
+      #projectSection
+      class="project-section"
+    >
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title>{{ project.project_name }}</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <!-- <div *ngFor="let emp of project.employees"> -->
+            <!-- <p><strong>Employee Name:</strong> {{ emp.employee_name }}</p>
+            <p><strong>Tech Stack:</strong> {{ emp.techstack }}</p>
+            <p><strong>Summary:</strong> {{ emp.summary }}</p> -->
+            <ion-row>
+            <ion-col size="6">
+              <ion-card class="report-card">
+                <ion-card-header class="card-header">
+                  <ion-icon name="reader-outline" class="card-icon"></ion-icon>
+                  <span class="card-title">Summary</span>
+                </ion-card-header>
+                <ion-card-content>
+                  <ul *ngFor="let p of project.employees">
+                    <li>{{ p.summary }}</li>
+                  </ul>
+                </ion-card-content>
+              </ion-card>
+            </ion-col>
+              <ion-col size="6">
+              <ion-card class="report-card">
+                <ion-card-header class="card-header">
+                  <ion-icon
+                    name="people-circle-outline"
+                    class="card-icon"
+                  ></ion-icon>
+                  <span class="card-title">Resources Allocated</span>
+                </ion-card-header>
+                <ion-card-content *ngFor="let p of project.employees">
+                  <p>
+                    <strong>{{ p.techstack }}</strong
+                    >&nbsp;{{ p.employee_name }}
+                  </p>
+                </ion-card-content>
+              </ion-card>
+            </ion-col>
+          </ion-row>
+
+
+            <!-- <div *ngFor="let update of dailyUpdates"> -->
+              <!-- <p><strong>Status:</strong> {{ update.status }}</p>
+              <p><strong>Task:</strong> {{ update.task }}</p> -->
+             <ion-row>
+  <ion-col size="6">
+    <ion-card class="report-card">
+      <ion-card-header class="card-header">
+        <ion-icon name="calendar-outline" class="card-icon"></ion-icon>
+        <span class="card-title">Activities for Upcoming Week</span>
+      </ion-card-header>
+      <ion-card-content>
+        <ol class="numbered-list">
+          <ng-container *ngFor="let emp of project.employees">
+            <li *ngFor="let update of emp.daily_updates">
+              {{ update.task }}
+            </li>
+          </ng-container>
+        </ol>
+      </ion-card-content>
+    </ion-card>
+  </ion-col>
+
+  <ion-col size="6">
+    <ion-card class="report-card">
+      <ion-card-header class="card-header">
+        <ion-icon
+          name="checkmark-done-circle-outline"
+          class="card-icon"
+        ></ion-icon>
+        <span class="card-title">Key Accomplishments</span>
+      </ion-card-header>
+      <ion-card-content>
+        <ul class="numbered-list">
+          <ng-container *ngFor="let emp of project.employees">
+            <li *ngFor="let update of emp.daily_updates">
+              {{ update.status }}
+            </li>
+          </ng-container>
+        </ul>
+      </ion-card-content>
+    </ion-card>
+  </ion-col>
+</ion-row>
+
+              
+            <!-- </div> -->
+          <!-- </div> -->
+          
+          
+          
+         
+        </ion-card-content>
+      </ion-card>
+    </section>
+  </div>
+</ion-content>

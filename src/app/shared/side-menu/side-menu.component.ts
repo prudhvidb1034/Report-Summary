@@ -65,7 +65,12 @@ export class SideMenuComponent {
   navigateViewAllProjects() {
     this.router.navigate(['/project-status'])
   }
+  
   navigatetoregister() {
     this.router.navigate(['/register'])
+  }
+  
+  navigateViewAllSummary(){
+    this.router.navigate(['/view-all-projects'])
   }
 }

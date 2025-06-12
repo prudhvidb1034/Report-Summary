@@ -84,6 +84,10 @@ export const routes: Routes = [
     path: 'project-status',
     loadComponent: () => import('../app/features/project-status/project-status.component').then((m) => m.ProjectStatusComponent)
   },
+   {
+    path: 'view-all-projects',
+    loadComponent: () => import('../app/features/view-all-projects/view-all-projects.component').then((m) => m.ViewAllProjectsComponent)
+  },
   {
     path: '**',
     redirectTo: 'login',

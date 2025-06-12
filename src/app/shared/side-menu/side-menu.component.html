@@ -1,54 +1,22 @@
-  <ion-menu side="start" menuId="main-menu" contentId="main-content">
+ <ion-menu side="start" menuId="main-menu" contentId="main-content">
     <ion-header>
       <ion-toolbar>
         <ion-title>Menu</ion-title>
-      </ion-toolbar>  
+      </ion-toolbar>
     </ion-header>
-    <ion-content >
-   <ion-menu-toggle style="display: flex; flex-direction: column; height: 100%;">
-  <!-- Top section -->
-  <ion-list lines="none"  style="flex-grow: 11;">
-    <ion-item menuClose class="cursor hover-item"  (click)="navigateToHome()">
-      <ion-icon name="home"slot="start"></ion-icon>
-      <p style="margin-left: 8px;">Home</p>
-    </ion-item>
-    <ion-item menuClose class="cursor hover-item"  (click)="navigateToDashboard()">
-      <ion-icon name="book" slot="start"></ion-icon>
-      <p style="margin-left: 8px;">Projects</p>
-    </ion-item>
-    <!-- <ion-item menuClose class="cursor hover-item" style="border-bottom: 1px solid #ccc;" (click)="navigateToManagerList()">
-     <ion-icon name="people" slot="start"></ion-icon>
-      Managers
-    </ion-item> -->
-     <ion-item menuClose class="cursor hover-item"  (click)="navigateToWkSmry()">
-      <ion-icon name="document-text" slot="start"></ion-icon>
-     <p style="margin-left: 8px;"> Weekly Summary</p>
-    </ion-item>
-      <ion-item  *ngIf="userRole === 'superadmin'" menuClose class="cursor hover-item"  (click)="navigatetoregister()" >
-      <ion-icon name="people" slot="start"></ion-icon>
-      <p style="margin-left: 8px;">Managers List</p>
-      <!-- <ion-item menuClose class="cursor hover-item" style="border-bottom: 1px solid #ccc;" (click)="navigatetoregister()" >
-      <ion-icon name="people" slot="start"></ion-icon>
-      Create Managers-->
-    </ion-item> 
-    <ion-item menuClose class="cursor hover-item"  (click)="navigateViewAllProjects()">
-      <ion-icon name="documents" slot="start"></ion-icon>
-      <p style="margin-left: 8px;">View Projects Status</p>
-    </ion-item>
-    <!-- <ion-item menuClose class="cursor hover-item" style="border-bottom: 1px solid #ccc;" (click)="navigateViewAllSummary()">
-      <ion-icon name="documents" slot="start"></ion-icon>
-      View All Summary
-    </ion-item> -->
-  </ion-list>
-
-  <!-- Bottom section (Settings) -->
-  <ion-list lines="none" style="flex-grow: 1; margin-top: auto;">
-    <ion-item menuClose class="cursor hover-item"  (click)="navigateToWkSmry()">
-      <ion-icon name="settings" slot="start"></ion-icon>
-      <p style="margin-left: 8px;">Settings</p>
-    </ion-item>
-  </ion-list>
-</ion-menu-toggle>
+    <ion-content>
+      <ng-container *ngFor="let item of menuItems;let i=index;">
+        <ion-menu-toggle *ngIf="userRole && item.roles.includes(userRole)" style="display: flex; flex-direction: column;">
+          <ion-list >
+            <!-- Single clean ion-item per menu item -->
+            <ion-item  menuClose class="cursor hover-item"
+              style="border-bottom: 1px solid #ccc;" (click)="navigate(item.path)">
+              <ion-icon [name]="item.icon" slot="start"></ion-icon>
+              {{ item.label }}
+            </ion-item>
+          </ion-list>
+        </ion-menu-toggle>
+      </ng-container>
 
     </ion-content>
   </ion-menu>

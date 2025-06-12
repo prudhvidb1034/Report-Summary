@@ -14,6 +14,7 @@ export class ReusableTableComponent {
   @Input() columns: any[] | undefined;
   @Output() rowAction: EventEmitter<any> = new EventEmitter<any>();
   @Input() theme = '';
+@Input() label: string = 'Item'; 
 
 
   trackByFn(index: number, item: any): any {

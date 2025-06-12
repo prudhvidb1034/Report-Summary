@@ -8,7 +8,7 @@
       "password": "123456789",
       "confirmPassword": "123456789",
       "employeeId": "12345",
-      "role": " ",
+      "role": "employee",
       "userEntry": "new",
       "projectName": "customer365",
       "techstack": "Frontend"

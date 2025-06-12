@@ -1,7 +1,7 @@
  <ion-menu side="start" menuId="main-menu" contentId="main-content">
     <ion-header>
       <ion-toolbar>
-        <ion-title>Menu</ion-title>
+        <ion-title><img style="height: 40px;" src="assets/logo/tcb.png"></ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content>
@@ -11,8 +11,8 @@
             <!-- Single clean ion-item per menu item -->
             <ion-item  menuClose class="cursor hover-item"
                (click)="navigate(item.path)">
-              <ion-icon [name]="item.icon" slot="start"></ion-icon>
-              <p style="margin-left: 12px;">{{ item.label }}</p>
+              <ion-icon size="small" [name]="item.icon" slot="start"></ion-icon>
+              <p style="margin-left: 12px;font-size: 14px;">{{ item.label }}</p>
             </ion-item>
           </ion-list>
         </ion-menu-toggle>

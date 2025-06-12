@@ -88,16 +88,16 @@
                   </ion-item>
                 </ion-col>
 
-                <ion-col size="12" size-md="2" style="text-align: center;">
+                <ion-col size="12" size-md="2" style="text-align: center; justify-content: center;">
                   <ion-icon expand="block" type="button" class="danger" fill="outline" (click)="removeUpdate(i)"
-                    *ngIf="weeklyUpdates.length > 1" style="height: 56px; margin-top: 8px; cursor: pointer;"
-                    color="danger" size="large" name="trash-outline"></ion-icon>
+                    *ngIf="weeklyUpdates.length > 1" style="margin-top: 8px; cursor: pointer; font-size: 20px;"
+                    color="danger" name="trash-outline"></ion-icon>
                 </ion-col>
 
                 <ion-col size="12" size-md="2" *ngIf="i === weeklyUpdates.controls.length - 1">
 
                   <ion-icon expand="block" color="primary" type="button" fill="outline" (click)="addMore()"
-                    style="height: 56px; margin-top: 8px; cursor: pointer" name="add-outline" size="large"></ion-icon>
+                    style="height: 56px; margin-top: 8px; cursor: pointer; font-size: 20px;" name="add-outline"></ion-icon>
                 </ion-col>
               </ion-row>
             </div>

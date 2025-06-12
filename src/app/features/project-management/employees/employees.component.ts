@@ -4,6 +4,7 @@ import { ReusableTableComponent } from "../../../shared/reusable-table/reusable-
 import { Observable, of } from 'rxjs';
 import { ModalController } from '@ionic/angular';
 import { RegisterComponent } from '../../../shared/register/register.component';
+import { EmployeeUpdateComponent } from '../../employee-update/employee-update.component';
 
 @Component({
   selector: 'app-employees',
@@ -97,7 +98,7 @@ handleRowAction(event:any) {
 
   loadCreateEmployeeModal(){
   this.modalController.create({
-      component: RegisterComponent,
+      component: EmployeeUpdateComponent,
       componentProps: {
       role:'employee',
       }

@@ -106,7 +106,7 @@ export class SummaryComponent {
     { header: 'Week Id ', field: 'weekId' },
     { header: 'Start Date', field: 'startDate' },
     { header: 'End Date', field: 'endDate' },
-    // { header: 'Start Date', field: 'startDate' },
+     { header: 'Status', field: 'status' },
     // { header: 'End Date', field: 'endDate' },
     { header: 'Action', field: 'action', type: ['view', 'edit', 'delete'] }
   ];

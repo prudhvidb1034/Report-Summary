@@ -73,7 +73,7 @@ export class ProjectStatusComponent extends ComponentStore<State> implements Aft
   private sampleProjects: Project[] = [
     {
       id: "7ae6",
-      project_name: "customer365",
+      project_name: "CUSTOMER365",
       start_date: "2025-05-13",
       end_date: "2025-05-20",
       upcomingTasks: "Setup monitoring dashboards",
@@ -152,7 +152,7 @@ export class ProjectStatusComponent extends ComponentStore<State> implements Aft
       employees: [
         {
           employee_id: "9274",
-          project_id: "8b7d",
+        project_id: "8b7d",
           employee_name: "Aarav",
           summary: "Backend architecture",
           daily_updates: [

@@ -49,9 +49,14 @@
       outline: 2px solid #3f51b5;
       outline-offset: 2px;
     }
-    .project-list li.active,
+    
     .project-list li:hover {
-      background: #3f51b5;
+  background-color: #a7a7b3;
+  color: white;
+    }
+
+    .project-list li.active{
+    background: #191947;
       color: white;
     }
     .project-status-section {
@@ -71,11 +76,11 @@
       box-shadow: 0 4px 20px rgb(59 130 246 / 0.3);
     }
     .project-title {
-      font-size: 1.5rem;
+      font-size:18px;
       font-weight: 700;
       margin-bottom: 24px;
-      color: #3f51b5;
-      border-bottom: 2px solid #3f51b5;
+      color: #191947;
+      border-bottom: 1px solid #9090a0;
       padding-bottom: 8px;
     }
     .report-card {
@@ -92,7 +97,7 @@
       padding: 16px 20px;
       font-weight: 700;
       border-bottom: 1px solid #ccc;
-      background: #3f51b5;
+      background: #191947;
       color: white;
       border-top-left-radius: 12px;
       border-top-right-radius: 12px;
@@ -101,7 +106,7 @@
       font-size: 24px;
     }
     .card-title {
-      font-size: 1.1rem;
+      font-size: 1rem;
     }
     ion-card-content {
       padding: 16px 20px;

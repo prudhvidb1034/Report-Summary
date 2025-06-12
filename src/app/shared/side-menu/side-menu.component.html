@@ -7,17 +7,16 @@
     <ion-content>
       <ng-container *ngFor="let item of menuItems;let i=index;">
         <ion-menu-toggle *ngIf="userRole && item.roles.includes(userRole)" style="display: flex; flex-direction: column;">
-          <ion-list >
+          <ion-list lines="none">
             <!-- Single clean ion-item per menu item -->
             <ion-item  menuClose class="cursor hover-item"
-              style="border-bottom: 1px solid #ccc;" (click)="navigate(item.path)">
+               (click)="navigate(item.path)">
               <ion-icon [name]="item.icon" slot="start"></ion-icon>
-              {{ item.label }}
+              <p style="margin-left: 12px;">{{ item.label }}</p>
             </ion-item>
           </ion-list>
         </ion-menu-toggle>
       </ng-container>
-
     </ion-content>
   </ion-menu>
   <ion-router-outlet id="main-content"></ion-router-outlet>

@@ -1,8 +1,15 @@
 <ion-header>
   <ion-toolbar color="light">
-    <ion-title class="ion-text-center">
-      <b>Create {{ role }}</b>
-    </ion-title>
+    <ion-buttons slot="start">
+      <ion-title>
+        <b>Create {{ role }}</b>
+      </ion-title>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" (click)="setOpen(false)">
+        <ion-icon name="close-outline" class="icon-medium"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -130,7 +137,6 @@
 <ion-footer>
   <ion-toolbar>
     <ion-buttons slot="end">
-      <ion-button (click)="setOpen(false)">Close</ion-button>
       <ion-button class="submit" (click)="onSubmit()">Submit</ion-button>
     </ion-buttons>
   </ion-toolbar>

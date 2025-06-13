@@ -1,0 +1,29 @@
+ion-breadcrumbs {
+    padding: 10px;
+    position: relative !important;
+    z-index: 10 !important;
+    margin-top: 0.5rem;
+}
+
+
+ion-breadcrumb {
+    font-size: 14px;
+    text-decoration: none;
+    font-weight: bold;
+    color: #333;
+}
+
+ion-breadcrumb:not(:last-child)::after {
+  //  content: "/";
+    color: #333;
+    padding: 0 5px;
+}
+
+ion-breadcrumb[disabled] {
+    color: #777;
+    cursor: pointer;
+}
+
+ion-breadcrumb[disabled]::after {
+    content: none;
+}

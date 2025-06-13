@@ -1,1 +1,22 @@
-<p>side-menu works!</p>
+ <ion-menu side="start" menuId="main-menu" contentId="main-content">
+    <ion-header>
+      <ion-toolbar>
+        <ion-title><img style="height: 40px;" src="assets/logo/tcb.png"></ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content>
+      <ng-container *ngFor="let item of menuItems;let i=index;">
+        <ion-menu-toggle *ngIf="userRole && item.roles.includes(userRole)" style="display: flex; flex-direction: column;">
+          <ion-list lines="none">
+            <!-- Single clean ion-item per menu item -->
+            <ion-item  menuClose class="cursor hover-item"
+               (click)="navigate(item.path)">
+              <ion-icon size="small" [name]="item.icon" slot="start"></ion-icon>
+              <p style="margin-left: 12px;font-size: 14px;">{{ item.label }}</p>
+            </ion-item>
+          </ion-list>
+        </ion-menu-toggle>
+      </ng-container>
+    </ion-content>
+  </ion-menu>
+  <ion-router-outlet id="main-content"></ion-router-outlet>

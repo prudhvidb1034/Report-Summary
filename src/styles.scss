@@ -1,33 +1,36 @@
-*{
-  font-family: 'Roboto', Arial, sans-serif;
-}
-
-app-header{
-    background-color: rgb(25, 25, 71);
-}
-
-body {
-  background-color: #e5e5e5;
+* {
+  font-family: "Roboto", Arial, sans-serif;
+  margin: 0;
+  box-sizing: border-box;
 }
 
 app-header {
   background-color: rgb(25, 25, 71);
 }
 
+body {
+  background-color: #f8f8f8;
+  margin: 0 auto;
+}
 
+app-header {
+  background-color: rgb(25, 25, 71);
+}
 
-  .project-title {
-    font-size: 16px;         
-    font-weight: 600;
-  }
-  
-  .large-button {
-    font-size: 12px;        
-    --padding-start: 20px;
-    --padding-end: 20px;
-    --padding-top: 12px;
-    --padding-bottom: 12px;
-  }
+.project-title {
+  font-size: 1.5rem;
+  font-weight: lighter;
+  // padding-left: 20px;
+  // padding-top: 20px;
+}
+
+.large-button {
+  font-size: 12px;
+  --padding-start: 20px;
+  --padding-end: 20px;
+  --padding-top: 12px;
+  --padding-bottom: 12px;
+}
 .large-button {
   font-size: 12px;
   --padding-start: 20px;
@@ -37,7 +40,7 @@ app-header {
 }
 
 .project-table {
-  border: 1px solid #ccc;
+  // border: 1px solid #ccc;
   border-radius: 6px;
   overflow: hidden;
 }
@@ -49,7 +52,7 @@ app-header {
   color: red;
 }
 
-.main::placeholder{
+.main::placeholder {
   font-size: 10px;
 }
 .header-row {
@@ -80,7 +83,7 @@ app-header {
 
 ion-header {
   padding-top: env(safe-area-inset-top);
- }
+}
 // ion-content::part(scroll) {
 //   padding-top: var(--ion-safe-area-top, 0);
 // }
@@ -93,10 +96,26 @@ ion-title {
   font-size: 1rem !important;
 }
 
-ion-row.table-header.md{
+ion-row.table-header.md {
   font-size: 12px !important;
 }
 
-ion-card-header ion-title{
+ion-card-header ion-title {
   font-size: 14px !important;
 }
+
+app-project-status{
+  position: relative;
+  z-index: 20;
+}
+
+.custom-modal {
+  --width: 90%;
+  --height: 50%;
+  --max-width: 600px;
+  --max-height: 90vh;
+  --border-radius: 12px;
+  --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+

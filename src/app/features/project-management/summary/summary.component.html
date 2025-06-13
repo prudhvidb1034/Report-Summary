@@ -1,0 +1,8 @@
+<app-reusable-table
+  [columns]="columns"
+  [data]="summarylist$"
+  [label]="label"
+  (rowAction)="handleRowAction($event)"
+  ></app-reusable-table>
+
+  <router-outlet></router-outlet>

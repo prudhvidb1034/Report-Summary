@@ -1,0 +1,143 @@
+<ion-header>
+  <ion-toolbar color="light">
+    <ion-buttons slot="start">
+      <ion-title>
+        <b>Create {{ role }}</b>
+      </ion-title>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" (click)="setOpen(false)">
+        <ion-icon name="close-outline" class="icon-medium"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <form [formGroup]="registrationForm" class="register-form" (ngSubmit)="onSubmit()">
+    <ion-item>
+      <ion-input formControlName="firstName" label="First Name" labelPlacement="floating"
+        placeholder="Enter you first name" [clearOnEdit]="true"></ion-input>
+    </ion-item>
+    @if (registrationForm.get('firstName')?.invalid &&
+    (registrationForm.get('firstName')?.dirty ||
+    registrationForm.get('firstName')?.touched)) {
+    <ion-text color="danger" class="error-message">
+      @if (registrationForm.get('firstName')?.errors?.['required']) {
+      <p>First Name is required.</p>
+      }
+    </ion-text>
+    }
+    <ion-item>
+      <ion-input formControlName="lastName" label="Last Name" labelPlacement="floating"
+        placeholder="Enter your last name" [clearOnEdit]="true"></ion-input>
+    </ion-item>
+    @if (registrationForm.get('lastName')?.invalid &&
+    (registrationForm.get('lastName')?.dirty ||
+    registrationForm.get('lastName')?.touched)) {
+    <ion-text color="danger" class="error-message">
+      @if (registrationForm.get('lastName')?.errors?.['required']) {
+      <p>Last Name is required.</p>
+      }
+    </ion-text>
+    }
+
+    <ion-item>
+      <ion-input formControlName="username" label="Email " labelPlacement="stacked" placeholder="Enter your email"
+        [clearOnEdit]="true"></ion-input>
+    </ion-item>
+    @if (registrationForm.get('username')?.invalid &&
+    (registrationForm.get('username')?.dirty ||
+    registrationForm.get('username')?.touched)) {
+    <ion-text color="danger" class="error-message">
+      @if (registrationForm.get('username')?.errors?.['required']) {
+      <p>Email is required.</p>
+      } @if (registrationForm.get('username')?.errors?.['email']) {
+      <p>Invalid email format.</p>
+      }
+    </ion-text>
+    }
+    <ion-item>
+      <ion-input formControlName="employeeId" label="Employee id " labelPlacement="floating"
+        placeholder="Enter your employeeid" [clearOnEdit]="true"></ion-input>
+    </ion-item>
+    @if (registrationForm.get('employeeId')?.invalid &&
+    (registrationForm.get('employeeId')?.dirty ||
+    registrationForm.get('employeeId')?.touched)) {
+    <ion-text color="danger" class="error-message">
+      @if (registrationForm.get('employeeId')?.errors?.['required']) {
+      <p>Employee id is required.</p>
+      }
+    </ion-text>
+    }
+
+    <ion-item>
+      <ion-input formControlName="password" label="Password" labelPlacement="floating" placeholder="Enter your password"
+        [clearOnEdit]="true"></ion-input>
+    </ion-item>
+    @if (registrationForm.get('password')?.invalid &&
+    (registrationForm.get('password')?.dirty ||
+    registrationForm.get('password')?.touched)) {
+    <ion-text color="danger" class="error-message">
+      @if (registrationForm.get('password')?.errors?.['required']) {
+      <p>Password is required.</p>
+      } @if (registrationForm.get('password')?.errors?.['minlength']){
+      <p>Minimum 8 characters required</p>
+      }
+    </ion-text>
+    }
+    <ion-item>
+      <ion-input formControlName="confirmPassword" label="Confirm Password" labelPlacement="floating"
+        placeholder="Enter your password" [clearOnEdit]="true"></ion-input>
+    </ion-item>
+    @if (registrationForm.get('confirmPassword')?.invalid &&
+    (registrationForm.get('confirmPassword')?.dirty ||
+    registrationForm.get('confirmPassword')?.touched)) {
+    <ion-text color="danger" class="error-message">
+      @if
+      (registrationForm.get('confirmPassword')?.errors?.['required']) {
+      <p>Confirm Password is required.</p>
+      }
+    </ion-text>
+    } @if (registrationForm.errors?.['passwordMismatch'] &&
+    registrationForm.get('confirmPassword')?.touched) {
+    <ion-text color="danger">
+      <p>Passwords do not match.</p>
+    </ion-text>
+    }
+
+    <ng-container>
+      <ion-item>
+        <ion-select label="Projects" label-placement="floating" formControlName="projectName">
+          <ion-select-option *ngFor="let p of projects" [value]="p">
+            {{ p }}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item lines="full" class="stack-dropdown">
+        <ion-label position="stacked">Tech Stack</ion-label>
+        <ion-select formControlName="techstack" interface="popover" placeholder="Select Tech Stack">
+          <ion-select-option value="Frontend">Frontend</ion-select-option>
+          <ion-select-option value="Backend">Backend</ion-select-option>
+          <ion-select-option value="Testing">Testing</ion-select-option>
+        </ion-select>
+      </ion-item>
+    </ng-container>
+
+    <ion-item>
+      <ion-input readonly label="Role" labelPlacement="floating" formControlName="role" type="text"></ion-input>
+    </ion-item>
+
+
+  </form>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-buttons slot="end">
+      <ion-button class="submit" (click)="onSubmit()">Submit</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

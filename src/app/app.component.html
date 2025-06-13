@@ -1,6 +1,8 @@
-<app-header [fullName]="fullName" [role]="userRole"></app-header>
+<app-header [fullName]="fullName$ | async" [role]="userRole$ | async"></app-header>
 <app-side-menu></app-side-menu>
 <ion-app id="main-content">
-  <router-outlet></router-outlet>
+  <div class="main-wrapper" [class.logged]="isUserLoggedIn$ | async">
+    <router-outlet></router-outlet>
+  </div>
 </ion-app>
 <app-toast></app-toast>

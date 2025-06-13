@@ -7,18 +7,19 @@ import { Observable, of } from 'rxjs';
 import { ReusableTableComponent } from '../../../shared/reusable-table/reusable-table.component';
 import { SummaryStore } from '../../../state/summary.store';
 import { CreateSummaryComponent } from '../../../pop-ups/create-summary/create-summary.component';
+import { EmployeeUpdateComponent } from '../../../pop-ups/employee-update/employee-update.component';
 
 @Component({
   selector: 'app-summary',
   standalone: true,
-  imports: [IonicModule, CommonModule, ReactiveFormsModule, ReusableTableComponent,RouterOutlet],
+  imports: [IonicModule, CommonModule, ReactiveFormsModule, ReusableTableComponent, RouterOutlet],
   providers: [SummaryStore],
   templateUrl: './summary.component.html',
   styleUrl: './summary.component.scss'
 })
 export class SummaryComponent {
   label = 'Summary';
-   private modalController = inject(ModalController);
+  private modalController = inject(ModalController);
   // projects: createTeam[] = [];
   // private summary = inject(SummaryService);
   // weekSummaryForm !: FormGroup;
@@ -88,7 +89,7 @@ export class SummaryComponent {
   //   }
   // }
 
-   summary = [
+  summary = [
     {
       weekId: 'WEEK001',
       startDate: '2025-05-01',
@@ -102,47 +103,63 @@ export class SummaryComponent {
       status: 'InActive',
     }
   ];
- columns = [
+  columns = [
     { header: 'Week Id ', field: 'weekId' },
     { header: 'Start Date', field: 'startDate' },
     { header: 'End Date', field: 'endDate' },
-     { header: 'Status', field: 'status' },
+    { header: 'Status', field: 'status' },
     { header: 'Action', field: 'action', type: ['view', 'edit', 'delete'] }
   ];
 
   summarylist$: Observable<any[]> = of(this.summary);
-  
 
 
-  handleRowAction(event:any) {
-       switch(event.type){
-         case 'create' :
-           this.loadCreateEmployeeModal();
-           //this.route.navigate(['/projects/employees/create']);
-           break
-         case 'view':
-           this.route.navigate(['summary/task']);
-           break;
-         // case 'delete':
-         //   console.log('Delete action for', event.item);
-         //   // Implement delete logic here
-         //   break;
-         default:
-           console.log('Unknown action type:', event.type);
-       }
-     } 
-   
-     loadCreateEmployeeModal(){
-     this.modalController.create({
-         component: CreateSummaryComponent,
-         componentProps: {
-         }
-       }).then((modal) => {
-         modal.present();
-         modal.onDidDismiss().then((data) => {
-           console.log('Modal dismissed with data:', data);
-           // Handle any data returned from the modal if needed
-         });
-       });
-     }
+
+  handleRowAction(event: any) {
+    switch (event.type) {
+
+      case 'view':
+        this.route.navigate(['summary/task']);
+        break;
+      case 'edit':
+        this.updateWeeklySummary()
+        // this.route.navigate(['/employee-dashboard']);
+        break;
+      // case 'delete':
+      //   console.log('Delete action for', event.item);
+      //   // Implement delete logic here
+      //   break;
+      default:
+        console.log('Unknown action type:', event.type);
+    }
+  }
+
+  // loadCreateEmployeeModal() {
+  //   this.modalController.create({
+  //     component: CreateSummaryComponent,
+  //     componentProps: {
+  //     }
+  //   }).then((modal) => {
+  //     modal.present();
+  //     modal.onDidDismiss().then((data) => {
+  //       console.log('Modal dismissed with data:', data);
+  //       // Handle any data returned from the modal if needed
+  //     });
+  //   });
+  // }
+
+  updateWeeklySummary() {
+    this.modalController.create({
+      component: EmployeeUpdateComponent,
+      componentProps: {
+
+      }
+    }).then((modal) => {
+      modal.present();
+      modal.onDidDismiss().then((data) => {
+        console.log('Modal dismissed with data:', data);
+        // Handle any data returned from the modal if needed
+      });
+    });
+  }
 }

@@ -43,12 +43,15 @@ export class BreadcrumbComponent implements OnInit {
   // Define your breadcrumb configuration here
   breadcrumbConfig: { label: string; url: string }[] = [
     { label: 'Home', url: '/home' },
-    {label:'Login',url:'/login'},
     { label: 'Projects', url: '/projects' },
+    { label: 'Weekly Summary', url: '/summary' },
+    { label: 'View Individual Project Status', url: '/summary/task' },
+    { label: 'Managers', url: '/managers' },
+    { label: 'Weekly Status Update', url: '/employee-dashboard' },
     { label: 'Employees', url: '/projects/employees' },
-    {label:'View Report',url:'/project-status'}
+    { label: 'View Reports', url: '/project-status' }
   ];
-  updatedBreadCrumb: BreadcrumbItem[]=[];
+  updatedBreadCrumb: BreadcrumbItem[] = [];
 
   constructor(
     private router: Router,
@@ -92,7 +95,7 @@ export class BreadcrumbComponent implements OnInit {
           url: currentUrl
         });
       }
-      this.updatedBreadCrumb=breadcrumbs;
+      this.updatedBreadCrumb = breadcrumbs;
     });
 
     this.breadcrumbStore.updateBreadcrumbs(breadcrumbs);

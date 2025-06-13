@@ -38,6 +38,13 @@ export class SideMenuComponent {
     roles: ['superadmin', 'manager'],
     isBottom: false
   },
+    {
+    label: 'Managers',
+    icon: 'people',
+    path: '/managers',
+    roles: ['superadmin'],
+    isBottom: false
+  },
   {
     label: 'Weekly Summary',
     icon: 'document-text',
@@ -45,13 +52,7 @@ export class SideMenuComponent {
     roles: ['superadmin', 'manager'],
     isBottom: false
   },
-  {
-    label: 'Managers',
-    icon: 'people',
-    path: '/managers',
-    roles: ['superadmin'],
-    isBottom: false
-  },
+
    {
     label: 'Status Update',
     icon: 'create',

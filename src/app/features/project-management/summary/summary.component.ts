@@ -120,7 +120,7 @@ export class SummaryComponent {
         this.route.navigate(['summary/task']);
         break;
       case 'edit':
-        this.updateWeeklySummary()
+        this.loadCreateEmployeeModal()
         // this.route.navigate(['/employee-dashboard']);
         break;
       // case 'delete':
@@ -132,19 +132,19 @@ export class SummaryComponent {
     }
   }
 
-  // loadCreateEmployeeModal() {
-  //   this.modalController.create({
-  //     component: CreateSummaryComponent,
-  //     componentProps: {
-  //     }
-  //   }).then((modal) => {
-  //     modal.present();
-  //     modal.onDidDismiss().then((data) => {
-  //       console.log('Modal dismissed with data:', data);
-  //       // Handle any data returned from the modal if needed
-  //     });
-  //   });
-  // }
+  loadCreateEmployeeModal() {
+    this.modalController.create({
+      component: CreateSummaryComponent,
+      componentProps: {
+      }
+    }).then((modal) => {
+      modal.present();
+      modal.onDidDismiss().then((data) => {
+        console.log('Modal dismissed with data:', data);
+        // Handle any data returned from the modal if needed
+      });
+    });
+  }
 
   updateWeeklySummary() {
     this.modalController.create({

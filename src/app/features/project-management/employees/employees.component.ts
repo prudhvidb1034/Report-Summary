@@ -5,6 +5,7 @@ import { Observable, of } from 'rxjs';
 import { ModalController } from '@ionic/angular';
 import { RegisterComponent } from '../../../shared/register/register.component';
 import { EmployeeUpdateComponent } from '../../employee-update/employee-update.component';
+import { CreateProjectComponent } from '../../../pop-ups/create-project/create-project.component';
 
 @Component({
   selector: 'app-employees',
@@ -98,7 +99,7 @@ handleRowAction(event:any) {
 
   loadCreateEmployeeModal(){
   this.modalController.create({
-      component: EmployeeUpdateComponent,
+      component: CreateProjectComponent,
       componentProps: {
       role:'employee',
       }

@@ -19,13 +19,13 @@
 //   align-items: center;
 //   justify-content: center;
 // }
-::ng-deep ion-modal.custom-modal::part(content) {
-  --width: 500px;
-  --border-radius: 10px;
-  --box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
-  margin-top: 0px;
-  overflow-y: auto;
-}
+// ::ng-deep ion-modal.custom-modal::part(content) {
+//   --width: 500px;
+//   --border-radius: 10px;
+//   --box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+//   margin-top: 0px;
+//   overflow-y: auto;
+// }
 .project-table {
   ion-row {
     align-items: center;

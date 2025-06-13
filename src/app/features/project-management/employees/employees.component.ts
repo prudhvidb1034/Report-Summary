@@ -99,7 +99,7 @@ handleRowAction(event:any) {
 
   loadCreateEmployeeModal(){
   this.modalController.create({
-      component: CreateProjectComponent,
+      component: RegisterComponent,
       componentProps: {
       role:'employee',
       }

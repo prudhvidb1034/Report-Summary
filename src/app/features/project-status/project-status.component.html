@@ -9,6 +9,7 @@
       <aside class="project-list" role="list" aria-label="Projects List" #projectList>
         <nav>
           <ul>
+            Projects
             <li *ngFor="let project of projects; let i = index"
                 (click)="onProjectClick(i)"
                 [class.active]="i === selectedProjectIndex"

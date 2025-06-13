@@ -109,3 +109,13 @@ app-project-status{
   z-index: 20;
 }
 
+.custom-modal {
+  --width: 90%;
+  --height: 50%;
+  --max-width: 600px;
+  --max-height: 90vh;
+  --border-radius: 12px;
+  --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+

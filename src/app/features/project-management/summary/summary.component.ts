@@ -113,8 +113,6 @@ export class SummaryComponent {
 
   summarylist$: Observable<any[]> = of(this.summary);
 
-
-
   handleRowAction(event: any) {
     switch (event.type) {
 

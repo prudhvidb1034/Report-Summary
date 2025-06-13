@@ -14,8 +14,8 @@ export class ReusableTableComponent {
   @Input() columns: any[] | undefined;
   @Output() rowAction: EventEmitter<any> = new EventEmitter<any>();
   @Input() theme = '';
-@Input() label: string = 'Item'; 
-@Input() showHeader = true;
+  @Input() label: string = 'Item';
+  @Input() showHeader = true;
 
 
   trackByFn(index: number, item: any): any {
@@ -26,9 +26,10 @@ export class ReusableTableComponent {
     //  this.loadTheme(this.theme);
   }
 
-    action(type:string,item:any){
-    this.rowAction.emit({type:type,item:item})
-   }
+  action(type: string, item: any) {
+    console.log(type,item)
+    this.rowAction.emit({ type: type, item: item })
+  }
 
 
   //   loadTheme(theme:any){

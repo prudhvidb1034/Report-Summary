@@ -1,13 +1,13 @@
 ion-breadcrumbs {
     padding: 10px;
-    background-color: #f0f0f0;
     position: relative !important;
     z-index: 10 !important;
+    margin-top: 0.5rem;
 }
 
 
 ion-breadcrumb {
-    font-size: 12px;
+    font-size: 14px;
     text-decoration: none;
     font-weight: bold;
     color: #333;

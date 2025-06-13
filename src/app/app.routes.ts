@@ -60,9 +60,9 @@ export const routes: Routes = [
   },
   {
     path: 'employee-dashboard',
-    loadComponent: () => import('../app/features/employee-update/employee-update.component').then((m) => m.EmployeeUpdateComponent),
+    loadComponent: () => import('./pop-ups/employee-update/employee-update.component').then((m) => m.EmployeeUpdateComponent),
     canActivate: [RoleGuard],
-    data: { expectedRole: 'employee' }
+    data: { expectedRole: 'employee'}
 
   },
 

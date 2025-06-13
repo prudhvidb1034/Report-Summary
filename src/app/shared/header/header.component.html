@@ -1,26 +1,21 @@
 <ion-header>
   <ion-toolbar class="custom-header">
-    <ion-title class="white-color">Employee Tracking System</ion-title>
+    <ion-title class="white-color">Employee Tracking System
+    </ion-title>
     <ion-buttons slot="start" class="white-color" (click)="toggleMenu()">
       <ion-menu-button *ngIf="showLogout" menu="main-menu"></ion-menu-button>
     </ion-buttons>
     <ion-buttons *ngIf="showLogout" class="white-color" slot="end">
-       <ion-item class="custom-header white-color">{{ fullName }}</ion-item>
-      <ion-button id="auto-trigger"
-        ><ion-icon
-          name="person-circle-outline"
-          id="cover-trigger"
-          *ngIf="showLogout"
-        >
+      <ion-item class="custom-header white-color">{{ fullName }}</ion-item>
+      <ion-button id="auto-trigger"><ion-icon name="person-circle-outline" id="cover-trigger" *ngIf="showLogout">
         </ion-icon>
       </ion-button>
       <ion-popover trigger="auto-trigger" size="auto" [dismissOnSelect]="true">
         <ng-template>
           <ion-list>
-           
+
             <ion-item>{{ role }}</ion-item>
-            <ion-item (click)="onLogout()"
-              ><ion-button> Logout </ion-button>
+            <ion-item (click)="onLogout()"><ion-button> Logout </ion-button>
             </ion-item>
           </ion-list>
         </ng-template>
@@ -28,4 +23,4 @@
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
-<app-breadcrumb *ngIf="showLogout"></app-breadcrumb>
+  <app-breadcrumb></app-breadcrumb>

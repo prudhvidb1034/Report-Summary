@@ -5,6 +5,7 @@
       <ion-menu-button *ngIf="showLogout" menu="main-menu"></ion-menu-button>
     </ion-buttons>
     <ion-buttons *ngIf="showLogout" class="white-color" slot="end">
+       <ion-item class="custom-header white-color">{{ fullName }}</ion-item>
       <ion-button id="auto-trigger"
         ><ion-icon
           name="person-circle-outline"
@@ -16,7 +17,7 @@
       <ion-popover trigger="auto-trigger" size="auto" [dismissOnSelect]="true">
         <ng-template>
           <ion-list>
-            <ion-item>{{ fullName }}</ion-item>
+           
             <ion-item>{{ role }}</ion-item>
             <ion-item (click)="onLogout()"
               ><ion-button> Logout </ion-button>

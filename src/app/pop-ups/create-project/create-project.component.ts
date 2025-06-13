@@ -7,17 +7,17 @@ import { ToastService } from '../../shared/toast.service';
 @Component({
   selector: 'app-create-project',
   standalone: true,
- imports: [IonicModule, CommonModule, ReactiveFormsModule],
+  imports: [IonicModule, CommonModule, ReactiveFormsModule],
   templateUrl: './create-project.component.html',
   styleUrl: './create-project.component.scss'
 })
 export class CreateProjectComponent {
 
   private readonly fb = inject(FormBuilder);
-private toast = inject(ToastService)
-teamForm!:FormGroup
+  private toast = inject(ToastService)
+  teamForm!: FormGroup
   isModalOpen = false;
-private modalCtrl = inject(ModalController);
+  private modalCtrl = inject(ModalController);
 
 
   ngOnInit() {
@@ -34,9 +34,9 @@ private modalCtrl = inject(ModalController);
 
   }
 
- setOpen(isOpen: boolean) {
+  setOpen(isOpen: boolean) {
     this.isModalOpen = isOpen;
-    
+
     this.modalCtrl.dismiss(); // Close modal
     this.teamForm.reset()
   }

@@ -46,7 +46,7 @@ export class SideMenuComponent {
     isBottom: false
   },
   {
-    label: 'Managers List',
+    label: 'Managers',
     icon: 'people',
     path: '/managers',
     roles: ['superadmin'],

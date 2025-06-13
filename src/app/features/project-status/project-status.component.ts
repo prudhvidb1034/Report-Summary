@@ -152,7 +152,7 @@ export class ProjectStatusComponent extends ComponentStore<State> implements Aft
       employees: [
         {
           employee_id: "9274",
-        project_id: "8b7d",
+          project_id: "8b7d",
           employee_name: "Aarav",
           summary: "Backend architecture",
           daily_updates: [
@@ -412,7 +412,7 @@ export class ProjectStatusComponent extends ComponentStore<State> implements Aft
             const nextProjects = state.projects.slice(currentCount, currentCount + 3);
             return { state, nextProjects };
           }),
-          switchMap(({ state, nextProjects }) => 
+          switchMap(({ state, nextProjects }) =>
             timer(1500).pipe(
               map(() => {
                 const newStatuses = nextProjects.map(p => {

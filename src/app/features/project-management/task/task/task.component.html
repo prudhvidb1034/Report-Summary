@@ -1,22 +1,30 @@
 <ion-grid>
     <ion-row class="ion-align-items-center">
-        <!-- Project Dropdown -->
-        <ion-col size="4">
-            <ion-item>
-                <ion-label>Project</ion-label>
-                <ion-select interface="popover" [(ngModel)]="selectedProjectId" (ionChange)="onProjectChange()">
-                    <ion-select-option *ngFor="let project of allProjects" [value]="project.id">
-                        {{ project.project_name }}
-                    </ion-select-option>
-                </ion-select>
-            </ion-item>
-        </ion-col>
+      <ion-col size="4">
+  <ion-label style="font-size: 16px; font-weight: bold;">Project</ion-label>
+  <ion-item style="--min-height: 36px; height: 36px; font-size: 12px;">
+    <ion-select
+      interface="popover"
+      [(ngModel)]="selectedProjectId"
+      (ionChange)="onProjectChange()"
+      style="font-size: 12px; height: 32px;"
+    >
+      <ion-select-option value="" disabled selected>Select Project</ion-select-option>
+      <ion-select-option
+        *ngFor="let project of allProjects"
+        [value]="project.id"
+      >
+        {{ project.project_name }}
+      </ion-select-option>
+    </ion-select>
+  </ion-item>
+</ion-col>
 
-        <!-- Employee Dropdown -->
         <ion-col size="4">
-            <ion-item>
-                <ion-label>Employee</ion-label>
+            <ion-label style="font-size: 16px; font-weight: bold;">Employee</ion-label>
+            <ion-item >
                 <ion-select interface="popover" [(ngModel)]="selectedEmployeeId">
+                    <ion-select-option value="" disabled selected >Select Employee</ion-select-option>
                     <ion-select-option *ngFor="let emp of filteredEmployees" [value]="emp.employee_id">
                         {{ emp.employee_name }}
                     </ion-select-option>
@@ -24,7 +32,7 @@
             </ion-item>
         </ion-col>
 
-       
+
         <ion-col class="ion-text-end" size="auto" style="display: flex; align-items: center;">
             <ion-button style="--background: #000033; flex-grow: 8; width: 60%;" class="large-button"
                 (click)="onSearch()">
@@ -37,30 +45,25 @@
 
 <!-- Table Display -->
 <ng-container *ngIf="projectDataObservable$ | async as taskData">
-  <ng-container *ngIf="taskData.length > 0; else noTasks">
-    <app-reusable-table
-      [columns]="columns"
-      [data]="projectDataObservable$"
-      [label]="label"
-      [showHeader]="false">
-    </app-reusable-table>
-  </ng-container>
+    <ng-container *ngIf="taskData.length > 0; else noTasks">
+        <app-reusable-table [columns]="columns" [data]="projectDataObservable$" [label]="label" [showHeader]="false">
+        </app-reusable-table>
+    </ng-container>
 </ng-container>
 
 <ng-template #noTasks>
-  <ion-card class="ion-padding ion-text-center">
-    <ion-card-content>
-      <ion-grid>
-        <ion-row class="ion-align-items-center ion-justify-content-center">
-          <ion-col size="auto">
-            <ion-icon name="information-circle-outline" color="medium" size="large"></ion-icon>
-          </ion-col>
-          <ion-col size="auto">
-            <p style="margin: 0;"><strong>No tasks found.</strong></p>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-    </ion-card-content>
-  </ion-card>
+    <ion-card class="ion-padding ion-text-center">
+        <ion-card-content>
+            <ion-grid>
+                <ion-row class="ion-align-items-center ion-justify-content-center">
+                    <ion-col size="auto">
+                        <ion-icon name="information-circle-outline" color="medium" size="large"></ion-icon>
+                    </ion-col>
+                    <ion-col size="auto">
+                        <p style="margin: 0;"><strong>No tasks found.</strong></p>
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+        </ion-card-content>
+    </ion-card>
 </ng-template>
-

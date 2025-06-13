@@ -49,34 +49,39 @@ export class TaskComponent {
   onProjectChange() {
     const selectedProject = this.allProjects.find(p => p.id === this.selectedProjectId);
     this.filteredEmployees = selectedProject?.employees || [];
-    this.selectedEmployeeId = ''; // Reset employee on project change
+    this.selectedEmployeeId = ''; 
   }
 
   onSearch() {
-    const selectedProject = this.allProjects.find(p => p.id === this.selectedProjectId);
-    const employee = selectedProject?.employees?.find((e:any) => e.employee_id === this.selectedEmployeeId);
+  const selectedProject = this.allProjects.find(p => p.id === this.selectedProjectId);
+  if (!selectedProject) return;
 
-    if (!selectedProject || !employee) return;
+  const employeesToShow = this.selectedEmployeeId
+    ? selectedProject.employees.filter((e: any) => e.employee_id === this.selectedEmployeeId)
+    : selectedProject.employees;
 
-    const allTasks = employee.daily_updates
+  const flatList = employeesToShow.map((emp: any) => {
+    const allTasks = emp.daily_updates
       .map((update: any) => update.task)
       .filter(Boolean)
       .join(', ');
 
-    const allAccomplishments = employee.daily_updates
+    const allAccomplishments = emp.daily_updates
       .flatMap((update: any) => update.keyAccomplishments || [])
       .join(', ');
 
-    const filteredRecord = [{
+    return {
       id: selectedProject.id,
       project_name: selectedProject.project_name,
       upcomingTasks: allTasks,
-      employee_name: employee.employee_name,
-      summary: employee.summary,
+      employee_name: emp.employee_name,
+      summary: emp.summary,
       keyAccomplishments: allAccomplishments
-    }];
+    };
+  });
 
-    this.projectData$.next(filteredRecord);
-  }
+  this.projectData$.next(flatList);
+}
+
 }
 

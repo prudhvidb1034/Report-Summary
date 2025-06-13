@@ -1,13 +1,13 @@
-<ion-grid>
-  <ion-row style="display: flex;align-items: center;" 
-  >
+<ion-grid  *ngIf="showHeader">
+  <ion-row style="display: flex;align-items: center;">
     <ion-col class="ion-text-start">
       <span class="project-title"> {{label}} List</span>
     </ion-col>
 
     <ion-col class="ion-text-end" size="auto" style="display: flex; align-items: center;">
       <ion-searchbar class="search-bar-input" style="flex-grow: 4;"></ion-searchbar>
-      <ion-button style="--background: #000033;flex-grow: 8; width: 60%;" class="large-button" (click)="action('create', null)">
+      <ion-button style="--background: #000033;flex-grow: 8; width: 60%;" class="large-button"
+        (click)="action('create', null)">
         Create {{label}}</ion-button>
     </ion-col>
   </ion-row>
@@ -30,6 +30,11 @@
           [ngTemplateOutletContext]="{ $implicit: item }"></ng-template>
       </ng-container>
       <ng-template #defaultTemplate>
+        <div *ngIf="column.field ==='status'" style="display: flex; justify-content: center;">
+          <ion-toggle *ngIf="column.field === 'status'" [checked]="item.status === 'Active'" justify="center">
+          </ion-toggle>
+
+        </div>
         <div style="display: flex; gap: 10px; justify-content: center;" *ngIf="column.field==='action'">
           <div *ngFor="let actionArray of column.type">
             <ion-button *ngIf=" actionArray==='view'" fill="clear" size="small" title="View"

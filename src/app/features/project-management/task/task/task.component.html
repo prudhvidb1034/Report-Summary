@@ -1,0 +1,42 @@
+<ion-grid>
+    <ion-row class="ion-align-items-center">
+        <!-- Project Dropdown -->
+        <ion-col size="4">
+            <ion-item>
+                <ion-label>Project</ion-label>
+                <ion-select interface="popover" [(ngModel)]="selectedProjectId" (ionChange)="onProjectChange()">
+                    <ion-select-option *ngFor="let project of allProjects" [value]="project.id">
+                        {{ project.project_name }}
+                    </ion-select-option>
+                </ion-select>
+            </ion-item>
+        </ion-col>
+
+        <!-- Employee Dropdown -->
+        <ion-col size="4">
+            <ion-item>
+                <ion-label>Employee</ion-label>
+                <ion-select interface="popover" [(ngModel)]="selectedEmployeeId">
+                    <ion-select-option *ngFor="let emp of filteredEmployees" [value]="emp.employee_id">
+                        {{ emp.employee_name }}
+                    </ion-select-option>
+                </ion-select>
+            </ion-item>
+        </ion-col>
+
+        <!-- Search Button -->
+        <ion-col class="ion-text-end" size="auto" style="display: flex; align-items: center;">
+  <ion-button
+    style="--background: #000033; flex-grow: 8; width: 60%;"
+    class="large-button"
+    (click)="onSearch()">
+    Search
+  </ion-button>
+</ion-col>
+
+    </ion-row>
+</ion-grid>
+
+<!-- Table Display -->
+<app-reusable-table [columns]="columns" [data]="projectDataObservable$" [label]="label" [showHeader]="false">
+</app-reusable-table>

@@ -28,7 +28,7 @@ export const routes: Routes = [
         path: '',
         loadComponent: () => import('./features/project-management/projects/projects.component').then((m) => m.ProjectListComponent),
         canActivate: [RoleGuard],
-        data: { expectedRoles: ['manager', 'superadmin'], breadcrumb: 'Projects'}
+        data: { expectedRoles: ['manager', 'superadmin'], breadcrumb: 'Projects' }
       },
       {
         path: 'employees',
@@ -37,16 +37,26 @@ export const routes: Routes = [
       }
     ]
   },
-  // {
-  //   path: 'project/:id',
-  //   loadComponent: () => import('../app/features/projects/projects.component').then((m) => m.ProjectsComponent),
-  //   data: { breadcrumb: 'EmployeeList' }
-  // },
+
   {
     path: 'summary',
-    loadComponent: () => import('../app/features/summary/summary.component').then((m) => m.SummaryComponent),
-    canActivate: [RoleGuard],
-    data: { expectedRole: 'manager' }
+    loadComponent: () => import('./features/project-management/list-info/list-info.component').then((m) => m.ListInfoComponent),
+   
+    children: [
+     {
+        path: '',
+        loadComponent: () => import('./features/project-management/summary/summary.component').then((m) => m.SummaryComponent),
+      canActivate: [RoleGuard],
+       data: { expectedRole: 'superadmin' }
+      },
+      {
+        path: 'task',
+        loadComponent: () => import('./features/project-management/task/task/task.component').then((m) => m.TaskComponent),
+        canActivate: [RoleGuard],
+        data: { expectedRole:[ 'manager', 'superadmin' ]}
+
+      }
+    ]
   },
   {
     path: 'employee-dashboard',

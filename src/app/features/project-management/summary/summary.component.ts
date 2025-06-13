@@ -1,19 +1,17 @@
 import { Component, inject } from '@angular/core';
-import { SummaryService } from '../../services/summary/summary.service';
 import { IonicModule, ModalController } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { FormGroup, FormControl, Validators, FormBuilder, ReactiveFormsModule, FormArray } from '@angular/forms';
-import { SummaryStore } from '../../state/summary.store';
-import { createTeam } from '../../models/project.model';
-import { Router } from '@angular/router';
-import { ReusableTableComponent } from "../../shared/reusable-table/reusable-table.component";
+import { Router, RouterOutlet } from '@angular/router';
 import { Observable, of } from 'rxjs';
-import { CreateSummaryComponent } from '../../pop-ups/create-summary/create-summary.component';
+import { ReusableTableComponent } from '../../../shared/reusable-table/reusable-table.component';
+import { SummaryStore } from '../../../state/summary.store';
+import { CreateSummaryComponent } from '../../../pop-ups/create-summary/create-summary.component';
 
 @Component({
   selector: 'app-summary',
   standalone: true,
-  imports: [IonicModule, CommonModule, ReactiveFormsModule, ReusableTableComponent],
+  imports: [IonicModule, CommonModule, ReactiveFormsModule, ReusableTableComponent,RouterOutlet],
   providers: [SummaryStore],
   templateUrl: './summary.component.html',
   styleUrl: './summary.component.scss'
@@ -24,7 +22,7 @@ export class SummaryComponent {
   // projects: createTeam[] = [];
   // private summary = inject(SummaryService);
   // weekSummaryForm !: FormGroup;
-  // private route = inject(Router)
+  private route = inject(Router)
   // private readonly store = inject(SummaryStore);
   // dateError: string | null = null;
   // private readonly fb = inject(FormBuilder);
@@ -94,12 +92,14 @@ export class SummaryComponent {
     {
       weekId: 'WEEK001',
       startDate: '2025-05-01',
-      endDate: '2025-05-07'
+      endDate: '2025-05-07',
+      status: 'Active',
     },
     {
       weekId: 'WEEK002',
       startDate: '2025-05-08',
-      endDate: '2025-05-14'
+      endDate: '2025-05-14',
+      status: 'InActive',
     }
   ];
  columns = [
@@ -107,7 +107,6 @@ export class SummaryComponent {
     { header: 'Start Date', field: 'startDate' },
     { header: 'End Date', field: 'endDate' },
      { header: 'Status', field: 'status' },
-    // { header: 'End Date', field: 'endDate' },
     { header: 'Action', field: 'action', type: ['view', 'edit', 'delete'] }
   ];
 
@@ -121,9 +120,9 @@ export class SummaryComponent {
            this.loadCreateEmployeeModal();
            //this.route.navigate(['/projects/employees/create']);
            break
-         // case 'edit':
-         //   this.route.navigate(['/projects/employees/edit', event.item.employeeId]);
-         //   break;
+         case 'view':
+           this.route.navigate(['summary/task']);
+           break;
          // case 'delete':
          //   console.log('Delete action for', event.item);
          //   // Implement delete logic here

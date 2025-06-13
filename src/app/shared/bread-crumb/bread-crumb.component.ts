@@ -43,8 +43,10 @@ export class BreadcrumbComponent implements OnInit {
   // Define your breadcrumb configuration here
   breadcrumbConfig: { label: string; url: string }[] = [
     { label: 'Home', url: '/home' },
+    {label:'Login',url:'/login'},
     { label: 'Projects', url: '/projects' },
     { label: 'Employees', url: '/projects/employees' },
+    {label:'View Report',url:'/project-status'}
   ];
   updatedBreadCrumb: BreadcrumbItem[]=[];
 

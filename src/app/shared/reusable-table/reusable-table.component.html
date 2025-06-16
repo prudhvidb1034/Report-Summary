@@ -1,4 +1,4 @@
-<ion-grid  *ngIf="showHeader">
+<ion-grid *ngIf="showHeader">
   <ion-row style="display: flex;align-items: center;">
     <ion-col class="ion-text-start">
       <span class="project-title"> {{label}} List</span>
@@ -9,6 +9,12 @@
       <ion-button style="--background: #000033;flex-grow: 8; width: 60%;--border-radius: 0px;" class="large-button"
         (click)="action('create', null)">
         Create {{label}}</ion-button>
+    </ion-col>
+    <ion-col *ngIf="label === 'Employee'" 
+    class="ion-text-end" size="auto" style="display: flex; align-items: center;">
+      <ion-button style="--background: #000033;flex-grow: 8; width: 60%;" class="large-button" (click)="action('tagEmployee', null)">
+        <ion-icon name="person-add-outline" slot="start"></ion-icon>
+        Tag Employee</ion-button>
     </ion-col>
   </ion-row>
 </ion-grid>
@@ -34,6 +40,10 @@
           </ion-toggle>
         </div>
         <div style="display: flex; gap: 10px; justify-content: center;" *ngIf="column.field==='action'">
+<!-- <<<<<<< feature_prudhvi
+          <div *ngFor="let actionArray of column.type">
+            <ion-button *ngIf=" actionArray==='view'" fill="clear" size="small" title="View" -->
+
           <div *ngFor="let actionArray of column.type" >
             <ion-button *ngIf="actionArray==='view'"  fill="clear" size="small" title="View"
               (click)="action('view',item)">
@@ -49,6 +59,11 @@
             </ion-button>
           </div>
         </div>
+<!-- <<<<<<< feature_prudhvi
+        <div *ngIf="column.field === 'viewTask'|| column.field ==='viewReport' ">
+          <ion-button fill="clear" size="small" color="secondary" (click)="action(column.field,item)">
+            {{ item[column.field] }}
+======= -->
         <div *ngIf="column.linkEnable">
           <ion-button fill="clear" size="small"  class="button-link"  (click)="action(column.field,item)">
            {{ item[column.field]?item[column.field]:'View'}} 
@@ -62,6 +77,3 @@
 
   </ion-row>
 </ion-grid>
-
-
-

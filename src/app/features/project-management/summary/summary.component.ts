@@ -12,7 +12,7 @@ import { EmployeeUpdateComponent } from '../../../pop-ups/employee-update/employ
 @Component({
   selector: 'app-summary',
   standalone: true,
-  imports: [IonicModule, CommonModule, ReactiveFormsModule, ReusableTableComponent, RouterOutlet],
+  imports: [IonicModule, CommonModule, ReactiveFormsModule, ReusableTableComponent],
   providers: [SummaryStore],
   templateUrl: './summary.component.html',
   styleUrl: './summary.component.scss'
@@ -95,16 +95,16 @@ export class SummaryComponent {
       startDate: '2025-05-01',
       endDate: '2025-05-07',
       status: 'Active',
-      viewTask:'View Task',
-      viewReport:'View Report'
+      viewTask: 'View Task',
+      viewReport: 'View Report'
     },
     {
       weekId: 'WEEK002',
       startDate: '2025-05-08',
       endDate: '2025-05-14',
       status: 'InActive',
-      viewTask:'View Task',
-      viewReport:'View Report'
+      viewTask: 'View Task',
+      viewReport: 'View Report'
     }
   ];
   columns = [
@@ -112,6 +112,10 @@ export class SummaryComponent {
     { header: 'Start Date', field: 'startDate' },
     { header: 'End Date', field: 'endDate' },
     { header: 'Status', field: 'status' },
+//     { header: 'View Task', field: 'viewTask' },
+//     { header: 'View Report', field: 'viewReport' },
+//     { header: 'Action', field: 'action', type: ['edit', 'delete'], },
+
     {header:'View Task',field:'viewTask',linkEnable:true},
     {header:'View Report',field:'viewReport',linkEnable:true},
     { header: 'Action', field: 'action', type: [ 'edit', 'delete'], },
@@ -123,11 +127,11 @@ export class SummaryComponent {
     console.log(event)
     switch (event.type) {
       case 'viewTask':
-        this.route.navigate(['summary/task',event.item.weekId]);
+        this.route.navigate(['summary/task', event.item.weekId]);
         break;
       case 'viewReport':
-        this.route.navigate(['summary/project-status',event.item.weekId]);
-        break;   
+        this.route.navigate(['summary/project-status', event.item.weekId]);
+        break;
       case 'create':
         this.loadCreateEmployeeModal();
         break;
@@ -152,7 +156,6 @@ export class SummaryComponent {
       modal.present();
       modal.onDidDismiss().then((data) => {
         console.log('Modal dismissed with data:', data);
-        // Handle any data returned from the modal if needed
       });
     });
   }

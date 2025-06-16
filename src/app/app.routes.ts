@@ -56,6 +56,11 @@ export const routes: Routes = [
     ]
   },
   {
+    path: 'employees',
+    loadComponent: () => import('./features/project-management/employees/employees.component').then((m) => m.EmployeesComponent),
+    data: { breadcrumb: 'EmployeeList' }
+  },
+  {
     path: 'employee-dashboard',
     loadComponent: () => import('./pop-ups/employee-update/employee-update.component').then((m) => m.EmployeeUpdateComponent),
     canActivate: [RoleGuard],

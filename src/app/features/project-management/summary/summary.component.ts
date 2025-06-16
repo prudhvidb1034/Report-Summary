@@ -112,9 +112,13 @@ export class SummaryComponent {
     { header: 'Start Date', field: 'startDate' },
     { header: 'End Date', field: 'endDate' },
     { header: 'Status', field: 'status' },
-    { header: 'View Task', field: 'viewTask' },
-    { header: 'View Report', field: 'viewReport' },
-    { header: 'Action', field: 'action', type: ['edit', 'delete'], },
+//     { header: 'View Task', field: 'viewTask' },
+//     { header: 'View Report', field: 'viewReport' },
+//     { header: 'Action', field: 'action', type: ['edit', 'delete'], },
+
+    {header:'View Task',field:'viewTask',linkEnable:true},
+    {header:'View Report',field:'viewReport',linkEnable:true},
+    { header: 'Action', field: 'action', type: [ 'edit', 'delete'], },
   ];
 
   summarylist$: Observable<any[]> = of(this.summary);
@@ -129,11 +133,18 @@ export class SummaryComponent {
         this.route.navigate(['summary/project-status', event.item.weekId]);
         break;
       case 'create':
-        this.loadCreateEmployeeModal()
+        this.loadCreateEmployeeModal();
+        break;
+      case 'toggle-status':
+        this.updatedRowData(event);  
         break;
       default:
         console.log('Unknown action type:', event.type);
     }
+  }
+  updatedRowData(event: any) {
+    this.summary.filter((val:any)=>val.weekId===event.item.weekId?val.status=event.value:'');
+    console.log(event)
   }
 
   loadCreateEmployeeModal() {

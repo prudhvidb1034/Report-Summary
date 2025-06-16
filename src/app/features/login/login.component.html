@@ -13,8 +13,8 @@
       <div>
         <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
           <ion-item>
-            <ion-input formControlName="username" label="Email " labelPlacement="floating"
-              placeholder="abc@gmail.com" [clearOnEdit]="true"></ion-input>
+            <ion-input formControlName="username" label="Email " labelPlacement="floating" placeholder="abc@gmail.com"
+              [clearOnEdit]="true"></ion-input>
           </ion-item>
           @if (loginForm.get('username')?.invalid &&
           (loginForm.get('username')?.dirty ||
@@ -52,19 +52,12 @@
                 </ion-button>
               </ion-col>
               <ion-col size-md="6">
-                <ion-button expand="block" style="--background: #000033" type="submit" [disabled]="loginForm.invalid">
+                <ion-button expand="block" style="--background: #000033;--border-radius: 0px;" type="submit"
+                  [disabled]="loginForm.invalid">
                   Login
                 </ion-button>
               </ion-col>
             </ion-row>
-            <!-- <ion-row>
-              <ion-col>
-                <div style="display: flex; justify-content: flex-end">
-                  <span>Don't have an account ?</span>&nbsp;<a routerLink="/sign-up">
-                    Register</a>
-                </div>
-              </ion-col>
-            </ion-row> -->
           </ion-grid>
         </form>
       </div>

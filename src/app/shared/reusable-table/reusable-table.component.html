@@ -6,7 +6,7 @@
 
     <ion-col class="ion-text-end" size="auto" style="display: flex; align-items: center;">
       <ion-searchbar class="search-bar-input" style="flex-grow: 4;"></ion-searchbar>
-      <ion-button style="--background: #000033;flex-grow: 8; width: 60%;" class="large-button"
+      <ion-button style="--background: #000033;flex-grow: 8; width: 60%;--border-radius: 0px;" class="large-button"
         (click)="action('create', null)">
         Create {{label}}</ion-button>
     </ion-col>
@@ -49,12 +49,12 @@
             </ion-button>
           </div>
         </div>
-        <div *ngIf="column.field === 'viewTask'|| column.field ==='viewReport' ">
-          <ion-button fill="clear" size="small" color="secondary"  (click)="action(column.field,item)">
-           {{ item[column.field] }} 
+        <div *ngIf="column.linkEnable">
+          <ion-button fill="clear" size="small"  class="button-link"  (click)="action(column.field,item)">
+           {{ item[column.field]?item[column.field]:'View'}} 
           </ion-button>
         </div>
-        <div *ngIf="column.field != 'viewTask' && column.field !='viewReport' && column.field !='status' ">
+        <div *ngIf="!column.linkEnable  && column.field !='status' ">
           {{ item[column.field] }}
         </div>
       </ng-template>

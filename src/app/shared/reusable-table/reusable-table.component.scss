@@ -19,6 +19,12 @@
     background-color: #f9f9f9;
   }
 
+  .button-link {
+    color: #191947;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+
   // @media (max-width: 768px) {
   //   ion-row {
   //     flex-wrap: wrap;
@@ -35,6 +41,6 @@
   // }
 }
 
-.action-color{
-color: #191947;
+.action-color {
+  color: #191947;
 }

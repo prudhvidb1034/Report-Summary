@@ -26,20 +26,20 @@ export class ProjectListComponent {
     { header: 'ID', field: 'id' },
     { header: 'Project Name', field: 'projectname' },
     { header: 'Location', field: 'projectLocation' },
-    { header: 'Start Date', field: 'startDate' },
-    { header: 'End Date', field: 'endDate' },
-    { header: 'Action', field: 'action', type: ['view', 'edit', 'delete'] }
+    {header:'Teams',field:'viewTeam',linkEnable:true},
+    // { header: 'Start Date', field: 'startDate' },
+    // { header: 'End Date', field: 'endDate' },
+    { header: 'Action', field: 'action', type: ['edit', 'delete'] }
   ];
 
   handleRowAction(action: any) {
     switch (action.type) {
-      case 'view':
+      case 'viewTeam':
         this.router.navigate(['/projects/employees']);
         break;
       case 'create':
         this.loadCreateEmployeeModal();
-        break
-
+        break;
       default:
         console.log('failing')
     }

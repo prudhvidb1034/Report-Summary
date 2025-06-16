@@ -1,0 +1,63 @@
+<ion-header>
+  <ion-toolbar color="light">
+    <ion-buttons slot="start">
+      <ion-title>
+        <b>Tag Employee</b>
+      </ion-title>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" (click)="setOpen(false)">
+        <ion-icon name="close-outline" class="icon-medium"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding">
+  <ion-grid>
+    <ion-row>
+      <ion-col size="8">
+        <ion-label class="ion-margin">Project Name</ion-label>
+        <ion-searchbar [(ngModel)]="locationSearch" (ionInput)="filterLocations($event)"
+          (ionClear)="clearLocationSearch()" [debounce]="500" animated="true">
+        </ion-searchbar>
+      </ion-col>
+    </ion-row>
+
+    <ion-row *ngIf="filteredLocations.length && locationSearch">
+      <ion-col size="8">
+        <ion-list class="scroll-list">
+          <ion-item *ngFor="let item of filteredLocations" lines="none" button (click)="selectLocation(item.projectname)">
+            <ion-label>{{ item.projectname }}</ion-label>
+          </ion-item>
+        </ion-list>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size="8" class="ion-margin-top">
+        <ion-label class="ion-margin">Employee Name</ion-label>
+        <ion-searchbar [(ngModel)]="projectSearch" (ionInput)="filterProjects($event)" (ionClear)="clearProjectSearch()"
+          [debounce]="500" animated="true">
+        </ion-searchbar>
+      </ion-col>
+    </ion-row>
+
+    <ion-row *ngIf="filteredProjects.length && projectSearch">
+      <ion-col size="8">
+        <ion-list class="scroll-list">
+          <ion-item *ngFor="let proj of filteredProjects" lines="none" button (click)="selectProject(proj)">
+            <ion-label>{{ proj }}</ion-label>
+          </ion-item>
+        </ion-list>
+      </ion-col>
+    </ion-row>
+
+  </ion-grid>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-buttons slot="end">
+      <ion-button class="submit">Submit</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

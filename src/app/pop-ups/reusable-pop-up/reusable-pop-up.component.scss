@@ -1,0 +1,50 @@
+
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+
+ion-footer {
+  position: relative;
+}
+/* Removes underline */
+.custom-searchbar .searchbar-input-container {
+  border-bottom: none !important;
+}
+
+/* Dropdown wrapper placed below search bar */
+.dropdown-wrapper {
+  position: relative;
+  z-index: 10;
+  margin-top: -8px; /* Adjust as needed */
+}
+
+/* Dropdown look */
+.custom-list {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin: 0;
+  padding: 0;
+}
+
+/* Remove item border */
+ion-item {
+  --border-width: 0;
+  --inner-border-width: 0;
+}
+.scroll-list {
+  max-height: 150px;
+  overflow-y: auto;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+.ion-margin{
+    margin-left: 7px;
+}
+
+// .no-scroll-content {
+//   --overflow: hidden; // disables scroll for ion-content
+// }

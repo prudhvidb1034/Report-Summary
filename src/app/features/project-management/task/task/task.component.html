@@ -37,17 +37,37 @@
             </div>
         </ion-col>
 
+        <ion-col size="auto">
+            <div class="ion-text-end" style="display: flex; flex-direction: column;margin-top: 20px;">
+                <!-- <label style="opacity: 0;">Search</label> Placeholder for label alignment -->
+                <ion-button style="width: 180px; height: 36px; font-size: 13px; --background: #000033;"
+                (click)="openModal()">
+                    Create Task
+                </ion-button>
+            </div>
+        </ion-col>
+
     </ion-row>
 </ion-grid>
 <ng-container *ngIf="projectDataObservable$ | async as taskData">
-    <ng-container *ngIf="taskData.length > 0; else noTasks">
+    <ng-container>
         <app-reusable-table [columns]="columns" [data]="projectDataObservable$" [label]="label" [showHeader]="false">
         </app-reusable-table>
     </ng-container>
+    <ion-card class="ion-padding">
+        <ion-card-content>
+            <ion-item lines="none" class="ion-justify-content-center">
+                <ion-icon slot="start" name="information-circle-outline" color="medium" size="large"></ion-icon>
+                <ion-label class="ion-text-wrap">
+                    <strong>No tasks found.</strong>
+                </ion-label>
+            </ion-item>
+        </ion-card-content>
+    </ion-card>
 </ng-container>
 
 
-<ng-template #noTasks>
+<!-- <ng-template #noTasks>
   <ion-card class="ion-padding">
     <ion-card-content>
       <ion-item lines="none" class="ion-justify-content-center">
@@ -58,4 +78,4 @@
       </ion-item>
     </ion-card-content>
   </ion-card>
-</ng-template>
+</ng-template> -->

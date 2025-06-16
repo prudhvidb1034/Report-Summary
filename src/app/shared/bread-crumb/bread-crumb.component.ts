@@ -83,6 +83,7 @@ export class BreadcrumbComponent implements OnInit {
     { label: 'Managers', url: '/managers' },
     { label: 'Weekly Status Update', url: '/employee-dashboard' },
     { label: 'Employees', url: '/projects/employees' },
+    { label: 'Employees', url: '/employees' },
     { label: 'View Individual Project Status', url: '/summary/task/:id' },
     { label: 'View Reports', url: '/summary/project-status/:id' }
   ];

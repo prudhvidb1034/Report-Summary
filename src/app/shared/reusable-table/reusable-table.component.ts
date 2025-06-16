@@ -28,4 +28,9 @@ export class ReusableTableComponent {
   action(type: string, item: any) {
     this.rowAction.emit({ type: type, item: item })
   }
+
+  toggleEvent(event:any,item:any){
+    this.rowAction.emit({type:'toggle-status',value:event.detail.checked===true?'Active':'InActive',item:item})
+    console.log(event.detail.checked)
+  }
 }

@@ -13,7 +13,6 @@ export class ReusableTableComponent {
   @Input() data: any;
   @Input() columns: any[] | undefined;
   @Output() rowAction: EventEmitter<any> = new EventEmitter<any>();
-  @Input() theme = '';
   @Input() label: string = 'Item';
   @Input() showHeader = true;
 
@@ -27,19 +26,6 @@ export class ReusableTableComponent {
   }
 
   action(type: string, item: any) {
-    console.log(type,item)
     this.rowAction.emit({ type: type, item: item })
   }
-
-
-  //   loadTheme(theme:any){
-  //    switch(theme){
-  //    case 'projects':
-  //     this.
-  // }
-  //   }
-  // onSelect(s: any) {
-  //   console.log(s)
-  //   this.rowAction.emit(s)
-  // }
 }

@@ -108,13 +108,15 @@
     }
 
     <ng-container>
-      <ion-item>
-        <ion-select label="Projects" label-placement="floating" formControlName="projectName">
-          <ion-select-option *ngFor="let p of projects" [value]="p">
-            {{ p }}
-          </ion-select-option>
-        </ion-select>
-      </ion-item>
+    <ion-item>
+  <ion-label position="floating">Projects</ion-label>
+  <ion-select multiple="true" formControlName="projectName">
+    <ion-select-option *ngFor="let p of projects" [value]="p">
+      {{ p }}
+    </ion-select-option>
+  </ion-select>
+</ion-item>
+
 
       <ion-item lines="full" class="stack-dropdown">
         <ion-label position="stacked">Tech Stack</ion-label>

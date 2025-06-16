@@ -1,9 +1,6 @@
 <ion-breadcrumbs>
-  <ion-breadcrumb *ngFor="let breadcrumb of breadcrumbs$ | async;let i = index;"
-   class="cursor" [disabled]="i!==updatedBreadCrumb.length-1"
-  [routerLink]="breadcrumb.url"
-
-  >
-  {{ breadcrumb.label }}
+  <ion-breadcrumb *ngFor="let breadcrumb of breadcrumbs$ | async;let i = index;" class="cursor"
+    [ngClass]="{ 'breadcrumb-disabled': i!==updatedBreadCrumb.length-1 }" [routerLink]="breadcrumb.url">
+    {{ breadcrumb.label }}
   </ion-breadcrumb>
-  </ion-breadcrumbs>
+</ion-breadcrumbs>

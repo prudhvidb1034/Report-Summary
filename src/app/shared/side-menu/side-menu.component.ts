@@ -45,6 +45,13 @@ export class SideMenuComponent {
     roles: ['superadmin'],
     isBottom: false
   },
+   {
+    label: 'Employees',
+    icon: 'people',
+    path: '/employees',
+    roles: ['superadmin','manager'],
+    isBottom: false
+  },
   {
     label: 'Weekly Summary',
     icon: 'document-text',
@@ -60,13 +67,13 @@ export class SideMenuComponent {
     roles: ['employee','superadmin'],
     
   },
-  {
-    label: 'View Reports',
-    icon: 'documents',
-    path: '/project-status',
-    roles: ['superadmin', 'manager'],
-    isBottom: false
-  },
+  // {
+  //   label: 'View Reports',
+  //   icon: 'documents',
+  //   path: '/project-status',
+  //   roles: ['superadmin', 'manager'],
+  //   isBottom: false
+  // },
   {
     label: 'Settings',
     icon: 'settings',

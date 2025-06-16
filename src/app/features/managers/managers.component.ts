@@ -17,7 +17,7 @@ label = 'Manager';
  private modalController = inject(ModalController);
   
    columns = [
-    { header: 'manager ID', field: 'managerid' },
+    { header: 'Manager ID', field: 'managerid' },
     { header: 'Manager Name', field: 'managername' },
     { header: 'Mail id', field: 'mail' },
     { header: 'Project', field: 'project' },

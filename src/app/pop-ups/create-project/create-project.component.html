@@ -47,23 +47,6 @@
       }
     </ion-text>
     }
-
-    <ion-item>
-      <ion-input formControlName="startDate" type="date" label="Start Date" labelPlacement="stacked"></ion-input>
-    </ion-item>
-    @if (teamForm.get('startDate')?.invalid &&
-    (teamForm.get('startDate')?.dirty || teamForm.get('startDate')?.touched))
-    {
-    <ion-text color="danger" class="error-message">
-      @if (teamForm.get('startDate')?.errors?.['required']) {
-      <p>Start date is required.</p>
-      }
-    </ion-text>
-    }
-
-    <ion-item>
-      <ion-input formControlName="endDate" type="date" label="End Date" labelPlacement="stacked"></ion-input>
-    </ion-item>
   </form>
 
 

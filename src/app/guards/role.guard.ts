@@ -1,10 +1,11 @@
 import { inject, Injectable } from '@angular/core';
-import { CanActivate, ActivatedRouteSnapshot, Router } from '@angular/router';
+import { CanActivate, ActivatedRouteSnapshot, Router, Resolve, MaybeAsync, RouterStateSnapshot } from '@angular/router';
 import { Observable, map } from 'rxjs';
 import { LoginStore } from '../state/login.store';
 
 @Injectable({ providedIn: 'root' })
 export class RoleGuard implements CanActivate {
+
   private router = inject(Router);
   private loginStore = inject(LoginStore);
 
@@ -31,4 +32,9 @@ export class RoleGuard implements CanActivate {
       })
     );
   }
+
+
+  
+
+  
 }

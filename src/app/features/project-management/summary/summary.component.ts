@@ -112,8 +112,8 @@ export class SummaryComponent {
     { header: 'Start Date', field: 'startDate' },
     { header: 'End Date', field: 'endDate' },
     { header: 'Status', field: 'status' },
-    {header:'View Task',field:'viewTask'},
-    {header:'View Report',field:'viewReport'},
+    {header:'View Task',field:'viewTask',linkEnable:true},
+    {header:'View Report',field:'viewReport',linkEnable:true},
     { header: 'Action', field: 'action', type: [ 'edit', 'delete'], },
   ];
 

@@ -95,12 +95,16 @@ export class SummaryComponent {
       startDate: '2025-05-01',
       endDate: '2025-05-07',
       status: 'Active',
+      viewTask:'View Task',
+      viewReport:'View Report'
     },
     {
       weekId: 'WEEK002',
       startDate: '2025-05-08',
       endDate: '2025-05-14',
       status: 'InActive',
+      viewTask:'View Task',
+      viewReport:'View Report'
     }
   ];
   columns = [
@@ -108,25 +112,25 @@ export class SummaryComponent {
     { header: 'Start Date', field: 'startDate' },
     { header: 'End Date', field: 'endDate' },
     { header: 'Status', field: 'status' },
-    { header: 'Action', field: 'action', type: ['view', 'edit', 'delete'] }
+    {header:'View Task',field:'viewTask'},
+    {header:'View Report',field:'viewReport'},
+    { header: 'Action', field: 'action', type: [ 'edit', 'delete'], },
   ];
 
   summarylist$: Observable<any[]> = of(this.summary);
 
   handleRowAction(event: any) {
+    console.log(event)
     switch (event.type) {
-
-      case 'view':
-        this.route.navigate(['summary/task']);
+      case 'viewTask':
+        this.route.navigate(['summary/task',event.item.weekId]);
         break;
-      case 'edit':
+      case 'viewReport':
+        this.route.navigate(['summary/project-status',event.item.weekId]);
+        break;   
+      case 'create':
         this.loadCreateEmployeeModal()
-        // this.route.navigate(['/employee-dashboard']);
         break;
-      // case 'delete':
-      //   console.log('Delete action for', event.item);
-      //   // Implement delete logic here
-      //   break;
       default:
         console.log('Unknown action type:', event.type);
     }

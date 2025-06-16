@@ -19,10 +19,17 @@ ion-breadcrumb:not(:last-child)::after {
     padding: 0 5px;
 }
 
-ion-breadcrumb[disabled] {
-    color: #777;
+.breadcrumb-disabled{
+   color: #777;
     cursor: pointer;
+    pointer-events: all;
+    text-decoration: underline;
 }
+
+// ion-breadcrumb[disabled] {
+//     color: #777;
+//     cursor: pointer;
+// }
 
 ion-breadcrumb[disabled]::after {
     content: none;

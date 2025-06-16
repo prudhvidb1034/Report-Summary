@@ -83,15 +83,7 @@ handleRowAction(event:any) {
     switch(event.type){
       case 'create' :
         this.loadCreateEmployeeModal();
-        //this.route.navigate(['/projects/employees/create']);
-        break
-      // case 'edit':
-      //   this.route.navigate(['/projects/employees/edit', event.item.employeeId]);
-      //   break;
-      // case 'delete':
-      //   console.log('Delete action for', event.item);
-      //   // Implement delete logic here
-      //   break;
+        break;
       default:
         console.log('Unknown action type:', event.type);
     }
@@ -107,7 +99,6 @@ handleRowAction(event:any) {
       modal.present();
       modal.onDidDismiss().then((data) => {
         console.log('Modal dismissed with data:', data);
-        // Handle any data returned from the modal if needed
       });
     });
   }

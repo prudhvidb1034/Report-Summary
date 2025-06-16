@@ -23,10 +23,16 @@ export class LoginComponent {
       username: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]]
     });
+    this.loginForm.controls['username'].setValue(sessionStorage.getItem('username'));
+    this.loginForm.controls['password'].setValue(sessionStorage.getItem('password'))
+
   }
 
 
   onSubmit() {
+    sessionStorage.setItem('username',this.loginForm.value.username);
+    sessionStorage.setItem('password',this.loginForm.value.password);
+    console.log(this.loginForm.value)
     if (this.loginForm.valid) {
       this.loginStore.login(this.loginForm.value);
     } else {

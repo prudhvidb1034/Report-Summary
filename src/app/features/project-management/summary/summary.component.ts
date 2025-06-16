@@ -129,11 +129,18 @@ export class SummaryComponent {
         this.route.navigate(['summary/project-status',event.item.weekId]);
         break;   
       case 'create':
-        this.loadCreateEmployeeModal()
+        this.loadCreateEmployeeModal();
+        break;
+      case 'toggle-status':
+        this.updatedRowData(event);  
         break;
       default:
         console.log('Unknown action type:', event.type);
     }
+  }
+  updatedRowData(event: any) {
+    this.summary.filter((val:any)=>val.weekId===event.item.weekId?val.status=event.value:'');
+    console.log(event)
   }
 
   loadCreateEmployeeModal() {

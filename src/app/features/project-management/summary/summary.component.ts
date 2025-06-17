@@ -91,26 +91,28 @@ export class SummaryComponent {
 
   summary = [
     {
-      weekId: 'WEEK001',
-      startDate: '2025-05-01',
-      endDate: '2025-05-07',
+      weekId: 'WEEK:01-June-2025 To 07-June-2025',
+      weekNo:0,
+      // startDate: '2025-05-01',
+      // endDate: '2025-05-07',
       status: 'Active',
       viewTask: 'View Task',
       viewReport: 'View Report'
     },
     {
-      weekId: 'WEEK002',
-      startDate: '2025-05-08',
-      endDate: '2025-05-14',
+      weekId: 'WEEK:08-June-2025 To 14-June-2025',
+       weekNo:1,
+      // startDate: '2025-05-08',
+      // endDate: '2025-05-14',
       status: 'InActive',
       viewTask: 'View Task',
       viewReport: 'View Report'
     }
   ];
   columns = [
-    { header: 'Week Id ', field: 'weekId' },
-    { header: 'Start Date', field: 'startDate' },
-    { header: 'End Date', field: 'endDate' },
+    { header: 'Name ', field: 'weekId' },
+    // { header: 'Start Date', field: 'startDate' },
+    // { header: 'End Date', field: 'endDate' },
     { header: 'Status', field: 'status' },
 //     { header: 'View Task', field: 'viewTask' },
 //     { header: 'View Report', field: 'viewReport' },
@@ -127,16 +129,19 @@ export class SummaryComponent {
     console.log(event)
     switch (event.type) {
       case 'viewTask':
-        this.route.navigate(['summary/task', event.item.weekId]);
+        this.route.navigate(['summary/task', event.item.weekNo]);
         break;
       case 'viewReport':
-        this.route.navigate(['summary/project-status', event.item.weekId]);
+        this.route.navigate(['summary/project-status', event.item.weekNo]);
         break;
       case 'create':
         this.loadCreateEmployeeModal();
         break;
       case 'toggle-status':
         this.updatedRowData(event);  
+        break;
+        case 'createStatus':
+        this.updateWeeklySummary();  
         break;
       default:
         console.log('Unknown action type:', event.type);
@@ -163,8 +168,8 @@ export class SummaryComponent {
   updateWeeklySummary() {
     this.modalController.create({
       component: EmployeeUpdateComponent,
+      // cssClass: 'custom-modal',
       componentProps: {
-
       }
     }).then((modal) => {
       modal.present();

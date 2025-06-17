@@ -1,24 +1,49 @@
 <div fullscreen class="project-status-container">
   <div class="container">
-    <aside class="project-list" role="list" aria-label="Projects List" #projectList>
+    <aside
+      class="project-list"
+      role="list"
+      aria-label="Projects List"
+      #projectList
+    >
+      <div style="margin-left: 20px; margin-bottom: 10px; font-weight: 500">
+        Projects
+      </div>
       <nav>
         <ul>
-          Projects
-          <li *ngFor="let project of projects; let i = index" (click)="onProjectClick(i)"
-            [class.active]="i === selectedProjectIndex" role="listitem" tabindex="0" (keydown.enter)="onProjectClick(i)"
-            (keydown.space)="onProjectClick(i)">
+          <li
+            *ngFor="let project of projects; let i = index"
+            (click)="onProjectClick(i)"
+            [class.active]="i === selectedProjectIndex"
+            role="listitem"
+            tabindex="0"
+            (keydown.enter)="onProjectClick(i)"
+            (keydown.space)="onProjectClick(i)"
+          >
             {{ project.project_name }}
           </li>
         </ul>
       </nav>
     </aside>
 
-    <section #statusContainer class="project-status-section" (scroll)="onScroll()" aria-live="polite"
-      aria-label="Project Status Content">
-      <div *ngFor="let status of loadedProjectStatuses$|async; let idx = index" class="project-status-card"
-        [attr.data-index]="idx" [attr.id]="'project-status-' + idx" [attr.aria-selected]="idx === selectedProjectIndex">
+    <section
+      #statusContainer
+      class="project-status-section"
+      (scroll)="onScroll()"
+      aria-live="polite"
+      aria-label="Project Status Content"
+    >
+      <div
+        *ngFor="let status of loadedProjectStatuses$ | async; let idx = index"
+        class="project-status-card"
+        [attr.data-index]="idx"
+        [attr.id]="'project-status-' + idx"
+        [attr.aria-selected]="idx === selectedProjectIndex"
+      >
         <ion-card>
-          <ion-card-title class="project-title">{{status.projectName}}</ion-card-title>
+          <ion-card-title class="project-title">{{
+            status.projectName
+          }}</ion-card-title>
 
           <ion-row>
             <ion-col size="6">
@@ -26,7 +51,11 @@
                 <ion-card-header>
                   <div class="card-header">
                     <div>
-                      <ion-icon name="reader-outline" class="card-icon" aria-hidden="true"></ion-icon>
+                      <ion-icon
+                        name="reader-outline"
+                        class="card-icon"
+                        aria-hidden="true"
+                      ></ion-icon>
                     </div>
                     <div>
                       <span class="card-title">Summary</span>
@@ -35,7 +64,9 @@
                 </ion-card-header>
                 <ion-card-content>
                   <ul>
-                    <li *ngFor="let summaryItem of status.summary">{{summaryItem}}</li>
+                    <li *ngFor="let summaryItem of status.summary">
+                      {{ summaryItem }}
+                    </li>
                   </ul>
                 </ion-card-content>
               </ion-card>
@@ -45,25 +76,27 @@
                 <ion-card-header>
                   <div class="card-header">
                     <div>
-                      <ion-icon name="people-circle-outline" class="card-icon" aria-hidden="true"></ion-icon>
-
+                      <ion-icon
+                        name="people-circle-outline"
+                        class="card-icon"
+                        aria-hidden="true"
+                      ></ion-icon>
                     </div>
                     <div>
                       <span class="card-title">Resources Allocated</span>
-
                     </div>
                   </div>
                 </ion-card-header>
                 <ion-card-content>
                   <ul>
                     <li *ngFor="let employee of status.employees">
-                      <strong>{{employee.techstack}}</strong>: {{employee.employee_name}}
+                      <strong>{{ employee.techstack }}</strong
+                      >: {{ employee.employee_name }}
                     </li>
                   </ul>
                 </ion-card-content>
               </ion-card>
             </ion-col>
-
           </ion-row>
           <ion-row>
             <ion-col size="12">
@@ -71,23 +104,33 @@
                 <ion-card-header>
                   <div class="card-header">
                     <div>
-                      <ion-icon name="checkmark-done-circle-outline" class="card-icon" aria-hidden="true"></ion-icon>
-
+                      <ion-icon
+                        name="checkmark-done-circle-outline"
+                        class="card-icon"
+                        aria-hidden="true"
+                      ></ion-icon>
                     </div>
                     <div>
                       <span class="card-title">Key Accomplishments</span>
-
                     </div>
                   </div>
                 </ion-card-header>
                 <ion-card-content>
                   <ng-container *ngFor="let employee of status.employees">
-                    <h4>{{employee.employee_name}} ({{employee.techstack}})</h4>
+                    <h4>
+                      {{ employee.employee_name }} ({{ employee.techstack }})
+                    </h4>
                     <ul>
                       <li *ngFor="let update of employee.daily_updates">
-                        <strong>{{update.task}} ({{update.status}})</strong>
+                        <strong>{{ update.task }} ({{ update.status }})</strong>
                         <ul>
-                          <li *ngFor="let accomplishment of update.keyAccomplishments">{{accomplishment}}</li>
+                          <li
+                            *ngFor="
+                              let accomplishment of update.keyAccomplishments
+                            "
+                          >
+                            {{ accomplishment }}
+                          </li>
                         </ul>
                       </li>
                     </ul>
@@ -97,24 +140,26 @@
             </ion-col>
           </ion-row>
           <ion-row>
-
-
             <ion-col size="12">
               <ion-card class="report-card">
                 <ion-card-header>
                   <div class="card-header">
                     <div>
-                      <ion-icon name="calendar-outline" class="card-icon" aria-hidden="true"></ion-icon>
-
+                      <ion-icon
+                        name="calendar-outline"
+                        class="card-icon"
+                        aria-hidden="true"
+                      ></ion-icon>
                     </div>
                     <div>
-                      <span class="card-title">Activities for Upcoming Week</span>
-
+                      <span class="card-title"
+                        >Activities for Upcoming Week</span
+                      >
                     </div>
                   </div>
                 </ion-card-header>
                 <ion-card-content>
-                  <p>{{status.details}}</p>
+                  <p>{{ status.details }}</p>
                 </ion-card-content>
               </ion-card>
             </ion-col>

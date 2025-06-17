@@ -44,6 +44,7 @@ export class BreadcrumbComponent implements OnInit {
  
   updatedBreadCrumb: BreadcrumbItem[] = [];
   extendedRoute:any;
+ weekName=[{name:'WEEK:01-June-2025 To 07-June-2025'},{name:'WEEK:08-June-2025 To 14-June-2025'}]
 
   constructor(
     private router: Router,
@@ -95,33 +96,6 @@ export class BreadcrumbComponent implements OnInit {
   //return this.activatedRoute.snapshot.paramMap.get('id') || 'Unknown';
   }
 
-  // buildBreadcrumbs(url: string): void {
-  //   const urlSegments = url.split('/').filter(segment => segment !== '');
-  //   const breadcrumbs: BreadcrumbItem[] = [];
-
-  //   let currentUrl = '';
-  //   urlSegments.forEach(segment => {
-  //     currentUrl += `/${segment}`;
-  //     const breadcrumbConfig = this.breadcrumbConfig.find(config => config.url === currentUrl);
-  //     console.log(breadcrumbConfig)
-  //     if (breadcrumbConfig) {
-  //       breadcrumbs.push({
-  //         label: breadcrumbConfig.label,
-  //         url: currentUrl
-  //       });
-  //     }
-  //     // if(currentUrl==='/summary/project-status'){
-  //     //     breadcrumbs.push({
-  //     //     label: Weekly,
-  //     //     url: currentUrl
-  //     //   });
-  //     // }
-  //     this.updatedBreadCrumb = breadcrumbs;
-  //   });
-
-  //   this.breadcrumbStore.updateBreadcrumbs(breadcrumbs);
-  // }
-
   buildBreadcrumbs(url: string): void {
   const urlSegments = url.split('/').filter(segment => segment !== '');
   const breadcrumbs: BreadcrumbItem[] = [];
@@ -139,14 +113,14 @@ export class BreadcrumbComponent implements OnInit {
       // Handle dynamic segment for project status
       const id = urlSegments[urlSegments.length - 1]; // Get the last segment as ID
       breadcrumbs.push({
-        label: `View Reports /  ${id}`, // Customize the label as needed
+        label: `View Reports /` +' '+  this.renameFunc(id), // Customize the label as needed
         url: currentUrl
       });
     }
     else if (segment.startsWith('task')){
      const id = urlSegments[urlSegments.length - 1]; // Get the last segment as ID
       breadcrumbs.push({
-        label: `View Individual Project Status /  ${id}`, // Customize the label as needed
+        label: `View Individual Project Status /`  +' '+  this.renameFunc(id), // Customize the label as needed
         url: currentUrl
       });
     
@@ -156,6 +130,10 @@ export class BreadcrumbComponent implements OnInit {
   });
 
   this.breadcrumbStore.updateBreadcrumbs(breadcrumbs);
+}
+
+renameFunc(id:any){
+ return this.weekName[id].name;
 }
 
 }

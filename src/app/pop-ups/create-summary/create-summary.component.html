@@ -16,7 +16,7 @@
 
 <ion-content class="ion-padding">
 
-  <form [formGroup]="weekSummaryForm" class="register-form" (ngSubmit)="onSubmit()">
+  <form [formGroup]="weekSummaryForm" (ngSubmit)="onSubmit()">
 
     <ion-item>
       <ion-select label="Projects" label-placement="floating" formControlName="project">
@@ -87,7 +87,7 @@
 <ion-footer>
   <ion-toolbar>
     <ion-buttons slot="end">
-      <ion-button class="submit" (click)="onSubmit()">Submit</ion-button>
+      <ion-button style="background-color: black; color: white;margin-right: 8px;" class="submit" (click)="onSubmit()">Submit</ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-footer>

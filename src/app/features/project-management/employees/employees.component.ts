@@ -8,12 +8,14 @@ import { EmployeeUpdateComponent } from '../../../pop-ups/employee-update/employ
 import { CreateProjectComponent } from '../../../pop-ups/create-project/create-project.component';
 import { ReusablePopUpComponent } from '../../../pop-ups/reusable-pop-up/reusable-pop-up.component';
 import { TeamStore } from '../../../state/team.store';
+import { SummaryStore } from '../../../state/summary.store';
+import { RegisterStore } from '../../../state/register.store';
 
 @Component({
   selector: 'app-employees',
   standalone: true,
   imports: [ReusableTableComponent],
-  providers: [TeamStore],
+  providers: [TeamStore, RegisterStore],
   templateUrl: './employees.component.html',
   styleUrl: './employees.component.scss'
 })
@@ -25,20 +27,20 @@ export class EmployeesComponent {
   private router = inject(ActivatedRoute)
   employeeId: any;
   private teamStore = inject(TeamStore);
-  teamList$ = this.teamStore.team$;
+  private registerStore = inject(RegisterStore);
+  registerList$ = this.registerStore.register$;
+  teamsList$ = this.teamStore.team$;
   ngOnInit() {
-this.teamStore.getTeam();
+    this.teamStore.getTeam();
+    this.registerStore.getRegisterData({ role: 'employee' });
 
-     this.teamList$.subscribe((teams: any[]) => {
-      console.log('Abhiram',teams);
-      // You can perform any additional logic with the teams data here
-    });
+   
     this.router.paramMap.subscribe((params: ParamMap) => {
       console.log(params.get('id'));
       this.employeeId = params.get('id')
     });
 
-   
+
   }
 
   columns = [
@@ -123,7 +125,8 @@ this.teamStore.getTeam();
       component: ReusablePopUpComponent,
       cssClass: 'custom-modal',
       componentProps: {
-         teamList$: this.teamList$,
+       teamsList$: this.teamsList$,
+        registerList$: this.registerList$,
       }
     }).then((modal) => {
       modal.present();

@@ -17,14 +17,12 @@ import { CreateSummaryComponent } from '../../../../pop-ups/create-summary/creat
   styleUrl: './task.component.scss'
 })
 export class TaskComponent {
-  label = 'Task';
+
   private modalController = inject(ModalController);
   private projectData$ = new BehaviorSubject<any[]>([]);
   public readonly projectDataObservable$ = this.projectData$.asObservable();
 
   private getprojects = inject(SummaryStore);
-
-  // New variables
   allProjects: any[] = [];
   filteredEmployees: any[] = [];
   selectedProjectId: string = '';

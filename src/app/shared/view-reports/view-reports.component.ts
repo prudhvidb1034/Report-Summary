@@ -13,7 +13,6 @@ import { CommonModule } from '@angular/common';
   imports: [IonicModule, CommonModule],
   templateUrl: './view-reports.component.html',
   styleUrl: './view-reports.component.scss',
-  // providers:[SummaryStore]
 
 })
 export class ViewReportsComponent {
@@ -43,7 +42,7 @@ export class ViewReportsComponent {
 
             // this.foundProject.forEach((s:any)=>{
             //   console.log(s);
-              
+
             // })
 
             // Check if employees exist
@@ -61,25 +60,23 @@ export class ViewReportsComponent {
 
                 // Process daily updates for each employee
                 if (employee.daily_updates?.length > 0) {
-                this.dailyUpdates =  employee?.daily_updates
-                
-                 this.dailyUpdates.forEach((update: any) => 
-                    {
+                  this.dailyUpdates = employee?.daily_updates
+
+                  this.dailyUpdates.forEach((update: any) => {
                     console.log('Status:', update.status);
                     console.log('Task:', update.task);
                   });
                 }
-                 else 
-                {
-                console.log('No project found with ID:', projectId);
-              }
-            })
+                else {
+                  console.log('No project found with ID:', projectId);
+                }
+              })
+            }
           }
-        }
-      })
+        })
     })
   }
 }
 
-            
+
 

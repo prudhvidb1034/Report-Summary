@@ -1,4 +1,4 @@
-<ion-grid *ngIf="showHeader">
+<ion-grid *ngIf="label">
   <ion-row style="display: flex;align-items: center;">
     <ion-col class="ion-text-start">
       <span class="project-title"> {{label}} List</span>
@@ -10,9 +10,9 @@
         (click)="action('create', null)">
         Create {{label}}</ion-button>
     </ion-col>
-    <ion-col *ngIf="label === 'Employee'" 
-    class="ion-text-end" size="auto" style="display: flex; align-items: center;">
-      <ion-button style="--background: #000033;flex-grow: 8; width: 60%;" class="large-button" (click)="action('tagEmployee', null)">
+    <ion-col *ngIf="label === 'Employee'" class="ion-text-end" size="auto" style="display: flex; align-items: center;">
+      <ion-button style="--background: #000033;flex-grow: 8; width: 60%;" class="large-button"
+        (click)="action('tagEmployee', null)">
         <ion-icon name="person-add-outline" slot="start"></ion-icon>
         Tag Employee</ion-button>
     </ion-col>
@@ -36,37 +36,29 @@
       </ng-container>
       <ng-template #defaultTemplate>
         <div *ngIf="column.field ==='status'" style="display: flex; justify-content: center;">
-          <ion-toggle *ngIf="column.field === 'status'" (ionChange)="toggleEvent($event,item)" [checked]="item.status === 'Active'" justify="center">
+          <ion-toggle *ngIf="column.field === 'status'" (ionChange)="toggleEvent($event,item)"
+            [checked]="item.status === 'Active'" justify="center">
           </ion-toggle>
         </div>
         <div style="display: flex; gap: 10px; justify-content: center;" *ngIf="column.field==='action'">
-<!-- <<<<<<< feature_prudhvi
           <div *ngFor="let actionArray of column.type">
-            <ion-button *ngIf=" actionArray==='view'" fill="clear" size="small" title="View" -->
-
-          <div *ngFor="let actionArray of column.type" >
-            <ion-button *ngIf="actionArray==='view'"  fill="clear" size="small" title="View"
+            <ion-button *ngIf="actionArray==='view'" fill="clear" size="small" title="View"
               (click)="action('view',item)">
               <ion-icon name="eye-outline" class="action-color" slot="icon-only"></ion-icon>
             </ion-button>
-            <ion-button [disabled]="item.status=== 'InActive'" *ngIf="actionArray==='edit'" fill="clear" size="small" color="primary" title="Edit"
-              (click)="action('edit',item)">            
+            <ion-button [disabled]="item.status=== 'InActive'" *ngIf="actionArray==='edit'" fill="clear" size="small"
+              color="primary" title="Edit" (click)="action('edit',item)">
               <ion-icon name="create-outline" class="action-color" slot="icon-only"></ion-icon>
             </ion-button>
-            <ion-button  [disabled]="item.status=== 'InActive'" *ngIf="actionArray==='delete'" fill="clear" size="small" color="danger" title="Delete"
-              (click)="action('delete',item)">
+            <ion-button [disabled]="item.status=== 'InActive'" *ngIf="actionArray==='delete'" fill="clear" size="small"
+              color="danger" title="Delete" (click)="action('delete',item)">
               <ion-icon name="trash-outline" class="action-color" slot="icon-only"></ion-icon>
             </ion-button>
           </div>
         </div>
-<!-- <<<<<<< feature_prudhvi
-        <div *ngIf="column.field === 'viewTask'|| column.field ==='viewReport' ">
-          <ion-button fill="clear" size="small" color="secondary" (click)="action(column.field,item)">
-            {{ item[column.field] }}
-======= -->
         <div *ngIf="column.linkEnable">
-          <ion-button fill="clear" size="small"  class="button-link"  (click)="action(column.field,item)">
-           {{ item[column.field]?item[column.field]:'View'}} 
+          <ion-button fill="clear" size="small" class="button-link" (click)="action(column.field,item)">
+            {{ item[column.field]?item[column.field]:'View'}}
           </ion-button>
         </div>
         <div *ngIf="!column.linkEnable  && column.field !='status' ">
@@ -76,4 +68,18 @@
     </ion-col>
 
   </ion-row>
+
+  <ng-container>
+    <ion-row *ngIf="(data | async)?.length === 0" class="ion-text-center" style="border-bottom: 1px solid #eee;">
+      <ion-col [attr.colspan]="columns?.length" class="ion-padding" style="text-align: center;">
+        <ion-icon name="information-circle-outline" color="medium" size="large"></ion-icon>
+        <div style="margin-top: 8px;">
+          <strong>No tasks found.</strong>
+        </div>
+      </ion-col>
+    </ion-row>
+
+  </ng-container>
+
+
 </ion-grid>

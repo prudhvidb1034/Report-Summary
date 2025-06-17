@@ -30,7 +30,7 @@
       <ion-col size="8">
         <ion-list class="scroll-list" *ngIf="(teamsList$ | async) as projects">
           <ion-item
-            *ngFor="let project of filterProjects(projects, projectSearch)"
+           *ngFor="let project of filterItems(projects, projectSearch, 'projectname', projectSelected)"
             button
             lines="none"
             (click)="selectProject(project.projectname)">
@@ -56,7 +56,7 @@
       <ion-col size="8">
         <ion-list class="scroll-list" *ngIf="(registerList$ | async) as employees">
           <ion-item
-            *ngFor="let emp of filterEmployees(employees, employeeSearch)"
+           *ngFor="let emp of filterItems(employees, employeeSearch, 'firstName', employeeSelected)"
             button
             lines="none"
             (click)="selectEmployee(emp.firstName)">

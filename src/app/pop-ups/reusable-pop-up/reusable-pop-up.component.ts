@@ -17,17 +17,24 @@ import { ToastService } from '../../shared/toast.service';
   styleUrl: './reusable-pop-up.component.scss'
 })
 export class ReusablePopUpComponent {
-  constructor(private modalCtrl: ModalController) { }
-
-  private toaster = inject(ToastService)
-  @Input() teamsList$!: Observable<createTeam[]>;
-  @Input() registerList$!: Observable<RegistrationForm[]>;
-
+   private toaster = inject(ToastService)
   projectSearch = '';
   employeeSearch = '';
 
   projectSelected: boolean = false;
   employeeSelected: boolean = false;
+   teamsList$!: Observable<createTeam[]>;
+  registerList$!: Observable<RegistrationForm[]>;
+
+  constructor(private modalCtrl: ModalController) { 
+   
+     this.modalCtrl.getTop().then(modal => {
+      if (modal?.componentProps) {
+        this.teamsList$ = modal.componentProps['teamsList$'];
+        this.registerList$ = modal.componentProps['registerList$'];
+      }
+    });
+  }
 
   selectProject(name: string) {
     this.projectSearch = name;
@@ -57,17 +64,10 @@ export class ReusablePopUpComponent {
     this.employeeSelected = false;
   }
 
-  filterProjects(projects: createTeam[], search: string): createTeam[] {
-    if (!search || this.projectSelected) return [];
-    return projects.filter(p =>
-      p.projectname?.toLowerCase().includes(search.toLowerCase())
-    );
-  }
-
-  filterEmployees(employees: RegistrationForm[], search: string): RegistrationForm[] {
-    if (!search || this.employeeSelected) return [];
-    return employees.filter(e =>
-      e.firstName?.toLowerCase().includes(search.toLowerCase())
+  filterItems<T>(items: T[], search: string, key: keyof T, selected: boolean): T[] {
+    if (!search || selected) return [];
+    return items.filter(item =>
+      item[key]?.toString().toLowerCase().includes(search.toLowerCase())
     );
   }
 

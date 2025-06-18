@@ -1,0 +1,80 @@
+<ion-header>
+  <ion-toolbar color="light">
+    <ion-buttons slot="start">
+      <ion-title><b>Tag Employee</b></ion-title>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" (click)="closeModal()">
+        <ion-icon name="close-outline" class="icon-medium"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-grid>
+    <ion-row>
+      <ion-col size="8">
+        <ion-label class="ion-margin">Project Name</ion-label>
+        <ion-searchbar
+          [(ngModel)]="projectSearch"
+          [debounce]="300"
+          animated="true"
+          (ionClear)="clearProjectSearch()"
+          (ionInput)="onProjectTyping()">
+        </ion-searchbar>
+      </ion-col>
+    </ion-row>
+
+    <ion-row *ngIf="projectSearch && !projectSelected">
+      <ion-col size="8">
+        <ion-list class="scroll-list" *ngIf="(teamsList$ | async) as projects">
+          <ion-item
+           *ngFor="let project of filterItems(projects, projectSearch, 'projectname', projectSelected)"
+            button
+            lines="none"
+            (click)="selectProject(project.projectname)">
+            <ion-label>{{ project.projectname }}</ion-label>
+          </ion-item>
+        </ion-list>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size="8" class="ion-margin-top">
+        <ion-label class="ion-margin">Employee Name</ion-label>
+        <ion-searchbar
+          [(ngModel)]="employeeSearch"
+          [debounce]="300"
+          animated="true"
+          (ionClear)="clearEmployeeSearch()"
+          (ionInput)="onEmployeeTyping()">
+        </ion-searchbar>
+      </ion-col>
+    </ion-row>
+
+    <ion-row *ngIf="employeeSearch && !employeeSelected">
+      <ion-col size="8">
+        <ion-list class="scroll-list" *ngIf="(registerList$ | async) as employees">
+          <ion-item
+           *ngFor="let emp of filterItems(employees, employeeSearch, 'firstName', employeeSelected)"
+            button
+            lines="none"
+            (click)="selectEmployee(emp.firstName)">
+            <ion-label>{{ emp.firstName }}</ion-label>
+          </ion-item>
+        </ion-list>
+      </ion-col>
+    </ion-row>
+
+  </ion-grid>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-buttons slot="end">
+      <ion-button class="submit" 
+      style="background-color: black; color: white;margin-right: 8px;"
+      (click)="tagEmployee()">Submit</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

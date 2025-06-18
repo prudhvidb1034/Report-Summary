@@ -13,9 +13,9 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
+<ion-content>
 
-  <form [formGroup]="registrationForm" class="register-form" (ngSubmit)="onSubmit()">
+  <form [formGroup]="registrationForm"  (ngSubmit)="onSubmit()">
     <ion-item>
       <ion-input formControlName="firstName" label="First Name" labelPlacement="floating"
         placeholder="Enter you first name" [clearOnEdit]="true"></ion-input>
@@ -108,13 +108,15 @@
     }
 
     <ng-container>
-      <ion-item>
-        <ion-select label="Projects" label-placement="floating" formControlName="projectName">
-          <ion-select-option *ngFor="let p of projects" [value]="p">
-            {{ p }}
-          </ion-select-option>
-        </ion-select>
-      </ion-item>
+    <ion-item lines="full" class="stack-dropdown">
+  <ion-label position="stacked">Projects</ion-label>
+  <ion-select interface="popover" multiple="true" formControlName="projectName" placeholder="Select Project">
+    <ion-select-option *ngFor="let p of projects" [value]="p">
+      {{ p }}
+    </ion-select-option>
+  </ion-select>
+</ion-item>
+
 
       <ion-item lines="full" class="stack-dropdown">
         <ion-label position="stacked">Tech Stack</ion-label>
@@ -137,7 +139,7 @@
 <ion-footer>
   <ion-toolbar>
     <ion-buttons slot="end">
-      <ion-button class="submit" (click)="onSubmit()">Submit</ion-button>
+      <ion-button [disabled]="registrationForm.invalid" style="background-color: black; color: white;margin-right: 8px;" (click)="onSubmit()">Submit</ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-footer>

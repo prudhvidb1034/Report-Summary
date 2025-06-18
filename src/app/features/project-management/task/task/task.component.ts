@@ -4,8 +4,9 @@ import { BehaviorSubject } from 'rxjs';
 import { SummaryService } from '../../../../services/summary/summary.service';
 import { SummaryStore } from '../../../../state/summary.store';
 import { ReusableTableComponent } from '../../../../shared/reusable-table/reusable-table.component';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, ModalController } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
+import { CreateSummaryComponent } from '../../../../pop-ups/create-summary/create-summary.component';
 
 @Component({
   selector: 'app-task',
@@ -16,14 +17,12 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './task.component.scss'
 })
 export class TaskComponent {
-  label = 'Task';
 
+  private modalController = inject(ModalController);
   private projectData$ = new BehaviorSubject<any[]>([]);
   public readonly projectDataObservable$ = this.projectData$.asObservable();
 
   private getprojects = inject(SummaryStore);
-
-  // New variables
   allProjects: any[] = [];
   filteredEmployees: any[] = [];
   selectedProjectId: string = '';
@@ -35,7 +34,8 @@ export class TaskComponent {
     { header: 'Employee Name', field: 'employee_name' },
     { header: 'Tasks', field: 'upcomingTasks' },
     { header: 'Summary', field: 'summary' },
-    { header: 'Key Accomplishments', field: 'keyAccomplishments' }
+    { header: 'Key Accomplishments', field: 'keyAccomplishments' },
+      { header: 'Action', field: 'action', type: ['edit', 'delete'] }
   ];
 
   ngOnInit() {
@@ -83,5 +83,18 @@ export class TaskComponent {
   this.projectData$.next(flatList);
 }
 
+
+openModal(){
+   this.modalController.create({
+        component: CreateSummaryComponent,
+        componentProps: {
+        }
+      }).then((modal) => {
+        modal.present();
+        modal.onDidDismiss().then((data) => {
+          console.log('Modal dismissed with data:', data);
+        });
+      });
+}
 }
 

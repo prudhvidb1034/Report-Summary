@@ -45,28 +45,35 @@ export class SideMenuComponent {
     roles: ['superadmin'],
     isBottom: false
   },
+   {
+    label: 'Employees',
+    icon: 'people',
+    path: '/employees',
+    roles: ['superadmin','manager'],
+    isBottom: false
+  },
   {
     label: 'Weekly Summary',
     icon: 'document-text',
     path: '/summary',
-    roles: ['superadmin', 'manager'],
+    roles: ['superadmin', 'manager','employee'],
     isBottom: false
   },
 
-   {
-    label: 'Status Update',
-    icon: 'create',
-    path: '/employee-dashboard',
-    roles: ['employee','superadmin'],
+  //  {
+  //   label: 'Status Update',
+  //   icon: 'create',
+  //   path: '/employee-dashboard',
+  //   roles: ['employee','superadmin'],
     
-  },
-  {
-    label: 'View Reports',
-    icon: 'documents',
-    path: '/project-status',
-    roles: ['superadmin', 'manager'],
-    isBottom: false
-  },
+  // },
+  // {
+  //   label: 'View Reports',
+  //   icon: 'documents',
+  //   path: '/project-status',
+  //   roles: ['superadmin', 'manager'],
+  //   isBottom: false
+  // },
   {
     label: 'Settings',
     icon: 'settings',

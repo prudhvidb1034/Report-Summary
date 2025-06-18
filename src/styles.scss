@@ -31,13 +31,6 @@ app-header {
   --padding-top: 12px;
   --padding-bottom: 12px;
 }
-.large-button {
-  font-size: 12px;
-  --padding-start: 20px;
-  --padding-end: 20px;
-  --padding-top: 12px;
-  --padding-bottom: 12px;
-}
 
 .project-table {
   // border: 1px solid #ccc;
@@ -104,18 +97,16 @@ ion-card-header ion-title {
   font-size: 14px !important;
 }
 
-app-project-status{
+app-project-status {
   position: relative;
   z-index: 20;
 }
 
 .custom-modal {
   --width: 90%;
-  --height: 50%;
+  --height: calc(100vh - 50vh);
   --max-width: 600px;
-  --max-height: 90vh;
-  --border-radius: 12px;
+  // --max-height: 90vh;
+  --border-radius: 2px;
   --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
-
-

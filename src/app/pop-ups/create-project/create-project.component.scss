@@ -1,16 +1,45 @@
-
 :host {
   display: flex;
   flex-direction: column;
   height: 100%;
 }
 
-// ion-content {
-//   flex: 1;
-//    --padding-bottom: 0;
-//     --margin-bottom: 0;  
-// }
+ion-content {
+  flex: 1;
+  --padding-bottom: 0;
+  --margin-bottom: 0;
+}
+/* styles.scss or your component's scss file */
+.custom-content {
+  --background: transparent; /* Optional: Set background if needed */
 
+  /* Remove fixed height and let it adjust to content */
+  height: auto;
+  min-height: 100%; /* Ensure it takes at least full viewport height */
+
+  form {
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+
+    /* Optional: Add some spacing between form items */
+    ion-item {
+      margin-bottom: 8px;
+    }
+
+    .error-message {
+      display: block;
+      margin-top: -8px; /* Pull error message closer to its field */
+      margin-bottom: 12px;
+      font-size: 12px;
+    }
+  }
+}
+
+/* Ensure the ion-content container doesn't force scrolling */
+ion-content {
+  --overflow: hidden;
+}
 ion-footer {
   position: relative;
 }

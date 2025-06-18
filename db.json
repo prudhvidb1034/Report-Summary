@@ -5,8 +5,8 @@
       "firstName": "sarath",
       "lastName": "chandra",
       "username": "employee@gmail.com",
-      "password": "123456789",
-      "confirmPassword": "123456789",
+      "password": "Sarath11@",
+      "confirmPassword": "Sarath11@",
       "employeeId": "12345",
       "role": "employee",
       "userEntry": "new",
@@ -18,8 +18,8 @@
       "firstName": "Abhi",
       "lastName": "Ram",
       "username": "manager@gmail.com",
-      "password": "123456789",
-      "confirmPassword": "123456789",
+      "password": "Sarath11@",
+      "confirmPassword": "Sarath11@",
       "employeeId": "QE235945",
       "role": "Manager",
       "userEntry": "new"
@@ -32,7 +32,7 @@
       "password": "Prudhvi11@",
       "confirmPassword": "Prudhvi11@",
       "employeeId": "1234567",
-      "role": "Employee",
+      "role": "employee",
       "userEntry": "new",
       "projectName": "Prudhvi varma",
       "techstack": "Testing",
@@ -57,7 +57,7 @@
       "password": "phani123#G",
       "confirmPassword": "phani123#G",
       "employeeId": "qe2025",
-      "role": "Employee",
+      "role": "employee",
       "userEntry": "new",
       "projectName": "customer365",
       "techstack": "Frontend"
@@ -70,7 +70,7 @@
       "password": "phani123#G",
       "confirmPassword": "phani123#G",
       "employeeId": "qe2371",
-      "role": "Employee",
+      "role": "employee",
       "userEntry": "new",
       "projectName": "instaBiZZ",
       "techstack": "Frontend",
@@ -84,7 +84,7 @@
       "password": "viswa@123",
       "confirmPassword": "viswa@123",
       "employeeId": "QE1456",
-      "role": "Employee",
+      "role": "employee",
       "userEntry": "new",
       "projectName": "Onboarding/Initio",
       "techstack": "Frontend"
@@ -97,7 +97,7 @@
       "password": "viswa@123",
       "confirmPassword": "viswa@123",
       "employeeId": "QE1456",
-      "role": "Employee",
+      "role": "employee",
       "userEntry": "new",
       "projectName": "Onboarding/Initio",
       "techstack": "Frontend"
@@ -110,7 +110,7 @@
       "password": "viswa@123",
       "confirmPassword": "viswa@123",
       "employeeId": "QE1456",
-      "role": "Employee",
+      "role": "employee",
       "userEntry": "new",
       "projectName": "Onboarding/Initio",
       "techstack": "Frontend",
@@ -124,7 +124,7 @@
       "password": "123456789",
       "confirmPassword": "123456789",
       "employeeId": "QE@#$%^",
-      "role": "Employee",
+      "role": "employee",
       "userEntry": "new",
       "projectName": "Customer-365",
       "techstack": "Frontend",
@@ -165,7 +165,6 @@
       "endDate": null
     }
   ],
-  
   "projects": [
     {
       "id": "7ae6",
@@ -464,5 +463,4 @@
       "employees": []
     }
   ]
-
 }

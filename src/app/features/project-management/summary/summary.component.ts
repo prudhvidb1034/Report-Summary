@@ -12,7 +12,7 @@ import { EmployeeUpdateComponent } from '../../../pop-ups/employee-update/employ
 @Component({
   selector: 'app-summary',
   standalone: true,
-  imports: [IonicModule, CommonModule, ReactiveFormsModule, ReusableTableComponent, RouterOutlet],
+  imports: [IonicModule, CommonModule, ReactiveFormsModule, ReusableTableComponent],
   providers: [SummaryStore],
   templateUrl: './summary.component.html',
   styleUrl: './summary.component.scss'
@@ -91,45 +91,65 @@ export class SummaryComponent {
 
   summary = [
     {
-      weekId: 'WEEK001',
-      startDate: '2025-05-01',
-      endDate: '2025-05-07',
+      weekId: 'WEEK:01-June-2025 To 07-June-2025',
+      weekNo:0,
+      // startDate: '2025-05-01',
+      // endDate: '2025-05-07',
       status: 'Active',
+      viewTask: 'View Task',
+      viewReport: 'View Report'
     },
     {
-      weekId: 'WEEK002',
-      startDate: '2025-05-08',
-      endDate: '2025-05-14',
+      weekId: 'WEEK:08-June-2025 To 14-June-2025',
+       weekNo:1,
+      // startDate: '2025-05-08',
+      // endDate: '2025-05-14',
       status: 'InActive',
+      viewTask: 'View Task',
+      viewReport: 'View Report'
     }
   ];
   columns = [
-    { header: 'Week Id ', field: 'weekId' },
-    { header: 'Start Date', field: 'startDate' },
-    { header: 'End Date', field: 'endDate' },
+    { header: 'Name ', field: 'weekId' },
+    // { header: 'Start Date', field: 'startDate' },
+    // { header: 'End Date', field: 'endDate' },
     { header: 'Status', field: 'status' },
-    { header: 'Action', field: 'action', type: ['view', 'edit', 'delete'] }
+//     { header: 'View Task', field: 'viewTask' },
+//     { header: 'View Report', field: 'viewReport' },
+//     { header: 'Action', field: 'action', type: ['edit', 'delete'], },
+
+    {header:'View Task',field:'viewTask',linkEnable:true},
+    {header:'View Report',field:'viewReport',linkEnable:true},
+    { header: 'Action', field: 'action', type: [ 'edit', 'delete'], },
   ];
 
   summarylist$: Observable<any[]> = of(this.summary);
 
   handleRowAction(event: any) {
+    console.log(event)
     switch (event.type) {
-
-      case 'view':
-        this.route.navigate(['summary/task']);
+      case 'viewTask':
+        this.route.navigate(['summary/task', event.item.weekNo]);
         break;
-      case 'edit':
-        this.loadCreateEmployeeModal()
-        // this.route.navigate(['/employee-dashboard']);
+      case 'viewReport':
+        this.route.navigate(['summary/project-status', event.item.weekNo]);
         break;
-      // case 'delete':
-      //   console.log('Delete action for', event.item);
-      //   // Implement delete logic here
-      //   break;
+      case 'create':
+        this.loadCreateEmployeeModal();
+        break;
+      case 'toggle-status':
+        this.updatedRowData(event);  
+        break;
+        case 'createStatus':
+        this.updateWeeklySummary();  
+        break;
       default:
         console.log('Unknown action type:', event.type);
     }
+  }
+  updatedRowData(event: any) {
+    this.summary.filter((val:any)=>val.weekId===event.item.weekId?val.status=event.value:'');
+    console.log(event)
   }
 
   loadCreateEmployeeModal() {
@@ -141,7 +161,6 @@ export class SummaryComponent {
       modal.present();
       modal.onDidDismiss().then((data) => {
         console.log('Modal dismissed with data:', data);
-        // Handle any data returned from the modal if needed
       });
     });
   }
@@ -149,8 +168,8 @@ export class SummaryComponent {
   updateWeeklySummary() {
     this.modalController.create({
       component: EmployeeUpdateComponent,
+      // cssClass: 'custom-modal',
       componentProps: {
-
       }
     }).then((modal) => {
       modal.present();

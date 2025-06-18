@@ -1,4 +1,4 @@
-<ion-grid>
+<ion-grid >
     <ion-row class="ion-align-items-center ion-justify-content-start" style="gap: 16px;">
         <ion-col size="auto">
 
@@ -30,9 +30,19 @@
         <ion-col size="auto">
             <div style="display: flex; flex-direction: column;">
                 <label style="opacity: 0;">Search</label> <!-- Placeholder for label alignment -->
-                <ion-button style="width: 180px; height: 36px; font-size: 13px; --background: #000033;"
+                <ion-button style="width: 180px; height: 36px; font-size: 13px; --background: #000033;--border-radius: 0px;"
                     (click)="onSearch()">
                     SEARCH
+                </ion-button>
+            </div>
+        </ion-col>
+
+        <ion-col size="auto">
+            <div class="ion-text-end" style="display: flex; flex-direction: column;margin-top: 20px;">
+                <!-- <label style="opacity: 0;">Search</label> Placeholder for label alignment -->
+                <ion-button style="width: 180px; height: 36px; font-size: 13px; --background: #000033;"
+                (click)="openModal()">
+                    Create Task
                 </ion-button>
             </div>
         </ion-col>
@@ -40,22 +50,11 @@
     </ion-row>
 </ion-grid>
 <ng-container *ngIf="projectDataObservable$ | async as taskData">
-    <ng-container *ngIf="taskData.length > 0; else noTasks">
-        <app-reusable-table [columns]="columns" [data]="projectDataObservable$" [label]="label" [showHeader]="false">
+    <ng-container>
+        <app-reusable-table [columns]="columns" [data]="projectDataObservable$"  >
         </app-reusable-table>
     </ng-container>
+   
 </ng-container>
 
 
-<ng-template #noTasks>
-  <ion-card class="ion-padding">
-    <ion-card-content>
-      <ion-item lines="none" class="ion-justify-content-center">
-        <ion-icon slot="start" name="information-circle-outline" color="medium" size="large"></ion-icon>
-        <ion-label class="ion-text-wrap">
-          <strong>No tasks found.</strong>
-        </ion-label>
-      </ion-item>
-    </ion-card-content>
-  </ion-card>
-</ng-template>

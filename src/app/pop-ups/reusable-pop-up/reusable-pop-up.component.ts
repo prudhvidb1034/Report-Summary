@@ -1,74 +1,86 @@
+// reusable-pop-up.component.ts
+
 import { CommonModule } from '@angular/common';
-import { Component, inject, Input, signal } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { IonicModule, ModalController } from '@ionic/angular';
-import { createTeam } from '../../models/project.model';
-import { TeamStore } from '../../state/team.store';
 import { Observable } from 'rxjs';
+import { createTeam } from '../../models/project.model';
+import { RegistrationForm } from '../../models/register.mode';
+import { ToastService } from '../../shared/toast.service';
 
 @Component({
   selector: 'app-reusable-pop-up',
   standalone: true,
   imports: [IonicModule, CommonModule, FormsModule],
-  providers: [TeamStore],
   templateUrl: './reusable-pop-up.component.html',
   styleUrl: './reusable-pop-up.component.scss'
 })
 export class ReusablePopUpComponent {
-  isModalOpen = false;
-  private modalCtrl = inject(ModalController);
-  @Input() teamList$!: Observable<any[]>;
+   private toaster = inject(ToastService)
+  projectSearch = '';
+  employeeSearch = '';
 
-  projectList = signal<createTeam[]>([]);
+  projectSelected: boolean = false;
+  employeeSelected: boolean = false;
+   teamsList$!: Observable<createTeam[]>;
+  registerList$!: Observable<RegistrationForm[]>;
 
-  ngOnInit() {
-    this.teamList$.subscribe(data => {
-      this.projectList.set(data)
+  constructor(private modalCtrl: ModalController) { 
+   
+     this.modalCtrl.getTop().then(modal => {
+      if (modal?.componentProps) {
+        this.teamsList$ = modal.componentProps['teamsList$'];
+        this.registerList$ = modal.componentProps['registerList$'];
+      }
     });
   }
-  setOpen(isOpen: boolean) {
-    this.isModalOpen = isOpen;
 
-    this.modalCtrl.dismiss();
-
+  selectProject(name: string) {
+    this.projectSearch = name;
+    this.projectSelected = true;
   }
 
-  locationSearch = '';
-  projectSearch = '';
-
-  locations = ['Cairo', 'Geneva', 'London', 'New York'];
-  filteredLocations = [...this.projectList()];
-
-  projects = ['Alpha', 'Beta', 'Gamma', 'Delta', 'delsss'];
-  filteredProjects = [...this.projects];
-
-  filterLocations(event: any) {
-    const val = event.target.value.toLowerCase();
-    this.filteredLocations = this.projectList().filter(item => item.projectname.toLowerCase().includes(val));
-  }
-
-  filterProjects(event: any) {
-    const val = event.target.value.toLowerCase();
-    this.filteredProjects = this.projects.filter(proj => proj.toLowerCase().includes(val));
-  }
-
-  selectLocation(item: string) {
-    this.locationSearch = item;
-    this.filteredLocations = [];
-  }
-
-  selectProject(proj: string) {
-    this.projectSearch = proj;
-    this.filteredProjects = [];
-  }
-
-  clearLocationSearch() {
-    this.locationSearch = '';
-    this.filteredLocations = [...this.projectList()];
+  selectEmployee(name: string) {
+    this.employeeSearch = name;
+    this.employeeSelected = true;
   }
 
   clearProjectSearch() {
     this.projectSearch = '';
-    this.filteredProjects = [...this.projects];
+    this.projectSelected = false;
   }
+
+  clearEmployeeSearch() {
+    this.employeeSearch = '';
+    this.employeeSelected = false;
+  }
+
+  onProjectTyping() {
+    this.projectSelected = false;
+  }
+
+  onEmployeeTyping() {
+    this.employeeSelected = false;
+  }
+
+  filterItems<T>(items: T[], search: string, key: keyof T, selected: boolean): T[] {
+    if (!search || selected) return [];
+    return items.filter(item =>
+      item[key]?.toString().toLowerCase().includes(search.toLowerCase())
+    );
+  }
+
+  closeModal() {
+    this.modalCtrl.dismiss();
+  }
+  tagEmployee() {
+    if (!this.projectSelected || !this.employeeSelected) {
+      this.toaster.show('warning', 'Please enter all fields!');
+      return;
+    }
+    this.modalCtrl.dismiss();
+    this.toaster.show('success', 'Employee tagged successfully!');
+  }
+
 }

@@ -36,15 +36,13 @@ export class CreateProjectComponent {
 
   setOpen(isOpen: boolean) {
     this.isModalOpen = isOpen;
-
-    this.modalCtrl.dismiss(); // Close modal
+    this.modalCtrl.dismiss(); 
     this.teamForm.reset()
   }
 
   SubmitForm() {
     const response = this.teamForm.value;
     if (this.teamForm.valid) {
-      // this.teamStore.addTeam(response);
       this.setOpen(false);
       this.teamForm.reset();
       this.toast.show('success', 'Project created successfully!')

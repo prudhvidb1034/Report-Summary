@@ -15,90 +15,84 @@ import { tap } from 'rxjs';
 export class SideMenuComponent {
   private router = inject(Router)
   private menuCtrl = inject(MenuController)
-   userRole: string | undefined;
-  private  loginStore = inject(LoginStore)
-
-  constructor(){
+  userRole = localStorage.getItem('role')?.toLowerCase() || '';
  
-  }
-
-
   menuItems = [
-  {
-    label: 'Home',
-    icon: 'home',
-    path: '/home',
-    roles: ['superadmin', 'manager', 'employee'],
-    isBottom: false
-  },
-  {
-    label: 'Projects',
-    icon: 'book',
-    path: '/projects',
-    roles: ['superadmin', 'manager'],
-    isBottom: false
-  },
     {
-    label: 'Managers',
-    icon: 'people',
-    path: '/managers',
-    roles: ['superadmin'],
-    isBottom: false
-  },
-   {
-    label: 'Employees',
-    icon: 'people',
-    path: '/employees',
-    roles: ['superadmin','manager'],
-    isBottom: false
-  },
-  {
-    label: 'Weekly Summary',
-    icon: 'document-text',
-    path: '/summary',
-    roles: ['superadmin', 'manager','employee'],
-    isBottom: false
-  },
+      label: 'Home',
+      icon: 'home',
+      path: '/home',
+      roles: ['superadmin', 'manager', 'employee'],
+      isBottom: false
+    },
+    {
+      label: 'Projects',
+      icon: 'book',
+      path: '/projects',
+      roles: ['superadmin', 'manager'],
+      isBottom: false
+    },
+    {
+      label: 'Managers',
+      icon: 'people',
+      path: '/managers',
+      roles: ['superadmin'],
+      isBottom: false
+    },
+    {
+      label: 'Employees',
+      icon: 'people',
+      path: '/employees',
+      roles: ['superadmin', 'manager'],
+      isBottom: false
+    },
+    {
+      label: 'Weekly Summary',
+      icon: 'document-text',
+      path: '/summary',
+      roles: ['superadmin', 'manager', 'employee'],
+      isBottom: false
+    },
 
-  //  {
-  //   label: 'Status Update',
-  //   icon: 'create',
-  //   path: '/employee-dashboard',
-  //   roles: ['employee','superadmin'],
-    
-  // },
-  // {
-  //   label: 'View Reports',
-  //   icon: 'documents',
-  //   path: '/project-status',
-  //   roles: ['superadmin', 'manager'],
-  //   isBottom: false
-  // },
-  {
-    label: 'Settings',
-    icon: 'settings',
-    path: '/settings',
-    roles: ['superadmin', 'manager'],
-    isBottom: true
-  }
-];
+    //  {
+    //   label: 'Status Update',
+    //   icon: 'create',
+    //   path: '/employee-dashboard',
+    //   roles: ['employee','superadmin'],
 
-  ngOnInit(){
-         this.loginStore.user$.pipe(
-          tap(res => {
-            console.log(res)
-            this.userRole = res?.role.toLowerCase();
-            console.log(this.userRole);
-          })
-        ).subscribe();
+    // },
+    // {
+    //   label: 'View Reports',
+    //   icon: 'documents',
+    //   path: '/project-status',
+    //   roles: ['superadmin', 'manager'],
+    //   isBottom: false
+    // },
+    {
+      label: 'Settings',
+      icon: 'settings',
+      path: '/settings',
+      roles: ['superadmin', 'manager'],
+      isBottom: true
+    }
+  ];
 
-  }
+  // ngOnInit(){
+  //        this.loginStore.user$.pipe(
+  //         tap(res => {
+  //           console.log(res)
+  //           this.userRole = res?.role.toLowerCase();
+  //           console.log(this.userRole);
+  //         })
+  //       ).subscribe();
+
+  // }
 
   navigate(path: string) {
-  this.router.navigate([path]).then(() => {
-    this.menuCtrl.close();
-  });
-}
+    this.router.navigate([path]).then(() => {
+      this.menuCtrl.close();
+    });
+  }
 
   navigateToWkSmry() {
     this.router.navigate(['/summary']).then(() => {
@@ -129,12 +123,12 @@ export class SideMenuComponent {
   navigateViewAllProjects() {
     this.router.navigate(['/project-status'])
   }
-  
+
   navigatetoregister() {
     this.router.navigate(['/managers'])
   }
-  
-  navigateViewAllSummary(){
+
+  navigateViewAllSummary() {
     this.router.navigate(['/view-all-projects'])
   }
 }

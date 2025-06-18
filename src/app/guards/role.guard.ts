@@ -17,24 +17,20 @@ export class RoleGuard implements CanActivate {
     if (!expectedRoles || expectedRoles.length === 0) {
       return true;
     }
+    const role = localStorage.getItem('role')?.toLowerCase();
 
-    // Otherwise, we must check the user’s role against expectedRoles:
-    return this.loginStore.user$.pipe(
-      map(user => {
-        const role = user?.role?.toLowerCase();
-        const hasAccess = role != null && expectedRoles.includes(role);
-
-        if (!hasAccess) {
-          // Redirect to /login (or anywhere you want) when unauthorized
-          this.router.navigate(['/login']);
-        }
-        return hasAccess;
-      })
-    );
+    if (role != null && expectedRoles.includes(role)) {
+      return true;
+    } else {
+      // Redirect to /login (or anywhere you want) when unauthorized
+       this.router.navigate(['/login']);
+      return false;
+    }
+    
   }
 
 
-  
 
-  
+
+
 }

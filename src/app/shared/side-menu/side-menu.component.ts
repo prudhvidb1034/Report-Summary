@@ -56,17 +56,17 @@ export class SideMenuComponent {
     label: 'Weekly Summary',
     icon: 'document-text',
     path: '/summary',
-    roles: ['superadmin', 'manager'],
+    roles: ['superadmin', 'manager','employee'],
     isBottom: false
   },
 
-   {
-    label: 'Status Update',
-    icon: 'create',
-    path: '/employee-dashboard',
-    roles: ['employee','superadmin'],
+  //  {
+  //   label: 'Status Update',
+  //   icon: 'create',
+  //   path: '/employee-dashboard',
+  //   roles: ['employee','superadmin'],
     
-  },
+  // },
   // {
   //   label: 'View Reports',
   //   icon: 'documents',

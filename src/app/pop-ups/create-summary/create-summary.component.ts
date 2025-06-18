@@ -66,7 +66,6 @@ export class CreateSummaryComponent {
   }
   setOpen(isOpen: boolean) {
     this.modalCtrl.dismiss();
-
     this.weekSummaryForm.reset()
 
   }

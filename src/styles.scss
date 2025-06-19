@@ -81,13 +81,13 @@ app-header {
 ion-header {
   padding-top: env(safe-area-inset-top);
   border-bottom: 1px solid #efefef;
-  box-shadow: none !important
+  box-shadow: none !important;
 }
 
 ion-footer {
-    box-shadow: none !important;
-    position: relative;
-    border-top: 1px solid #efefef;
+  box-shadow: none !important;
+  position: relative;
+  border-top: 1px solid #efefef;
 }
 // ion-content::part(scroll) {
 //   padding-top: var(--ion-safe-area-top, 0);
@@ -121,4 +121,9 @@ app-project-status {
   // --max-height: 90vh;
   --border-radius: 2px;
   --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+ion-searchbar.search-bar-input {
+  .searchbar-input {
+    background-color: #f6f5f5 !important; // Replace with your desired color
+  }
 }

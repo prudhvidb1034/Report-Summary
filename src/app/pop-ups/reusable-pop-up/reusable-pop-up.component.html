@@ -16,10 +16,9 @@
     <ion-row>
       <ion-col size="8">
         <ion-label class="ion-margin">Project Name</ion-label>
-        <ion-searchbar
+        <ion-searchbar 
           [(ngModel)]="projectSearch"
           [debounce]="300"
-          animated="true"
           (ionClear)="clearProjectSearch()"
           (ionInput)="onProjectTyping()">
         </ion-searchbar>

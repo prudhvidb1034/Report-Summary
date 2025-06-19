@@ -42,8 +42,10 @@ export class LoginStore extends ComponentStore<LoginState> {
               //   this.toast.show('error', 'Unknown role.');
               //   return;
               // }
-              localStorage.setItem('role', role.toLowerCase());
-              localStorage.setItem('fullName', `${user.firstName} ${user.lastName}`);
+              console.log('user', user);
+              localStorage.setItem('user', JSON.stringify(user));
+              // localStorage.setItem('role', role.toLowerCase());
+              // localStorage.setItem('fullName', `${user.firstName} ${user.lastName}`);
               this.router.navigate(['/home']);
 
               //this.router.navigate['/home'];

@@ -5,6 +5,7 @@ export const routes: Routes = [
   {
     path: 'home',
     loadComponent: () => import('../app/features/home/home.component').then((m) => m.HomeComponent),
+     canActivate: [RoleGuard]
   },
   {
     path: 'login',
@@ -77,11 +78,11 @@ export const routes: Routes = [
     path: 'view-reports/:id',
     loadComponent: () => import('../app/shared/view-reports/view-reports.component').then((m) => m.ViewReportsComponent)
   },
-  // {
-  //   path: '',
-  //   // redirectTo: 'login',
-  //   pathMatch: 'full',
-  // },
+  {
+    path: '',
+    redirectTo: 'login',
+    pathMatch: 'full',
+  },
   // {
   //   path: 'view-reports/:id',
   //   loadComponent: () => import('../app/shared/view-reports/view-reports.component').then((m) => m.ViewReportsComponent)

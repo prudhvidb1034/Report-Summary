@@ -1,4 +1,4 @@
-<app-header ></app-header>
+<app-header [fullName]="fullName$ | async" [role]="userRole$ | async"></app-header>
 <app-side-menu></app-side-menu>
 <ion-app id="main-content">
   <div class="main-wrapper" [class.logged]="isUserLoggedIn$ | async">

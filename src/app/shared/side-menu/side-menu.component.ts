@@ -34,7 +34,7 @@ export class SideMenuComponent {
     },
     {
       label: 'Managers',
-      icon: 'people',
+      icon: 'briefcase',
       path: '/managers',
       roles: ['superadmin'],
       isBottom: false

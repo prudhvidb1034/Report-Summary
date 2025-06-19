@@ -73,9 +73,16 @@ app-header {
 .cursor {
   cursor: pointer;
 }
-
 ion-header {
   padding-top: env(safe-area-inset-top);
+  border-bottom: 1px solid #efefef;
+  box-shadow: none !important
+}
+
+ion-footer {
+    box-shadow: none !important;
+    position: relative;
+    border-top: 1px solid #efefef;
 }
 // ion-content::part(scroll) {
 //   padding-top: var(--ion-safe-area-top, 0);

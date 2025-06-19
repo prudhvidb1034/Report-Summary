@@ -1,4 +1,6 @@
 .project-table {
+  border-radius: 8px;
+  border: 2px solid #efefef;
   ion-row {
     align-items: center;
 
@@ -9,7 +11,6 @@
       padding: 8px 4px;
       word-break: break-word;
     }
-   
   }
 
   .header-row {
@@ -18,18 +19,15 @@
   }
 
   .data-row {
-   
-    background-color: #ffffff;;
-    
+    background-color: #ffffff;
   }
   .data-row:nth-child(even) {
-  background-color: #f8f8f8;; // Light gray for even rows
-}
+    background-color: #f8f8f8; // Light gray for even rows
+  }
 
-.data-row:nth-child(odd) {
-  background-color: #ffffff; // White for odd rows
-}
-
+  .data-row:nth-child(odd) {
+    background-color: #ffffff; // White for odd rows
+  }
 
   .button-link {
     color: #191947;

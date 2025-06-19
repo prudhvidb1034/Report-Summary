@@ -5,6 +5,7 @@ export const routes: Routes = [
   {
     path: 'home',
     loadComponent: () => import('../app/features/home/home.component').then((m) => m.HomeComponent),
+     canActivate: [RoleGuard]
   },
   {
     path: 'login',
@@ -14,7 +15,7 @@ export const routes: Routes = [
     path: 'managers',
     loadComponent: () => import('./features/managers/managers.component').then((m) => m.ManagersComponent),
     canActivate: [RoleGuard],
-    data: { expectedRoles: 'superadmin' }
+    data: { expectedRoles: ['superadmin'] }
   },
   {
     path: 'projects',
@@ -29,6 +30,7 @@ export const routes: Routes = [
       {
         path: 'employees',
         loadComponent: () => import('./features/project-management/employees/employees.component').then((m) => m.EmployeesComponent),
+         canActivate: [RoleGuard],
         data: { breadcrumb: 'EmployeeList' }
       }
     ]
@@ -41,13 +43,13 @@ export const routes: Routes = [
         path: '',
         loadComponent: () => import('./features/project-management/summary/summary.component').then((m) => m.SummaryComponent),
         canActivate: [RoleGuard],
-        data: { expectedRole: 'superadmin' }
+        data: { expectedRoles: ['superadmin','manager','employee'] }
       },
       {
         path: 'task/:id',
         loadComponent: () => import('./features/project-management/task/task/task.component').then((m) => m.TaskComponent),
         canActivate: [RoleGuard],
-        data: { expectedRole: ['manager', 'superadmin'] }
+        data: { expectedRoles: ['manager', 'superadmin'] }
       },
       {
         path: 'project-status/:id',
@@ -64,7 +66,7 @@ export const routes: Routes = [
     path: 'employee-dashboard',
     loadComponent: () => import('./pop-ups/employee-update/employee-update.component').then((m) => m.EmployeeUpdateComponent),
     canActivate: [RoleGuard],
-    data: { expectedRole: 'employee' }
+    data: { expectedRoles: ['employee'] }
   },
   {
     path: 'not-authorized',
@@ -82,10 +84,10 @@ export const routes: Routes = [
     redirectTo: 'login',
     pathMatch: 'full',
   },
-  {
-    path: 'view-reports/:id',
-    loadComponent: () => import('../app/shared/view-reports/view-reports.component').then((m) => m.ViewReportsComponent)
-  },
+  // {
+  //   path: 'view-reports/:id',
+  //   loadComponent: () => import('../app/shared/view-reports/view-reports.component').then((m) => m.ViewReportsComponent)
+  // },
   // {
   //   path: '**',
   //   redirectTo: 'login',

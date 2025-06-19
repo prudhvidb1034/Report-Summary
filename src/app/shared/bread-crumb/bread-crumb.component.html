@@ -1,6 +1,14 @@
 <ion-breadcrumbs>
-  <ion-breadcrumb *ngFor="let breadcrumb of breadcrumbs$ | async;let i = index;" class="cursor"
-    [ngClass]="{ 'breadcrumb-disabled': i!==updatedBreadCrumb.length-1 }" [routerLink]="breadcrumb.url">
-    {{ breadcrumb.label }}
+  <ion-breadcrumb *ngFor="let breadcrumb of breadcrumbs$ | async; let i = index" class="cursor"
+    [ngClass]="{ 'breadcrumb-disabled': i !== updatedBreadCrumb.length - 1 }">
+    <div class="display-flex">
+      <div *ngIf="(i === 0 || breadcrumb.label=='home')">
+        <ion-icon *ngIf="i === 0" expand="block" [routerLink]="['/home']" class="icon-disabled" name="home"></ion-icon>
+      </div>
+      <div *ngIf="i === 0 && breadcrumb.label!='home'"> / </div>
+      <div *ngIf="breadcrumb.label!='home'" [routerLink]="breadcrumb.url">
+        {{ breadcrumb.label }}
+      </div>
+    </div>
   </ion-breadcrumb>
 </ion-breadcrumbs>

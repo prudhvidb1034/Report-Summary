@@ -40,16 +40,16 @@
         [attr.id]="'project-status-' + idx"
         [attr.aria-selected]="idx === selectedProjectIndex"
       >
-        <ion-card>
+        <ion-card style="margin-bottom: 8px;">
           <ion-card-title class="project-title">{{
             status.projectName
           }}</ion-card-title>
 
-          <ion-row>
+          <ion-row style="padding-top: 8px;">
             <ion-col size="6">
               <ion-card class="report-card">
-                <ion-card-header>
-                  <div class="card-header">
+                <ion-card-header class="card-header">
+                  <!-- <div > -->
                     <div>
                       <ion-icon
                         name="reader-outline"
@@ -60,7 +60,7 @@
                     <div>
                       <span class="card-title">Summary</span>
                     </div>
-                  </div>
+                  <!-- </div> -->
                 </ion-card-header>
                 <ion-card-content>
                   <ul>
@@ -73,8 +73,8 @@
             </ion-col>
             <ion-col size="6">
               <ion-card class="report-card">
-                <ion-card-header>
-                  <div class="card-header">
+                <ion-card-header class="card-header">
+                  <!-- <div > -->
                     <div>
                       <ion-icon
                         name="people-circle-outline"
@@ -85,7 +85,7 @@
                     <div>
                       <span class="card-title">Resources Allocated</span>
                     </div>
-                  </div>
+                  <!-- </div> -->
                 </ion-card-header>
                 <ion-card-content>
                   <ul>
@@ -98,11 +98,12 @@
               </ion-card>
             </ion-col>
           </ion-row>
+
           <ion-row>
             <ion-col size="12">
               <ion-card class="report-card">
-                <ion-card-header>
-                  <div class="card-header">
+                <ion-card-header class="card-header">
+                  <!-- <div > -->
                     <div>
                       <ion-icon
                         name="checkmark-done-circle-outline"
@@ -113,7 +114,7 @@
                     <div>
                       <span class="card-title">Key Accomplishments</span>
                     </div>
-                  </div>
+                  <!-- </div> -->
                 </ion-card-header>
                 <ion-card-content>
                   <ng-container *ngFor="let employee of status.employees">
@@ -139,11 +140,12 @@
               </ion-card>
             </ion-col>
           </ion-row>
+
           <ion-row>
             <ion-col size="12">
               <ion-card class="report-card">
-                <ion-card-header>
-                  <div class="card-header">
+                <ion-card-header class="card-header">
+                  <!-- <div > -->
                     <div>
                       <ion-icon
                         name="calendar-outline"
@@ -156,7 +158,7 @@
                         >Activities for Upcoming Week</span
                       >
                     </div>
-                  </div>
+                  <!-- </div> -->
                 </ion-card-header>
                 <ion-card-content>
                   <p>{{ status.details }}</p>
@@ -166,6 +168,7 @@
           </ion-row>
         </ion-card>
       </div>
+
       <div *ngIf="isLoading" class="loading-indicator" aria-live="assertive">
         Loading more projects...
       </div>

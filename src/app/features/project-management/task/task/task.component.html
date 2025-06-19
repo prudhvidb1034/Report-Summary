@@ -1,60 +1,57 @@
-<ion-grid >
-    <ion-row class="ion-align-items-center ion-justify-content-start" style="gap: 16px;">
-        <ion-col size="auto">
+<ion-grid>
+  <ion-row class="ion-align-items-center" style="width: 100%;">
+    <ion-col>
+      <div style="display: flex; gap: 16px; align-items: center;">
+              <div>
+          <label style="font-size: 14px; font-weight: bold;">Project</label>
+          <ion-item style="width: 180px; height: 42px; background-color: #fff;" lines="none">
+            <ion-select interface="popover" [(ngModel)]="selectedProjectId" (ionChange)="onProjectChange()" style="font-size: 13px;">
+              <ion-select-option value="" disabled selected>Select Project</ion-select-option>
+              <ion-select-option *ngFor="let project of allProjects" [value]="project.id">
+                {{ project.project_name }}
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+        </div>
+        <div>
+          <label style="font-size: 14px; font-weight: bold;">Employee</label>
+          <ion-item style="width: 180px; height: 42px;" lines="none">
+            <ion-select interface="popover" [(ngModel)]="selectedEmployeeId" style="font-size: 13px;">
+              <ion-select-option value="" disabled selected>Select Employee</ion-select-option>
+              <ion-select-option *ngFor="let emp of filteredEmployees" [value]="emp.employee_id">
+                {{ emp.employee_name }}
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+        </div>
+        <div style="display: flex; flex-direction: column;">
+          <label style="opacity: 0;">Search</label>
+          <ion-button style="width: 180px; height: 36px; font-size: 13px; --background: #000033;" (click)="onSearch()">
+            SEARCH
+          </ion-button>
+        </div>
+      </div>
+    </ion-col>
 
-            <label style="font-size: 14px; font-weight: bold;">Project</label>
-            <ion-item style="width: 180px; height: 42px;  align-items: center;" lines="none">
-                <ion-select interface="popover" [(ngModel)]="selectedProjectId" (ionChange)="onProjectChange()"
-                    style="font-size: 13px;">
-                    <ion-select-option value="" disabled selected>Select Project</ion-select-option>
-                    <ion-select-option *ngFor="let project of allProjects" [value]="project.id">
-                        {{ project.project_name }}
-                    </ion-select-option>
-                </ion-select>
-            </ion-item>
+    <ion-col size="auto">
+      <div style="display: flex; flex-direction: column; align-items: flex-end;">
+        <label style="opacity: 0;">Create</label>
+        <ion-button
+          style="width: 180px; height: 36px; font-size: 13px; --background: #000033;"
+          (click)="openModal()">
+          Create Task
+        </ion-button>
+      </div>
+    </ion-col>
 
-        </ion-col>
-        <ion-col size="auto">
-
-            <label style="font-size: 14px; font-weight: bold;">Employee</label>
-            <ion-item style="width: 180px; height: 42px;  align-items: center;" lines="none">
-                <ion-select interface="popover" [(ngModel)]="selectedEmployeeId" style="font-size: 13px;">
-                    <ion-select-option value="" disabled selected>Select Employee</ion-select-option>
-                    <ion-select-option *ngFor="let emp of filteredEmployees" [value]="emp.employee_id">
-                        {{ emp.employee_name }}
-                    </ion-select-option>
-                </ion-select>
-            </ion-item>
-
-        </ion-col>
-        <ion-col size="auto">
-            <div style="display: flex; flex-direction: column;">
-                <label style="opacity: 0;">Search</label> <!-- Placeholder for label alignment -->
-                <ion-button style="width: 180px; height: 36px; font-size: 13px; --background: #000033;--border-radius: 0px;"
-                    (click)="onSearch()">
-                    SEARCH
-                </ion-button>
-            </div>
-        </ion-col>
-
-        <ion-col size="auto">
-            <div class="ion-text-end" style="display: flex; flex-direction: column;margin-top: 20px;">
-                <!-- <label style="opacity: 0;">Search</label> Placeholder for label alignment -->
-                <ion-button style="width: 180px; height: 36px; font-size: 13px; --background: #000033;"
-                (click)="openModal()">
-                    Create Task
-                </ion-button>
-            </div>
-        </ion-col>
-
-    </ion-row>
+  </ion-row>
 </ion-grid>
+
+
 <ng-container *ngIf="projectDataObservable$ | async as taskData">
     <ng-container>
-        <app-reusable-table [columns]="columns" [data]="projectDataObservable$"  >
+        <app-reusable-table [columns]="columns" [data]="projectDataObservable$">
         </app-reusable-table>
     </ng-container>
-   
+
 </ng-container>
-
-

@@ -41,19 +41,6 @@ export class AppComponent {
   isUserLoggedIn$ = this.loginStore.user$.pipe(
     map(res => !!(res?.role))
   );
-  
 
-  ngOnInit() {
-    this.loginStore.user$.pipe(
-      tap(res => {
-        if(!(res?.role)) {
-          this.router.navigate(['/login']).then(() => {
-            this.menuCtrl.close();
-          });
-        }
-      })
-    ).subscribe()
-   
-  }
 }   
 

@@ -13,58 +13,61 @@ interface LoginState {
 }
 
 @Injectable({
-  providedIn: 'root' 
+  providedIn: 'root'
 })
 export class LoginStore extends ComponentStore<LoginState> {
   private toast = inject(ToastService);
   constructor(private auth: LoginService, private router: Router) {
-    super({ loading: false, error: null,user:null });
+    super({ loading: false, error: null, user: null });
   }
 
   login = this.effect((credentials$: Observable<LoginCredentials>) =>
-  credentials$.pipe(
-    switchMap(credentials =>
-      this.auth.loginCheck(credentials).pipe(
-        tap(({ user }) => {
-          if (user) {
-            this.patchState({
-              user
-            })
-            const role = user.role?.toLowerCase(); 
-            
-            // localStorage.setItem('userList', role);
-            // localStorage.setItem('', role);
-            // if (role === 'manager' || role === 'superadmin') {
-            //   this.router.navigate(['/dashboard']);
-            // } else if (role === 'employee') {
-            //   this.router.navigate(['/employee-dashboard']);
-            // } else {
-            //   this.toast.show('error', 'Unknown role.');
-            //   return;
-            // }
-             this.router.navigate(['/home']);
-            //this.router.navigate['/home'];
-            // localStorage.setItem(('','userList', role);
-            // localStorage.setItem role);
-            // if (role === 'manager') {
-            //   this.router.navigate(['/dashboard']);
-            // } else if (role === 'employee') {
-            //   this.router.navigate(['/employee-dashboard']);
-            // } else {
-            //   this.toast.show('error', 'Unknown role.');
-            //   return;
-            // }
+    credentials$.pipe(
+      switchMap(credentials =>
+        this.auth.loginCheck(credentials).pipe(
+          tap(({ user }) => {
+            if (user) {
+              this.patchState({
+                user
+              })
+              const role = user.role?.toLowerCase();
 
-            this.toast.show('success', 'Login successfully!');
-          } else {
-            this.toast.show('error', 'Invalid User name and password.');
-          }
-        }),
-        tap(() => this.patchState({ loading: false }))
+              // localStorage.setItem('userList', role);
+              // localStorage.setItem('', role);
+              // if (role === 'manager' || role === 'superadmin') {
+              //   this.router.navigate(['/dashboard']);
+              // } else if (role === 'employee') {
+              //   this.router.navigate(['/employee-dashboard']);
+              // } else {
+              //   this.toast.show('error', 'Unknown role.');
+              //   return;
+              // }
+              localStorage.setItem('role', role.toLowerCase());
+              localStorage.setItem('fullName', `${user.firstName} ${user.lastName}`);
+              this.router.navigate(['/home']);
+
+              //this.router.navigate['/home'];
+              // localStorage.setItem(('','userList', role);
+              // localStorage.setItem role);
+              // if (role === 'manager') {
+              //   this.router.navigate(['/dashboard']);
+              // } else if (role === 'employee') {
+              //   this.router.navigate(['/employee-dashboard']);
+              // } else {
+              //   this.toast.show('error', 'Unknown role.');
+              //   return;
+              // }
+
+              this.toast.show('success', 'Login successfully!');
+            } else {
+              this.toast.show('error', 'Invalid User name and password.');
+            }
+          }),
+          tap(() => this.patchState({ loading: false }))
+        )
       )
     )
-  )
-);
+  );
 
   //   readonly login = this.effect((credentials$) =>
   //     credentials$.pipe(

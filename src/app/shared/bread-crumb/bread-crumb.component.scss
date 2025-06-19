@@ -25,6 +25,15 @@ ion-breadcrumb:not(:last-child)::after {
     pointer-events: all;
     text-decoration: underline;
 }
+.display-flex{
+    display: flex;
+    gap:5px;
+}
+
+.icon-disabled{
+    color:#bbbbbb;
+    cursor: pointer;
+}
 
 // ion-breadcrumb[disabled] {
 //     color: #777;

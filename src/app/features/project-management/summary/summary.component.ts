@@ -168,7 +168,7 @@ export class SummaryComponent {
   updateWeeklySummary() {
     this.modalController.create({
       component: EmployeeUpdateComponent,
-      // cssClass: 'custom-modal',
+      cssClass: 'employee-update-popup',
       componentProps: {
       }
     }).then((modal) => {

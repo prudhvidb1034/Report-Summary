@@ -34,7 +34,7 @@ export class EmployeesComponent {
     this.teamStore.getTeam();
     this.registerStore.getRegisterData({ role: 'employee' });
 
-   
+
     this.router.paramMap.subscribe((params: ParamMap) => {
       console.log(params.get('id'));
       this.employeeId = params.get('id')
@@ -111,7 +111,7 @@ export class EmployeesComponent {
     this.modalController.create({
       component: RegisterComponent,
       componentProps: {
-
+        role: 'employee',
       }
     }).then((modal) => {
       modal.present();
@@ -125,7 +125,7 @@ export class EmployeesComponent {
       component: ReusablePopUpComponent,
       cssClass: 'custom-modal',
       componentProps: {
-       teamsList$: this.teamsList$,
+        teamsList$: this.teamsList$,
         registerList$: this.registerList$,
       }
     }).then((modal) => {

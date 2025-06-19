@@ -30,6 +30,7 @@ export const routes: Routes = [
       {
         path: 'employees',
         loadComponent: () => import('./features/project-management/employees/employees.component').then((m) => m.EmployeesComponent),
+         canActivate: [RoleGuard],
         data: { breadcrumb: 'EmployeeList' }
       }
     ]

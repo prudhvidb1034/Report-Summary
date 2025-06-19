@@ -7,21 +7,23 @@ import { BreadcrumbComponent } from '../bread-crumb/bread-crumb.component';
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [IonicModule, CommonModule, BreadcrumbComponent],
+  imports: [IonicModule, CommonModule,BreadcrumbComponent],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'
 })
 export class HeaderComponent {
   showLogout: boolean = false;
-  roles = localStorage.getItem('role')?.toLowerCase();
-  fullname = localStorage.getItem('fullName') || '';
+  @Input() fullName: any = '';
+  @Input() role: any = '';
+
+
   ngOnInit() {
 
   }
 
   constructor(private router: Router, private route: ActivatedRoute, private menuCtrl: MenuController) {
     this.router.events.subscribe((val: any) => {
-      if (val.url !== '/login') {
+      if (val.url !== '/login' ) {
         this.showLogout = true;
       } else {
         this.showLogout = false;

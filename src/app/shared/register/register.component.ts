@@ -46,8 +46,8 @@ export class RegisterComponent {
   private routering = inject(ActivatedRoute)
   isModalOpen: boolean = false;
   constructor(private navParams: NavParams) {
-    this.role = this.navParams.get('role');
-    console.log('Received role:', this.role);
+    this.role = this.navParams?.get('role');
+    console.log('Received role:', this.navParams, this.role);
   }
 
   ngOnInit() {

@@ -125,9 +125,9 @@ export class EmployeeUpdateComponent {
   }
 
   removeUpdate(index: number): void {
-    if (this.weeklyUpdates.length > 1) {
+   
       this.weeklyUpdates.removeAt(index);
-    }
+    
   }
 
   onSubmit() {

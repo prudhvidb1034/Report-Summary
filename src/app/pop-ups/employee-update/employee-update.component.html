@@ -20,6 +20,18 @@
     <ion-grid>
       <div formArrayName="weeklyUpdates">
         <div *ngFor="let update of weeklyUpdates.controls; let i = index" [formGroupName]="i">
+         <ion-row>
+              <ion-col size="8">
+              <ion-item>
+                <ion-select  interface="popover" [(ngModel)]='weekValue' formControlName="weekRange"  label-placement="floating">
+                  <ion-select-option  *ngFor="let week of weekOptions" [value]="week">
+                    {{ week }}
+                  </ion-select-option>
+                </ion-select>
+              </ion-item>
+            </ion-col>
+         </ion-row>
+         
           <ion-row>
             <ion-col size="4">
               <ion-item>

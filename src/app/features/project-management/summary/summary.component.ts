@@ -23,7 +23,8 @@ export class SummaryComponent {
   // projects: createTeam[] = [];
   // private summary = inject(SummaryService);
   // weekSummaryForm !: FormGroup;
-  private route = inject(Router)
+  private route = inject(Router);
+
   // private readonly store = inject(SummaryStore);
   // dateError: string | null = null;
   // private readonly fb = inject(FormBuilder);

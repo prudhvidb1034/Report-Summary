@@ -52,7 +52,6 @@ export class BreadcrumbComponent implements OnInit {
     private breadcrumbStore: BreadcrumbStore
   ) {
     this.breadcrumbs$ = this.breadcrumbStore.breadcrumbs$;
- 
   }
 
   

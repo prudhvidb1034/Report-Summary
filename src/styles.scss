@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
 * {
   font-family: "Roboto", Arial, sans-serif;
   margin: 0;
@@ -30,6 +32,7 @@ app-header {
   --padding-end: 20px;
   --padding-top: 12px;
   --padding-bottom: 12px;
+  font-weight: normal;
 }
 
 // .project-table {

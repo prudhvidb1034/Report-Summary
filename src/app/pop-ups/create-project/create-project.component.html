@@ -1,3 +1,5 @@
+
+<div class="modal-wrapper">
 <ion-header>
   <ion-toolbar color="light">
     <ion-buttons slot="start">
@@ -39,9 +41,9 @@
     <ion-item>
       <ion-input
         formControlName="projectlocation"
-        label="Project Location"
+        label="Account Name"
         labelPlacement="floating"
-        placeholder="Enter project location"
+        placeholder="Enter account name"
         [clearOnEdit]="true"
       ></ion-input>
     </ion-item>
@@ -61,12 +63,11 @@
 <ion-footer>
   <ion-toolbar>
     <ion-buttons slot="end">
-      <ion-button
-        [disabled]="teamForm.invalid"
-        style="background-color: black; color: white; margin-right: 8px"
-        (click)="SubmitForm()"
-        >Submit</ion-button
-      >
-    </ion-buttons>
+
+        <ion-button style="color: white;background-color: #0163aa;" (click)="setOpen(false)">Close</ion-button>
+
+        <ion-button style="background-color: black; color: white;" (click)="SubmitForm()">Save</ion-button>
+        </ion-buttons>
   </ion-toolbar>
 </ion-footer>
+</div>

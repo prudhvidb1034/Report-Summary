@@ -1,0 +1,15 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 50%;
+}
+
+
+
+ion-content p{
+    margin-top: 12px;
+    margin-left: 15px;
+}
+.ion-no-paddings{
+    margin-right: 14px;
+}

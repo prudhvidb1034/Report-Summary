@@ -8,6 +8,7 @@ import { ReusableTableComponent } from '../../../shared/reusable-table/reusable-
 import { SummaryStore } from '../../../state/summary.store';
 import { CreateSummaryComponent } from '../../../pop-ups/create-summary/create-summary.component';
 import { EmployeeUpdateComponent } from '../../../pop-ups/employee-update/employee-update.component';
+import { ConfirmDeleteComponent } from '../../../pop-ups/confirm-delete/confirm-delete.component';
 
 @Component({
   selector: 'app-summary',
@@ -144,6 +145,12 @@ export class SummaryComponent {
         case 'createStatus':
         this.updateWeeklySummary();  
         break;
+      case 'edit':
+        this.loadCreateEmployeeModal();
+        break;
+      case 'delete':
+        this.deleteModal();
+        break;
       default:
         console.log('Unknown action type:', event.type);
     }
@@ -180,4 +187,19 @@ export class SummaryComponent {
       });
     });
   }
+   deleteModal(){
+        this.modalController.create({
+          component: ConfirmDeleteComponent,
+          cssClass: 'custom-delete-modal',
+          componentProps: { 
+            role: 'delete',
+          }
+        }).then((modal) => {
+          modal.present();
+          modal.onDidDismiss().then((data) => {
+            console.log('Modal dismissed with data:', data);
+            // Handle any data returned from the modal if needed
+          });
+        });
+     }
 }

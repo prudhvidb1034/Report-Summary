@@ -10,6 +10,7 @@ import { ReusablePopUpComponent } from '../../../pop-ups/reusable-pop-up/reusabl
 import { TeamStore } from '../../../state/team.store';
 import { SummaryStore } from '../../../state/summary.store';
 import { RegisterStore } from '../../../state/register.store';
+import { ConfirmDeleteComponent } from '../../../pop-ups/confirm-delete/confirm-delete.component';
 
 @Component({
   selector: 'app-employees',
@@ -102,6 +103,12 @@ export class EmployeesComponent {
       case 'tagEmployee':
         this.loadtagEmployeeModal();
         break;
+      case 'edit':
+        this.loadCreateEmployeeModal();
+        break;
+      case 'delete':
+        this.deleteModal();
+        break;
       default:
         console.log('Unknown action type:', event.type);
     }
@@ -132,6 +139,21 @@ export class EmployeesComponent {
       modal.present();
       modal.onDidDismiss().then((data) => {
         console.log('Modal dismissed with data:', data);
+      });
+    });
+  }
+  deleteModal() {
+    this.modalController.create({
+      component: ConfirmDeleteComponent,
+      cssClass: 'custom-delete-modal',
+      componentProps: {
+        role: 'delete',
+      }
+    }).then((modal) => {
+      modal.present();
+      modal.onDidDismiss().then((data) => {
+        console.log('Modal dismissed with data:', data);
+        // Handle any data returned from the modal if needed
       });
     });
   }

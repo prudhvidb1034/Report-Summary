@@ -9,6 +9,7 @@ import { LoginStore } from '../../../state/login.store';
 import { TeamStore } from '../../../state/team.store';
 import { ReusableTableComponent } from '../../../shared/reusable-table/reusable-table.component';
 import { CreateProjectComponent } from '../../../pop-ups/create-project/create-project.component';
+import { ConfirmDeleteComponent } from '../../../pop-ups/confirm-delete/confirm-delete.component';
 
 @Component({
   selector: 'app-projects',
@@ -40,6 +41,12 @@ export class ProjectListComponent {
       case 'create':
         this.loadCreateEmployeeModal();
         break;
+      case 'edit':
+        this.loadCreateEmployeeModal();
+        break;
+      case 'delete':
+        this.deleteModal();
+        break;  
       default:
         console.log('failing')
     }
@@ -116,5 +123,22 @@ export class ProjectListComponent {
         // Handle any data returned from the modal if needed
       });
     });
+ 
   }
+  
+ deleteModal(){
+      this.modalController.create({
+        component: ConfirmDeleteComponent,
+        cssClass: 'custom-delete-modal',
+        componentProps: { 
+          role: 'delete',
+        }
+      }).then((modal) => {
+        modal.present();
+        modal.onDidDismiss().then((data) => {
+          console.log('Modal dismissed with data:', data);
+          // Handle any data returned from the modal if needed
+        });
+      });
+   }
 }

@@ -60,13 +60,13 @@ export class SideMenuComponent {
     isBottom: false
   },
 
-  //  {
-  //   label: 'Status Update',
-  //   icon: 'create',
-  //   path: '/employee-dashboard',
-  //   roles: ['employee','superadmin'],
+   {
+    label: 'Accounts',
+    icon: 'key',
+    path: '/accounts',
+    roles: ['superadmin'],
     
-  // },
+  },
   // {
   //   label: 'View Reports',
   //   icon: 'documents',

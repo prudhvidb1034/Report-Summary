@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-toolbar class="custom-header">
+  <ion-toolbar class="custom-header" >
     <ion-title class="white-color">Employee Tracking System
     </ion-title>
     <ion-buttons slot="start" class="white-color" (click)="toggleMenu()">
@@ -23,4 +23,7 @@
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
-<app-breadcrumb *ngIf="fullName"></app-breadcrumb>
+<div class="bread-logout">
+  <app-breadcrumb *ngIf="showLogout"></app-breadcrumb>
+  </div>
+

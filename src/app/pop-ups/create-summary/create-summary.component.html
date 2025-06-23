@@ -1,3 +1,5 @@
+
+<div class="modal-wrapper">
 <ion-header>
   <ion-toolbar color="light">
     <ion-buttons slot="start">
@@ -87,7 +89,9 @@
 <ion-footer>
   <ion-toolbar>
     <ion-buttons slot="end">
-      <ion-button style="background-color: black; color: white;margin-right: 8px;" class="submit" (click)="onSubmit()">Submit</ion-button>
+         <ion-button class="close" (click)="setOpen(false)">Close</ion-button>
+      <ion-button class="save" (click)="onSubmit()">Save</ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-footer>
+</div>

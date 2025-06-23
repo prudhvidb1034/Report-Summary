@@ -28,7 +28,7 @@ export const routes: Routes = [
         data: { expectedRoles: ['manager', 'superadmin'], breadcrumb: 'Projects' }
       },
       {
-        path: 'employees',
+        path: 'employees/:id',
         loadComponent: () => import('./features/project-management/employees/employees.component').then((m) => m.EmployeesComponent),
          canActivate: [RoleGuard],
         data: { breadcrumb: 'EmployeeList' }

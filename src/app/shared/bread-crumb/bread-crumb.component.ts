@@ -16,6 +16,15 @@ interface BreadcrumbState {
   breadcrumbs: BreadcrumbItem[];
 }
 
+
+ interface Project {
+  projectName: string;
+}
+
+interface ProjectsMap {
+  [key: string]: Project[];
+}
+
 @Injectable()
 class BreadcrumbStore extends ComponentStore<BreadcrumbState> {
   constructor() {
@@ -44,7 +53,17 @@ export class BreadcrumbComponent implements OnInit {
  
   updatedBreadCrumb: BreadcrumbItem[] = [];
   extendedRoute:any;
- weekName=[{name:'WEEK:01-June-2025 To 07-June-2025'},{name:'WEEK:08-June-2025 To 14-June-2025'}]
+ weekName=[{name:'WEEK 01-June-2025 To 07-June-2025'},{name:'WEEK 08-June-2025 To 14-June-2025'}]
+
+
+projects: { projects: ProjectsMap } = {
+  projects: {
+    "04da": [{ projectName: "Customer-365" }],
+    "1be0": [{ projectName: "Onboarding/Initio" }],
+    "83f2": [{ projectName: "spp canada" }]
+  }
+};
+
 
   constructor(
     private router: Router,
@@ -78,11 +97,12 @@ export class BreadcrumbComponent implements OnInit {
 
   breadcrumbConfig: { label: any; url: string }[] = [
     { label: 'Home', url: '/home' },
+    {label:'Accounts',url:'/accounts'},
     { label: 'Projects', url: '/projects' },
     { label: 'Weekly Summary', url: '/summary' },
     { label: 'Managers', url: '/managers' },
     { label: 'Weekly Status Update', url: '/employee-dashboard' },
-    { label: 'Employees', url: '/projects/employees' },
+    { label: 'Employees', url: '/projects/employees/:id' },
     { label: 'Employees', url: '/employees' },
     { label: 'View Individual Project Status', url: '/summary/task/:id' },
     { label: 'View Reports', url: '/summary/project-status/:id' }
@@ -112,23 +132,33 @@ export class BreadcrumbComponent implements OnInit {
       // Handle dynamic segment for project status
       const id = urlSegments[urlSegments.length - 1]; // Get the last segment as ID
       breadcrumbs.push({
-        label: `View Reports /` +' '+  this.renameFunc(id), // Customize the label as needed
+        label: this.renameFunc(id) +' '+'/'+' '+'Reports', // Customize the label as needed
         url: currentUrl
       });
     }
     else if (segment.startsWith('task')){
      const id = urlSegments[urlSegments.length - 1]; // Get the last segment as ID
       breadcrumbs.push({
-        label: `View Individual Project Status /`  +' '+  this.renameFunc(id), // Customize the label as needed
+        label:this.renameFunc(id) +' '+'/'+' '+'Task', // Customize the label as needed
         url: currentUrl
       });
-    
+    }
+    else if(segment.startsWith('employees')){
+      const id = urlSegments[urlSegments.length - 1]; // Get the last segment as ID
+      breadcrumbs.push({
+        label:this.getProjectName(id) +' '+'/'+' '+'Employees', // Customize the label as needed
+        url: currentUrl
+      });
     }
 
     this.updatedBreadCrumb = breadcrumbs;
   });
 
   this.breadcrumbStore.updateBreadcrumbs(breadcrumbs);
+}
+
+getProjectName(id: string): string | undefined {
+  return this.projects.projects[id]?.[0]?.projectName;
 }
 
 renameFunc(id:any){

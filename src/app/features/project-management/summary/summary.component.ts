@@ -157,6 +157,7 @@ export class SummaryComponent {
   loadCreateEmployeeModal() {
     this.modalController.create({
       component: CreateSummaryComponent,
+      // cssClass:'custom-modal',
       componentProps: {
       }
     }).then((modal) => {

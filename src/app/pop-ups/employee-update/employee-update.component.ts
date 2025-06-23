@@ -26,7 +26,13 @@ export class EmployeeUpdateComponent {
   private loginService = inject(LoginService)
   userInfo: any;
   projectInfo = '';
+  weekValue='WEEK:16-June-2025 To 20-June-2025';
   private modalCtrl = inject(ModalController);
+     weekOptions = [
+    'WEEK:16-June-2025 To 20-June-2025',
+    'WEEK:08-June-2025 To 14-June-2025',
+    'WEEK:01-June-2025 To 07-June-2025',
+  ];
 
   ngOnInit() {
     this.getProjetcDates()
@@ -95,6 +101,8 @@ export class EmployeeUpdateComponent {
       endDate: ['', [Validators.required]],
       task: ['', [Validators.required, Validators.minLength(3)]],
       status: ['', [Validators.required]],
+    weekRange: [this.weekOptions[0], Validators.required],  // default
+
     });
     group.get('endDate')?.valueChanges.subscribe(() => {
       const startDate = group.get('startDate')?.value;
@@ -125,9 +133,9 @@ export class EmployeeUpdateComponent {
   }
 
   removeUpdate(index: number): void {
-    if (this.weeklyUpdates.length > 1) {
+   
       this.weeklyUpdates.removeAt(index);
-    }
+    
   }
 
   onSubmit() {

@@ -28,7 +28,7 @@ export const routes: Routes = [
         data: { expectedRoles: ['manager', 'superadmin'], breadcrumb: 'Projects' }
       },
       {
-        path: 'employees',
+        path: 'employees/:id',
         loadComponent: () => import('./features/project-management/employees/employees.component').then((m) => m.EmployeesComponent),
          canActivate: [RoleGuard],
         data: { breadcrumb: 'EmployeeList' }
@@ -53,14 +53,23 @@ export const routes: Routes = [
       },
       {
         path: 'project-status/:id',
-        loadComponent: () => import('./features/project-management/project-status/project-status.component').then((m) => m.ProjectStatusComponent)
+        loadComponent: () => import('./features/project-management/project-status/project-status.component').then((m) => m.ProjectStatusComponent),
+        canActivate: [RoleGuard],
       },
     ]
   },
   {
     path: 'employees',
     loadComponent: () => import('./features/project-management/employees/employees.component').then((m) => m.EmployeesComponent),
+     canActivate: [RoleGuard],
     data: { breadcrumb: 'EmployeeList' }
+  },
+  {
+    path: 'accounts',
+    loadComponent: () => import('./features/project-management/account/account.component').then((m) => m.AccountCreateComponent),
+   
+     canActivate: [RoleGuard],
+    
   },
   {
     path: 'employee-dashboard',
@@ -77,8 +86,10 @@ export const routes: Routes = [
   },
   {
     path: 'view-reports/:id',
-    loadComponent: () => import('../app/shared/view-reports/view-reports.component').then((m) => m.ViewReportsComponent)
+    loadComponent: () => import('../app/shared/view-reports/view-reports.component').then((m) => m.ViewReportsComponent),
+    canActivate: [RoleGuard],
   },
+
   {
     path: '',
     redirectTo: 'login',

@@ -1,66 +1,27 @@
-<div style="
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  ">
-  <ion-card style="width: 500px; border-radius: 2%">
-    <ion-card-header>
-      <ion-card-title style="text-align: center">Login</ion-card-title>
-    </ion-card-header>
+<ion-content fullscreen class="login-bg" scroll-y="false">
+  <!-- <div class="background-icons">
+    <img src="assets/icons/discord.svg" class="icon top-10 left-20">
+    <img src=".../file.svg" class="icon top-30 right-25">
+  </div> -->
 
-    <ion-card-content>
-      <div>
-        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-          <ion-item>
-            <ion-input formControlName="username" label="Email " labelPlacement="floating" placeholder="abc@gmail.com"
-              [clearOnEdit]="true"></ion-input>
-          </ion-item>
-          @if (loginForm.get('username')?.invalid &&
-          (loginForm.get('username')?.dirty ||
-          loginForm.get('username')?.touched)) {
-          <ion-text color="danger" class="error-message">
-            @if (loginForm.get('username')?.errors?.['required']) {
-            <p>Username is required.</p>
-            } @if (loginForm.get('username')?.errors?.['email']) {
-            <p>Invali email format</p>
-            }
-          </ion-text>
-          }
-
-          <ion-item>
-            <ion-input placeholder="Enter Password" labelPlacement="floating" label="Password" type="password"
-              formControlName="password" labelPlacement="floating" placeholder="Enter Password" [clearOnEdit]="true">
-            </ion-input>
-          </ion-item>
-          @if (loginForm.get('password')?.invalid &&
-          (loginForm.get('password')?.dirty ||
-          loginForm.get('password')?.touched)) {
-          <ion-text color="danger" class="error-message">
-            @if (loginForm.get('password')?.errors?.['required']) {
-            <p>Password is required.</p>
-            } @if (loginForm.get('password')?.errors?.['minlength']) {
-            <p>Password contains atleast 6 chars</p>
-            }
-          </ion-text>
-          }
-          <ion-grid [fixed]="true" style="margin-top: 10px; width: inherit">
-            <ion-row>
-              <ion-col size-md="6">
-                <ion-button expand="block" [disabled]="true" fill="clear">
-                  Forgot Password
-                </ion-button>
-              </ion-col>
-              <ion-col size-md="6">
-                <ion-button expand="block" style="--background: #000033;--border-radius: 0px;" type="submit"
-                  [disabled]="loginForm.invalid">
-                  Login
-                </ion-button>
-              </ion-col>
-            </ion-row>
-          </ion-grid>
-        </form>
+  <div class="login-card">
+    <h1>Login to ETS</h1>
+    <form [formGroup]="form">
+      <ion-label class="display-flex font-size-14 padding-bottom-5">Email address</ion-label>
+      <ion-item lines="none" class="input-group">
+        <!-- <ion-icon name="mail-outline" slot="start"></ion-icon> -->
+        <ion-input type="username"  class="small-placeholder"formControlName="username" placeholder="sarath@gmail.com"></ion-input>
+      </ion-item>
+      <div class="forgot-row display-flex justify-space-between font-size-14 padding-bottom-5">
+        <ion-label class="">Password</ion-label>
+        <a (click)="forgot()">Forgot?</a>
       </div>
-    </ion-card-content>
-  </ion-card>
-</div>
+      <ion-item lines="none" class="input-group">
+        <ion-input  class="small-placeholder font-size-14" [type]="showPwd ? 'text' : 'password'" formControlName="password" placeholder="Password"></ion-input>
+        <ion-icon slot="end" [name]="showPwd? 'eye-off-outline' : 'eye-outline'" (click)="togglePw()"
+          class="clickable font-size-16"></ion-icon>
+      </ion-item>
+      <ion-button expand="block" style="--background: #000033;flex-grow: 8; width: 100%; --border-radius: 0px;padding-top: 15px;"  class="btn-login" (click)="submit()">Login</ion-button>
+    </form>
+  </div>
+</ion-content>

@@ -1,10 +1,8 @@
 <ion-header>
   <ion-toolbar color="light">
-    <!-- <ion-buttons slot="start"> -->
     <ion-title>
       <b>Project Status Update</b>
     </ion-title>
-    <!-- </ion-buttons> -->
     <ion-buttons slot="end">
       <ion-button fill="clear" (click)="setOpen(false)">
         <ion-icon name="close-outline" class="icon-medium"></ion-icon>
@@ -20,6 +18,29 @@
     <ion-grid>
       <div formArrayName="weeklyUpdates">
         <div *ngFor="let update of weeklyUpdates.controls; let i = index" [formGroupName]="i">
+          <ion-row>
+            <ion-col size="8">
+              <ion-item>
+                <ion-select interface="popover" [(ngModel)]='weekValue' formControlName="weekRange"
+                  label-placement="floating">
+                  <ion-select-option *ngFor="let week of weekOptions" [value]="week">
+                    {{ week }}
+                  </ion-select-option>
+                </ion-select>
+              </ion-item>
+            </ion-col>
+            <ion-col size="4">
+              <ion-item>
+                <ion-select interface="popover" label="Task Type" formControlName="status" label-placement="floating">
+                  <ion-select-option value="Progress">Task</ion-select-option>
+                  <ion-select-option value="Pending">Summary</ion-select-option>
+                  <ion-select-option value="Completed">key accomplishments</ion-select-option>
+                  <!-- <ion-select-option value="Blocker">UX</ion-select-option> -->
+                </ion-select>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+
           <ion-row>
             <ion-col size="4">
               <ion-item>
@@ -150,71 +171,55 @@
 
           <ion-row>
             <ion-col size="10">
-            <ion-item style="width: 100%">
-              <ion-textarea formControlName="summary" label="Summary" label-placement="floating" fill="outline"
-                placeholder="Enter Summary" rows="3">
-              </ion-textarea>
-              @if (employeeUpdateForm.get('summary')?.hasError('required') &&
-              employeeUpdateForm.get('summary')?.touched) {
-              <ion-note slot="error" style="
-          color: red;
-          font-size: 12px;
-          padding-left: 16px;
-          padding-top: 5px;
-        ">Summary is required</ion-note>
-              }
-            </ion-item>
-            </ion-col>
-          </ion-row>
-          <ion-row>
-
-            <ion-col size="10">
-              <ion-item style="width: 100%">
-                <ion-textarea formControlName="Comments" label="Comments" label-placement="floating" fill="outline"
-                  placeholder="Enter Comments" rows="3">
+              <ion-item style="width: 100%" lines="none">
+                <ion-textarea formControlName="summary" label="Summary" label-placement="floating" fill="outline"
+                  placeholder="Enter Summary" rows="3">
                 </ion-textarea>
-                @if (employeeUpdateForm.get('Comments')?.hasError('required') &&
-                employeeUpdateForm.get('Comments')?.touched) {
+                @if (employeeUpdateForm.get('summary')?.hasError('required') &&
+                employeeUpdateForm.get('summary')?.touched) {
                 <ion-note slot="error" style="
           color: red;
           font-size: 12px;
           padding-left: 16px;
           padding-top: 5px;
-        ">Comments is required</ion-note>
+        ">Summary is required</ion-note>
                 }
-
               </ion-item>
-                  <ion-icon expand="block" color="primary" type="button" fill="outline" (click)="addMore()" style="
-                  height: 56px;
-                  margin-top: 8px;
-                  cursor: pointer;
-                  font-size: 20px;
-                " name="add-outline"></ion-icon>
-                              <ion-icon
-                expand="block"
-                type="button"
-                class="danger"
-                fill="outline"
-                (click)="removeUpdate(i)"
-                *ngIf="weeklyUpdates.length > 1"
-                style="
-                  height: 56px;
-                  margin-top: 8px;
-                  cursor: pointer;
-                  font-size: 20px;
-                  display: flex;
-                  justify-content: center;
-                "
-                color="danger"
-                name="trash-outline"
-              ></ion-icon>
-
-              </ion-col>
-
-               <ion-col size="2" *ngIf="i === (weeklyUpdates.controls.length - 1)">
-            
-              </ion-col> 
+            </ion-col>
           </ion-row>
+          <ion-row class="ion-align-items-center">
+            <!-- Comments Textarea (size 10) -->
+            <ion-col size="10">
+              <ion-item style="width: 100%" lines="none">
+                <ion-textarea formControlName="Comments" label="Comments" label-placement="floating" fill="outline"
+                  placeholder="Enter Comments" rows="3">
+                </ion-textarea>
+              </ion-item>
+
+              <!-- Error message -->
+              @if (employeeUpdateForm.get('Comments')?.hasError('required') &&
+              employeeUpdateForm.get('Comments')?.touched) {
+              <ion-note slot="error" style="color: red; font-size: 12px; padding-left: 16px; padding-top: 5px;">
+                Comments is required
+              </ion-note>
+              }
+            </ion-col>
+
+            <!-- Add icon (size 1) -->
+            <ion-col size="1" class="ion-text-center">
+              <ion-icon name="add-outline" color="primary" style="cursor: pointer; font-size: 24px; margin-top: 6px;"
+                (click)="addMore()">
+              </ion-icon>
+            </ion-col>
+
+            <!-- Delete icon (size 1) -->
+            <ion-col size="1" class="ion-text-center" *ngIf="weeklyUpdates.length > 1">
+              <ion-icon name="trash-outline" color="danger" style="cursor: pointer; font-size: 24px;margin-top: 6px;"
+                (click)="removeUpdate(i)">
+              </ion-icon>
+            </ion-col>
+          </ion-row>
+
 
 
           <!-- <ion-row>

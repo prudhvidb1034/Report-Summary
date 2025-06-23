@@ -31,6 +31,13 @@ export class SideMenuComponent {
     roles: ['superadmin', 'manager', 'employee'],
     isBottom: false
   },
+     {
+    label: 'Accounts',
+    icon: 'key',
+    path: '/accounts',
+    roles: ['superadmin'],
+    
+  },
   {
     label: 'Projects',
     icon: 'book',
@@ -60,13 +67,6 @@ export class SideMenuComponent {
     isBottom: false
   },
 
-  //  {
-  //   label: 'Status Update',
-  //   icon: 'create',
-  //   path: '/employee-dashboard',
-  //   roles: ['employee','superadmin'],
-    
-  // },
   // {
   //   label: 'View Reports',
   //   icon: 'documents',

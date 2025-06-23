@@ -12,13 +12,17 @@ interface LoginState {
   user: User | null;
 }
 
+const initialState: LoginState={
+   loading: false, error: null, user: null 
+}
+
 @Injectable({
   providedIn: 'root'
 })
 export class LoginStore extends ComponentStore<LoginState> {
   private toast = inject(ToastService);
   constructor(private auth: LoginService, private router: Router) {
-    super({ loading: false, error: null, user: null });
+    super(initialState);
   }
 
   login = this.effect((credentials$: Observable<LoginCredentials>) =>
@@ -94,4 +98,6 @@ export class LoginStore extends ComponentStore<LoginState> {
   //   );
 
   readonly user$ = this.select(state => state.user);
+    readonly clearAll = this.updater(() => initialState);
+
 }

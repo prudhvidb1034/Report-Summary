@@ -1,6 +1,13 @@
+.project-title {
+  font-weight: 300;
+  color: #000;
+}
+
 .project-table {
-  border-radius: 8px;
-  border: 2px solid #efefef;
+  border: 1px solid #efefef;
+  padding: 0;
+  box-shadow: none;
+
   ion-row {
     align-items: center;
 
@@ -10,6 +17,8 @@
       justify-content: center;
       padding: 8px 4px;
       word-break: break-word;
+      font-size: 12px;
+      font-weight: normal;
     }
   }
 
@@ -21,6 +30,7 @@
   .data-row {
     background-color: #ffffff;
   }
+
   .data-row:nth-child(even) {
     background-color: #f8f8f8; // Light gray for even rows
   }
@@ -54,9 +64,3 @@
 .action-color {
   color: #191947;
 }
-// ion-searchbar.search-bar-input {
-//   .searchbar-input {
-//     background-color: #f4f4f4 !important;
-//     border-radius: 20px !important; /* Optional: Add rounded corners */
-//   }
-// }

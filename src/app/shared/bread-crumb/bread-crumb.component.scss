@@ -1,5 +1,5 @@
 ion-breadcrumbs {
-    padding: 10px;
+    padding: 0 24px;
     position: relative !important;
     z-index: 10 !important;
     margin-top: 0.5rem;
@@ -23,7 +23,7 @@ ion-breadcrumb:not(:last-child)::after {
    color: #777;
     cursor: pointer;
     pointer-events: all;
-    text-decoration: underline;
+  //  text-decoration: underline;
 }
 .display-flex{
     display: flex;
@@ -33,6 +33,14 @@ ion-breadcrumb:not(:last-child)::after {
 .icon-disabled{
     color:#bbbbbb;
     cursor: pointer;
+}
+
+ion-breadcrumb::part(separator) {
+    margin-inline:0px !important;
+
+}
+::ng-deep .breadcrumb-separator{
+    margin-inline:0px !important;
 }
 
 // ion-breadcrumb[disabled] {

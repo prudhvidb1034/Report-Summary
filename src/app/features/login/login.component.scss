@@ -58,3 +58,12 @@ ion-item .input-wrapper {
   align-items: center;
 }
 
+ion-item.invalid {
+    --background: #f3b7b7;
+  }
+
+  ion-item.valid {
+  --background: #f3f4f6;
+
+}
+

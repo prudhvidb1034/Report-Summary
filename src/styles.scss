@@ -3,7 +3,7 @@
 * {
   font-family: "Roboto", Arial, sans-serif;
   margin: 0px;
-  // padding: 0px;
+  padding: 0px;
   box-sizing: border-box;
 }
 
@@ -171,4 +171,21 @@ ion-modal.custom-delete-modal::part(content) {
 .modal-wrapper {
   padding: 16px 24px;
   height: 100%;
+}
+
+.close {
+  color: #191947;
+}
+.save {
+  background-color: black;
+  color: white;
+}
+
+ion-header {
+  ion-toolbar {
+    ion-title {
+      margin-left: 8px;
+      font-weight: bold;
+    }
+  }
 }

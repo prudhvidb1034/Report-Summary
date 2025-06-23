@@ -1,3 +1,4 @@
+<div class="modal-wrapper">
 <ion-header>
   <ion-toolbar color="light">
     <ion-title>
@@ -316,10 +317,14 @@
   <ion-toolbar>
     <ion-buttons slot="end">
       <!-- <ion-button style="background-color: black; color: white;margin-right: 8px;" class="submit" (click)="onSubmit()">Submit</ion-button> -->
-      <ion-button style="--background: #000033; color: white; margin-right: 8px"
+     
+        <ion-button class="close" (click)="setOpen(false)">Close</ion-button>
+      <ion-button  class="save"
         [disabled]="employeeUpdateForm.invalid || dateError">
         Submit All Updates
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-footer>
+
+</div>

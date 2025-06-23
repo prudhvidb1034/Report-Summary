@@ -169,8 +169,17 @@ ion-modal.custom-delete-modal::part(content) {
 }
 
 .modal-wrapper {
-  padding: 16px 24px;
-  height: 100%;
+  padding:16px 24px;
+  height:100%;
+}
+
+.close{
+  color: #191947;
+
+}
+.save{
+  background-color: black;
+   color: white;
 }
 
 .close {

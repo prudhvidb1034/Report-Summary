@@ -45,6 +45,12 @@ ion-item {
     margin-left: 7px;
 }
 
+ion-searchbar.search-bar-input {
+  .searchbar-input {
+   background-color: #f6f5f5 !important; // Replace with your desired color
+  }
+}
+
 // .no-scroll-content {
 //   --overflow: hidden; // disables scroll for ion-content
 // }

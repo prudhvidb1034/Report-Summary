@@ -1,11 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
-
-
-
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
 
 * {
   font-family: "Roboto", Arial, sans-serif;
-  margin: 0;
+  margin: 0px;
+  padding: 0px;
   box-sizing: border-box;
 }
 
@@ -30,23 +28,23 @@ app-header {
   font-weight: normal;
 }
 
-.display-flex{
+.display-flex {
   display: flex;
 }
 
-.justify-space-between{
+.justify-space-between {
   justify-content: space-between;
 }
 
-.font-size-14{
+.font-size-14 {
   font-size: 14px;
 }
 
-.font-size-16{
+.font-size-16 {
   font-size: 16px;
 }
 
-.padding-bottom-5{
+.padding-bottom-5 {
   padding-bottom: 5px;
 }
 
@@ -58,7 +56,6 @@ ion-input.small-placeholder input::placeholder {
   font-size: 14px;
   color: #999;
 }
-
 
 // .project-table {
 //   border-radius: 8px;
@@ -109,13 +106,13 @@ ion-input.small-placeholder input::placeholder {
 ion-header {
   padding-top: env(safe-area-inset-top);
   border-bottom: 1px solid #efefef;
-  box-shadow: none !important
+  box-shadow: none !important;
 }
 
 ion-footer {
-    box-shadow: none !important;
-    position: relative;
-    border-top: 1px solid #efefef;
+  box-shadow: none !important;
+  position: relative;
+  border-top: 1px solid #efefef;
 }
 // ion-content::part(scroll) {
 //   padding-top: var(--ion-safe-area-top, 0);
@@ -151,11 +148,18 @@ app-project-status {
   --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
-.employee-update-popup{
-  --width:55%
+ion-searchbar.search-bar-input {
+  .searchbar-input {
+    // background-color: #f6f5f5 !important;
+    border-bottom: 1px solid;
+    box-shadow: none;
+    height: 36px;
+    width: 100%;
+  }
 }
-
-
+.employee-update-popup {
+  --width: 55%;
+}
 
 ion-modal.custom-delete-modal::part(content) {
   height: 30% !important;
@@ -164,10 +168,7 @@ ion-modal.custom-delete-modal::part(content) {
   transform: none !important; // Cancel vertical centering
 }
 
-
-
-
 .modal-wrapper {
-  padding:16px 24px;
-  height:100%;
+  padding: 16px 24px;
+  height: 100%;
 }

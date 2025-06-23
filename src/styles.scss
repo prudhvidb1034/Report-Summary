@@ -30,6 +30,36 @@ app-header {
   font-weight: normal;
 }
 
+.display-flex{
+  display: flex;
+}
+
+.justify-space-between{
+  justify-content: space-between;
+}
+
+.font-size-14{
+  font-size: 14px;
+}
+
+.font-size-16{
+  font-size: 16px;
+}
+
+.padding-bottom-5{
+  padding-bottom: 5px;
+}
+
+ion-input.small-placeholder input {
+  font-size: 14px;
+}
+
+ion-input.small-placeholder input::placeholder {
+  font-size: 14px;
+  color: #999;
+}
+
+
 // .project-table {
 //   border-radius: 8px;
 //   border: 2px solid #f8f8f8;

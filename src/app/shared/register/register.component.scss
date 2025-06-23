@@ -26,17 +26,18 @@ ion-grid {
 }
 .ion-no-paddings {
   margin-right: 18px;
+  gap: 16px;
 }
 .ion-content {
   margin-bottom: 4px;
 }
 
-ion-item.invalid {
-    --background: #f3b7b7;
-  }
+// ion-item.invalid {
+//     --background: #f3b7b7;
+//   }
 
-  ion-item.valid {
-  --background: #f3f4f6;
+//   ion-item.valid {
+//   --background: #f3f4f6;
 
-}
+// }
 

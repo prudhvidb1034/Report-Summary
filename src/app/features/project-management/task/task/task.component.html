@@ -5,14 +5,9 @@
         <!-- Project Dropdown -->
         <div>
           <label style="font-size: 14px; font-weight: bold;">Project</label>
-          <ion-item  lines="none"
-          class="custom-item">
-            <ion-select
-              interface="popover"
-              [(ngModel)]="selectedProjectId"
-              (ionChange)="onProjectChange()"
-              style="font-size: 13px;"
-              placeholder="Select Project">
+          <ion-item lines="none" class="custom-item">
+            <ion-select interface="popover" [(ngModel)]="selectedProjectId" (ionChange)="onProjectChange()"
+              style="font-size: 13px;" placeholder="Select Project">
               <ion-select-option *ngFor="let project of allProjects" [value]="project.id">
                 {{ project.project_name }}
               </ion-select-option>
@@ -23,14 +18,9 @@
         <!-- Employee Dropdown -->
         <div>
           <label style="font-size: 14px; font-weight: bold;">Employee</label>
-          <ion-item  lines="none"
-          class="custom-item">
-            <ion-select
-              interface="popover"
-              [(ngModel)]="selectedEmployeeId"
-              [disabled]="!filteredEmployees.length"
-              style="font-size: 13px;"
-              placeholder="Select Employee">
+          <ion-item lines="none" class="custom-item">
+            <ion-select interface="popover" [(ngModel)]="selectedEmployeeId" [disabled]="!filteredEmployees.length"
+              style="font-size: 13px;" placeholder="Select Employee">
               <ion-select-option *ngFor="let emp of filteredEmployees" [value]="emp.employee_id">
                 {{ emp.employee_name }}
               </ion-select-option>
@@ -52,9 +42,7 @@
     <ion-col size="auto">
       <div style="display: flex; flex-direction: column; align-items: flex-end;">
         <label style="opacity: 0;">Create</label>
-        <ion-button
-          style="width: 180px; height: 36px; font-size: 13px; --background: #000033;"
-          (click)="openModal()">
+        <ion-button style="width: 180px; height: 36px; font-size: 13px; --background: #000033;" (click)="openModal()">
           Create Task
         </ion-button>
       </div>
@@ -63,7 +51,11 @@
 </ion-grid>
 
 <!-- Task Table -->
-<ng-container *ngIf="projectDataObservable$ | async as taskData">
-  <app-reusable-table [columns]="columns" [data]="projectDataObservable$"
-  (rowAction)="handleRowAction($event)"></app-reusable-table>
-</ng-container>
+
+<div class="custom">
+
+  <ng-container *ngIf="projectDataObservable$ | async as taskData">
+    <app-reusable-table [columns]="columns" [data]="projectDataObservable$"
+      (rowAction)="handleRowAction($event)"></app-reusable-table>
+  </ng-container>
+</div>

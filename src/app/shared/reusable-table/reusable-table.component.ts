@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
+import { LoginStore } from '../../state/login.store';
 
 @Component({
   selector: 'app-reusable-table',
@@ -18,7 +19,11 @@ export class ReusableTableComponent {
   @Input() label: string = '';
   @Input() showHeader = true;
 
+  private  loginStore = inject(LoginStore)
 
+    userRole$ = this.loginStore.user$.pipe(
+      map(res => res?.role?.toLocaleLowerCase())
+    );
   trackByFn(index: number, item: any): any {
     return item ? item['id'] : undefined;
   }

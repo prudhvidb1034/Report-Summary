@@ -3,12 +3,13 @@ import { IonicModule, ModalController } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { FormGroup, FormControl, Validators, FormBuilder, ReactiveFormsModule, FormArray } from '@angular/forms';
 import { Router, RouterOutlet } from '@angular/router';
-import { Observable, of } from 'rxjs';
+import { map, Observable, of, take } from 'rxjs';
 import { ReusableTableComponent } from '../../../shared/reusable-table/reusable-table.component';
 import { SummaryStore } from '../../../state/summary.store';
 import { CreateSummaryComponent } from '../../../pop-ups/create-summary/create-summary.component';
 import { EmployeeUpdateComponent } from '../../../pop-ups/employee-update/employee-update.component';
 import { ConfirmDeleteComponent } from '../../../pop-ups/confirm-delete/confirm-delete.component';
+import { LoginStore } from '../../../state/login.store';
 
 @Component({
   selector: 'app-summary',
@@ -21,11 +22,43 @@ import { ConfirmDeleteComponent } from '../../../pop-ups/confirm-delete/confirm-
 export class SummaryComponent {
   label = 'Summary';
   private modalController = inject(ModalController);
+    private  loginStore = inject(LoginStore)
+  
   // projects: createTeam[] = [];
   // private summary = inject(SummaryService);
   // weekSummaryForm !: FormGroup;
   private route = inject(Router);
+      userRole$ = this.loginStore.user$.pipe(
+        map(res => res?.role?.toLocaleLowerCase())
+      );
+  role:any;
 
+  columns:any;
+  ngOnInit(){
+    this.userRole$.pipe(take(1)).subscribe(role => {
+      this.role=role;
+      console.log('User role:', role);
+});
+if(this.role=='employee'){
+  this.columns = [
+    { header: 'Name ', field: 'weekId' },
+    {header:'View Task',field:'viewTask',linkEnable:true},
+    {header:'View Report',field:'viewReport',linkEnable:true},
+  ];
+
+}else{
+   this.columns = [
+    { header: 'Name ', field: 'weekId' },
+    { header: 'Status', field: 'status' },
+    {header:'View Task',field:'viewTask',linkEnable:true},
+    {header:'View Report',field:'viewReport',linkEnable:true},
+    { header: 'Action', field: 'action', type: [ 'edit', 'delete'], },
+  ];
+
+}
+
+console.log(this.userRole$)
+  }
   // private readonly store = inject(SummaryStore);
   // dateError: string | null = null;
   // private readonly fb = inject(FormBuilder);
@@ -111,13 +144,6 @@ export class SummaryComponent {
       viewReport: 'View Report'
     }
   ];
-  columns = [
-    { header: 'Name ', field: 'weekId' },
-    { header: 'Status', field: 'status' },
-    {header:'View Task',field:'viewTask',linkEnable:true},
-    {header:'View Report',field:'viewReport',linkEnable:true},
-    { header: 'Action', field: 'action', type: [ 'edit', 'delete'], },
-  ];
 
   summarylist$: Observable<any[]> = of(this.summary);
 
@@ -157,6 +183,7 @@ export class SummaryComponent {
   loadCreateEmployeeModal() {
     this.modalController.create({
       component: CreateSummaryComponent,
+      // cssClass:'custom-modal',
       componentProps: {
       }
     }).then((modal) => {

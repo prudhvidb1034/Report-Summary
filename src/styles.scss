@@ -173,6 +173,14 @@ ion-modal.custom-delete-modal::part(content) {
   height: 100%;
 }
 
+.close {
+  color: #191947;
+}
+.save {
+  background-color: black;
+  color: white;
+}
+
 ion-header {
   ion-toolbar {
     ion-title {

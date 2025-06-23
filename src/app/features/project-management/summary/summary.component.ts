@@ -93,7 +93,7 @@ export class SummaryComponent {
 
   summary = [
     {
-      weekId: 'WEEK:01-June-2025 To 07-June-2025',
+      weekId: 'WEEK 01-June-2025 To 07-June-2025',
       weekNo:0,
       // startDate: '2025-05-01',
       // endDate: '2025-05-07',
@@ -102,7 +102,7 @@ export class SummaryComponent {
       viewReport: 'View Report'
     },
     {
-      weekId: 'WEEK:08-June-2025 To 14-June-2025',
+      weekId: 'WEEK 08-June-2025 To 14-June-2025',
        weekNo:1,
       // startDate: '2025-05-08',
       // endDate: '2025-05-14',
@@ -113,13 +113,7 @@ export class SummaryComponent {
   ];
   columns = [
     { header: 'Name ', field: 'weekId' },
-    // { header: 'Start Date', field: 'startDate' },
-    // { header: 'End Date', field: 'endDate' },
     { header: 'Status', field: 'status' },
-//     { header: 'View Task', field: 'viewTask' },
-//     { header: 'View Report', field: 'viewReport' },
-//     { header: 'Action', field: 'action', type: ['edit', 'delete'], },
-
     {header:'View Task',field:'viewTask',linkEnable:true},
     {header:'View Report',field:'viewReport',linkEnable:true},
     { header: 'Action', field: 'action', type: [ 'edit', 'delete'], },
@@ -142,7 +136,7 @@ export class SummaryComponent {
       case 'toggle-status':
         this.updatedRowData(event);  
         break;
-        case 'createStatus':
+      case 'createStatus':
         this.updateWeeklySummary();  
         break;
       case 'edit':

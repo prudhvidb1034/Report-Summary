@@ -36,7 +36,7 @@ export class ProjectListComponent {
   handleRowAction(action: any) {
     switch (action.type) {
       case 'viewTeam':
-        this.router.navigate(['/projects/employees']);
+        this.router.navigate(['/projects/employees',action.item.id]);
         break;
       case 'create':
         this.loadCreateEmployeeModal();

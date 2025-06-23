@@ -152,5 +152,15 @@ export class RegisterComponent {
 
     })
   }
+
+  isInvalid(controlName: string): boolean {
+  const control = this.registrationForm.get(controlName);
+  return !!(control && control.invalid && control.touched);
+}
+
+isValid(controlName: string): boolean {
+  const control = this.registrationForm.get(controlName);
+  return !!(control && control.valid && control.touched);
+}
 }
 

@@ -12,18 +12,25 @@
     </ion-toolbar>
   </ion-header>
 
-
   <ion-content>
-
     <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
       <ion-grid>
-
         <!-- Row 1: First Name and Last Name -->
         <ion-row>
           <ion-col size="6">
-            <ion-item class="custom-item" lines="none">
-              <ion-input formControlName="firstName" label="First Name" labelPlacement="floating"
-                placeholder="Enter your first name" [clearOnEdit]="true"></ion-input>
+            <ion-item
+              class="custom-item"
+              [class.invalid]="isInvalid('firstName')"
+              [class.valid]="isValid('firstName')"
+              lines="none"
+            >
+              <ion-input
+                formControlName="firstName"
+                label="First Name"
+                labelPlacement="floating"
+                placeholder="Enter your first name"
+                [clearOnEdit]="true"
+              ></ion-input>
             </ion-item>
             @if (registrationForm.get('firstName')?.invalid &&
             (registrationForm.get('firstName')?.dirty || registrationForm.get('firstName')?.touched)) {
@@ -37,11 +44,17 @@
 
           <ion-col size="6">
             <ion-item class="custom-item" lines="none">
-              <ion-input formControlName="lastName" label="Last Name" labelPlacement="floating"
-                placeholder="Enter your last name" [clearOnEdit]="true"></ion-input>
+              <ion-input
+                formControlName="lastName"
+                label="Last Name"
+                labelPlacement="floating"
+                placeholder="Enter your last name"
+                [clearOnEdit]="true"
+              ></ion-input>
             </ion-item>
             @if (registrationForm.get('lastName')?.invalid &&
-            (registrationForm.get('lastName')?.dirty || registrationForm.get('lastName')?.touched)) {
+            (registrationForm.get('lastName')?.dirty ||
+            registrationForm.get('lastName')?.touched)) {
             <ion-text color="danger" class="error-message">
               @if (registrationForm.get('lastName')?.errors?.['required']) {
               <p>Last Name is required.</p>
@@ -55,11 +68,17 @@
         <ion-row>
           <ion-col size="6">
             <ion-item class="custom-item" lines="none">
-              <ion-input formControlName="username" label="Email" labelPlacement="stacked"
-                placeholder="Enter your email" [clearOnEdit]="true"></ion-input>
+              <ion-input
+                formControlName="username"
+                label="Email"
+                labelPlacement="stacked"
+                placeholder="Enter your email"
+                [clearOnEdit]="true"
+              ></ion-input>
             </ion-item>
             @if (registrationForm.get('username')?.invalid &&
-            (registrationForm.get('username')?.dirty || registrationForm.get('username')?.touched)) {
+            (registrationForm.get('username')?.dirty ||
+            registrationForm.get('username')?.touched)) {
             <ion-text color="danger" class="error-message">
               @if (registrationForm.get('username')?.errors?.['required']) {
               <p>Email is required.</p>
@@ -72,11 +91,17 @@
 
           <ion-col size="6">
             <ion-item class="custom-item" lines="none">
-              <ion-input formControlName="employeeId" label="Employee ID" labelPlacement="floating"
-                placeholder="Enter your employee ID" [clearOnEdit]="true"></ion-input>
+              <ion-input
+                formControlName="employeeId"
+                label="Employee ID"
+                labelPlacement="floating"
+                placeholder="Enter your employee ID"
+                [clearOnEdit]="true"
+              ></ion-input>
             </ion-item>
             @if (registrationForm.get('employeeId')?.invalid &&
-            (registrationForm.get('employeeId')?.dirty || registrationForm.get('employeeId')?.touched)) {
+            (registrationForm.get('employeeId')?.dirty ||
+            registrationForm.get('employeeId')?.touched)) {
             <ion-text color="danger" class="error-message">
               @if (registrationForm.get('employeeId')?.errors?.['required']) {
               <p>Employee ID is required.</p>
@@ -90,11 +115,17 @@
         <ion-row>
           <ion-col size="6">
             <ion-item class="custom-item" lines="none">
-              <ion-input formControlName="password" label="Password" labelPlacement="floating"
-                placeholder="Enter your password" [clearOnEdit]="true"></ion-input>
+              <ion-input
+                formControlName="password"
+                label="Password"
+                labelPlacement="floating"
+                placeholder="Enter your password"
+                [clearOnEdit]="true"
+              ></ion-input>
             </ion-item>
             @if (registrationForm.get('password')?.invalid &&
-            (registrationForm.get('password')?.dirty || registrationForm.get('password')?.touched)) {
+            (registrationForm.get('password')?.dirty ||
+            registrationForm.get('password')?.touched)) {
             <ion-text color="danger" class="error-message">
               @if (registrationForm.get('password')?.errors?.['required']) {
               <p>Password is required.</p>
@@ -107,13 +138,20 @@
 
           <ion-col size="6">
             <ion-item class="custom-item" lines="none">
-              <ion-input formControlName="confirmPassword" label="Confirm Password" labelPlacement="floating"
-                placeholder="Enter your password again" [clearOnEdit]="true"></ion-input>
+              <ion-input
+                formControlName="confirmPassword"
+                label="Confirm Password"
+                labelPlacement="floating"
+                placeholder="Enter your password again"
+                [clearOnEdit]="true"
+              ></ion-input>
             </ion-item>
             @if (registrationForm.get('confirmPassword')?.invalid &&
-            (registrationForm.get('confirmPassword')?.dirty || registrationForm.get('confirmPassword')?.touched)) {
+            (registrationForm.get('confirmPassword')?.dirty ||
+            registrationForm.get('confirmPassword')?.touched)) {
             <ion-text color="danger" class="error-message">
-              @if (registrationForm.get('confirmPassword')?.errors?.['required']) {
+              @if
+              (registrationForm.get('confirmPassword')?.errors?.['required']) {
               <p>Confirm Password is required.</p>
               }
             </ion-text>
@@ -129,10 +167,18 @@
         <!-- Row 4: Projects and Tech Stack -->
         <ion-row>
           <ion-col size="6">
-            <ion-item lines="full" class="stack-dropdown custom-item" lines="none">
+            <ion-item
+              lines="full"
+              class="stack-dropdown custom-item"
+              lines="none"
+            >
               <ion-label position="stacked">Projects</ion-label>
-              <ion-select interface="popover" multiple="true" formControlName="projectName"
-                placeholder="Select Project">
+              <ion-select
+                interface="popover"
+                multiple="true"
+                formControlName="projectName"
+                placeholder="Select Project"
+              >
                 <ion-select-option *ngFor="let p of projects" [value]="p">
                   {{ p }}
                 </ion-select-option>
@@ -141,12 +187,22 @@
           </ion-col>
 
           <ion-col size="6">
-            <ion-item lines="full" class="stack-dropdown custom-item" lines="none">
+            <ion-item
+              lines="full"
+              class="stack-dropdown custom-item"
+              lines="none"
+            >
               <ion-label position="stacked">Tech Stack</ion-label>
-              <ion-select formControlName="techstack" interface="popover" placeholder="Select Tech Stack">
+              <ion-select
+                formControlName="techstack"
+                interface="popover"
+                placeholder="Select Tech Stack"
+              >
                 <ion-select-option value="Frontend">Frontend</ion-select-option>
                 <ion-select-option value="Backend">Backend</ion-select-option>
-                 <ion-select-option value="Backend">Full Stack</ion-select-option>
+                <ion-select-option value="Backend"
+                  >Full Stack</ion-select-option
+                >
                 <ion-select-option value="Testing">Testing</ion-select-option>
               </ion-select>
             </ion-item>
@@ -157,20 +213,24 @@
         <ion-row>
           <ion-col size="12">
             <ion-item class="custom-item" lines="none">
-              <ion-input readonly label="Role" labelPlacement="floating" formControlName="role" type="text"></ion-input>
+              <ion-input
+                readonly
+                label="Role"
+                labelPlacement="floating"
+                formControlName="role"
+                type="text"
+              ></ion-input>
             </ion-item>
           </ion-col>
         </ion-row>
-
       </ion-grid>
     </form>
-
   </ion-content>
 
   <ion-footer>
     <ion-toolbar>
       <ion-buttons slot="end" class="ion-no-paddings">
-
+      
         <ion-button class="close" (click)="setOpen(false)">Close</ion-button>
 
         <ion-button 

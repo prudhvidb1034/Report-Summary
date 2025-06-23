@@ -1,35 +1,42 @@
-
 :host {
   display: flex;
   flex-direction: column;
-   height: 80%;
+  height: 80%;
 }
 
 ion-content {
   flex: 1;
-   --padding-bottom: 0;
-    --margin-bottom: 0;  
+  --padding-bottom: 0;
+  --margin-bottom: 0;
 }
-
 
 ion-footer {
   position: relative;
 }
-.custom-item{
- --background: #f6f5f5;
- padding: 4px;
- 
+.custom-item {
+  --background: #f6f5f5;
+  padding: 4px;
 }
 ion-grid {
   padding: 0 16px;
   margin-top: 15px;
 }
-.ion-no-padding{
+.ion-no-padding {
   margin-right: 11px;
 }
-.ion-no-paddings{
+.ion-no-paddings {
   margin-right: 18px;
 }
-.ion-content{
- margin-bottom: 4px;
+.ion-content {
+  margin-bottom: 4px;
 }
+
+ion-item.invalid {
+    --background: #f3b7b7;
+  }
+
+  ion-item.valid {
+  --background: #f3f4f6;
+
+}
+

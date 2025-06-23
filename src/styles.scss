@@ -181,3 +181,20 @@ ion-modal.custom-delete-modal::part(content) {
   background-color: black;
    color: white;
 }
+
+.close {
+  color: #191947;
+}
+.save {
+  background-color: black;
+  color: white;
+}
+
+ion-header {
+  ion-toolbar {
+    ion-title {
+      margin-left: 8px;
+      font-weight: bold;
+    }
+  }
+}

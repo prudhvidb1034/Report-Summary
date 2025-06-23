@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IonicModule, MenuController } from '@ionic/angular';
 import { BreadcrumbComponent } from '../bread-crumb/bread-crumb.component';
+import { LoginStore } from '../../state/login.store';
 
 @Component({
   selector: 'app-header',
@@ -16,6 +17,7 @@ export class HeaderComponent {
   @Input() fullName: any = '';
   @Input() role: any = '';
 
+  private  loginStore = inject(LoginStore)
 
   ngOnInit() {
 
@@ -38,6 +40,7 @@ export class HeaderComponent {
 
   onLogout() {
     this.router.navigate(['/login']);
-    localStorage.clear()
+    localStorage.clear();
+    this.loginStore.clearAll();
   }
 }

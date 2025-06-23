@@ -68,6 +68,17 @@ submit() {
     // your API call here
   }
 }
+
+isInvalid(controlName: string): boolean {
+  const control = this.form.get(controlName);
+  return !!(control && control.invalid && control.touched);
+}
+
+isValid(controlName: string): boolean {
+  const control = this.form.get(controlName);
+  return !!(control && control.valid && control.touched);
+}
+
 googleSignIn() {
   // call Capacitor GoogleAuth or Firebase login
 }

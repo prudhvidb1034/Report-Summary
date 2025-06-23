@@ -66,6 +66,7 @@ export class EmployeeUpdateComponent {
   initializeForm(): void {
     this.employeeUpdateForm = this.fb.group({
       summary: [''],
+      comments:[''],
       weeklyUpdates: this.fb.array([this.createWeeklyUpdateGroup()])
     });
 
@@ -93,7 +94,7 @@ export class EmployeeUpdateComponent {
       startDate: ['', [Validators.required]],
       endDate: ['', [Validators.required]],
       task: ['', [Validators.required, Validators.minLength(3)]],
-      status: ['', [Validators.required]]
+      status: ['', [Validators.required]],
     });
     group.get('endDate')?.valueChanges.subscribe(() => {
       const startDate = group.get('startDate')?.value;

@@ -17,7 +17,7 @@
         <a (click)="forgot()">Forgot?</a>
       </div>
       <ion-item lines="none" class="input-group">
-        <ion-input  class="small-placeholder" [type]="showPwd ? 'text' : 'password'" formControlName="password" placeholder="Password"></ion-input>
+        <ion-input  class="small-placeholder font-size-14" [type]="showPwd ? 'text' : 'password'" formControlName="password" placeholder="Password"></ion-input>
         <ion-icon slot="end" [name]="showPwd? 'eye-off-outline' : 'eye-outline'" (click)="togglePw()"
           class="clickable font-size-16"></ion-icon>
       </ion-item>

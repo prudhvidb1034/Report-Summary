@@ -23,14 +23,7 @@ export class HeaderComponent {
 
   }
 
-  constructor(private router: Router, private route: ActivatedRoute, private menuCtrl: MenuController) {
-    this.router.events.subscribe((val: any) => {
-      if (val.url !== '/login' ) {
-        this.showLogout = true;
-      } else {
-        this.showLogout = false;
-      }
-    });
+  constructor(public router: Router, private route: ActivatedRoute, private menuCtrl: MenuController) {
   }
 
 
@@ -41,6 +34,6 @@ export class HeaderComponent {
   onLogout() {
     this.router.navigate(['/login']);
     localStorage.clear();
-    this.loginStore.clearAll();
+     this.loginStore.clearAll();
   }
 }

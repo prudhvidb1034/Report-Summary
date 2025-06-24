@@ -43,4 +43,14 @@ export class CreateAccountComponent {
       this.accountForm.markAllAsTouched()
     }
   }
+
+   isInvalid(controlName: string): boolean {
+  const control = this.accountForm.get(controlName);
+  return !!(control && control.invalid && control.touched);
+}
+
+isValid(controlName: string): boolean {
+  const control = this.accountForm.get(controlName);
+  return !!(control && control.valid && control.touched);
+}
 }

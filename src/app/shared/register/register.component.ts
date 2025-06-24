@@ -87,8 +87,8 @@ export class RegisterComponent {
       employeeId: ['', [Validators.required]],
        role: [{ value: this.role, disabled: true }],
       userEntry: ['new'],
-      projectName: [''],
-      techstack: ['']
+      projectName: ['',[Validators.required]],
+      techstack: ['',[Validators.required]]
     }, {
       validators: this.passwordMatchValidator
     });

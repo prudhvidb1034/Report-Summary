@@ -13,12 +13,12 @@ ion-content {
 ion-footer {
   position: relative;
 }
-.custom-item {
-  --background: #f6f5f5;
-  padding: 4px;
-}
+// .custom-item {
+//   --background: #f6f5f5;
+//   padding: 4px;
+// }
 ion-grid {
-  padding: 0 16px;
+  // padding: 0 16px;
   margin-top: 15px;
 }
 .ion-no-padding {
@@ -31,12 +31,12 @@ ion-grid {
   margin-bottom: 4px;
 }
 
-ion-item.invalid {
-    --background: #f3b7b7;
-  }
+// ion-item.invalid {
+//     --background: #f3b7b7;
+//   }
 
-  ion-item.valid {
-  --background: #f3f4f6;
+//   ion-item.valid {
+//   --background: #f3f4f6;
 
-}
+// }
 

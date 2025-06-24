@@ -3,11 +3,11 @@
     <ion-title class="white-color">Employee Tracking System
     </ion-title>
     <ion-buttons slot="start" class="white-color" (click)="toggleMenu()">
-      <ion-menu-button *ngIf="showLogout" menu="main-menu"></ion-menu-button>
+      <ion-menu-button *ngIf="(router.url) !== '/login'" menu="main-menu"></ion-menu-button>
     </ion-buttons>
-    <ion-buttons *ngIf="showLogout" class="white-color" slot="end">
+    <ion-buttons *ngIf="(router.url) !== '/login'" class="white-color" slot="end">
       <ion-item class="custom-header white-color">{{ fullName }}</ion-item>
-      <ion-button id="auto-trigger"><ion-icon name="person-circle-outline" id="cover-trigger" *ngIf="showLogout">
+      <ion-button id="auto-trigger"><ion-icon name="person-circle-outline" id="cover-trigger">
         </ion-icon>
       </ion-button>
       <ion-popover trigger="auto-trigger" size="auto" [dismissOnSelect]="true">
@@ -24,6 +24,6 @@
   </ion-toolbar>
 </ion-header>
 <div class="bread-logout">
-  <app-breadcrumb *ngIf="showLogout"></app-breadcrumb>
+<app-breadcrumb></app-breadcrumb>
   </div>
 

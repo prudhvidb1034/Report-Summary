@@ -18,12 +18,7 @@
         <!-- Row 1: First Name and Last Name -->
         <ion-row>
           <ion-col size="6">
-            <ion-item
-              class="custom-item"
-              [class.invalid]="isInvalid('firstName')"
-              [class.valid]="isValid('firstName')"
-              lines="none"
-            >
+            <ion-item class="custom-item" lines="none">
               <ion-input
                 formControlName="firstName"
                 label="First Name"
@@ -234,7 +229,7 @@
         <ion-button class="close" (click)="setOpen(false)">Close</ion-button>
 
         <ion-button 
-        class="save" (click)="onSubmit()">Save</ion-button>
+        class="save modal" (click)="onSubmit()">Save</ion-button>
       </ion-buttons>
     </ion-toolbar>
   </ion-footer>

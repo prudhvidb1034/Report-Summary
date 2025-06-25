@@ -10,9 +10,9 @@ ion-content {
   --margin-bottom: 0;
 }
 
-ion-footer {
-  position: relative;
-}
+// ion-footer {
+//   position: relative;
+// }
 .custom-item {
   --background: #f6f5f5;
   padding: 4px;
@@ -32,12 +32,12 @@ ion-grid {
   margin-bottom: 4px;
 }
 
-// ion-item.invalid {
-//     --background: #f3b7b7;
-//   }
+ion-item.invalid {
+    --background: #f3b7b7;
+  }
 
-//   ion-item.valid {
-//   --background: #f3f4f6;
+  ion-item.valid {
+  --background: #f3f4f6;
 
-// }
+}
 

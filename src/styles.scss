@@ -1,5 +1,18 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
 
+@mixin base-ion-button {
+  --border-radius: 0px !important;
+  --padding-start: 20px !important;
+  --padding-end: 20px !important;
+  --padding-top: 12px !important;
+  --padding-bottom: 12px !important;
+  --white-space: nowrap !important;
+  font-size: 12px;
+  font-weight: 300;
+  white-space: nowrap; // prevent text wrap
+  flex-shrink: 0;
+}
+
 * {
   font-family: "Roboto", Arial, sans-serif;
   margin: 0px;
@@ -18,14 +31,6 @@ body {
 
 app-header {
   background-color: rgb(25, 25, 71);
-}
-.large-button {
-  font-size: 12px;
-  --padding-start: 20px;
-  --padding-end: 20px;
-  --padding-top: 12px;
-  --padding-bottom: 12px;
-  font-weight: normal;
 }
 
 .display-flex {
@@ -57,10 +62,6 @@ ion-input.small-placeholder input::placeholder {
   color: #999;
 }
 
-// .project-table {
-//   border-radius: 8px;
-//   border: 2px solid #f8f8f8;
-// }
 .error-message {
   margin-left: 16px;
   margin-top: 4px;
@@ -78,16 +79,10 @@ ion-input.small-placeholder input::placeholder {
   font-size: 14px;
 }
 
-// ion-input, ion-searchbar{
-//    box-shadow: none;
-//     background: #f5f5f5;
-
-// }
-
 .data-row {
   font-size: 14px;
-  // border-top: 1px solid #f8f8f8;;
 }
+
 .submit:hover {
   background-color: blueviolet !important;
   color: whitesmoke;
@@ -113,10 +108,22 @@ ion-footer {
   box-shadow: none !important;
   position: relative;
   border-top: 1px solid #efefef;
+  ion-toolbar ion-buttons {
+    gap: 16px !important;
+    ion-button {
+      color: #000033;
+      @include base-ion-button;
+      &:first-child {
+        color: #191947;
+      }
+
+      &:last-child {
+        --background: #191947 !important; /* !important may be needed to override Ionic's styles */
+        color: white;
+      }
+    }
+  }
 }
-// ion-content::part(scroll) {
-//   padding-top: var(--ion-safe-area-top, 0);
-// }
 
 ion-menu-button {
   display: block !important;
@@ -135,26 +142,31 @@ ion-card-header ion-title {
 }
 
 app-project-status {
-  position: relative;
   z-index: 20;
+}
+
+.search-bar-input {
+  flex-grow: 1;
+  min-width: 0; // ensures it shrinks correctly
 }
 
 .custom-modal {
   --width: 90%;
   --height: calc(100vh - 50vh);
   --max-width: 600px;
-  // --max-height: 90vh;
   --border-radius: 2px;
   --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 ion-searchbar.search-bar-input {
   .searchbar-input {
-    // background-color: #f6f5f5 !important;
     border-bottom: 1px solid;
     box-shadow: none;
     height: 36px;
     width: 100%;
+  }
+  .sc-ion-searchbar-md-h {
+    width: 60% !important;
   }
 }
 .employee-update-popup {
@@ -173,55 +185,41 @@ ion-modal.custom-delete-modal::part(content) {
   height: 100%;
 }
 
-// .close {
-//   color: #191947;
-// }
-// .save {
-//   background-color: black;
-//   color: white;
-// }
-
-.close {
-  color: #191947;
-  font-weight: normal;
-  font-size: 12px;
-  --padding-right: 20px;
-  --padding-left: 20px;
-  border-radius: 0px;
-}
-.save {
-  // background-color: black;
-  color: white;
-  background: #000033;
-  // flex-grow: 8;
-  // width: 60%;
-  border-radius: 0px;
-  font-weight: normal;
-  font-size: 12px;
-  padding-right: 20px;
-  padding-left: 20px;
-  // padding-top: 12px;
-  // padding-bottom: 12px;
-  // padding: 10px;
-}
-
-.ion-no-paddings{
+.ion-no-paddings {
   margin-right: 18px;
-    gap: 16px;
+  gap: 16px;
 }
 
 ion-header {
   ion-toolbar {
     ion-title {
       margin-left: 8px;
-      font-weight: bold;
+      font-weight: 400;
     }
   }
 }
 
-// ion-button {
-//   --background: #000033;
-//     flex-grow: 8;
-//     width: 60%;
-//     --border-radius: 0px;
-// }
+ion-item.invalid {
+  --background: #f3b7b7;
+}
+
+ion-item.valid {
+  --background: #f3f4f6;
+}
+
+// Global button styles
+ion-button {
+  --background: #191947;
+  @include base-ion-button;
+}
+
+.icon-button {
+  --ion-icon-font-size: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  ion-icon {
+    font-size: 12px;
+    line-height: 1;
+  }
+}

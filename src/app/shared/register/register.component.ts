@@ -9,6 +9,7 @@ import { TeamStore } from '../../state/team.store';
 import { ToastService } from '../../shared/toast.service';
 import { SummaryService } from '../../services/summary/summary.service';
 import { RegistrationForm } from '../../models/register.mode';
+import { ValidationsService } from '../../services/validation/validations.service';
 
 @Component({
   selector: 'app-register',
@@ -32,7 +33,7 @@ export class RegisterComponent {
   private getRegisterStore = inject(RegisterStore);
   teamRegisterList$ = this.getRegisterStore.register$;
   projectid: any;
-
+public validationService = inject(ValidationsService)
   private readonly store = inject(RegisterStore);
   projects: createTeam[] = [];
   private summary = inject(SummaryService);
@@ -80,7 +81,7 @@ export class RegisterComponent {
   createForm() {
     this.registrationForm = this.fb.group({
       firstName: ['', [Validators.required]],
-      lastName: ['', [Validators.required]],
+      lastName: ['', [Validators.required,Validators.minLength(8)]],
       username: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(8)]],
       confirmPassword: ['', [Validators.required]],

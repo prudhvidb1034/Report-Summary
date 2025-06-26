@@ -4,23 +4,23 @@
       <span class="project-title"> {{label}} List</span>
     </ion-col>
 
-    <ion-col class="ion-text-end" size="auto" style="display: flex; align-items: center;">
+    <ion-col class="ion-text-end" size="auto" style="display: flex; align-items: center; gap: 8px; width: 100%; flex-wrap: nowrap;">
       <ion-searchbar class="search-bar-input" style="flex-grow: 4;"></ion-searchbar>
-      <ion-button *ngIf="(userRole$|async)!=='employee'" style="--background: #000033;flex-grow: 8; width: 60%;--border-radius: 0px;" class="large-button"
+      <ion-button *ngIf="(userRole$|async)!=='employee'"  
         (click)="action('create', null)">
         Create {{label}}</ion-button>
     </ion-col>
 
      <ion-col  *ngIf="label==='Summary'" class="ion-text-end" size="auto" style="display: flex; align-items: center;">
       <!-- <ion-searchbar class="search-bar-input" style="flex-grow: 4;"></ion-searchbar> -->
-      <ion-button style="--background: #000033;flex-grow: 8; width: 60%;--border-radius: 0px;" class="large-button"
+      <ion-button 
         (click)="action('createStatus', null)">
         Create Status</ion-button>
     </ion-col>
     <ion-col *ngIf="label === 'Employee'" 
     class="ion-text-end" size="auto" style="display: flex; align-items: center;">
-      <ion-button style="--background: #000033;flex-grow: 8; width: 60%; --border-radius: 0px;" class="large-button" (click)="action('tagEmployee', null)">
-        <ion-icon style="font-size: 12px;" name="person-add-outline" slot="start"></ion-icon>&nbsp;
+      <ion-button  (click)="action('tagEmployee', null)" class="icon-button">
+        <ion-icon name="person-add-outline" slot="start"></ion-icon>&nbsp;
         Tag Employee</ion-button>
     </ion-col>
   </ion-row>
@@ -64,9 +64,9 @@
           </div>
         </div>
         <div *ngIf="column.linkEnable">
-          <ion-button fill="clear" size="small" class="button-link" (click)="action(column.field,item)">
+          <a fill="clear" size="small" class="button-link" (click)="action(column.field,item)">
             {{ item[column.field]?item[column.field]:'View'}}
-          </ion-button>
+          </a>
         </div>
         <div *ngIf="!column.linkEnable  && column.field !='status' ">
           {{ item[column.field] }}

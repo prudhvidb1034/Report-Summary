@@ -14,53 +14,77 @@
         </ion-toolbar>
     </ion-header>
 
-    <ion-content>
-        <form [formGroup]="accountForm">
-            <ion-item>
-                <ion-input formControlName="accountname" label="Account Name" labelPlacement="floating"
-                    placeholder="Enter account name" [clearOnEdit]="true"></ion-input>
-            </ion-item>
-            @if (accountForm.get('accountname')?.invalid &&
-            (accountForm.get('accountname')?.dirty ||
-            accountForm.get('accountname')?.touched)) {
-            <ion-text color="danger" class="error-message">
-                @if (accountForm.get('accountname')?.errors?.['required']) {
-                <p>Account Name is required.</p>
-                } @if (accountForm.get('accountname')?.errors?.['minlength']) {
-                <p>Minimum 3 characters required.</p>
-                }
-            </ion-text>
-            }
+    <ion-content >
+      
+            <form [formGroup]="accountForm">
+                <ion-grid >
+                    <!-- Row 1: Account Name and Start Date -->
+                    <ion-row>
+                        <!-- Account Name -->
+                        <ion-col size="6">
+                            <ion-item class="custom-item" [class.invalid]="isInvalid('accountname')"
+                                [class.valid]="isValid('accountname')" lines="none">
+                                <ion-input formControlName="accountname" label="Account Name" labelPlacement="floating"
+                                    class="label-texts" placeholder="Enter account name"
+                                    [clearOnEdit]="true"></ion-input>
+                            </ion-item>
 
-            <ion-item>
-                <ion-input formControlName="startDate" label="Start Date" labelPlacement="floating" type="Date"
-                    [clearOnEdit]="true"></ion-input>
-            </ion-item>
-            @if (accountForm.get('startDate')?.invalid &&
-            (accountForm.get('startDate')?.dirty ||
-            accountForm.get('startDate')?.touched)) {
-            <ion-text color="danger" class="error-message">
-                @if (accountForm.get('startDate')?.errors?.['required']) {
-                <p>endDate is required.</p>
-                }
-            </ion-text>
-            }
+                            @if (accountForm.get('accountname')?.invalid &&
+                            (accountForm.get('accountname')?.dirty || accountForm.get('accountname')?.touched)) {
+                            <ion-text color="danger" class="error-message">
+                                @if (accountForm.get('accountname')?.errors?.['required']) {
+                                <p>Account Name is required.</p>
+                                }
+                                @if (accountForm.get('accountname')?.errors?.['minlength']) {
+                                <p>Minimum 3 characters required.</p>
+                                }
+                            </ion-text>
+                            }
+                        </ion-col>
 
-            <ion-item>
-                <ion-input formControlName="endDate" label="End Date" labelPlacement="floating" type="Date"
-                    [clearOnEdit]="true"></ion-input>
-            </ion-item>
-            @if (accountForm.get('endDate')?.invalid &&
-            (accountForm.get('endDate')?.dirty ||
-            accountForm.get('endDate')?.touched)) {
-            <ion-text color="danger" class="error-message">
-                @if (accountForm.get('endDate')?.errors?.['required']) {
-                <p>endDate is required.</p>
-                }
-            </ion-text>
-            }
-        </form>
+                        <!-- Start Date -->
+                        <ion-col size="6">
+                            <ion-item class="custom-item" [class.invalid]="isInvalid('startDate')"
+                                [class.valid]="isValid('startDate')" lines="none">
+                                <ion-input formControlName="startDate" label="Start Date" labelPlacement="floating"
+                                    class="label-texts" type="date" [clearOnEdit]="true"></ion-input>
+                            </ion-item>
+
+                            @if (accountForm.get('startDate')?.invalid &&
+                            (accountForm.get('startDate')?.dirty || accountForm.get('startDate')?.touched)) {
+                            <ion-text color="danger" class="error-message">
+                                @if (accountForm.get('startDate')?.errors?.['required']) {
+                                <p>Start Date is required.</p>
+                                }
+                            </ion-text>
+                            }
+                        </ion-col>
+                    </ion-row>
+
+                    <!-- Row 2: End Date -->
+                    <ion-row>
+                        <ion-col size="6">
+                            <ion-item class="custom-item" [class.invalid]="isInvalid('endDate')"
+                                [class.valid]="isValid('endDate')" lines="none">
+                                <ion-input formControlName="endDate" label="End Date" labelPlacement="floating"
+                                    class="label-texts" type="date" [clearOnEdit]="true"></ion-input>
+                            </ion-item>
+
+                            @if (accountForm.get('endDate')?.invalid &&
+                            (accountForm.get('endDate')?.dirty || accountForm.get('endDate')?.touched)) {
+                            <ion-text color="danger" class="error-message">
+                                @if (accountForm.get('endDate')?.errors?.['required']) {
+                                <p>End Date is required.</p>
+                                }
+                            </ion-text>
+                            }
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+            </form>
+     
     </ion-content>
+
     <ion-footer>
         <ion-toolbar>
             <ion-buttons slot="end">

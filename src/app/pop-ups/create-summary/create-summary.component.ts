@@ -92,4 +92,13 @@ export class CreateSummaryComponent {
       this.weekSummaryForm.markAllAsTouched();
     }
   }
+  isInvalid(controlName: string): boolean {
+  const control = this.weekSummaryForm.get(controlName);
+  return !!(control && control.invalid && control.touched);
+}
+
+isValid(controlName: string): boolean {
+  const control = this.weekSummaryForm.get(controlName);
+  return !!(control && control.valid && control.touched);
+}
 }

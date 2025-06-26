@@ -180,4 +180,14 @@ export class EmployeeUpdateComponent {
     this.employeeUpdateForm.reset()
 
   }
+
+   isInvalid(controlName: string): boolean {
+  const control = this.employeeUpdateForm.get(controlName);
+  return !!(control && control.invalid && control.touched);
+}
+
+isValid(controlName: string): boolean {
+  const control = this.employeeUpdateForm.get(controlName);
+  return !!(control && control.valid && control.touched);
+}
 }

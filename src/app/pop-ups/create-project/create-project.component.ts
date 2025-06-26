@@ -51,4 +51,13 @@ export class CreateProjectComponent {
       this.teamForm.markAllAsTouched()
     }
   }
+   isInvalid(controlName: string): boolean {
+  const control = this.teamForm.get(controlName);
+  return !!(control && control.invalid && control.touched);
+}
+
+isValid(controlName: string): boolean {
+  const control = this.teamForm.get(controlName);
+  return !!(control && control.valid && control.touched);
+}
 }

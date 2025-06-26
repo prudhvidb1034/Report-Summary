@@ -172,6 +172,50 @@ ion-searchbar.search-bar-input {
 .employee-update-popup {
   --width: 55%;
 }
+// .label-text  {
+//   font-size: small;
+//  line-height: 20px;
+// }
+/* 🎯 Label inside ion-input */
+ion-input.label-text::label {
+  font-size: 160px;
+  line-height: 20px;
+}
+ion-input.label-texts .label-text-wrapper {
+  font-size: 11px;
+  line-height: 20px;
+}
+
+ion-input.label-texts input::placeholder {
+  font-size: 11px;
+}
+ion-select.label-texts::part(text) {
+  font-size: 11px;
+  line-height: 20px;
+}
+ion-select.label-texts::part(placeholder) {
+  font-size: 11px;
+  line-height: 20px;
+}
+ion-select-option {
+  font-size: 11px;
+}
+
+/* For ion-textarea placeholder */
+ion-textarea.label-texts textarea::placeholder {
+  font-size: 11px;
+}
+
+/* For textarea input directly */
+ion-textarea.label-texts textarea {
+  font-size: 11px;
+}
+
+/* Optional: label font size */
+ion-textarea.label-texts .label-text-wrapper {
+  font-size: 11px;
+  line-height: 20px;
+}
 
 ion-modal.custom-delete-modal::part(content) {
   height: 30% !important;
@@ -179,10 +223,23 @@ ion-modal.custom-delete-modal::part(content) {
   margin-top: 50px; // Push from top
   transform: none !important; // Cancel vertical centering
 }
+.custom-item {
+  --background: #f6f5f5;
+  padding: 4px;
+}
+ion-item.invalid {
+    --background: #f3b7b7;
+  }
+
+  ion-item.valid {
+  --background: #f3f4f6;
+
+}
 
 .modal-wrapper {
-  padding: 16px 24px;
-  height: 100%;
+  padding:16px 24px;
+  height:100%;
+  width: 100%;
 }
 
 .ion-no-paddings {

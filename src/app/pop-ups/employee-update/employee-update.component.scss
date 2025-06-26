@@ -1,5 +1,5 @@
-.textarea-fill-outline{
-    margin-top: 10px !important;
+.textarea-fill-outline {
+  margin-top: 10px !important;
 }
 
 :host {
@@ -10,10 +10,14 @@
 
 ion-content {
   flex: 1;
-   --padding-bottom: 0;
-    --margin-bottom: 0;  
+  --padding-bottom: 0;
+  --margin-bottom: 0;
 }
 
 ion-footer {
   position: relative;
+}
+
+ion-grid {
+  margin-top: 15px;
 }

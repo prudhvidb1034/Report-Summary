@@ -9,12 +9,10 @@ import { LoginService } from './services/login-service/login.service';
 import { ToastComponent } from './shared/toast/toast.component';
 import { LoginStore } from './state/login.store';
 import { SideMenuComponent } from './shared/side-menu/side-menu.component';
-
-
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, HeaderComponent, IonicModule, CommonModule, ToastComponent,SideMenuComponent],
+  imports: [RouterOutlet, HeaderComponent, IonicModule, CommonModule, ToastComponent, SideMenuComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 

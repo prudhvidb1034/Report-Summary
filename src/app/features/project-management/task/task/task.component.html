@@ -4,7 +4,7 @@
       <div style="display: flex; gap: 16px; align-items: center; flex-wrap: wrap;">
         <!-- Project Dropdown -->
         <div>
-          <label style="font-size: 14px; font-weight: bold;">Project</label>
+          <label style="font-size: 14px; font-weight: bold;margin-left: 3px;">Project</label>
           <ion-item lines="none" class="custom-item">
             <ion-select interface="popover" [(ngModel)]="selectedProjectId" (ionChange)="onProjectChange()"
               style="font-size: 13px;" placeholder="Select Project">
@@ -17,7 +17,7 @@
 
         <!-- Employee Dropdown -->
         <div>
-          <label style="font-size: 14px; font-weight: bold;">Employee</label>
+          <label style="font-size: 14px; font-weight: bold;margin-left: 3px;">Employee</label>
           <ion-item lines="none" class="custom-item">
             <ion-select interface="popover" [(ngModel)]="selectedEmployeeId" [disabled]="!filteredEmployees.length"
               style="font-size: 13px;" placeholder="Select Employee">
@@ -28,6 +28,10 @@
           </ion-item>
         </div>
 
+        <div>
+
+          
+        </div>
         <!-- Search Button -->
         <div style="display: flex; flex-direction: column;">
           <label style="opacity: 0;">Search</label>

@@ -16,19 +16,11 @@ export class LoginService {
   userList: RegistrationForm[]=[];
 
   loginCheck(credentials: LoginCredentials) {
-    return this.http.get<any>(urls.REGISTRATION_DETAILS).pipe(
-      map(response => {
-        console.log(response, credentials);
-        const user = response.find(
-          (u: any) => u.username === credentials.username && u.password === credentials.password
-        );
-        this.userList = user;
-        console.log('Matched User:', user);
-
-        return { user: user || null };
-      })
-    );
+    return this.http.get<any>(urls.REGISTRATION_DETAILS)
   }
 
+  // loginData(data:any, url:string):Observable<any>{
+  //   return this.http.post(url,data)
+  // }
   
 }

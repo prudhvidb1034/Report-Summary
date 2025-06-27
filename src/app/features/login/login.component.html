@@ -8,10 +8,10 @@
     <h1>Login to ETS</h1>
     <form [formGroup]="form">
       <ion-label class="display-flex font-size-14 padding-bottom-5">Email address</ion-label>
-      <ion-item   [class.invalid]="isInvalid('username')"
-        [class.valid]="isValid('username')" lines="none" class="input-group">
+      <ion-item   [class.invalid]="isInvalid('userName')"
+        [class.valid]="isValid('userName')" lines="none" class="input-group">
         <!-- <ion-icon name="mail-outline" slot="start"></ion-icon> -->
-        <ion-input type="username"  class="small-placeholder"formControlName="username" placeholder="sarath@gmail.com"></ion-input>
+        <ion-input type="userName"  class="small-placeholder"formControlName="userName" placeholder="Enter your mail id "></ion-input>
       </ion-item>
       <div class="forgot-row display-flex justify-space-between font-size-14 padding-bottom-5">
         <ion-label class="">Password</ion-label>

@@ -1,4 +1,7 @@
 export const environment = {
     production: false,
-    apiUrls: 'http://localhost:3000/'
+    apiUrls: 'https://emp-tcb1.onrender.com/'
   };
+
+
+ 

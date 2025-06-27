@@ -9,5 +9,17 @@ export const Constants = {
 export const urls = {
     REGISTRATION_DETAILS: environment.apiUrls + 'register',
     PROJect_DETAILS: environment.apiUrls + 'projects',
-    TEAMS_DETAILS: environment.apiUrls + 'teamslist'
+    TEAMS_DETAILS: environment.apiUrls + 'teamslist',
+
+
+
+//Real time api's handling with backend starting point below.
+
+
+LOGIN_DETAILS :  'auth'+'/login',
+POST_MANAGER_DETAILS: 'api'+'/managers',
+CREATE_ACCOUNT :'Account/'
+
 }
+
+

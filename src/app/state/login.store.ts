@@ -1,10 +1,14 @@
 import { inject, Injectable } from '@angular/core';
 import { ComponentStore } from '@ngrx/component-store';
 import { Router } from '@angular/router';
-import { Observable, switchMap, tap } from 'rxjs';
+import { exhaustMap, Observable, switchMap, tap } from 'rxjs';
 import { LoginService } from '../services/login-service/login.service';
 import { LoginCredentials, User } from '../models/login.model';
 import { ToastService } from '../shared/toast.service';
+import { SharedService } from '../services/shared/shared.service';
+import { urls } from '../constants/string-constants';
+// Import or define LOGIN_DETAILS
+
 
 interface LoginState {
   loading: boolean;
@@ -21,59 +25,35 @@ const initialState: LoginState={
 })
 export class LoginStore extends ComponentStore<LoginState> {
   private toast = inject(ToastService);
+  private sharedservice = inject(SharedService)
   constructor(private auth: LoginService, private router: Router) {
     super(initialState);
   }
 
-  login = this.effect((credentials$: Observable<LoginCredentials>) =>
-    credentials$.pipe(
-      switchMap(credentials =>
-        this.auth.loginCheck(credentials).pipe(
-          tap(({ user }) => {
-            if (user) {
-              this.patchState({
-                user
-              })
-              const role = user.role?.toLowerCase();
+login = this.effect((credentials$: Observable<LoginCredentials>) =>
+  credentials$.pipe(
+    exhaustMap(credentials =>
+      this.sharedservice.postData(urls.LOGIN_DETAILS, credentials).pipe(
+        tap((user: any) => {
+          if (user) {
+            this.patchState({ user });
 
-              // localStorage.setItem('userList', role);
-              // localStorage.setItem('', role);
-              // if (role === 'manager' || role === 'superadmin') {
-              //   this.router.navigate(['/dashboard']);
-              // } else if (role === 'employee') {
-              //   this.router.navigate(['/employee-dashboard']);
-              // } else {
-              //   this.toast.show('error', 'Unknown role.');
-              //   return;
-              // }
-              console.log('user', user);
-              localStorage.setItem('user', JSON.stringify(user));
-              // localStorage.setItem('role', role.toLowerCase());
-              // localStorage.setItem('fullName', `${user.firstName} ${user.lastName}`);
-              this.router.navigate(['/home']);
+            // const role = user.role?.toLowerCase();
+            localStorage.setItem('user', JSON.stringify(user.data));
+            console.log( localStorage.setItem('token', user.data.acessToken)); // if available
 
-              //this.router.navigate['/home'];
-              // localStorage.setItem(('','userList', role);
-              // localStorage.setItem role);
-              // if (role === 'manager') {
-              //   this.router.navigate(['/dashboard']);
-              // } else if (role === 'employee') {
-              //   this.router.navigate(['/employee-dashboard']);
-              // } else {
-              //   this.toast.show('error', 'Unknown role.');
-              //   return;
-              // }
-
-              this.toast.show('success', 'Login successfully!');
-            } else {
-              this.toast.show('error', 'Invalid User name and password.');
-            }
-          }),
-          tap(() => this.patchState({ loading: false }))
-        )
+            this.router.navigate(['/home']);
+            this.toast.show('success', 'Login successfully!');
+          } else {
+            this.toast.show('error', 'Invalid username or password.');
+          }
+        }),
+        tap(() => this.patchState({ loading: false }))
       )
     )
-  );
+  )
+);
+
 
   //   readonly login = this.effect((credentials$) =>
   //     credentials$.pipe(

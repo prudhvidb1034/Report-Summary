@@ -75,7 +75,17 @@
     </ion-col>
 
   </ion-row>
+ <ng-container>
+    <ion-row *ngIf="(data | async)?.length === 0" class="ion-text-center" style="border-bottom: 1px solid #eee;">
+      <ion-col [attr.colspan]="columns?.length" class="ion-padding" >
+        <ion-icon name="information-circle-outline" color="medium" size="small"></ion-icon>
+        <div >
+          <strong>No tasks found.</strong>
+        </div>
+      </ion-col>
+    </ion-row>
 
+  </ng-container>
 
 
 </ion-grid>

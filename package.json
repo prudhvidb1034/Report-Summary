@@ -20,6 +20,7 @@
     "@angular/platform-browser": "^17.3.0",
     "@angular/platform-browser-dynamic": "^17.3.0",
     "@angular/router": "^17.3.0",
+    "@google/genai": "^1.7.0",
     "@ionic/angular": "^8.5.7",
     "@ionic/core": "^8.5.7",
     "@ngrx/component-store": "^17.2.0",

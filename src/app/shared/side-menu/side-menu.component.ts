@@ -75,6 +75,14 @@ export class SideMenuComponent {
   //   isBottom: false
   // },
   {
+    label: 'AI',
+    icon: 'document-text',
+    path: '/chat-ai',
+    roles: ['superadmin', 'manager','employee'],
+    isBottom: false
+  },
+
+  {
     label: 'Settings',
     icon: 'settings',
     path: '/settings',

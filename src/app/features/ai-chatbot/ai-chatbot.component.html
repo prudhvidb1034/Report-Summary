@@ -1,0 +1,16 @@
+<!-- <header>
+    <h1>AyurFix AI</h1>
+    <p>Interact with the AI and get insights!</p>
+</header> -->
+
+<div class="container">
+
+    <div id="response" style="margin-top: 20px;">
+        <div *ngFor="let message of messages" [ngClass]="{'user-message': message.type === 'user', 'ai-message': message.type === 'ai'}" class="message">
+            {{ message.text }}
+        </div>
+    </div>
+    <h2>Ask the AI:</h2>
+    <textarea [(ngModel)]="userInput" placeholder="Type your question here..."></textarea>
+    <button (click)="submitQuestion()">Submit</button>
+</div>

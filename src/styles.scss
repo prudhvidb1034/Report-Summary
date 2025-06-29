@@ -219,6 +219,12 @@ ion-header {
   }
 }
 
+app-ai-chatbot{
+  z-index: 10000;
+  position: relative;
+}
+
+
 // ion-button {
 //   --background: #000033;
 //     flex-grow: 8;

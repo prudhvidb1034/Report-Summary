@@ -19,8 +19,8 @@ interface ApiResponse<T> {
 @Injectable()
 export class AccountStore extends ComponentStore<AccountState> {
     private sharedservice = inject(SharedService);
-    private _accountCreateStatus = signal<null | 'success' | 'deleted' |'update'|'error'>(null);
-    
+    private _accountCreateStatus = signal<null | 'success' | 'deleted' | 'update' | 'error'>(null);
+
     readonly accountCreateStatus = this._accountCreateStatus.asReadonly();
     private toast = inject(ToastService);
     constructor() {
@@ -75,27 +75,27 @@ export class AccountStore extends ComponentStore<AccountState> {
 
 
     readonly updateAccount = this.effect(
-  (account$: Observable<{ id: string; data: createAccountForm }>) =>
-    account$.pipe(
-      exhaustMap(({ id, data }) => {
-        this.patchState({ loading: true, error: null });
-        return this.sharedservice.patchData(`${urls.CREATE_ACCOUNT}/${id}`, data).pipe(
-          tap({
-            next: (updatedAccount: any) => {
-               this._accountCreateStatus.set('update');
-              this.getAccounts(); // Refresh after update
-              this.patchState({ loading: false });
-            },
-            error: () => {
-              this._accountCreateStatus.set('error');
-              this.patchState({ loading: false, error: 'Failed to update account' });
-              this.toast.show('error', 'Update failed!');
-            }
-          })
-        );
-      })
-    )
-);
+        (account$: Observable<{ id: string; data: createAccountForm }>) =>
+            account$.pipe(
+                exhaustMap(({ id, data }) => {
+                    this.patchState({ loading: true, error: null });
+                    return this.sharedservice.patchData(`${urls.CREATE_ACCOUNT}/${id}`, data).pipe(
+                        tap({
+                            next: (updatedAccount: any) => {
+                                this._accountCreateStatus.set('update');
+                                this.getAccounts(); // Refresh after update
+                                this.patchState({ loading: false });
+                            },
+                            error: () => {
+                                this._accountCreateStatus.set('error');
+                                this.patchState({ loading: false, error: 'Failed to update account' });
+                                this.toast.show('error', 'Update failed!');
+                            }
+                        })
+                    );
+                })
+            )
+    );
 
 
     readonly deleteAccount = this.effect((accountId$: Observable<string>) =>

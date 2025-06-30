@@ -97,7 +97,7 @@ export class AccountCreateComponent {
     }).then((modal) => {
       modal.present();
       modal.onDidDismiss().then((data) => {
-         this.accountStore.getAccounts(); 
+        this.accountStore.getAccounts();
         console.log('Modal dismissed with data:', data);
       });
     });
@@ -119,7 +119,6 @@ export class AccountCreateComponent {
       modal.present();
       modal.onDidDismiss().then((result) => {
         if (result?.data?.confirmed) {
-          const accountId = item.id; // or whatever key you use
           this.accountStore.deleteAccount(result.data.id);
         }
       });

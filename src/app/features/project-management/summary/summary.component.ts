@@ -24,7 +24,7 @@ export class SummaryComponent {
   private modalController = inject(ModalController);
     private  loginStore = inject(LoginStore)
   
-  // projects: createTeam[] = [];
+  // projects: createProject[] = [];
   // private summary = inject(SummaryService);
   // weekSummaryForm !: FormGroup;
   private route = inject(Router);

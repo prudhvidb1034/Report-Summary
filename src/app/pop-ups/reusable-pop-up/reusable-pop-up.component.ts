@@ -5,7 +5,7 @@ import { Component, inject, Input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { IonicModule, ModalController } from '@ionic/angular';
 import { Observable } from 'rxjs';
-import { createTeam } from '../../models/project.model';
+import { createProject } from '../../models/project.model';
 import { RegistrationForm } from '../../models/register.mode';
 import { ToastService } from '../../shared/toast.service';
 
@@ -23,7 +23,7 @@ export class ReusablePopUpComponent {
 
   projectSelected: boolean = false;
   employeeSelected: boolean = false;
-   teamsList$!: Observable<createTeam[]>;
+   teamsList$!: Observable<createProject[]>;
   registerList$!: Observable<RegistrationForm[]>;
 
   constructor(private modalCtrl: ModalController) { 

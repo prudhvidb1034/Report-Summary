@@ -4,7 +4,7 @@ import { IonicModule, ModalController, NavParams } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { RegisterStore } from '../../state/register.store';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
-import { createTeam } from '../../models/project.model';
+import { createProject } from '../../models/project.model';
 import { TeamStore } from '../../state/team.store';
 import { ToastService } from '../../shared/toast.service';
 import { SummaryService } from '../../services/summary/summary.service';
@@ -20,8 +20,8 @@ import { ValidationsService } from '../../services/validation/validations.servic
   providers: [RegisterStore, TeamStore],
 })
 export class RegisterComponent {
-  teamList = signal<createTeam[]>([]);
-  teamListData: createTeam[] = []
+  teamList = signal<createProject[]>([]);
+  teamListData: createProject[] = []
   private teamStore = inject(TeamStore);
   teamList$ = this.teamStore.team$;
   private readonly fb = inject(FormBuilder);
@@ -35,7 +35,7 @@ export class RegisterComponent {
   projectid: any;
 public validationService = inject(ValidationsService)
   private readonly store = inject(RegisterStore);
-  projects: createTeam[] = [];
+  projects: createProject[] = [];
   private summary = inject(SummaryService);
   private toast = inject(ToastService)
   private router = inject(Router)

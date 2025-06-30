@@ -1,7 +1,4 @@
-export interface createTeam{
-    id:string,
+export interface createProject {
     projectname: string;
-    projectLocation: string;
-    startDate:number;
-    endDate:number;
+   accountId:number;
 }

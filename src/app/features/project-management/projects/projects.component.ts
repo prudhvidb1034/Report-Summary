@@ -3,7 +3,7 @@ import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink, RouterModule } from '@angular/router';
 import { IonicModule, ModalController } from '@ionic/angular';
-import { createTeam } from '../../../models/project.model';
+import { createProject } from '../../../models/project.model';
 import { ToastService } from '../../../shared/toast.service';
 import { LoginStore } from '../../../state/login.store';
 import { TeamStore } from '../../../state/team.store';
@@ -24,9 +24,9 @@ import { ConfirmDeleteComponent } from '../../../pop-ups/confirm-delete/confirm-
 export class ProjectListComponent {
   label = 'Project';
   columns = [
-    { header: 'ID', field: 'id' },
-    { header: 'Project Name', field: 'projectname' },
-    { header: 'Location', field: 'projectLocation' },
+    { header: 'Project Id', field: 'projectId' },
+    { header: 'Project Name', field: 'projectName' },
+    { header: 'Account Name', field: 'accountId' },
     {header:'Teams',field:'viewTeam',linkEnable:true},
     // { header: 'Start Date', field: 'startDate' },
     // { header: 'End Date', field: 'endDate' },
@@ -60,7 +60,7 @@ export class ProjectListComponent {
   private fb = inject(FormBuilder)
   private toast = inject(ToastService)
   private router = inject(Router)
-  teamList = signal<createTeam[]>([]);
+  teamList = signal<createProject[]>([]);
   private teamStore = inject(TeamStore);
   teamList$ = this.teamStore.team$;
   private modalController = inject(ModalController);

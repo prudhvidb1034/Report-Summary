@@ -7,14 +7,14 @@ import 'zone.js'; // Import before bootstrapping
 
 import { routes } from './app.routes';
 import { provideStore } from '@ngrx/store';
-import { jwtInterceptor } from './interceptor/jwt.interceptor';
+import { httpInterceptor } from './interceptor/http.interceptor';
 
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideHttpClient(
       withInterceptors([
-        jwtInterceptor
+        httpInterceptor
       ])
     ),
     provideIonicAngular(),

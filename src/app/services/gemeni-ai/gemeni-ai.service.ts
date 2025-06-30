@@ -1,66 +1,134 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { GoogleGenAI, FunctionDeclaration, FunctionCallingConfigMode, Type } from '@google/genai';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class GemeniAiService {
-  explanation: string = '';
-  error: string = '';
-
-  // IMPORTANT: Replace with your actual API key.
-  // Consider securing this in a real application (e.g., via a backend proxy).
-  private readonly API_KEY = 'AIzaSyAaGaav8HmOznjdOazOUNuSz-ZiBKgmSUA';
-  private readonly API_ENDPOINT = `https://generativelanguage.googleapis.com/v1/models?key=${this.API_KEY}`;
-
-  // Note: 'gemini-2.0-flash' might not be directly available via the public API endpoint
-  // without specific access. 'gemini-pro' is a commonly available model.
-  // Adjust the model name if you have access to others.
+  private ai = new GoogleGenAI({ apiKey: 'AIzaSyAaGaav8HmOznjdOazOUNuSz-ZiBKgmSUA' }); // replace with your key
+  private history: any[] = [];
 
   constructor(private http: HttpClient) {}
 
-  getAIExplanation(d:any): void {
-    this.explanation = 'Loading...';
-    this.error = '';
-
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      
-    });
-
-    const body = {
-      contents: [{ parts: [{ text: d }] }],
-    };
-
-    this.http.post<any>(this.API_ENDPOINT, body, { headers }).subscribe({
-      next: (response) => {
-        // The exact structure of the response might vary based on the API version and model.
-        // You'll need to inspect the response from the API to get the correct path to the text.
-        // For gemini-pro, it's often response.candidates[0].content.parts[0].text
-        if (
-          response &&
-          response.candidates &&
-          response.candidates.length > 0 &&
-          response.candidates[0].content &&
-          response.candidates[0].content.parts &&
-          response.candidates[0].content.parts.length > 0
-        ) {
-          return response.candidates[0].content.parts[0].text;
-       //   this.explanation = response.candidates[0].content.parts[0].text;
-        } else {
-          console.warn('Unexpected API response structure:', response);
-          return  'Could not parse response.';
-        }
-      },
-      error: (err:any) => {
-        console.error('API Error:', err);
-        this.error = `Failed to get explanation. Status: ${err.status} - ${err.statusText}`;
-        if (err.error && err.error.error && err.error.error.message) {
-          this.error += ` Message: ${err.error.error.message}`;
-        }
-        this.explanation = '';
-      },
+  private sanitizeHistoryForApi() {
+    return this.history.map(item => {
+      let role = item.role;
+      // Only allow 'user' and 'model' roles, convert others to 'model'
+      if (role !== 'user' && role !== 'model') {
+        role = 'model';
+      }
+  
+      // Preserve other properties as is
+      return {
+        ...item,
+        role,
+      };
     });
   }
+  
+  // Tool: transform and relay employee info
+  private async processEmployeeInfo(args: { rawText: string }): Promise<{ status: string; message: string }> {
+    const raw = args.rawText;
 
+    const summaryMatch = raw.match(/summary\s*[:\-]\s*([^,]*)/i);
+    const accomplishmentsMatch = raw.match(/key\s*accomplishments\s*[:\-]\s*([\s\S]*)/i);
+
+    const summary = summaryMatch ? [summaryMatch[1].trim()] : [];
+    const keyAccomplishments = accomplishmentsMatch
+      ? accomplishmentsMatch[1].split(/and|,|\n/).map((s) => s.trim()).filter(Boolean)
+      : [];
+
+    const corpSummary = summary.map((s) => s.charAt(0).toUpperCase() + s.slice(1));
+    const corpAccomplishments = keyAccomplishments.map((a) => a.charAt(0).toUpperCase() + a.slice(1));
+
+    const payload = { summary: corpSummary, keyAccomplishments: corpAccomplishments };
+
+    try {
+      const response = await (this.http.post<any>('http://localhost:3000/updateSummary', payload));
+      return {
+        status: 'success',
+        message: 'Updated successfully',
+      };
+    } catch (err: any) {
+      return { status: 'error', message: err.message ?? 'API call failed' };
+    }
+  }
+
+  async sendUserInput(text: string) {
+    const processEmployeeInfoDecl: FunctionDeclaration = {
+      name: 'processEmployeeInfo',
+      description: 'Parse raw employee task info into JSON, post to backend, return status',
+      parameters: {
+        type: Type.OBJECT,
+        properties: {
+          rawText: { type: Type.STRING, description: 'Employee input with summary/key accomplishments' },
+        },
+        required: ['rawText'],
+      },
+    };
+
+    // Add user input to history
+    this.history.push({ role: 'user', parts: [{ text }] });
+
+    // Detect structured input to trigger function calling
+    const isStructuredInput = /summary\s*[:]|key\s*accomplishments\s*[:]/i.test(text);
+
+    const config = {
+      tools: [{ functionDeclarations: [processEmployeeInfoDecl] }],
+      toolConfig: {
+        functionCallingConfig: {
+          mode: isStructuredInput ? FunctionCallingConfigMode.AUTO : FunctionCallingConfigMode.NONE,
+          allowedFunctionNames: isStructuredInput ? ['processEmployeeInfo'] : [],
+        },
+      },
+    };
+    
+
+    // Pass the full history for context
+    const response = await this.ai.models.generateContent({
+      model: 'gemini-2.5-pro',
+    //  contents: this.history,
+      contents: this.sanitizeHistoryForApi(),
+      config,
+    });
+
+    if (response.functionCalls?.length) {
+      const call = response.functionCalls[0];
+      const args = call.args as { rawText: string };
+
+      // Call your local tool function
+      const toolResult = await this.processEmployeeInfo(args);
+
+      // Add the function call turn to history
+      this.history.push({
+        role: 'function',
+        name: call.name,
+        parts: [
+          {
+            functionResponse: {
+              name: call.name,
+              response: toolResult,
+            },
+          },
+        ],
+      });
+
+      // Now ask Gemini to respond again with function output context
+      const finalResponse = await this.ai.models.generateContent({
+        model: 'gemini-2.5-pro',
+        contents: this.history,
+      });
+
+      // Add assistant reply to history
+      this.history.push({ role: 'assistant', parts: [{ text: finalResponse.text }] });
+      console.log('Assistant final response:', finalResponse.text);
+      return finalResponse.text;
+    } else {
+      // No function call: normal chat response
+      this.history.push({ role: 'assistant', parts: [{ text: response.text }] });
+      console.log('Assistant response:', response.text);
+      return response.text;
+    }
+  }
 }

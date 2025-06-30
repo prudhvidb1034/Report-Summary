@@ -23,7 +23,8 @@ export class AiChatbotComponent {
   constructor(private http:HttpClient,private aiService:GemeniAiService,private updatedGemeniAI:GemeniUpdatedAIService,private genAi:GENAI){}
 
   submitQuestion(): void {
-    this.genAi.main();
+    this.aiService.sendUserInput(this.userInput);
+   // this.updatedGemeniAI.main();
     // if (this.userInput.trim()) {
     //   // Append user's question
     //   this.messages.push({ text: `You: ${this.userInput}`, type: 'user' });

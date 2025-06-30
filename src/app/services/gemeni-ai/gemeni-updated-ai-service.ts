@@ -12,6 +12,39 @@ import {
     providedIn: 'root'
   })
   export class GemeniUpdatedAIService{
+
+    async  processEmployeeInfo(args: { rawText: string }): Promise<any> {
+        console.log(`Tool: Processing employee info for text: "${args.rawText}"`);
+      
+        // --- Simulate AI's role in forming JSON and backend API call ---
+        // In a real scenario, the AI model, possibly fine-tuned,
+        // would be responsible for generating the JSON structure.
+        // The tool here simply acts as the bridge to the *backend* for that data.
+      
+        // For demonstration, let's assume the AI provides the JSON structure
+        // implicitly or explicitly in its reasoning leading to the tool call.
+        // Here, we are simulating the backend receiving the text and
+        // returning a success status after processing.
+      
+        // In a real scenario, your backend would:
+        // 1. Receive args.rawText
+        // 2. Potentially call your fine-tuned Gemini model (if not already done by the main model)
+        //    to get the structured JSON (summary, keyAccomplishments)
+        // 3. Store this JSON in a database
+        // 4. Return a success/failure status.
+      
+        const simulatedResponse = {
+          status: 'success',
+          message: `Employee information for "${args.rawText}" processed and sent to backend successfully.`,
+          // You could also return the parsed JSON if the backend provides it back
+          // generatedSummary: { summary: "...", keyAccomplishments: "..." }
+        };
+      
+        console.log('Tool response:', simulatedResponse);
+        return simulatedResponse;
+      }
+      
+
     async  main() {
         const ai = new GoogleGenAI({
           apiKey: 'AIzaSyAaGaav8HmOznjdOazOUNuSz-ZiBKgmSUA',
@@ -165,7 +198,7 @@ import {
             role: 'user',
             parts: [
               {
-                text: `INSERT_INPUT_HERE`,
+                text: `Hi How are you`,
               },
             ],
           },

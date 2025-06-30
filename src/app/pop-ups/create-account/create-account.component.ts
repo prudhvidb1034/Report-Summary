@@ -1,14 +1,17 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, effect, inject, Input } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { IonicModule, ModalController } from '@ionic/angular';
+import { IonicModule, ModalController, NavParams } from '@ionic/angular';
 import { SharedService } from '../../services/shared/shared.service';
 import { urls } from '../../constants/string-constants';
+import { AccountStore } from '../../state/account.store';
+import { ToastService } from '../../shared/toast.service';
 
 @Component({
   selector: 'app-create-account',
   standalone: true,
   imports: [CommonModule, IonicModule, ReactiveFormsModule],
+  providers: [AccountStore],
   templateUrl: './create-account.component.html',
   styleUrl: './create-account.component.scss'
 })
@@ -17,10 +20,44 @@ export class CreateAccountComponent {
   isModalOpen: boolean = false;
   private modalCtrl = inject(ModalController);
   private fb = inject(FormBuilder)
+  private toast = inject(ToastService);
   accountForm!: FormGroup;
+  @Input() editData: any;
+  isEditMode: boolean = false;
+  constructor() { }
+
+  accountStore = inject(AccountStore)
+  accounts$ = this.accountStore.account$; // ✅ auto updated from store
+
+  readonly accountStatusEffect = effect(() => {
+    const status = this.accountStore.accountCreateStatus();
+
+    if (status === 'success') {
+      // this.accountStore.getAccounts();
+      this.setOpen(false);
+      this.toast.show('success', 'Account created successfully!');
+
+    } else if (status === 'update') {
+      this.setOpen(false);
+      this.toast.show('success', 'Account updated successfully!');
+
+    } else if (status === 'deleted') {
+      this.toast.show('success', 'Account deleted successfully!');
+
+    } else if (status === 'error') {
+      this.toast.show('error', 'Something went wrong!');
+    }
+  });
+
 
   ngOnInit() {
     this.creteForm();
+    this.accountStore.getAccounts();
+    if (this.editData) {
+      this.accountForm.patchValue(this.editData);
+      this.isEditMode = true;
+    }
+
   }
 
 
@@ -36,22 +73,29 @@ export class CreateAccountComponent {
 
   setOpen(isOpen: boolean) {
     this.isModalOpen = isOpen;
-    this.modalCtrl.dismiss();
-    this.accountForm.reset()
-  }
 
-  SubmitForm() {
-
-    const response = this.accountForm.value
-    if (this.accountForm.valid) {
-      this.sharedservice.postData(urls.CREATE_ACCOUNT, response).subscribe((data) => {
-        console.log(data)
-      })
-      console.log(this.accountForm.value)
-    } else {
-      this.accountForm.markAllAsTouched()
+    if (!isOpen) {
+      this.isEditMode = false; // Only reset on close
+      this.accountForm.reset();
+      this.modalCtrl.dismiss();
     }
   }
+
+
+  SubmitForm() {
+    if (this.accountForm.valid) {
+      const formValue = this.accountForm.value;
+
+      if (this.isEditMode && this.editData?.accountId) {
+        this.accountStore.updateAccount({ id: this.editData.accountId, data: formValue });
+      } else {
+        this.accountStore.createAccount(formValue);
+      }
+    } else {
+      this.accountForm.markAllAsTouched();
+    }
+  }
+
 
   isInvalid(controlName: string): boolean {
     const control = this.accountForm.get(controlName);

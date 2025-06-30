@@ -15,7 +15,7 @@
     </ion-header>
 
     <ion-content>
-        <p>Are you sure you want to delete ?</p>
+        <p>Are you sure you want to delete ?  <strong>{{data.name}}</strong></p>
     </ion-content>
     <ion-footer>
         <ion-toolbar>
@@ -23,7 +23,7 @@
 
                 <ion-button class="close" (click)="setOpen(false)">No</ion-button>
 
-                <ion-button class="save-del" (click)="onDelete()">Yes,Delete</ion-button>
+                <ion-button class="save-del" (click)="confirm()">Yes,Delete</ion-button>
             </ion-buttons>
         </ion-toolbar>
     </ion-footer>

@@ -18,7 +18,7 @@ export const urls = {
 
 LOGIN_DETAILS :  'auth'+'/login',
 POST_MANAGER_DETAILS: 'api'+'/managers',
-CREATE_ACCOUNT :'Account/'
+CREATE_ACCOUNT :'Account'
 
 }
 

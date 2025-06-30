@@ -14,7 +14,8 @@ interface TeamState {
 export class TeamStore extends ComponentStore<TeamState> {
   constructor() {
     super({
-      teamDetails: [], error: ''
+      teamDetails: [],
+       error: ''
     })
   }
   private readonly teamListService = inject(TeamListService);

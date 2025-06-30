@@ -5,7 +5,7 @@ import {
   HttpHandlerFn
 } from '@angular/common/http';
 
-export const jwtInterceptor: HttpInterceptorFn = (req: HttpRequest<unknown>, next: HttpHandlerFn) => {
+export const httpInterceptor: HttpInterceptorFn = (req: HttpRequest<unknown>, next: HttpHandlerFn) => {
   const token = localStorage.getItem('token');
 
   if (token) {

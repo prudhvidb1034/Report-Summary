@@ -12,7 +12,7 @@ export class SharedService {
  private url = environment.apiUrls
 
   getData<T>(url: string): Observable<T> {
-    return this.http.get<T>(this.url);
+    return this.http.get<T>(this.url+url);
   }
 
   postData<T>(path: string, data: any): Observable<T> {
@@ -20,10 +20,10 @@ export class SharedService {
   }
 
   patchData<T>(url: string, data: any): Observable<T> {
-    return this.http.patch<T>(url, data);
+    return this.http.put<T>(this.url+url, data);
   }
 
   deleteData<T>(url: string): Observable<T> {
-    return this.http.delete<T>(url);
+    return this.http.delete<T>(this.url+url);
   }
 }

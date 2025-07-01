@@ -1,2 +1,6 @@
 <app-reusable-table [columns]="columns" [data]="projectList$" (rowAction)="handleRowAction($event)"
     [label]="label"></app-reusable-table>
+
+<div class="loader-overlay" *ngIf="(isLoading$ | async)">
+    <ion-spinner name="crescent"></ion-spinner>
+</div>

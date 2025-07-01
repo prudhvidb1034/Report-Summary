@@ -39,6 +39,7 @@ export class ProjectListComponent {
   private modalController = inject(ModalController);
   private loginStore = inject(LoginStore);
   // projectStore = inject(TeamStore);
+isLoading$ = this.projectStore.select(state => state.loading);
 
   constructor(private route: ActivatedRoute) {
     this.projectStore.getTeam();

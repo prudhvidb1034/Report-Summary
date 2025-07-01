@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { ModalController, NavParams } from '@ionic/angular';
+import { IonicModule, ModalController, NavParams } from '@ionic/angular';
 import { Observable, of } from 'rxjs';
 import { ReusableTableComponent } from "../../../shared/reusable-table/reusable-table.component";
 import { ConfirmDeleteComponent } from '../../../pop-ups/confirm-delete/confirm-delete.component';
@@ -11,7 +11,7 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-account-create',
   standalone: true,
-  imports: [ReusableTableComponent, CommonModule],
+  imports: [ReusableTableComponent, CommonModule,IonicModule],
   providers: [AccountStore],
   templateUrl: './account.component.html',
   styleUrl: './account.component.scss'
@@ -22,7 +22,7 @@ export class AccountCreateComponent {
 
   accountStore = inject(AccountStore);
   accountList$: any;
-
+isLoading$ = this.accountStore.select(state => state.loading);
   constructor() {
     this.accountStore.getAccounts();
     this.accountList$ = this.accountStore.account$;

@@ -82,7 +82,7 @@ export class CreateProjectComponent {
       const formValue = this.teamForm.value;
 
       if (this.editData && this.editData?.projectId) {
-        this.accountStore.updateAccount({ id: this.editData.projectId, data: formValue });
+        this.projectStore.updateProject({ id: this.editData.projectId, data: formValue });
       } else {
         this.projectStore.addTeam(response);
       }

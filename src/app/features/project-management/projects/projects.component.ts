@@ -128,6 +128,7 @@ export class ProjectListComponent {
     }).then((modal) => {
       modal.present();
       modal.onDidDismiss().then((data) => {
+         this.projectStore.getTeam();
         console.log('Modal dismissed with data:', data);
         // Handle any data returned from the modal if needed
       });
@@ -146,6 +147,7 @@ export class ProjectListComponent {
     }).then((modal) => {
       modal.present();
       modal.onDidDismiss().then((data) => {
+           this.projectStore.getTeam();
         console.log('Modal dismissed with data:', data);
         // Handle any data returned from the modal if needed
       });

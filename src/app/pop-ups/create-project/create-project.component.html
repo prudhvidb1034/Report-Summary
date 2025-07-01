@@ -3,7 +3,7 @@
     <ion-toolbar color="light">
       <!-- <ion-buttons slot="start"> -->
       <ion-title>
-        <b>Create Project</b>
+        <b>{{ isEditMode ? 'Update' : 'Create' }} Project</b>
       </ion-title>
       <!-- </ion-buttons> -->
       <ion-buttons slot="end">
@@ -69,13 +69,13 @@
 
         <ion-button class="close" (click)="setOpen(false)">Close</ion-button>
 
-        <ion-button class="save" (click)="SubmitForm()">Save</ion-button>
+        <ion-button class="save" (click)="SubmitForm()">   {{ isEditMode ? 'Update' : 'Save' }}</ion-button>
       </ion-buttons>
     </ion-toolbar>
   </ion-footer>
 </div>
 <!-- Fullscreen Loader Overlay -->
-<div class="loader-overlay" *ngIf="isLoading$ | async">
+<div class="loader-overlay" *ngIf="(isLoading$ | async)">
   <ion-spinner name="crescent"></ion-spinner>
 </div>
 

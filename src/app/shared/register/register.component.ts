@@ -5,7 +5,7 @@ import { CommonModule } from '@angular/common';
 import { RegisterStore } from '../../state/register.store';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { createProject } from '../../models/project.model';
-import { TeamStore } from '../../state/team.store';
+import { ProjectStore } from '../../state/project.store';
 import { ToastService } from '../../shared/toast.service';
 import { SummaryService } from '../../services/summary/summary.service';
 import { RegistrationForm } from '../../models/register.mode';
@@ -17,13 +17,13 @@ import { ValidationsService } from '../../services/validation/validations.servic
   imports: [IonicModule, CommonModule, ReactiveFormsModule],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss',
-  providers: [RegisterStore, TeamStore],
+  providers: [RegisterStore, ProjectStore],
 })
 export class RegisterComponent {
   teamList = signal<createProject[]>([]);
   teamListData: createProject[] = []
-  private teamStore = inject(TeamStore);
-  teamList$ = this.teamStore.team$;
+  private projectStore = inject(ProjectStore);
+  teamList$ = this.projectStore.team$;
   private readonly fb = inject(FormBuilder);
 
   role: string;
@@ -64,14 +64,14 @@ public validationService = inject(ValidationsService)
     //   this.getRegisterStore.getRegisterData({ projectId: this.projectid, role: this.title });
     // }
 
-    this.teamStore.getTeam();
+    this.projectStore.getTeam();
     this.createForm();
     console.log('prudhvi', this.teamList$)
-    this.teamStore.team$.subscribe((data: any) => {
+    this.projectStore.team$.subscribe((data: any) => {
       this.teamListData = data
       console.log('Sarath', this.teamListData,)
     })
-    console.log('varma', this.teamStore.team$)
+    console.log('varma', this.projectStore.team$)
 
     this.getProjects()
   }

@@ -1,115 +1,116 @@
 import { Component, inject } from '@angular/core';
 import { ReusableTableComponent } from "../../shared/reusable-table/reusable-table.component";
 import { Observable, of } from 'rxjs';
-import { ModalController } from '@ionic/angular';
+import { IonicModule, ModalController } from '@ionic/angular';
 import { RegisterComponent } from '../../shared/register/register.component';
 import { ConfirmDeleteComponent } from '../../pop-ups/confirm-delete/confirm-delete.component';
+import { RegisterStore } from '../../state/register.store';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-managers',
   standalone: true,
-  imports: [ReusableTableComponent],
+  imports: [ReusableTableComponent, CommonModule,IonicModule],
+  providers: [RegisterStore],
   templateUrl: './managers.component.html',
   styleUrl: './managers.component.scss'
 })
 export class ManagersComponent {
 
-label = 'Manager';
- private modalController = inject(ModalController);
-  
-   columns = [
-    { header: 'Manager ID', field: 'managerid' },
-    { header: 'Manager Name', field: 'managername' },
-    { header: 'Mail id', field: 'mail' },
-    { header: 'Project', field: 'project' },
-    // { header: 'End Date', field: 'endDate' },
-    { header: 'Action', field: 'action', type: ['edit', 'delete'] 
-    },
-  
-  ];
- managers = [
-  {
-    managerid: 'MGR001',
-    managername: 'Alice Johnson',
-    mail: 'alice.johnson@company.com',
-    project: 'Internal Tools'
-  },
-  {
-    managerid: 'MGR002',
-    managername: 'Brian Edwards',
-    mail: 'brian.edwards@company.com',
-    project: 'Analytics Dashboard'
-  },
-  {
-    managerid: 'MGR003',
-    managername: 'Clara Mitchell',
-    mail: 'clara.mitchell@company.com',
-    project: 'AI Assistant'
-  },
-  {
-    managerid: 'MGR004',
-    managername: 'David Sharma',
-    mail: 'david.sharma@company.com',
-    project: 'Mobile App Platform'
-  },
-  {
-    managerid: 'MGR005',
-    managername: 'Emma Zhang',
-    mail: 'emma.zhang@company.com',
-    project: 'Customer Insights Engine'
+  label = 'Manager';
+  private modalController = inject(ModalController);
+
+  private registerStore = inject(RegisterStore);
+  managerList$ = this.registerStore.register$;
+  isLoading$ = this.registerStore.select(state => state.loading);
+  ngOnInit() {
+    this.registerStore.getRegisterData('manager');
   }
-];
- managerlist$: Observable<any[]> = of(this.managers);
+  columns = [
+    { header: 'Manager ID', field: 'personId' },
+    { header: 'Manager Name', field: 'firstName' },
+    { header: 'Mail id', field: 'email' },
+    { header: 'Project', field: 'projectNames' },
+    // { header: 'End Date', field: 'endDate' },
+    {
+      header: 'Action', field: 'action', type: ['edit', 'delete']
+    },
 
+  ];
+   handleRowAction(event: any) {
+    switch (event.type) {
+      case 'create':
+        this.loadCreateEmployeeModal();
+        //this.route.navigate(['/projects/employees/create']);
+        break;
+      case 'edit':
+        this.editCreateEmployeeModal(event.item);
+        break;
+      case 'delete':
+        this.deleteModal(event.item);
+        break;
+      default:
+        console.log('Unknown action type:');
+    }
+  }
 
-
-
- handleRowAction(event:any) {
-     switch(event.type){
-       case 'create' :
-         this.loadCreateEmployeeModal();
-         //this.route.navigate(['/projects/employees/create']);
-         break
-        case 'edit':
-         this.loadCreateEmployeeModal();
-          break;
-        case 'delete':
-      this.deleteModal()
-         break;
-       default:
-         console.log('Unknown action type:', event.type);
-     }
-   } 
- 
-   loadCreateEmployeeModal(){
-   this.modalController.create({
-       component: RegisterComponent,
-       cssClass: 'register-modal',
-       componentProps: {
-       role:'manager',
-       }
-     }).then((modal) => {
-       modal.present();
-       modal.onDidDismiss().then((data) => {
-         console.log('Modal dismissed with data:', data);
-         // Handle any data returned from the modal if needed
-       });
-     });
-   }
-
-   deleteModal(){
-      this.modalController.create({
-        component: ConfirmDeleteComponent,
-        cssClass: 'custom-delete-modal',
-        componentProps: { 
-          role: 'delete',
-        }
-      }).then((modal) => {
-        modal.present();
-        modal.onDidDismiss().then((data) => {
-          console.log('Modal dismissed with data:', data);
-          // Handle any data returned from the modal if needed
-        });
+  loadCreateEmployeeModal() {
+    this.modalController.create({
+      component: RegisterComponent,
+      //  cssClass: 'custom-modal',
+      componentProps: {
+        role: 'manager',
+      }
+    }).then((modal) => {
+      modal.present();
+      modal.onDidDismiss().then((data) => {
+        this.registerStore.getRegisterData('manager');
+        console.log('Modal dismissed with data:', data);
+        // Handle any data returned from the modal if needed
       });
-   }
+    });
+  }
+
+  editCreateEmployeeModal(item: any) {
+    this.modalController.create({
+      component: RegisterComponent,
+      //  cssClass: 'custom-modal',
+      componentProps: {
+        role: 'manager',
+        editData: item,
+      }
+    }).then((modal) => {
+      modal.present();
+      modal.onDidDismiss().then((data) => {
+            this.registerStore.getRegisterData('manager');
+        console.log('Modal dismissed with data:12345667', data);
+        // Handle any data returned from the modal if needed
+      });
+    });
+  }
+  deleteModal(item: any) {
+
+    console.log('Selected row data for deletion:', item);
+    this.modalController.create({
+      component: ConfirmDeleteComponent,
+      cssClass: 'custom-delete-modal',
+
+       componentProps: {
+        role: 'delete',
+        data: {
+          id: item.personId,
+          name: item.firstName,
+
+        }
+      }
+     
+    }).then((modal) => {
+      modal.present();
+      modal.onDidDismiss().then((result) => {
+        if (result?.data?.confirmed) {
+          this.registerStore.deleteProject(result.data.id);
+        }
+      });
+    });
+  }
 }

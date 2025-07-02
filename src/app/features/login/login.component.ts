@@ -16,6 +16,7 @@ interface LoginCredentials {
   selector: 'app-login',
   standalone: true,
   imports: [IonicModule, ReactiveFormsModule, CommonModule],
+  providers:[ LoginStore],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
@@ -24,7 +25,7 @@ export class LoginComponent {
   loginStore = inject(LoginStore);
 
 
-
+ isLoading$ = this.loginStore.select(state => state.loading);
 
   showPwd = false;
   form = this.fb.group({

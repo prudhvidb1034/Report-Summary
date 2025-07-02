@@ -2,7 +2,7 @@
   <ion-header>
     <ion-toolbar color="light">
       <ion-title slot="start">
-        <b>Create {{ role }}</b>
+        <b> {{ isEditMode ? 'Update' : 'Create' }} {{ role }}</b>
       </ion-title>
       <ion-buttons slot="end" class="ion-no-padding">
         <ion-button fill="clear" (click)="setOpen(false)">
@@ -49,16 +49,16 @@
         <ion-row>
           <ion-col size="6">
             <ion-item class="custom-item" lines="none"
-              [class.invalid]="validationService.isInvalid('username',registrationForm)"
-              [class.valid]="validationService.isValid('username',registrationForm)">
-              <ion-input class="label-texts" formControlName="username" label="Email" labelPlacement="stacked"
+              [class.invalid]="validationService.isInvalid('email',registrationForm)"
+              [class.valid]="validationService.isValid('email',registrationForm)">
+              <ion-input class="label-texts" formControlName="email" label="Email" labelPlacement="stacked"
                 placeholder="Enter your email" [clearOnEdit]="true"></ion-input>
             </ion-item>
             @if (validationService.isInvalid('lastName',registrationForm)) {
             <ion-text color="danger" class="error-message">
-              @if (registrationForm.get('username')?.errors?.['required']) {
+              @if (registrationForm.get('email')?.errors?.['required']) {
               <p>Email is required.</p>
-              } @if (registrationForm.get('username')?.errors?.['email']) {
+              } @if (registrationForm.get('email')?.errors?.['email']) {
               <p>Invalid email format.</p>
               }
             </ion-text>
@@ -67,12 +67,12 @@
 
           <ion-col size="6">
             <ion-item class="custom-item" lines="none"
-              [class.invalid]="validationService.isInvalid('employeeId',registrationForm)"
-              [class.valid]="validationService.isValid('employeeId',registrationForm)">
-              <ion-input class="label-texts" formControlName="employeeId" label="Employee ID" labelPlacement="floating"
+              [class.invalid]="validationService.isInvalid('employeeCode',registrationForm)"
+              [class.valid]="validationService.isValid('employeeCode',registrationForm)">
+              <ion-input class="label-texts" formControlName="employeeCode" label="Employee ID" labelPlacement="floating"
                 placeholder="Enter your employee ID" [clearOnEdit]="true"></ion-input>
             </ion-item>
-            @if (validationService.isInvalid('employeeId',registrationForm)) {
+            @if (validationService.isInvalid('employeeCode',registrationForm)) {
             <ion-text color="danger" class="error-message">
 
               <p>Employee ID is required.</p>
@@ -126,18 +126,18 @@
         <ion-row>
           <ion-col size="6">
             <ion-item class="stack-dropdown custom-item" lines="none"
-              [class.invalid]="validationService.isInvalid('projectName',registrationForm)"
-              [class.valid]="validationService.isValid('projectName',registrationForm)">
+              [class.invalid]="validationService.isInvalid('projectIds',registrationForm)"
+              [class.valid]="validationService.isValid('projectIds',registrationForm)">
               <ion-label class="label-texts" position="stacked">Projects</ion-label>
-              <ion-select class="label-texts" interface="popover" multiple="true" formControlName="projectName"
+              <ion-select class="label-texts" interface="popover" multiple="true" formControlName="projectIds"
                 placeholder="Select Project">
-                <ion-select-option class="label-texts" *ngFor="let p of projects" [value]="p">
-                  {{ p }}
+                <ion-select-option class="label-texts" *ngFor="let p of  projectList$ |async " [value]="p.projectId">
+                  {{ p.projectName }}
                 </ion-select-option>
               </ion-select>
             </ion-item>
 
-            @if (validationService.isInvalid('projectName',registrationForm)) {
+            @if (validationService.isInvalid('projectIds',registrationForm)) {
             <ion-text color="danger" class="error-message">
 
               <p>At least one project must be selected.</p>
@@ -149,10 +149,10 @@
 
           <ion-col size="6">
             <ion-item class="stack-dropdown custom-item" lines="none"
-              [class.invalid]="validationService.isInvalid('techstack',registrationForm)"
-              [class.valid]="validationService.isValid('techstack',registrationForm)">
+              [class.invalid]="validationService.isInvalid('techStack',registrationForm)"
+              [class.valid]="validationService.isValid('techStack',registrationForm)">
               <ion-label class="label-texts" position="stacked">Tech Stack</ion-label>
-              <ion-select class="label-texts" formControlName="techstack" interface="popover"
+              <ion-select class="label-texts" formControlName="techStack" interface="popover"
                 placeholder="Select Tech Stack">
                 <ion-select-option value="Frontend">Frontend</ion-select-option>
                 <ion-select-option value="Backend">Backend</ion-select-option>
@@ -160,7 +160,7 @@
                 <ion-select-option value="Testing">Testing</ion-select-option>
               </ion-select>
             </ion-item>
-            @if (validationService.isInvalid('techstack',registrationForm)) {
+            @if (validationService.isInvalid('techStack',registrationForm)) {
             <ion-text color="danger" class="error-message">
 
               <p>Tech stack selection is required.</p>
@@ -170,8 +170,6 @@
           </ion-col>
 
         </ion-row>
-
-
         <ion-row>
           <ion-col size="12">
             <ion-item class="custom-item" lines="none">
@@ -190,8 +188,13 @@
 
         <ion-button class="close" (click)="setOpen(false)">Close</ion-button>
 
-        <ion-button class="save" (click)="onSubmit()">Save</ion-button>
+        <ion-button class="save" (click)="onSubmit()">
+          {{ isEditMode ? 'Update' : 'Save' }}
+        </ion-button>
       </ion-buttons>
     </ion-toolbar>
   </ion-footer>
+</div>
+<div class="loader-overlay" *ngIf="(isLoading$ | async)">
+    <ion-spinner name="crescent"></ion-spinner>
 </div>

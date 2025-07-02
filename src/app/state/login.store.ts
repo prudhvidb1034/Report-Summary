@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { ComponentStore } from '@ngrx/component-store';
 import { Router } from '@angular/router';
-import { exhaustMap, Observable, switchMap, tap } from 'rxjs';
+import { exhaustMap, finalize, Observable, switchMap, tap } from 'rxjs';
 import { LoginService } from '../services/login-service/login.service';
 import { LoginCredentials, User } from '../models/login.model';
 import { ToastService } from '../shared/toast.service';
@@ -32,27 +32,33 @@ export class LoginStore extends ComponentStore<LoginState> {
 
 login = this.effect((credentials$: Observable<LoginCredentials>) =>
   credentials$.pipe(
-    exhaustMap(credentials =>
-      this.sharedservice.postData(urls.LOGIN_DETAILS, credentials).pipe(
-        tap((user: any) => {
-          if (user) {
-            this.patchState({ user });
+    exhaustMap(credentials => {
+      this.patchState({ loading: true, error: null }); 
 
-            // const role = user.role?.toLowerCase();
-            localStorage.setItem('user', JSON.stringify(user.data));
-            console.log( localStorage.setItem('token', user.data.acessToken)); // if available
-
-            this.router.navigate(['/home']);
-            this.toast.show('success', 'Login successfully!');
-          } else {
-            this.toast.show('error', 'Invalid username or password.');
+      return this.sharedservice.postData(urls.LOGIN_DETAILS, credentials).pipe(
+        tap({
+          next: (user: any) => {
+            if (user) {
+              this.patchState({ user }); // Save user state
+              localStorage.setItem('user', JSON.stringify(user.data));
+              localStorage.setItem('token', user.data.acessToken); 
+              this.router.navigate(['/home']);
+              this.toast.show('success', 'Login successfully!');
+            } else {
+              this.toast.show('error', 'Invalid username or password.');
+            }
+          },
+          error: () => {
+            this.toast.show('error', 'Login failed. Please try again.');
+            this.patchState({ error: 'Login failed.' }); // Optionally add error msg
           }
         }),
-        tap(() => this.patchState({ loading: false }))
-      )
-    )
+        finalize(() => this.patchState({ loading: false })) // 🔁 Always stop loading
+      );
+    })
   )
 );
+
 
 
   //   readonly login = this.effect((credentials$) =>
@@ -79,5 +85,5 @@ login = this.effect((credentials$: Observable<LoginCredentials>) =>
 
   readonly user$ = this.select(state => state.user);
     readonly clearAll = this.updater(() => initialState);
-
+ readonly loading$ = this.select(state => state.loading);
 }

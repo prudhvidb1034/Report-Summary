@@ -1,4 +1,4 @@
- <ion-content fullscreen class="login-bg" scroll-y="false">
+ <!-- <ion-content fullscreen class="login-bg" scroll-y="false"> -->
   <!-- <div class="background-icons">
     <img src="assets/icons/discord.svg" class="icon top-10 left-20">
     <img src=".../file.svg" class="icon top-30 right-25">
@@ -25,4 +25,7 @@
       <ion-button expand="block" style="--background: #000033;flex-grow: 8; width: 100%; --border-radius: 0px;padding-top: 15px;"  class="btn-login" (click)="submit()">Login</ion-button>
     </form>
   </div>
-</ion-content>
+<!-- </ion-content> -->
+<div class="loader-overlay" *ngIf="(isLoading$ | async)">
+  <ion-spinner name="crescent"></ion-spinner>
+</div>

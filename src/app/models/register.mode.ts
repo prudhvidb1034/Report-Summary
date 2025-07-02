@@ -6,7 +6,7 @@ export interface RegistrationForm {
   lastName: string;
   password: string;
   role: string;
-  id?: number;
+  projectId?: number;
   projectName?:string;
   techstack?:string;
 

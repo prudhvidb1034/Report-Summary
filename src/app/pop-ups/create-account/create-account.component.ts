@@ -27,7 +27,7 @@ export class CreateAccountComponent {
   constructor() { }
 
   accountStore = inject(AccountStore)
-  accounts$ = this.accountStore.account$; // ✅ auto updated from store
+  accounts$ = this.accountStore.account$; 
  isLoading$ = this.accountStore.select(state => state.loading);
   readonly accountStatusEffect = effect(() => {
     const status = this.accountStore.accountCreateStatus();

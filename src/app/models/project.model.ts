@@ -1,4 +1,6 @@
 export interface createProject {
-    projectname: string;
+    projectName: string;
    accountId:number;
+   
+   projectId?:number;
 }

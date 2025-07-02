@@ -6,6 +6,10 @@ import { IonicModule } from '@ionic/angular';
 import { GemeniAiService } from '../../services/gemeni-ai/gemeni-ai.service';
 import { GemeniUpdatedAIService } from '../../services/gemeni-ai/gemeni-updated-ai-service';
 import { GENAI } from '../../services/gemeni-ai/gemeni-geni-service';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+
+
+
 
 @Component({
   selector: 'app-ai-chatbot',
@@ -19,11 +23,22 @@ export class AiChatbotComponent {
   userInput: string = '';
   messages: { text: string; type: 'user' | 'ai' }[] = [];
   res:any;
+safeHtmlResponse: SafeHtml |undefined;
 
-  constructor(private http:HttpClient,private aiService:GemeniAiService,private updatedGemeniAI:GemeniUpdatedAIService,private genAi:GENAI){}
+  constructor(private http:HttpClient,private aiService:GemeniAiService,private updatedGemeniAI:GemeniUpdatedAIService,private genAi:GENAI,private sanitizer: DomSanitizer){}
 
-  submitQuestion(): void {
-    this.aiService.sendUserInput(this.userInput);
+   async submitQuestion() {
+    if(this.userInput.trim()){
+    this.messages.push({ text: `You: ${this.userInput}`, type: 'user' });
+    }
+    const res=await this.aiService.sendUserInput(this.userInput);
+      this.safeHtmlResponse = this.sanitizer.bypassSecurityTrustHtml(res);
+
+          console.log("res",res);
+
+    if(res){
+       this.messages.push({ text: res, type: 'ai' });
+    }
    // this.updatedGemeniAI.main();
     // if (this.userInput.trim()) {
     //   // Append user's question

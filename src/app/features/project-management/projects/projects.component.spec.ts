@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ProjectListComponent } from './projects.component';
 import { provideRouter, Router } from '@angular/router';
 import { provideHttpClient } from '@angular/common/http';
-import { TeamStore } from '../../../state/team.store';
+import { TeamStore } from '../../../state/project.store';
 import { ToastService } from '../../../shared/toast.service';
 
 fdescribe('ProjectListComponent', () => {

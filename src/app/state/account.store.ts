@@ -83,7 +83,6 @@ export class AccountStore extends ComponentStore<AccountState> {
                         tap({
                             next: (updatedAccount: any) => {
                                 this._accountCreateStatus.set('update');
-                                this.getAccounts(); // Refresh after update
                                 this.patchState({ loading: false });
                             },
                             error: () => {
@@ -106,7 +105,7 @@ export class AccountStore extends ComponentStore<AccountState> {
                         () => {
                             this._accountCreateStatus.set('deleted');
                             this.getAccounts();
-                            // this.toast.show('success', 'Account deleted successfully!');
+                            this.toast.show('success', 'Account deleted successfully!');
                         },
                         (error) => {
                             this.toast.show('error', 'Failed to delete account!');

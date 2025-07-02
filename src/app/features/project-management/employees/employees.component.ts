@@ -117,6 +117,7 @@ export class EmployeesComponent {
   loadCreateEmployeeModal() {
     this.modalController.create({
       component: RegisterComponent,
+      cssClass: 'register-modal',
       componentProps: {
         role: 'employee',
       }
@@ -130,7 +131,7 @@ export class EmployeesComponent {
   loadtagEmployeeModal() {
     this.modalController.create({
       component: ReusablePopUpComponent,
-      cssClass: 'custom-modal',
+      cssClass: 'reusable-popUp-modal',
       componentProps: {
         teamsList$: this.teamsList$,
         registerList$: this.registerList$,

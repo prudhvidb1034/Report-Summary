@@ -84,7 +84,7 @@ label = 'Manager';
    loadCreateEmployeeModal(){
    this.modalController.create({
        component: RegisterComponent,
-      //  cssClass: 'custom-modal',
+       cssClass: 'register-modal',
        componentProps: {
        role:'manager',
        }

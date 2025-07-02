@@ -5,18 +5,19 @@
 :host {
   display: flex;
   flex-direction: column;
-  height: 80%;
+  height: 100%;
 }
 
-ion-content {
-  flex: 1;
-  --padding-bottom: 0;
-  --margin-bottom: 0;
-}
+// ion-content {
+//   height: auto !important;
+//   flex: 0 0 auto;
+//   --padding-bottom: 0;
+//   --margin-bottom: 0;
+// }
 
-ion-footer {
-  position: relative;
-}
+// ion-footer {
+//   position: relative;
+// }
 
 ion-grid {
   margin-top: 15px;

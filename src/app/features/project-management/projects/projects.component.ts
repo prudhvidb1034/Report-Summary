@@ -122,7 +122,7 @@ isLoading$ = this.projectStore.select(state => state.loading);
   loadCreateEmployeeModal() {
     this.modalController.create({
       component: CreateProjectComponent,
-      cssClass: 'custom-modal',
+      cssClass: 'create-project-modal',
       componentProps: {
 
       }

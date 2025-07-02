@@ -72,7 +72,7 @@ isLoading$ = this.accountStore.select(state => state.loading);
   loadCreateEmployeeModal() {
     this.modalController.create({
       component: CreateAccountComponent,
-      cssClass: 'custom-modal',
+      cssClass: 'create-account-modal',
       componentProps: {
 
       }
@@ -90,7 +90,7 @@ isLoading$ = this.accountStore.select(state => state.loading);
     console.log('Selected row data:', item);
     this.modalController.create({
       component: CreateAccountComponent,
-      cssClass: 'custom-modal',
+      cssClass: 'create-account-modal',
       componentProps: {
         editData: item
       }

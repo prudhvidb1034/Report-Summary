@@ -105,6 +105,10 @@ ion-header {
 }
 
 ion-footer {
+  padding-right: 16px;
+  padding-left: 16px;
+  padding-top: 8px;
+  padding-bottom: 8px;
   box-shadow: none !important;
   position: relative;
   border-top: 1px solid #efefef;
@@ -150,13 +154,121 @@ app-project-status {
   min-width: 0; // ensures it shrinks correctly
 }
 
-.custom-modal {
-  --width: 90%;
-  --height: calc(100vh - 50vh);
-  --max-width: 600px;
-  --border-radius: 2px;
-  --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+// .custom-modal {
+//   --width: 90%;
+//   --height: calc(100vh - 50vh);
+//   --max-width: 600px;
+//   --border-radius: 2px;
+//   --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+//   ion-content{
+//     height: 250px;
+//   }
+// }
+
+//  .register-modal {
+//    --width: 90%;
+//    --height: calc(100vh - 64vh);
+//    --max-width: 600px;
+//    --border-radius: 2px;
+//    --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+
+//    display: flex;
+//    flex-direction: column;
+
+//    ion-header,
+//    ion-footer {
+//     flex: 0 0 auto;
+//   }
+//  }
+
+ion-modal.register-modal {
+  --height: calc(100vh - 28vh);
 }
+
+ion-modal.create-account-modal {
+  --height: calc(100vh - 50vh);
+}
+
+ion-modal.create-project-modal {
+  --height: calc(100vh - 60vh);
+}
+
+ion-modal.create-summary-modal {
+  --height: calc(100vh - 36vh);
+}
+
+ion-modal.reusable-popUp-modal {
+  --height: calc(100vh - 48vh);
+}
+
+// ion-header,
+// ion-footer {
+//   flex-shrink: 0;
+// }
+
+ion-content {
+  flex-grow: 1;
+  overflow-y: auto;
+  --padding-start: 24px;
+  --padding-end: 24px;
+  --padding-top: 8px;
+  --padding-bottom: 16px;
+}
+
+// .custom-modal {
+//   // Width rules
+//   width: 90%;
+//   max-width: 600px;
+
+//   // Let height adapt naturally
+//   height: auto;
+//   max-height: 80vh; // you can adjust this
+
+//   border-radius: 2px;
+//   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+
+//   display: flex;
+//   flex-direction: column;
+
+//   // Optional header/footer styling
+//   ion-header,
+//   ion-footer {
+//     flex: 0 0 auto;
+//   }
+
+//   ion-content {
+//     flex: 1 1 auto;
+//     max-height: 60vh; // limit so the modal itself doesn't grow too tall
+//     overflow-y: auto;
+//     min-height: 100px; // optional minimum
+//   }
+// }
+
+// .custom-modal {
+//   --width: 90vw;
+//   --max-width: 500px;
+//   --min-height: 300px;
+//   --max-height: 90vh;
+//   --border-radius: 16px;
+
+//   display: flex;
+//   flex-direction: column;
+//   overflow: hidden;
+
+//   .modal-wrapper {
+//     // border-radius: var(--border-radius);
+//     min-height: var(--min-height);
+//     max-height: var(--max-height);
+//     width: var(--width);
+//     max-width: var(--max-width);
+//     background: var(--ion-background-color, #fff);
+//     overflow: hidden;
+//     display: flex;
+//     flex-direction: column;
+//   }
+// }
+
+/* Additional global classes here */
 
 ion-searchbar.search-bar-input {
   .searchbar-input {
@@ -218,29 +330,40 @@ ion-textarea.label-texts .label-text-wrapper {
 }
 
 ion-modal.custom-delete-modal::part(content) {
-  height: 30% !important;
+  --height: calc(100vh - 70vh);
   width: 50% !important;
-  margin-top: 50px; // Push from top
-  transform: none !important; // Cancel vertical centering
+  // margin-top: 40px; // Push from top
+  // top: 60% !important;
+  // left: 50% !important;
+  // transform: translate(-10%, -60%) !important;
+  max-width: 500px !important;
+  min-width: 300px;
 }
+
 .custom-item {
   --background: #f6f5f5;
   padding: 4px;
 }
 ion-item.invalid {
-    --background: #f3b7b7;
-  }
+  --background: #f3b7b7;
+}
 
-  ion-item.valid {
+ion-item.valid {
   --background: #f3f4f6;
-
 }
 
-.modal-wrapper {
-  padding:16px 24px;
-  height:100%;
-  width: 100%;
-}
+// .modal-wrapper {
+//   padding: 16px 24px;
+//   display: flex;
+//   flex-direction: column;
+//   width: 100%;
+//   min-height: 30vh;
+//   max-height: 90vh;
+//   ion-content p {
+//     margin-top: 12px;
+//     margin-left: 15px;
+//   }
+// }
 
 .ion-no-paddings {
   margin-right: 18px;
@@ -250,7 +373,7 @@ ion-item.invalid {
 ion-header {
   ion-toolbar {
     ion-title {
-      margin-left: 8px;
+      margin-left: 24px;
       font-weight: 400;
     }
   }

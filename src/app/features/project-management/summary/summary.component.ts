@@ -183,7 +183,7 @@ console.log(this.userRole$)
   loadCreateEmployeeModal() {
     this.modalController.create({
       component: CreateSummaryComponent,
-      // cssClass:'custom-modal',
+       cssClass:'create-summary-modal',
       componentProps: {
       }
     }).then((modal) => {
@@ -195,18 +195,19 @@ console.log(this.userRole$)
   }
 
   updateWeeklySummary() {
-    this.modalController.create({
-      component: EmployeeUpdateComponent,
-      cssClass: 'employee-update-popup',
-      componentProps: {
-      }
-    }).then((modal) => {
-      modal.present();
-      modal.onDidDismiss().then((data) => {
-        console.log('Modal dismissed with data:', data);
-        // Handle any data returned from the modal if needed
-      });
-    });
+    // this.modalController.create({
+    //   component: EmployeeUpdateComponent,
+    //   cssClass: 'employee-update-popup',
+    //   componentProps: {
+    //   }
+    // }).then((modal) => {
+    //   modal.present();
+    //   modal.onDidDismiss().then((data) => {
+    //     console.log('Modal dismissed with data:', data);
+    //     // Handle any data returned from the modal if needed
+    //   });
+    // });
+    this.route.navigate(['/summary/employee-dashboard'])
   }
    deleteModal(){
         this.modalController.create({

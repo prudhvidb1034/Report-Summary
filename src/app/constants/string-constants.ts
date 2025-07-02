@@ -9,7 +9,7 @@ export const Constants = {
 export const urls = {
     REGISTRATION_DETAILS: environment.apiUrls + 'register',
     PROJect_DETAILS: environment.apiUrls + 'projects',
-    TEAMS_DETAILS: environment.apiUrls + 'teamslist',
+     TEAMS_DETAILS: environment.apiUrls + 'teamslist',
 
 
 
@@ -20,6 +20,8 @@ LOGIN_DETAILS :  'auth'+'/login',
 POST_MANAGER_DETAILS: 'api'+'/managers',
 CREATE_ACCOUNT :'Account',
 CREATE_PROJECT: 'projects',
+CREATE_PERSON:'Person',
+GET_MANAGRE_DETAILS: 'Person'+'/role',
 
 }
 

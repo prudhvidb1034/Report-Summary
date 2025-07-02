@@ -39,6 +39,7 @@
                     formControlName="weekRange"
                     interface="popover"
                     class="label-texts"
+                    
                   >
                     <ion-select-option
                       *ngFor="let week of weekOptions"
@@ -64,6 +65,7 @@
                     formControlName="status"
                     interface="popover"
                     class="label-texts"
+                    placeholder="Select Type"
                   >
                     <ion-select-option value="Progress">Task</ion-select-option>
                     <ion-select-option value="Pending"
@@ -90,6 +92,7 @@
                     formControlName="status"
                     interface="popover"
                     class="label-texts"
+                     placeholder="Select Project"
                   >
                     <ion-select-option value="Progress"
                       >Customer 360</ion-select-option
@@ -121,6 +124,7 @@
                     formControlName="status"
                     interface="popover"
                     class="label-texts"
+                    placeholder="Select Employee">
                   >
                     <ion-select-option value="Alice Johnson"
                       >Alice Johnson</ion-select-option
@@ -157,6 +161,7 @@
                     interface="popover"
                     multiple="true"
                     class="label-texts"
+                    placeholder="Select Status">
                   >
                     <ion-select-option value="Progress"
                       >Progress</ion-select-option
@@ -210,11 +215,7 @@
                 ></ion-icon>
               </ion-col>
 
-              <ion-col
-                size="1"
-                class="ion-text-center"
-                *ngIf="weeklyUpdates.length > 1"
-              >
+              <ion-col size="1" class="ion-text-center" *ngIf="i > 0">
                 <ion-icon
                   name="trash-outline"
                   color="danger"
@@ -223,6 +224,7 @@
                 ></ion-icon>
               </ion-col>
             </ion-row>
+            <hr *ngIf="weeklyUpdates.length > 1" />
           </div>
         </div>
       </ion-grid>

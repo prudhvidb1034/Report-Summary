@@ -182,7 +182,7 @@ app-project-status {
 //  }
 
 ion-modal.register-modal {
-  --height: calc(100vh - 18vh);
+  --height: calc(100vh - 28vh);
 }
 
 ion-modal.create-account-modal {
@@ -211,7 +211,7 @@ ion-content {
   overflow-y: auto;
   --padding-start: 24px;
   --padding-end: 24px;
-  --padding-top: 16px;
+  --padding-top: 8px;
   --padding-bottom: 16px;
 }
 
@@ -330,7 +330,7 @@ ion-textarea.label-texts .label-text-wrapper {
 }
 
 ion-modal.custom-delete-modal::part(content) {
-  height: 30vh !important;
+  --height: calc(100vh - 70vh);
   width: 50% !important;
   // margin-top: 40px; // Push from top
   // top: 60% !important;

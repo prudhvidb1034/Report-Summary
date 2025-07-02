@@ -3,7 +3,7 @@
     <ion-toolbar color="light">
       <!-- <ion-buttons slot="start"> -->
       <ion-title>
-        <b>{{ isEditMode ? 'Update' : 'Create' }} Project</b>
+        <b>{{ isEditMode ? "Update" : "Create" }} Project</b>
       </ion-title>
       <!-- </ion-buttons> -->
       <ion-buttons slot="end">
@@ -20,35 +20,56 @@
         <ion-row>
           <!-- Project Name -->
           <ion-col size="6">
-            <ion-item class="custom-item" [class.invalid]="isInvalid('projectName')"
-              [class.valid]="isValid('projectName')" lines="none">
-              <ion-input formControlName="projectName" label="Project Name" labelPlacement="floating"
-                class="label-texts" placeholder="Enter project name" [clearOnEdit]="true"></ion-input>
+            <ion-item
+              class="custom-item"
+              [class.invalid]="isInvalid('projectName')"
+              [class.valid]="isValid('projectName')"
+              lines="none"
+            >
+              <ion-input
+                formControlName="projectName"
+                label="Project Name"
+                labelPlacement="floating"
+                class="label-texts"
+                placeholder="Enter project name"
+                [clearOnEdit]="true"
+              ></ion-input>
             </ion-item>
 
             @if (teamForm.get('projectName')?.invalid &&
-            (teamForm.get('projectName')?.dirty || teamForm.get('projectName')?.touched)) {
+            (teamForm.get('projectName')?.dirty ||
+            teamForm.get('projectName')?.touched)) {
             <ion-text color="danger" class="error-message">
               @if (teamForm.get('projectName')?.errors?.['required']) {
               <p>Project Name is required.</p>
-              }
-              @if (teamForm.get('projectName')?.errors?.['minlength']) {
+              } @if (teamForm.get('projectName')?.errors?.['minlength']) {
               <p>Minimum 3 characters required.</p>
               }
             </ion-text>
             }
           </ion-col>
           <ion-col size="6">
-            <ion-item class="custom-item" [class.invalid]="isInvalid('accountId')" [class.valid]="isValid('accountId')"
-              lines="none">
-              <ion-select formControlName="accountId" label="Account Name" labelPlacement="floating"
-                placeholder="Select project location">
-                <ion-select-option *ngFor="let account of accounts$ | async" [value]="account.accountId">
+            <ion-item
+              class="custom-item"
+              [class.invalid]="isInvalid('accountId')"
+              [class.valid]="isValid('accountId')"
+              lines="none"
+            >
+              <ion-select
+                formControlName="accountId"
+                label="Account Name"
+                labelPlacement="floating"
+              >
+                <ion-select-option
+                  *ngFor="let account of accounts$ | async"
+                  [value]="account.accountId"
+                >
                   {{ account.accountName }}
                 </ion-select-option>
               </ion-select>
             </ion-item>
-            @if (teamForm.get('accountId')?.invalid && (teamForm.get('accountId')?.dirty ||
+            @if (teamForm.get('accountId')?.invalid &&
+            (teamForm.get('accountId')?.dirty ||
             teamForm.get('accountId')?.touched)) {
             <ion-text color="danger" class="error-message">
               @if (teamForm.get('accountId')?.errors?.['required']) {
@@ -56,7 +77,6 @@
               }
             </ion-text>
             }
-
           </ion-col>
         </ion-row>
       </ion-grid>
@@ -66,15 +86,15 @@
   <ion-footer>
     <ion-toolbar>
       <ion-buttons slot="end">
-
         <ion-button class="close" (click)="setOpen(false)">Close</ion-button>
 
-        <ion-button class="save" (click)="SubmitForm()">   {{ isEditMode ? 'Update' : 'Save' }}</ion-button>
+        <ion-button class="save" (click)="SubmitForm()">
+          {{ isEditMode ? "Update" : "Save" }}</ion-button
+        >
       </ion-buttons>
     </ion-toolbar>
   </ion-footer>
 </div>
-<div class="loader-overlay" *ngIf="(isLoading$ | async)">
+<div class="loader-overlay" *ngIf="isLoading$ | async">
   <ion-spinner name="crescent"></ion-spinner>
 </div>
-

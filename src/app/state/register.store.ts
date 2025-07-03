@@ -20,19 +20,19 @@ interface ApiResponse<T> {
 }
 @Injectable()
 export class RegisterStore extends ComponentStore<RegistrationState> {
- role: string | undefined;
- private _accountCreateStatus = signal<null | 'success' | 'deleted' | 'update' | 'error'>(null);
+  role: string | undefined;
+  private _accountCreateStatus = signal<null | 'success' | 'deleted' | 'update' | 'error'>(null);
 
-    readonly accountCreateStatus = this._accountCreateStatus.asReadonly();
+  readonly accountCreateStatus = this._accountCreateStatus.asReadonly();
   private register = inject(RegisterService);
   private sharedservice = inject(SharedService)
 
   constructor() {
     super({ register: [], loading: false, error: null });
-  
+
 
   }
-private toast = inject(ToastService);
+  private toast = inject(ToastService);
   readonly register$ = this.select(state => state.register);
   readonly loading$ = this.select(state => state.loading);
   readonly error$ = this.select(state => state.error);
@@ -44,12 +44,12 @@ private toast = inject(ToastService);
           tap({
             next: (user: any) => {
               this.patchState({ register: [user], loading: false });
-                this._accountCreateStatus.set('success');
+              this._accountCreateStatus.set('success');
 
             },
             error: () => {
               this.patchState({ loading: false, error: '' });
-                this._accountCreateStatus.set('error');
+              this._accountCreateStatus.set('error');
             }
           })
         );
@@ -59,68 +59,73 @@ private toast = inject(ToastService);
 
 
 
- 
-readonly getRegisterData = this.effect<string>( // Accepts 'manager' or 'employee' directly
-  trigger$ =>
-    trigger$.pipe(
-      tap(() => this.patchState({ loading: true, error: null })),
-      switchMap((role) =>
-        this.sharedservice.getData<ApiResponse<RegistrationForm[]>>(`${urls.GET_MANAGRE_DETAILS}/${role}`).pipe( // Append to URL
+
+  readonly getRegisterData = this.effect<string>( // Accepts 'manager' or 'employee' directly
+    trigger$ =>
+      trigger$.pipe(
+        tap(() => this.patchState({ loading: true, error: null })),
+        switchMap((role) =>
+          this.sharedservice.getData<ApiResponse<RegistrationForm[]>>(`${urls.GET_MANAGRE_DETAILS}/${role}`).pipe( // Append to URL
+            tapResponse(
+              (manager) => {
+                this.patchState({ register: manager.data, loading: false });
+              },
+              (error) => {
+                this.patchState({ loading: false, error: 'Failed to fetch accounts' });
+              }
+            )
+          )
+        )
+      )
+  );
+
+
+
+  readonly updateperson = this.effect(
+    (account$: Observable<{ id: string; data: RegistrationForm }>) =>
+      account$.pipe(
+        exhaustMap(({ id, data }) => {
+          this.patchState({ loading: true, error: null });
+          return this.sharedservice.patchData(`${urls.CREATE_PERSON}/${id}`, data).pipe(
+            tap({
+              next: (updatedAccount: any) => {
+                this._accountCreateStatus.set('update');
+                this.patchState({ loading: false });
+              },
+              error: () => {
+                this._accountCreateStatus.set('error');
+                this.patchState({ loading: false, error: 'Failed to update account' });
+                this.toast.show('error', 'Update failed!');
+              }
+            })
+          );
+        })
+      )
+  );
+
+  readonly deleteProject = this.effect((projectId$: Observable<string>) =>
+    projectId$.pipe(
+      exhaustMap(id =>
+        this.sharedservice.deleteData(`${urls.CREATE_PERSON}/${id}`).pipe(
           tapResponse(
-            (manager) => {
-              this.patchState({ register: manager.data, loading: false });
+            () => {
+              this._accountCreateStatus.set('deleted');
+              if (this.role === 'manager') {
+                this.getRegisterData('manager');
+                this.getRegisterData('employee');
+              } else if (this.role === 'employee') {
+                this.getRegisterData('employee');
+              }
+              this.toast.show('success', 'Account deleted successfully!');
             },
             (error) => {
-              this.patchState({ loading: false, error: 'Failed to fetch accounts' });
+              this.toast.show('error', 'Failed to delete account!');
             }
           )
         )
       )
     )
-);
-
-
-
-  readonly updateperson = this.effect(
-        (account$: Observable<{ id: string; data: RegistrationForm }>) =>
-            account$.pipe(
-                exhaustMap(({ id, data }) => {
-                    this.patchState({ loading: true, error: null });
-                    return this.sharedservice.patchData(`${urls.CREATE_PERSON}/${id}`, data).pipe(
-                        tap({
-                            next: (updatedAccount: any) => {
-                                this._accountCreateStatus.set('update');
-                                this.patchState({ loading: false });
-                            },
-                            error: () => {
-                                this._accountCreateStatus.set('error');
-                                this.patchState({ loading: false, error: 'Failed to update account' });
-                                this.toast.show('error', 'Update failed!');
-                            }
-                        })
-                    );
-                })
-            )
-    );
-
-  readonly deleteProject = this.effect((projectId$: Observable<string>) =>
-        projectId$.pipe(
-            exhaustMap(id =>
-                this.sharedservice.deleteData(`${urls.CREATE_PERSON}/${id}`).pipe(
-                    tapResponse(
-                        () => {
-                             this._accountCreateStatus.set('deleted');
-                            this.getRegisterData('manager'); // or 'employee', depending on your context
-                            this.toast.show('success', 'Account deleted successfully!');
-                        },
-                        (error) => {
-                            this.toast.show('error', 'Failed to delete account!');
-                        }
-                    )
-                )
-            )
-        )
-    );
+  );
 
 
 

@@ -16,7 +16,7 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-employees',
   standalone: true,
-  imports: [ReusableTableComponent,IonicModule,CommonModule],
+  imports: [ReusableTableComponent, IonicModule, CommonModule],
   providers: [ProjectStore, RegisterStore],
   templateUrl: './employees.component.html',
   styleUrl: './employees.component.scss'
@@ -30,10 +30,10 @@ export class EmployeesComponent {
   employeeId: any;
   private projectStore = inject(ProjectStore);
   private registerStore = inject(RegisterStore);
-  
+
   registerList$ = this.registerStore.register$;
   teamsList$ = this.projectStore.team$;
-    isLoading$ = this.registerStore.select(state => state.loading);
+  isLoading$ = this.registerStore.select(state => state.loading);
   ngOnInit() {
     this.projectStore.getTeam();
     this.registerStore.getRegisterData('employee');
@@ -66,10 +66,10 @@ export class EmployeesComponent {
         this.loadtagEmployeeModal();
         break;
       case 'edit':
-        this.loadCreateEmployeeModal();
+        this.EditCreateEmployeeModal(event.item);
         break;
       case 'delete':
-        this.deleteModal();
+        this.deleteModal(event.item);
         break;
       default:
         console.log('Unknown action type:', event.type);
@@ -86,6 +86,23 @@ export class EmployeesComponent {
     }).then((modal) => {
       modal.present();
       modal.onDidDismiss().then((data) => {
+          this.registerStore.getRegisterData('employee');
+        console.log('Modal dismissed with data:', data);
+      });
+    });
+  }
+  EditCreateEmployeeModal(item: any) {
+    this.modalController.create({
+      component: RegisterComponent,
+      cssClass: 'register-modal',
+      componentProps: {
+        role: 'employee',
+        editData: item,
+      }
+    }).then((modal) => {
+      modal.present();
+      modal.onDidDismiss().then((data) => {
+          this.registerStore.getRegisterData('employee');
         console.log('Modal dismissed with data:', data);
       });
     });
@@ -105,18 +122,25 @@ export class EmployeesComponent {
       });
     });
   }
-  deleteModal() {
+  deleteModal(item: any) {
     this.modalController.create({
       component: ConfirmDeleteComponent,
       cssClass: 'custom-delete-modal',
       componentProps: {
         role: 'delete',
+        data: {
+          id: item.personId,
+          name: item.firstName,
+
+        }
       }
     }).then((modal) => {
       modal.present();
-      modal.onDidDismiss().then((data) => {
-        console.log('Modal dismissed with data:', data);
-        // Handle any data returned from the modal if needed
+      modal.onDidDismiss().then((result) => {
+        if (result?.data?.confirmed) {
+          this.registerStore.deleteProject(result.data.id);
+           
+        }
       });
     });
   }

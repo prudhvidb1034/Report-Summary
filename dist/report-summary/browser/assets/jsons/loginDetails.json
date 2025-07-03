@@ -1,0 +1,32 @@
+{
+    "userList": [
+        {
+            "role": "manager",
+            "empId": "QE21112",
+            "userEntry": "existingUser",
+            "userName":"abc@gmail.com",
+            "password":"1@2@3@4"
+        },
+        {
+            "role": "manager",
+            "empId": "QE22122",
+            "userEntry": "existingUser",
+            "userName":"manager@gmail.com",
+            "password":"india@1947"
+        },
+        {
+            "role": "employee",
+            "empId": "QE12234",
+            "userEntry": "new",
+            "userName":"employee@gmail.com",
+            "password":"India@1947"
+        },
+        {
+            "role": "employee",
+            "empId": "QE12233",
+            "userEntry": "existingUser",
+            "userName":"employee2@gmail.com",
+            "password":"Sarath11@"
+        }
+    ]
+}

@@ -2,13 +2,13 @@
   <ion-header>
     <ion-toolbar color="light">
       <ion-title>
-        <b>Project Status Update</b>
+        <b>Task Status Update</b>
       </ion-title>
-      <ion-buttons slot="end">
+      <!-- <ion-buttons slot="end">
         <ion-button fill="clear" (click)="setOpen(false)">
           <ion-icon name="close-outline" class="icon-medium"></ion-icon>
         </ion-button>
-      </ion-buttons>
+      </ion-buttons> -->
     </ion-toolbar>
   </ion-header>
 
@@ -67,13 +67,14 @@
                     class="label-texts"
                     placeholder="Select Type"
                   >
-                    <ion-select-option value="Progress">Task</ion-select-option>
+                    
                     <ion-select-option value="Pending"
                       >Summary</ion-select-option
                     >
                     <ion-select-option value="Completed"
                       >Key Accomplishments</ion-select-option
                     >
+                    <ion-select-option value="Progress">Upcoming Task</ion-select-option>
                   </ion-select>
                 </ion-item>
               </ion-col>
@@ -224,7 +225,7 @@
                 ></ion-icon>
               </ion-col>
             </ion-row>
-            <hr *ngIf="weeklyUpdates.length > 1" />
+            <hr style="margin-bottom: 8px;" *ngIf="weeklyUpdates.length > 1" />
           </div>
         </div>
       </ion-grid>

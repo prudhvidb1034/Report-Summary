@@ -95,6 +95,11 @@ export const routes: Routes = [
     loadComponent: () => import('../app/shared/view-reports/view-reports.component').then((m) => m.ViewReportsComponent),
     canActivate: [RoleGuard],
   },
+  {
+    path: 'chat-ai',
+    loadComponent: () => import('../app/features/ai-chatbot/ai-chatbot.component').then((m) => m.AiChatbotComponent),
+    canActivate: [RoleGuard],
+  },
 
   {
     path: '',

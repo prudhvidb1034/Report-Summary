@@ -1,0 +1,29 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>ETS AI</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<div>
+  <div class="chat-container">
+    <div *ngFor="let message of messages" [ngClass]="{'user-message': message.type === 'user', 'ai-message': message.type === 'ai'}">
+        <div  [innerHTML]="message.displayHtml"></div>
+    </div>
+  </div>
+</div>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-textarea
+      [(ngModel)]="userInput"
+      placeholder="Ask Anything"
+      (keyup.enter)="submitQuestion()"
+      clearInput="true"
+    ></ion-textarea>
+    <ion-buttons slot="end">
+      <ion-button (click)="submitQuestion()">
+        <ion-icon name="send"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

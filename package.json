@@ -34,6 +34,7 @@
     "dotenv": "^17.0.0",
     "express": "^5.1.0",
     "ionicons": "^8.0.8",
+    "marked": "^16.0.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.3"
@@ -43,6 +44,7 @@
     "@angular/cli": "^17.3.17",
     "@angular/compiler-cli": "^17.3.0",
     "@types/jasmine": "~5.1.0",
+    "@types/marked": "^5.0.2",
     "jasmine-core": "~5.1.0",
     "json-server": "^1.0.0-beta.3",
     "karma": "^6.4.4",

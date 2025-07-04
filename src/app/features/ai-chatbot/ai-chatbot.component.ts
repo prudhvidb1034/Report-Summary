@@ -4,68 +4,58 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { GemeniAiService } from '../../services/gemeni-ai/gemeni-ai.service';
-import { GemeniUpdatedAIService } from '../../services/gemeni-ai/gemeni-updated-ai-service';
-import { GENAI } from '../../services/gemeni-ai/gemeni-geni-service';
+// Assuming GemeniUpdatedAIService and GENAI are not directly used in this component for the current flow
+// import { GemeniUpdatedAIService } from '../../services/gemeni-ai/gemeni-updated-ai-service';
+// import { GENAI } from '../../services/gemeni-ai/gemeni-geni-service';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { MarkdownService } from '../../services/markdown/markdown.service';
 
 
-
+interface ChatMessage {
+  displayHtml: SafeHtml;
+  type: 'user' | 'ai';
+}
 
 @Component({
   selector: 'app-ai-chatbot',
   standalone: true,
-  imports: [IonicModule,CommonModule,FormsModule],
+  imports: [IonicModule, CommonModule, FormsModule],
   templateUrl: './ai-chatbot.component.html',
   styleUrl: './ai-chatbot.component.scss'
 })
 export class AiChatbotComponent {
 
   userInput: string = '';
-  messages: { text: string; type: 'user' | 'ai' }[] = [];
-  res:any;
-safeHtmlResponse: SafeHtml |undefined;
+  messages: ChatMessage[] = [];
 
-  constructor(private http:HttpClient,private aiService:GemeniAiService,private updatedGemeniAI:GemeniUpdatedAIService,private genAi:GENAI,private sanitizer: DomSanitizer){}
+  constructor(
+    private aiService: GemeniAiService,
+    private sanitizer: DomSanitizer,
+    private markdownService:MarkdownService
+  ) {}
 
-   async submitQuestion() {
-    if(this.userInput.trim()){
-    this.messages.push({ text: `You: ${this.userInput}`, type: 'user' });
+  async submitQuestion() {
+    if (!this.userInput.trim()) {
+      return; // Prevent sending empty messages
     }
-    const res=await this.aiService.sendUserInput(this.userInput);
-      this.safeHtmlResponse = this.sanitizer.bypassSecurityTrustHtml(res);
 
-          console.log("res",res);
+    const userText = this.userInput;
+    this.messages.push({
+      displayHtml: this.sanitizer.bypassSecurityTrustHtml(`<p><strong>You:</strong> ${userText}</p>`),
+      type: 'user'
+    });
+    this.userInput = ''; 
 
-    if(res){
-       this.messages.push({ text: res, type: 'ai' });
-    }
-   // this.updatedGemeniAI.main();
-    // if (this.userInput.trim()) {
-    //   // Append user's question
-    //   this.messages.push({ text: `You: ${this.userInput}`, type: 'user' });
-    //    this.res=this.aiService.getAIExplanation(this.userInput);
-    //   if(this.res){
-    //     this.messages.push({ text: this.res, type: 'ai' });
-    //   }
-    //   const params=this.userInput
-    //   // this.http.get('/api/gemini'+'/'+this.userInput).subscribe((data:any)=>{
-    //   //   if(data){
-    //   //     this.messages.push({ text: data.response, type: 'ai' });
-    //   //   }
+    const aiRawResponseHtml = await this.aiService.sendUserInput(userText);
+    const aiSafeHtmlResponse=this.markdownService.convertToHtml(aiRawResponseHtml);
+    // const aiSafeHtmlResponse = this.sanitizer.bypassSecurityTrustHtml(aiRawResponseHtml);
+    this.messages.push({
+      displayHtml: aiSafeHtmlResponse,
+      type: 'ai'
+    });
 
-    //   //   });
-    //   console.log(this.userInput);
-    //  // this.http.post('http://localhost:3000/gemeni','')
-    //   // Simulate AI response (you would replace this with actual AI logic)
-    //   const aiResponse = "AI: This is a simulated response to your question.";
-    // //  this.messages.push({ text: aiResponse, type: 'ai' });
-
-    //   // Clear the input field
-    //   this.userInput = '';
-    // }
-   // this.messages.push({ text: 'Iam an AI ', type: 'ai' });
+    // Optional: Scroll to bottom of chat if you have a scrollable container
+    // You'd need a @ViewChild and ElementRef for this.
+    // E.g., this.chatContainer.nativeElement.scrollTop = this.chatContainer.nativeElement.scrollHeight;
   }
-
-
-
 }

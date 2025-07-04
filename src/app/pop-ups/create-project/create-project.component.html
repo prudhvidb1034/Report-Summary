@@ -1,11 +1,11 @@
 <div class="modal-wrapper">
   <ion-header>
     <ion-toolbar color="light">
-      <ion-buttons slot="start">
-        <ion-title>
-          <b>Create Project</b>
-        </ion-title>
-      </ion-buttons>
+      <!-- <ion-buttons slot="start"> -->
+      <ion-title>
+        <b>{{ isEditMode ? "Update" : "Create" }} Project</b>
+      </ion-title>
+      <!-- </ion-buttons> -->
       <ion-buttons slot="end">
         <ion-button fill="clear" (click)="setOpen(false)">
           <ion-icon name="close-outline" class="icon-medium"></ion-icon>
@@ -16,47 +16,85 @@
 
   <ion-content>
     <form [formGroup]="teamForm">
-      <ion-item>
-        <ion-input formControlName="projectname" label="Project Name" labelPlacement="floating"
-          placeholder="Enter project name" [clearOnEdit]="true"></ion-input>
-      </ion-item>
-      @if (teamForm.get('projectname')?.invalid &&
-      (teamForm.get('projectname')?.dirty ||
-      teamForm.get('projectname')?.touched)) {
-      <ion-text color="danger" class="error-message">
-        @if (teamForm.get('projectname')?.errors?.['required']) {
-        <p>Project Name is required.</p>
-        } @if (teamForm.get('projectname')?.errors?.['minlength']) {
-        <p>Minimum 3 characters required.</p>
-        }
-      </ion-text>
-      }
+      <ion-grid>
+        <ion-row>
+          <!-- Project Name -->
+          <ion-col size="6">
+            <ion-item
+              class="custom-item"
+              [class.invalid]="isInvalid('projectName')"
+              [class.valid]="isValid('projectName')"
+              lines="none"
+            >
+              <ion-input
+                formControlName="projectName"
+                label="Project Name"
+                labelPlacement="floating"
+                class="label-texts"
+                placeholder="Enter project name"
+                [clearOnEdit]="true"
+              ></ion-input>
+            </ion-item>
 
-      <ion-item>
-        <ion-input formControlName="projectlocation" label="Account Name" labelPlacement="floating"
-          placeholder="Enter account name" [clearOnEdit]="true"></ion-input>
-      </ion-item>
-      @if (teamForm.get('projectlocation')?.invalid &&
-      (teamForm.get('projectlocation')?.dirty ||
-      teamForm.get('projectlocation')?.touched)) {
-      <ion-text color="danger" class="error-message">
-        @if (teamForm.get('projectlocation')?.errors?.['required']) {
-        <p>Project Location is required.</p>
-        } @if (teamForm.get('projectlocation')?.errors?.['minlength']) {
-        <p>Minimum 3 characters required.</p>
-        }
-      </ion-text>
-      }
+            @if (teamForm.get('projectName')?.invalid &&
+            (teamForm.get('projectName')?.dirty ||
+            teamForm.get('projectName')?.touched)) {
+            <ion-text color="danger" class="error-message">
+              @if (teamForm.get('projectName')?.errors?.['required']) {
+              <p>Project Name is required.</p>
+              } @if (teamForm.get('projectName')?.errors?.['minlength']) {
+              <p>Minimum 3 characters required.</p>
+              }
+            </ion-text>
+            }
+          </ion-col>
+          <ion-col size="6">
+            <ion-item
+              class="custom-item"
+              [class.invalid]="isInvalid('accountId')"
+              [class.valid]="isValid('accountId')"
+              lines="none"
+            >
+              <ion-select
+                formControlName="accountId"
+                label="Account Name"
+                labelPlacement="floating"
+              >
+                <ion-select-option
+                  *ngFor="let account of accounts$ | async"
+                  [value]="account.accountId"
+                >
+                  {{ account.accountName }}
+                </ion-select-option>
+              </ion-select>
+            </ion-item>
+            @if (teamForm.get('accountId')?.invalid &&
+            (teamForm.get('accountId')?.dirty ||
+            teamForm.get('accountId')?.touched)) {
+            <ion-text color="danger" class="error-message">
+              @if (teamForm.get('accountId')?.errors?.['required']) {
+              <p>Account name is required.</p>
+              }
+            </ion-text>
+            }
+          </ion-col>
+        </ion-row>
+      </ion-grid>
     </form>
   </ion-content>
+
   <ion-footer>
     <ion-toolbar>
       <ion-buttons slot="end">
-
         <ion-button class="close" (click)="setOpen(false)">Close</ion-button>
 
-        <ion-button class="save" (click)="SubmitForm()">Save</ion-button>
+        <ion-button class="save" (click)="SubmitForm()">
+          {{ isEditMode ? "Update" : "Save" }}</ion-button
+        >
       </ion-buttons>
     </ion-toolbar>
   </ion-footer>
+</div>
+<div class="loader-overlay" *ngIf="isLoading$ | async">
+  <ion-spinner name="crescent"></ion-spinner>
 </div>

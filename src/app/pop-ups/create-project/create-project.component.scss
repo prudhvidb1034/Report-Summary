@@ -1,15 +1,28 @@
-:host {
+// :host {
+//   display: flex;
+//   flex-direction: column;
+//   height:70%;
+// }
+
+// ion-content {
+//   flex: 1;
+//   --padding-bottom: 0;
+//   --margin-bottom: 0;
+// }
+/* styles.scss or your component's scss file */
+
+
+
+.modal-wrapper {
   display: flex;
   flex-direction: column;
-  height:70%;
+  height: 100%;
+  width: 100%;
+  background: var(--ion-background-color, #fff);
+  overflow: hidden;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
 }
 
-ion-content {
-  flex: 1;
-  --padding-bottom: 0;
-  --margin-bottom: 0;
-}
-/* styles.scss or your component's scss file */
 .custom-content {
   --background: transparent; /* Optional: Set background if needed */
 
@@ -37,9 +50,13 @@ ion-content {
 }
 
 /* Ensure the ion-content container doesn't force scrolling */
-ion-content {
-  --overflow: hidden;
-}
+// ion-content {
+//   --overflow: hidden;
+// }
 // ion-footer {
 //   position: relative;
 // }
+ion-grid {
+  margin-top: 10px;
+}
+

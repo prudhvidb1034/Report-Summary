@@ -1,4 +1,4 @@
-<ion-content fullscreen class="login-bg" scroll-y="false">
+ <!-- <ion-content fullscreen class="login-bg" scroll-y="false"> -->
   <!-- <div class="background-icons">
     <img src="assets/icons/discord.svg" class="icon top-10 left-20">
     <img src=".../file.svg" class="icon top-30 right-25">
@@ -8,10 +8,10 @@
     <h1>Login to ETS</h1>
     <form [formGroup]="form">
       <ion-label class="display-flex font-size-14 padding-bottom-5">Email address</ion-label>
-      <ion-item   [class.invalid]="isInvalid('username')"
-        [class.valid]="isValid('username')" lines="none" class="input-group">
+      <ion-item   [class.invalid]="isInvalid('userName')"
+        [class.valid]="isValid('userName')" lines="none" class="input-group">
         <!-- <ion-icon name="mail-outline" slot="start"></ion-icon> -->
-        <ion-input type="username"  class="small-placeholder"formControlName="username" placeholder="sarath@gmail.com"></ion-input>
+        <ion-input type="userName"  class="small-placeholder"formControlName="userName" placeholder="Enter your mail id "></ion-input>
       </ion-item>
       <div class="forgot-row display-flex justify-space-between font-size-14 padding-bottom-5">
         <ion-label class="">Password</ion-label>
@@ -25,4 +25,7 @@
       <ion-button expand="block" style="--background: #000033;flex-grow: 8; width: 100%; --border-radius: 0px;padding-top: 15px;"  class="btn-login" (click)="submit()">Login</ion-button>
     </form>
   </div>
-</ion-content>
+<!-- </ion-content> -->
+<div class="loader-overlay" *ngIf="(isLoading$ | async)">
+  <ion-spinner name="crescent"></ion-spinner>
+</div>

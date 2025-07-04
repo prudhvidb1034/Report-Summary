@@ -5,7 +5,7 @@ export const routes: Routes = [
   {
     path: 'home',
     loadComponent: () => import('../app/features/home/home.component').then((m) => m.HomeComponent),
-     canActivate: [RoleGuard]
+    canActivate: [RoleGuard]
   },
   {
     path: 'login',
@@ -30,7 +30,7 @@ export const routes: Routes = [
       {
         path: 'employees/:id',
         loadComponent: () => import('./features/project-management/employees/employees.component').then((m) => m.EmployeesComponent),
-         canActivate: [RoleGuard],
+        canActivate: [RoleGuard],
         data: { breadcrumb: 'EmployeeList' }
       }
     ]
@@ -43,7 +43,7 @@ export const routes: Routes = [
         path: '',
         loadComponent: () => import('./features/project-management/summary/summary.component').then((m) => m.SummaryComponent),
         canActivate: [RoleGuard],
-        data: { expectedRoles: ['superadmin','manager','employee'] }
+        data: { expectedRoles: ['superadmin', 'manager', 'employee'] }
       },
       {
         path: 'task/:id',
@@ -56,20 +56,26 @@ export const routes: Routes = [
         loadComponent: () => import('./features/project-management/project-status/project-status.component').then((m) => m.ProjectStatusComponent),
         canActivate: [RoleGuard],
       },
+      {
+        path: 'employee-dashboard',
+        loadComponent: () => import('./pop-ups/employee-update/employee-update.component').then((m) => m.EmployeeUpdateComponent),
+        canActivate: [RoleGuard],
+        data: { expectedRoles: ['employee'] }
+      },
     ]
   },
   {
     path: 'employees',
     loadComponent: () => import('./features/project-management/employees/employees.component').then((m) => m.EmployeesComponent),
-     canActivate: [RoleGuard],
+    canActivate: [RoleGuard],
     data: { breadcrumb: 'EmployeeList' }
   },
   {
     path: 'accounts',
     loadComponent: () => import('./features/project-management/account/account.component').then((m) => m.AccountCreateComponent),
-   
-     canActivate: [RoleGuard],
-    
+
+    canActivate: [RoleGuard],
+
   },
   {
     path: 'employee-dashboard',

@@ -40,7 +40,7 @@ export class TaskComponent {
     { header: 'Action', field: 'action', type: ['edit', 'delete'] }
   ];
 
-  ngOnInit() {
+  ngOnInit() {  
     this.getprojects.getDetails();
 
     this.getprojects.projects$.subscribe((projects: any[]) => {

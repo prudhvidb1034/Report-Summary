@@ -3,10 +3,10 @@ import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink, RouterModule } from '@angular/router';
 import { IonicModule, ModalController } from '@ionic/angular';
-import { createTeam } from '../../../models/project.model';
+import { createProject } from '../../../models/project.model';
 import { ToastService } from '../../../shared/toast.service';
 import { LoginStore } from '../../../state/login.store';
-import { TeamStore } from '../../../state/team.store';
+import { ProjectStore } from '../../../state/project.store';
 import { ReusableTableComponent } from '../../../shared/reusable-table/reusable-table.component';
 import { CreateProjectComponent } from '../../../pop-ups/create-project/create-project.component';
 import { ConfirmDeleteComponent } from '../../../pop-ups/confirm-delete/confirm-delete.component';
@@ -17,40 +17,13 @@ import { ConfirmDeleteComponent } from '../../../pop-ups/confirm-delete/confirm-
   imports: [
     FormsModule, RouterModule,
     IonicModule, CommonModule, ReactiveFormsModule, RouterModule, ReusableTableComponent],
-  providers: [TeamStore],
+  providers: [ProjectStore],
   templateUrl: './projects.component.html',
   styleUrl: './projects.component.scss'
 })
 export class ProjectListComponent {
   label = 'Project';
-  columns = [
-    { header: 'ID', field: 'id' },
-    { header: 'Project Name', field: 'projectname' },
-    { header: 'Location', field: 'projectLocation' },
-    {header:'Teams',field:'viewTeam',linkEnable:true},
-    // { header: 'Start Date', field: 'startDate' },
-    // { header: 'End Date', field: 'endDate' },
-    { header: 'Action', field: 'action', type: ['edit', 'delete'] }
-  ];
 
-  handleRowAction(action: any) {
-    switch (action.type) {
-      case 'viewTeam':
-        this.router.navigate(['/projects/employees',action.item.id]);
-        break;
-      case 'create':
-        this.loadCreateEmployeeModal();
-        break;
-      case 'edit':
-        this.loadCreateEmployeeModal();
-        break;
-      case 'delete':
-        this.deleteModal();
-        break;  
-      default:
-        console.log('failing')
-    }
-  }
 
 
 
@@ -60,13 +33,16 @@ export class ProjectListComponent {
   private fb = inject(FormBuilder)
   private toast = inject(ToastService)
   private router = inject(Router)
-  teamList = signal<createTeam[]>([]);
-  private teamStore = inject(TeamStore);
-  teamList$ = this.teamStore.team$;
+  teamList = signal<createProject[]>([]);
+  private projectStore = inject(ProjectStore);
+  projectList$ = this.projectStore.team$;
   private modalController = inject(ModalController);
   private loginStore = inject(LoginStore);
+  // projectStore = inject(TeamStore);
+isLoading$ = this.projectStore.select(state => state.loading);
+
   constructor(private route: ActivatedRoute) {
-    this.teamStore.getTeam();
+    this.projectStore.getTeam();
   }
   ngOnInit() {
     this.CreateForm();
@@ -99,7 +75,7 @@ export class ProjectListComponent {
   SubmitForm() {
     const response = this.teamForm.value;
     if (this.teamForm.valid) {
-      this.teamStore.addTeam(response);
+      this.projectStore.addTeam(response);
       this.setOpen(false);
       this.teamForm.reset();
       this.toast.show('success', 'Project created successfully!')
@@ -109,36 +85,95 @@ export class ProjectListComponent {
     }
   }
 
+
+
+  columns = [
+    { header: 'Project Id', field: 'projectId' },
+    { header: 'Project Name', field: 'projectName' },
+    { header: 'Account Name', field: 'accountName' },
+    { header: 'Teams', field: 'viewTeam', linkEnable: true },
+    // { header: 'Start Date', field: 'startDate' },
+    // { header: 'End Date', field: 'endDate' },
+    { header: 'Action', field: 'action', type: ['edit', 'delete'] }
+  ];
+
+  handleRowAction(action: any) {
+    switch (action.type) {
+      case 'viewTeam':
+        this.router.navigate(['/projects/employees', action.item.id]);
+        break;
+      case 'create':
+        this.loadCreateEmployeeModal();
+        break;
+      case 'edit':
+        this.updateCreateEmployeeModal(action.item);
+        console.log('Row from table:', action.item);
+        break;
+      case 'delete':
+
+        this.deleteModal(action.item);
+
+        break;
+      default:
+        console.log('failing')
+    }
+  }
+
   loadCreateEmployeeModal() {
+    this.modalController.create({
+      component: CreateProjectComponent,
+      cssClass: 'create-project-modal',
+      componentProps: {
+
+      }
+    }).then((modal) => {
+      modal.present();
+      modal.onDidDismiss().then((data) => {
+         this.projectStore.getTeam();
+        console.log('Modal dismissed with data:', data);
+        // Handle any data returned from the modal if needed
+      });
+    });
+
+  }
+
+  updateCreateEmployeeModal(item: any) {
     this.modalController.create({
       component: CreateProjectComponent,
       cssClass: 'custom-modal',
       componentProps: {
-        
+        editData: item
+
+      }
+    }).then((modal) => {
+      modal.present();
+      modal.onDidDismiss().then((data) => {
+           this.projectStore.getTeam();
+        console.log('Modal dismissed with data:', data);
+        // Handle any data returned from the modal if needed
+      });
+    });
+
+  }
+
+  deleteModal(item: any) {
+    this.modalController.create({
+      component: ConfirmDeleteComponent,
+      cssClass: 'custom-delete-modal',
+      componentProps: {
+        role: 'delete',
+        data: {
+          id: item.projectId,
+          name: item.projectName
+        }
       }
     }).then((modal) => {
       modal.present();
       modal.onDidDismiss().then((data) => {
         console.log('Modal dismissed with data:', data);
+        this.projectStore.deleteProject(item.projectId);
         // Handle any data returned from the modal if needed
       });
     });
- 
   }
-  
- deleteModal(){
-      this.modalController.create({
-        component: ConfirmDeleteComponent,
-        cssClass: 'custom-delete-modal',
-        componentProps: { 
-          role: 'delete',
-        }
-      }).then((modal) => {
-        modal.present();
-        modal.onDidDismiss().then((data) => {
-          console.log('Modal dismissed with data:', data);
-          // Handle any data returned from the modal if needed
-        });
-      });
-   }
 }

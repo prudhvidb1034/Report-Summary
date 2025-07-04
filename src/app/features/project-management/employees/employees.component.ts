@@ -2,21 +2,22 @@ import { Component, inject } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { ReusableTableComponent } from "../../../shared/reusable-table/reusable-table.component";
 import { Observable, of } from 'rxjs';
-import { ModalController } from '@ionic/angular';
+import { IonicModule, ModalController } from '@ionic/angular';
 import { RegisterComponent } from '../../../shared/register/register.component';
 import { EmployeeUpdateComponent } from '../../../pop-ups/employee-update/employee-update.component';
 import { CreateProjectComponent } from '../../../pop-ups/create-project/create-project.component';
 import { ReusablePopUpComponent } from '../../../pop-ups/reusable-pop-up/reusable-pop-up.component';
-import { TeamStore } from '../../../state/team.store';
+import { ProjectStore } from '../../../state/project.store';
 import { SummaryStore } from '../../../state/summary.store';
 import { RegisterStore } from '../../../state/register.store';
 import { ConfirmDeleteComponent } from '../../../pop-ups/confirm-delete/confirm-delete.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-employees',
   standalone: true,
-  imports: [ReusableTableComponent],
-  providers: [TeamStore, RegisterStore],
+  imports: [ReusableTableComponent, IonicModule, CommonModule],
+  providers: [ProjectStore, RegisterStore],
   templateUrl: './employees.component.html',
   styleUrl: './employees.component.scss'
 })
@@ -27,13 +28,15 @@ export class EmployeesComponent {
   private route = inject(Router)
   private router = inject(ActivatedRoute)
   employeeId: any;
-  private teamStore = inject(TeamStore);
+  private projectStore = inject(ProjectStore);
   private registerStore = inject(RegisterStore);
+
   registerList$ = this.registerStore.register$;
-  teamsList$ = this.teamStore.team$;
+  teamsList$ = this.projectStore.team$;
+  isLoading$ = this.registerStore.select(state => state.loading);
   ngOnInit() {
-    this.teamStore.getTeam();
-    this.registerStore.getRegisterData({ role: 'employee' });
+    this.projectStore.getTeam();
+    this.registerStore.getRegisterData('employee');
 
 
     this.router.paramMap.subscribe((params: ParamMap) => {
@@ -45,55 +48,14 @@ export class EmployeesComponent {
   }
 
   columns = [
-    { header: 'Employee ID', field: 'employeeId' },
-    { header: 'Employee Name', field: 'employeeName' },
-    { header: 'Mail id', field: 'mailId' },
-    { header: 'Project', field: 'project' },
+    { header: 'Employee ID', field: 'personId' },
+    { header: 'Employee Name', field: 'firstName' },
+    { header: 'Mail id', field: 'email' },
+    { header: 'Project', field: 'projectNames' },
     { header: 'Action', field: 'action', type: ['edit', 'delete'] }
   ];
 
 
-  employees = [
-    {
-      employeeId: 'EMP001',
-      employeeName: 'Alice Johnson',
-      mailId: 'alice.johnson@example.com',
-      project: 'Zira Clone'
-    },
-    {
-      employeeId: 'EMP002',
-      employeeName: 'Bob Smith',
-      mailId: 'bob.smith@example.com',
-      project: 'iTraceu Enhancement'
-    },
-    {
-      employeeId: 'EMP003',
-      employeeName: 'Charlie Lee',
-      mailId: 'charlie.lee@example.com',
-      project: 'Onboarding Portal'
-    },
-    {
-      employeeId: 'EMP004',
-      employeeName: 'Diana Cruz',
-      mailId: 'diana.cruz@example.com',
-      project: 'Payroll Integration'
-    },
-    {
-      employeeId: 'EMP005',
-      employeeName: 'Ethan Patel',
-      mailId: 'ethan.patel@example.com',
-      project: 'UI Revamp'
-    },
-    {
-      employeeId: 'EMP006',
-      employeeName: 'Fiona Wright',
-      mailId: 'fiona.wright@example.com',
-      project: 'Admin Dashboard'
-    }
-  ];
-
-
-  employeelist$: Observable<any[]> = of(this.employees);
 
   handleRowAction(event: any) {
     switch (event.type) {
@@ -104,10 +66,10 @@ export class EmployeesComponent {
         this.loadtagEmployeeModal();
         break;
       case 'edit':
-        this.loadCreateEmployeeModal();
+        this.EditCreateEmployeeModal(event.item);
         break;
       case 'delete':
-        this.deleteModal();
+        this.deleteModal(event.item);
         break;
       default:
         console.log('Unknown action type:', event.type);
@@ -117,12 +79,30 @@ export class EmployeesComponent {
   loadCreateEmployeeModal() {
     this.modalController.create({
       component: RegisterComponent,
+      cssClass: 'register-modal',
       componentProps: {
         role: 'employee',
       }
     }).then((modal) => {
       modal.present();
       modal.onDidDismiss().then((data) => {
+          this.registerStore.getRegisterData('employee');
+        console.log('Modal dismissed with data:', data);
+      });
+    });
+  }
+  EditCreateEmployeeModal(item: any) {
+    this.modalController.create({
+      component: RegisterComponent,
+      cssClass: 'register-modal',
+      componentProps: {
+        role: 'employee',
+        editData: item,
+      }
+    }).then((modal) => {
+      modal.present();
+      modal.onDidDismiss().then((data) => {
+          this.registerStore.getRegisterData('employee');
         console.log('Modal dismissed with data:', data);
       });
     });
@@ -130,7 +110,7 @@ export class EmployeesComponent {
   loadtagEmployeeModal() {
     this.modalController.create({
       component: ReusablePopUpComponent,
-      cssClass: 'custom-modal',
+      cssClass: 'reusable-popUp-modal',
       componentProps: {
         teamsList$: this.teamsList$,
         registerList$: this.registerList$,
@@ -142,18 +122,25 @@ export class EmployeesComponent {
       });
     });
   }
-  deleteModal() {
+  deleteModal(item: any) {
     this.modalController.create({
       component: ConfirmDeleteComponent,
       cssClass: 'custom-delete-modal',
       componentProps: {
         role: 'delete',
+        data: {
+          id: item.personId,
+          name: item.firstName,
+
+        }
       }
     }).then((modal) => {
       modal.present();
-      modal.onDidDismiss().then((data) => {
-        console.log('Modal dismissed with data:', data);
-        // Handle any data returned from the modal if needed
+      modal.onDidDismiss().then((result) => {
+        if (result?.data?.confirmed) {
+          this.registerStore.deleteProject(result.data.id);
+           
+        }
       });
     });
   }

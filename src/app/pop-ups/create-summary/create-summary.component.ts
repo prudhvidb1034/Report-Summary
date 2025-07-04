@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { createTeam } from '../../models/project.model';
+import { createProject } from '../../models/project.model';
 import { SummaryService } from '../../services/summary/summary.service';
 import { Router } from '@angular/router';
 import { SummaryStore } from '../../state/summary.store';
@@ -16,7 +16,7 @@ import { CommonModule } from '@angular/common';
   styleUrl: './create-summary.component.scss'
 })
 export class CreateSummaryComponent {
-  projects: createTeam[] = [];
+  projects: createProject[] = [];
   private summary = inject(SummaryService);
   weekSummaryForm !: FormGroup;
   private route = inject(Router);
@@ -92,4 +92,13 @@ export class CreateSummaryComponent {
       this.weekSummaryForm.markAllAsTouched();
     }
   }
+  isInvalid(controlName: string): boolean {
+  const control = this.weekSummaryForm.get(controlName);
+  return !!(control && control.invalid && control.touched);
+}
+
+isValid(controlName: string): boolean {
+  const control = this.weekSummaryForm.get(controlName);
+  return !!(control && control.valid && control.touched);
+}
 }

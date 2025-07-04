@@ -1,112 +1,128 @@
 import { Component, inject } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { IonicModule, ModalController, NavParams } from '@ionic/angular';
 import { Observable, of } from 'rxjs';
 import { ReusableTableComponent } from "../../../shared/reusable-table/reusable-table.component";
 import { ConfirmDeleteComponent } from '../../../pop-ups/confirm-delete/confirm-delete.component';
 import { ReusablePopUpComponent } from '../../../pop-ups/reusable-pop-up/reusable-pop-up.component';
 import { CreateAccountComponent } from '../../../pop-ups/create-account/create-account.component';
+import { AccountStore } from '../../../state/account.store';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-account-create',
   standalone: true,
-  imports: [ReusableTableComponent],
+  imports: [ReusableTableComponent, CommonModule,IonicModule],
+  providers: [AccountStore],
   templateUrl: './account.component.html',
   styleUrl: './account.component.scss'
 })
 export class AccountCreateComponent {
-private modalController = inject(ModalController);
-label='Account';
-    columns = [
-      { header: 'Account Name', field: 'accountName' },
-      { header: 'Start Date', field: 'startDate' },
-      { header: 'End Date', field: 'endDate' },
-    
-      { header: 'Action', field: 'action', type: ['edit', 'delete'] }
-    ];
-  
-  
-  accounts = [
-  {
-    accountName: 'Texas Capital Bank',
-    startDate: '2024-01-10',
-    endDate: '2024-06-30'
-  },
-  {
-    accountName: 'Bank of America',
-    startDate: '2024-02-15',
-    endDate: '2024-07-31'
-  },
-  {
-    accountName: 'Wells Fargo',
-    startDate: '2024-03-01',
-    endDate: '2024-08-20'
-  },
-  {
-    accountName: 'Citibank',
-    startDate: '2024-04-05',
-    endDate: '2024-09-15'
-  },
-  {
-    accountName: 'Chase Bank',
-    startDate: '2024-05-01',
-    endDate: '2024-10-10'
-  },
-  {
-    accountName: 'U.S. Bank',
-    startDate: '2024-06-01',
-    endDate: '2024-11-30'
+  private modalController = inject(ModalController);
+  label = 'Account';
+
+  accountStore = inject(AccountStore);
+  accountList$: any;
+isLoading$ = this.accountStore.select(state => state.loading);
+  constructor() {
+    this.accountStore.getAccounts();
+    this.accountList$ = this.accountStore.account$;
+
+
   }
-];
 
-  
-    accountlist$: Observable<any[]> = of(this.accounts);
-  
-    handleRowAction(event: any) {
-      switch (event.type) {
-        case 'create':
-          this.loadCreateEmployeeModal();
-          break;
-          case 'delete':
-            this.deleteModal();
-            break;
-            case 'edit':
-              this.loadCreateEmployeeModal();
-              break;
-       
-        default:
-          console.log('Unknown action type:', event.type);
-      }
-    }
-  
-    loadCreateEmployeeModal() {
-      this.modalController.create({
-        component: CreateAccountComponent,
-        cssClass:'custom-modal',
-        componentProps: {
-          
+
+  ngOnInit() {
+
+  }
+
+
+  columns = [
+    { header: 'Account Name', field: 'accountName' },
+    { header: 'Start Date', field: 'accountStartDate' },
+    { header: 'End Date', field: 'accountEndDate' },
+
+    { header: 'Action', field: 'action', type: ['edit', 'delete'] }
+  ];
+
+
+
+
+  handleRowAction(event: any) {
+    switch (event.type) {
+      case 'create':
+        this.loadCreateEmployeeModal();
+        break;
+      case 'delete':
+        if (event.type === 'delete') {
+          console.log('Row from table:', event.item);
+          this.deleteModal(event.item); // ✅ This is the selected row
         }
-      }).then((modal) => {
-        modal.present();
-        modal.onDidDismiss().then((data) => {
-          console.log('Modal dismissed with data:', data);
-        });
-      });
-    }
-    
+        // this.deleteModal(event.row);
+        break;
+      case 'edit':
+        this.updateCreateEmployeeModal(event.item);
+        // this.updateCreateEmployeeModal(event.row);
+        break;
 
-     deleteModal() {
-        this.modalController.create({
-          component: ConfirmDeleteComponent,
-          cssClass: 'custom-delete-modal',
-          componentProps: {
-            role: 'delete',
-          }
-        }).then((modal) => {
-          modal.present();
-          modal.onDidDismiss().then((data) => {
-            console.log('Modal dismissed with data:', data);
-            // Handle any data returned from the modal if needed
-          });
-        });
+      default:
+        console.log('Unknown action type:', event.type);
+    }
+  }
+
+  loadCreateEmployeeModal() {
+    this.modalController.create({
+      component: CreateAccountComponent,
+      cssClass: 'create-account-modal',
+      componentProps: {
+
       }
+    }).then((modal) => {
+      modal.present();
+      modal.onDidDismiss().then((data) => {
+        this.accountStore.getAccounts(); // Refresh the account list after modal is dismissed
+        console.log('Modal dismissed with data:', data);
+      });
+    });
+  }
+
+
+  updateCreateEmployeeModal(item: any) {
+    console.log('Selected row data:', item);
+    this.modalController.create({
+      component: CreateAccountComponent,
+      cssClass: 'create-account-modal',
+      componentProps: {
+        editData: item
+      }
+    }).then((modal) => {
+      modal.present();
+      modal.onDidDismiss().then((data) => {
+        this.accountStore.getAccounts();
+        console.log('Modal dismissed with data:', data);
+      });
+    });
+  }
+
+  deleteModal(item: any) {
+    this.modalController.create({
+      component: ConfirmDeleteComponent,
+      cssClass: 'custom-delete-modal',
+      componentProps: {
+        role: 'delete',
+        data: {
+          id: item.accountId,
+          name: item.accountName,
+
+        }
+      }
+    }).then((modal) => {
+      modal.present();
+      modal.onDidDismiss().then((result) => {
+        if (result?.data?.confirmed) {
+          this.accountStore.deleteAccount(result.data.id);
+        }
+      });
+    });
+  }
+
 }

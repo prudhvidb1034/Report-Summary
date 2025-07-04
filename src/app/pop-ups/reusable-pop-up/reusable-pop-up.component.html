@@ -31,11 +31,11 @@
       <ion-col size="8">
         <ion-list class="scroll-list" *ngIf="(teamsList$ | async) as projects">
           <ion-item
-           *ngFor="let project of filterItems(projects, projectSearch, 'projectname', projectSelected)"
+           *ngFor="let project of filterItems(projects, projectSearch, 'projectName', projectSelected)"
             button
             lines="none"
-            (click)="selectProject(project.projectname)">
-            <ion-label>{{ project.projectname }}</ion-label>
+            (click)="selectProject(project.projectName)">
+            <ion-label>{{ project.projectName }}</ion-label>
           </ion-item>
         </ion-list>
       </ion-col>
@@ -73,8 +73,8 @@
 <ion-footer>
   <ion-toolbar>
     <ion-buttons slot="end">
-        <ion-button class="close" (click)="closeModal()">Close</ion-button>
-      <ion-button class="save" 
+        <ion-button  (click)="closeModal()">Close</ion-button>
+      <ion-button 
           (click)="tagEmployee()">Save</ion-button>
     </ion-buttons>
   </ion-toolbar>

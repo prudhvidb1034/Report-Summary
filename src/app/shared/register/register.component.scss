@@ -1,24 +1,185 @@
-:host {
+// :host {
+//   // display: flex;
+//   // flex-direction: column;
+//   // height: 80%;
+//   // ion-content {
+//   //   flex: 1 1 auto;
+//   //   min-height: 200px; // or use 30vh if you prefer
+//   //   overflow-y: auto;
+//   // }
+// }
+
+
+
+// :host {
+//   --custom-content-height: auto;
+// }
+
+// :host-context(.custom-modal) {
+//   .modal-wrapper {
+//     // --width: 90vw;
+//     // --max-width: 500px;
+//     --min-height: 300px;
+//     --max-height: 90vh;
+//     --border-radius: 16px;
+
+//     display: flex;
+//     flex-direction: column;
+//     border-radius: var(--border-radius);
+//     background: var(--ion-background-color, #fff);
+//     width: var(--width);
+//     max-width: var(--max-width);
+//     min-height: var(--min-height);
+//     max-height: var(--max-height);
+//     overflow: hidden;
+//   }
+
+//   ion-header,
+//   ion-footer {
+//     flex-shrink: 0;
+//   }
+
+//   ion-content {
+//     --padding-start: 16px;
+//     --padding-end: 16px;
+//     --padding-top: 16px;
+//     --padding-bottom: 16px;
+
+//     // height: var(--custom-content-height, auto);
+//     overflow-y: auto;
+//   }
+// }
+
+
+// :host {
+//   --custom-content-height: auto;
+// }
+
+// .modal-wrapper {
+//   display: flex;
+//   flex-direction: column;
+//   background: var(--ion-background-color, #fff);
+//   width: 90vw;
+//   max-width: 600px;
+//   height: 100%;
+//   // min-height: 60vh;
+//   max-height: 90vh;
+//   overflow: hidden;
+//   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
+// }
+
+// ion-header,
+// ion-footer {
+//   flex-shrink: 0;
+// }
+
+// ion-content {
+//   flex-grow: 1;
+//   overflow-y: auto;
+//   --padding-start: 16px;
+//   --padding-end: 16px;
+//   --padding-top: 16px;
+//   --padding-bottom: 16px;
+// }
+
+
+.modal-wrapper {
   display: flex;
   flex-direction: column;
-  height: 80%;
+  height: 100%;
+  width: 100%;
+  background: var(--ion-background-color, #fff);
+  overflow: hidden;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
 }
 
-ion-content {
-  flex: 1;
-  --padding-bottom: 0;
-  --margin-bottom: 0;
-}
 
-ion-footer {
-  position: relative;
-}
-.custom-item {
-  --background: #f6f5f5;
-  padding: 4px;
-}
+
+// :host {
+//   display: flex;
+//   flex-direction: column;
+//   height: 100%;
+// }
+
+// ion-content {
+//   flex-grow: 1;
+//   --padding-start: 16px;
+//   --padding-end: 16px;
+//   --padding-top: 16px;
+//   --padding-bottom: 16px;
+//   overflow: auto;
+// }
+
+
+// :host modal-wrapper ion-content {
+//   height: auto;
+//   max-height: 80vh;
+//   overflow-y: auto;
+// }
+// ion-content {
+//   height: auto;
+//   max-height: 80vh;
+//   overflow: auto;
+// }
+
+
+// .modal-wrapper {
+//   padding: 16px 24px;
+//   display: flex;
+//   flex-direction: column;
+//   width: 100%;
+//   min-height: 30vh;
+//   max-height: 90vh;
+//   ion-content p {
+//     margin-top: 12px;
+//     margin-left: 15px;
+//   }
+// }
+
+// .modal-wrapper {
+//   display: flex;
+//   flex-direction: column;
+//   height: 100%;
+//   overflow: hidden;
+
+//   ion-header,
+//   ion-footer {
+//     flex-shrink: 0;
+//   }
+
+//   ion-content {
+//     flex-grow: 1;
+//     height: auto;
+//     overflow-y: auto;
+//     --padding-start: 16px;
+//     --padding-end: 16px;
+//     --padding-top: 16px;
+//     --padding-bottom: 16px;
+//   }
+// }
+
+// ion-content {
+//   flex: 1;
+//   --padding-bottom: 0;
+//   --margin-bottom: 0;
+// }
+
+// ion-content {
+//   flex: 1 1 auto;
+//   min-height: 200px; // or use 30vh if you prefer
+//   overflow-y: auto;
+// }
+
+//  ion-footer {
+//    position: relative;
+//  }
+// .custom-item {
+//   --background: #f6f5f5;
+//   padding: 4px;
+// }
+
 ion-grid {
-  padding: 0 16px;
+  // padding: 0 16px;
   margin-top: 15px;
 }
 .ion-no-padding {
@@ -32,12 +193,10 @@ ion-grid {
   margin-bottom: 4px;
 }
 
-// ion-item.invalid {
-//     --background: #f3b7b7;
-//   }
+ion-item.invalid {
+  --background: #f3b7b7;
+}
 
-//   ion-item.valid {
-//   --background: #f3f4f6;
-
-// }
-
+ion-item.valid {
+  --background: #f3f4f6;
+}

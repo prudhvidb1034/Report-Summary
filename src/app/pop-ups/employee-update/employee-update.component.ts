@@ -8,6 +8,7 @@ import { LoginStore } from '../../state/login.store';
 import { LoginService } from '../../services/login-service/login.service';
 import { Project } from '../../models/summary.model';
 import { tap } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-employee-update',
@@ -24,6 +25,7 @@ export class EmployeeUpdateComponent {
   private summary = inject(SummaryStore);
   private loginStore = inject(LoginStore);
   private loginService = inject(LoginService)
+  private router = inject(Router);
   userInfo: any;
   projectInfo = '';
   weekValue='WEEK:16-June-2025 To 20-June-2025';
@@ -175,9 +177,20 @@ export class EmployeeUpdateComponent {
   }
 
   setOpen(isOpen: boolean) {
-    this.modalCtrl.dismiss();
-    console.log(this.modalCtrl)
+    // this.modalCtrl.dismiss();
+    // console.log(this.modalCtrl)
     this.employeeUpdateForm.reset()
+    this.router.navigate(['/summary'])
 
   }
+
+   isInvalid(controlName: string): boolean {
+  const control = this.employeeUpdateForm.get(controlName);
+  return !!(control && control.invalid && control.touched);
+}
+
+isValid(controlName: string): boolean {
+  const control = this.employeeUpdateForm.get(controlName);
+  return !!(control && control.valid && control.touched);
+}
 }

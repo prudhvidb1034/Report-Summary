@@ -95,7 +95,7 @@ export class SideMenuComponent {
          this.loginStore.user$.pipe(
           tap(res => {
             console.log(res)
-            this.userRole = res?.role.toLowerCase();
+            this.userRole = res?.role?.toLowerCase();
             console.log(this.userRole);
           })
         ).subscribe();

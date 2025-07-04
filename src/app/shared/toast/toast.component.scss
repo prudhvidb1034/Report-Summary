@@ -1,38 +1,37 @@
 .toast-container {
-    position: fixed;
-    top: 1rem;
-    right: 1rem;
-    z-index: 1000;
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 21000;
+}
+
+.toast {
+  padding: 12px 20px;
+  margin-top: 55px;
+  font-weight: 500;
+  border: 2px solid;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  color: #333;
+
+
+  &.success {
+    background-color: #e6f4ea;
+    // border-color: #28a745;
+    border: none;
   }
-  
-  .toast {
-    padding: 12px 20px;
-    border-radius: 8px;
-    margin-top:55px;
-    font-weight: 500;
-    border: 2px solid;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    color: #333; 
-  
-    &.success {
-      background-color: #e6f4ea; 
-     // border-color: #28a745;
-     border: none;
-    }
-  
-    &.error {
-      background-color: #fcebea; 
-      border-color: #dc3545;
-    }
-  
-    &.info {
-      background-color: #e8f4fd; 
-      border-color: #17a2b8;
-    }
-  
-    &.warning {
-      background-color: #fff8e1;
-      border-color: #ffc107;
-    }
+
+  &.error {
+    background-color: #fcebea;
+    border-color: #dc3545;
   }
-  
+
+  &.info {
+    background-color: #e8f4fd;
+    border-color: #17a2b8;
+  }
+
+  &.warning {
+    background-color: #fff8e1;
+    border-color: #ffc107;
+  }
+}

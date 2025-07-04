@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { urls } from '../../constants/string-constants';
-import { createTeam } from '../../models/project.model';
+import { createProject } from '../../models/project.model';
 
 @Injectable({
   providedIn: 'root'
@@ -14,8 +14,8 @@ export class SummaryService {
   private readonly apiUrl = urls.TEAMS_DETAILS;
   private readonly projectdetails = urls.PROJect_DETAILS
  
-   getProjectTitles():Observable<createTeam[]>{
-     return this.http.get<createTeam[]>(this.apiUrl);
+   getProjectTitles():Observable<createProject[]>{
+     return this.http.get<createProject[]>(this.apiUrl);
    }
 
    getProjectDetails(){

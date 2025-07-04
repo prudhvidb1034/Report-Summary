@@ -1,10 +1,14 @@
 import { inject, Injectable } from '@angular/core';
 import { ComponentStore } from '@ngrx/component-store';
 import { Router } from '@angular/router';
-import { Observable, switchMap, tap } from 'rxjs';
+import { exhaustMap, finalize, Observable, switchMap, tap } from 'rxjs';
 import { LoginService } from '../services/login-service/login.service';
 import { LoginCredentials, User } from '../models/login.model';
 import { ToastService } from '../shared/toast.service';
+import { SharedService } from '../services/shared/shared.service';
+import { urls } from '../constants/string-constants';
+// Import or define LOGIN_DETAILS
+
 
 interface LoginState {
   loading: boolean;
@@ -21,59 +25,41 @@ const initialState: LoginState={
 })
 export class LoginStore extends ComponentStore<LoginState> {
   private toast = inject(ToastService);
+  private sharedservice = inject(SharedService)
   constructor(private auth: LoginService, private router: Router) {
     super(initialState);
   }
 
-  login = this.effect((credentials$: Observable<LoginCredentials>) =>
-    credentials$.pipe(
-      switchMap(credentials =>
-        this.auth.loginCheck(credentials).pipe(
-          tap(({ user }) => {
+login = this.effect((credentials$: Observable<LoginCredentials>) =>
+  credentials$.pipe(
+    exhaustMap(credentials => {
+      this.patchState({ loading: true, error: null }); 
+
+      return this.sharedservice.postData(urls.LOGIN_DETAILS, credentials).pipe(
+        tap({
+          next: (user: any) => {
             if (user) {
-              this.patchState({
-                user
-              })
-              const role = user.role?.toLowerCase();
-
-              // localStorage.setItem('userList', role);
-              // localStorage.setItem('', role);
-              // if (role === 'manager' || role === 'superadmin') {
-              //   this.router.navigate(['/dashboard']);
-              // } else if (role === 'employee') {
-              //   this.router.navigate(['/employee-dashboard']);
-              // } else {
-              //   this.toast.show('error', 'Unknown role.');
-              //   return;
-              // }
-              console.log('user', user);
-              localStorage.setItem('user', JSON.stringify(user));
-              // localStorage.setItem('role', role.toLowerCase());
-              // localStorage.setItem('fullName', `${user.firstName} ${user.lastName}`);
+              this.patchState({ user }); // Save user state
+              localStorage.setItem('user', JSON.stringify(user.data));
+              localStorage.setItem('token', user.data.acessToken); 
               this.router.navigate(['/home']);
-
-              //this.router.navigate['/home'];
-              // localStorage.setItem(('','userList', role);
-              // localStorage.setItem role);
-              // if (role === 'manager') {
-              //   this.router.navigate(['/dashboard']);
-              // } else if (role === 'employee') {
-              //   this.router.navigate(['/employee-dashboard']);
-              // } else {
-              //   this.toast.show('error', 'Unknown role.');
-              //   return;
-              // }
-
               this.toast.show('success', 'Login successfully!');
             } else {
-              this.toast.show('error', 'Invalid User name and password.');
+              this.toast.show('error', 'Invalid username or password.');
             }
-          }),
-          tap(() => this.patchState({ loading: false }))
-        )
-      )
-    )
-  );
+          },
+          error: () => {
+            this.toast.show('error', 'Login failed. Please try again.');
+            this.patchState({ error: 'Login failed.' }); // Optionally add error msg
+          }
+        }),
+        finalize(() => this.patchState({ loading: false })) // 🔁 Always stop loading
+      );
+    })
+  )
+);
+
+
 
   //   readonly login = this.effect((credentials$) =>
   //     credentials$.pipe(
@@ -99,5 +85,5 @@ export class LoginStore extends ComponentStore<LoginState> {
 
   readonly user$ = this.select(state => state.user);
     readonly clearAll = this.updater(() => initialState);
-
+ readonly loading$ = this.select(state => state.loading);
 }

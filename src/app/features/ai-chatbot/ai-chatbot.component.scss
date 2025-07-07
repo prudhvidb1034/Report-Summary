@@ -1,0 +1,40 @@
+.chat-container {
+  padding: 16px;
+
+  &.centered {
+    height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .chat-input-container {
+    display: flex;
+    align-items: center;
+    background: #fff;
+    border-radius: 30px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    width: 100%;
+    max-width: 800px;
+    padding: 10px;
+    gap: 10px; // gap between textarea and button
+  }
+
+  ion-textarea.chat-input {
+    flex: 1; // ✅ allow it to take full space
+    width: 100%; // ✅ ensure it stretches
+    --padding-start: 12px;
+    --padding-end: 12px;
+    --min-height: 45px;
+    font-size: 16px;
+    color: #333;
+    background: transparent;
+    border-radius: 20px;
+  }
+
+  .send-button {
+    color: #1a6b5e;
+    min-width: 40px;
+    height: 40px;
+  }
+}

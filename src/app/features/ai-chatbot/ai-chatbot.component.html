@@ -1,0 +1,62 @@
+<!-- <ion-header>
+  <ion-toolbar>
+    <ion-title>ETS AI</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<div>
+  <div class="chat-container">
+    <div *ngFor="let message of messages"
+      [ngClass]="{'user-message': message.type === 'user', 'ai-message': message.type === 'ai'}">
+      <div [innerHTML]="message.displayHtml"></div>
+    </div>
+  </div>
+</div>
+
+<ion-toolbar>
+  <ion-textarea [(ngModel)]="userInput" placeholder="Ask Anything" (keyup.enter)="submitQuestion()"
+    clearInput="true"></ion-textarea>
+  <ion-buttons slot="end">
+    <ion-button (click)="submitQuestion()" class="send-button">
+      <ion-icon name="send"></ion-icon>
+    </ion-button>
+  </ion-buttons>
+</ion-toolbar> -->
+
+
+<ion-header>
+  <ion-toolbar>
+    <ion-title>ETS AI</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<div class="chat-container" [ngClass]="{ 'centered': !hasStartedChat }">
+  <ng-container *ngIf="hasStartedChat; else welcomeInput">
+    <div *ngFor="let message of messages"
+      [ngClass]="{'user-message': message.type === 'user', 'ai-message': message.type === 'ai'}">
+      <div [innerHTML]="message.displayHtml"></div>
+    </div>
+
+    <!-- Chat input after messages -->
+    <div class="chat-input-container">
+      <ion-textarea [(ngModel)]="userInput" placeholder="Ask anything" class="chat-input"
+        (keyup.enter)="submitQuestion()"></ion-textarea>
+      <ion-button fill="clear" class="send-button" (click)="submitQuestion()">
+        <ion-icon name="send-outline"></ion-icon>
+      </ion-button>
+    </div>
+  </ng-container>
+
+  <!-- Show centered input box initially -->
+  <ng-template #welcomeInput>
+    <div class="welcome-input-container">
+      <div class="chat-input-container">
+        <ion-textarea [(ngModel)]="userInput" placeholder="Ask anything" class="chat-input"
+          (keyup.enter)="submitQuestion()"></ion-textarea>
+        <ion-button fill="clear" class="send-button" (click)="submitQuestion()">
+          <ion-icon name="send-outline"></ion-icon>
+        </ion-button>
+      </div>
+    </div>
+  </ng-template>
+</div>

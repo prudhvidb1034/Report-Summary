@@ -27,12 +27,12 @@ export class AiChatbotComponent {
 
   userInput: string = '';
   messages: ChatMessage[] = [];
-  hasStartedChat: boolean = false;
+
   constructor(
     private aiService: GemeniAiService,
     private sanitizer: DomSanitizer,
-    private markdownService: MarkdownService
-  ) { }
+    private markdownService:MarkdownService
+  ) {}
 
   async submitQuestion() {
     if (!this.userInput.trim()) {
@@ -44,10 +44,10 @@ export class AiChatbotComponent {
       displayHtml: this.sanitizer.bypassSecurityTrustHtml(`<p><strong>You:</strong> ${userText}</p>`),
       type: 'user'
     });
-    this.userInput = '';
-    this.hasStartedChat = true; // Set to true when the user sends the first message
+    this.userInput = ''; 
+
     const aiRawResponseHtml = await this.aiService.sendUserInput(userText);
-    const aiSafeHtmlResponse = this.markdownService.convertToHtml(aiRawResponseHtml);
+    const aiSafeHtmlResponse=this.markdownService.convertToHtml(aiRawResponseHtml);
     // const aiSafeHtmlResponse = this.sanitizer.bypassSecurityTrustHtml(aiRawResponseHtml);
     this.messages.push({
       displayHtml: aiSafeHtmlResponse,

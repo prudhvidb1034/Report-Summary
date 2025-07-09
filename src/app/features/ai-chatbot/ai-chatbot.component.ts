@@ -27,12 +27,13 @@ export class AiChatbotComponent {
 
   userInput: string = '';
   messages: ChatMessage[] = [];
-
+  hasStartedChat: boolean = false;
+  isLoading: boolean = false;
   constructor(
     private aiService: GemeniAiService,
     private sanitizer: DomSanitizer,
-    private markdownService:MarkdownService
-  ) {}
+    private markdownService: MarkdownService
+  ) { }
 
   async submitQuestion() {
     if (!this.userInput.trim()) {
@@ -44,18 +45,25 @@ export class AiChatbotComponent {
       displayHtml: this.sanitizer.bypassSecurityTrustHtml(`<p><strong>You:</strong> ${userText}</p>`),
       type: 'user'
     });
-    this.userInput = ''; 
+    this.userInput = '';
+    this.hasStartedChat = true;
+    this.isLoading = true;
 
-    const aiRawResponseHtml = await this.aiService.sendUserInput(userText);
-    const aiSafeHtmlResponse=this.markdownService.convertToHtml(aiRawResponseHtml);
-    // const aiSafeHtmlResponse = this.sanitizer.bypassSecurityTrustHtml(aiRawResponseHtml);
-    this.messages.push({
-      displayHtml: aiSafeHtmlResponse,
-      type: 'ai'
-    });
 
-    // Optional: Scroll to bottom of chat if you have a scrollable container
-    // You'd need a @ViewChild and ElementRef for this.
-    // E.g., this.chatContainer.nativeElement.scrollTop = this.chatContainer.nativeElement.scrollHeight;
+    try {
+      const aiRawResponseHtml = await this.aiService.sendUserInput(userText);
+      const aiSafeHtmlResponse = this.markdownService.convertToHtml(aiRawResponseHtml);
+      this.messages.push({
+        displayHtml: aiSafeHtmlResponse,
+        type: 'ai'
+      });
+    } catch (error) {
+      this.messages.push({
+        displayHtml: this.sanitizer.bypassSecurityTrustHtml(`<p><strong>AI:</strong> Sorry, something went wrong.</p>`),
+        type: 'ai'
+      });
+    } finally {
+      this.isLoading = false; 
+    }
   }
 }

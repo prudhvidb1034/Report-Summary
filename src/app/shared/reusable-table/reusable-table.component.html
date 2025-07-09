@@ -4,22 +4,20 @@
       <span class="project-title"> {{label}} List</span>
     </ion-col>
 
-    <ion-col class="ion-text-end" size="auto" style="display: flex; align-items: center; gap: 8px; width: 100%; flex-wrap: nowrap;">
+    <ion-col class="ion-text-end" size="auto"
+      style="display: flex; align-items: center; gap: 8px; width: 100%; flex-wrap: nowrap;">
       <ion-searchbar class="search-bar-input" style="flex-grow: 4;"></ion-searchbar>
-      <ion-button *ngIf="(userRole$|async)!=='employee'"  
-        (click)="action('create', null)">
+      <ion-button *ngIf="(userRole$|async)!=='employee'" (click)="action('create', null)">
         Create {{label}}</ion-button>
     </ion-col>
 
-     <ion-col  *ngIf="label==='Summary'" class="ion-text-end" size="auto" style="display: flex; align-items: center;">
+    <ion-col *ngIf="label==='Summary'" class="ion-text-end" size="auto" style="display: flex; align-items: center;">
       <!-- <ion-searchbar class="search-bar-input" style="flex-grow: 4;"></ion-searchbar> -->
-      <ion-button 
-        (click)="action('createStatus', null)">
+      <ion-button (click)="action('createStatus', null)">
         Create Status</ion-button>
     </ion-col>
-    <ion-col *ngIf="label === 'Employee'" 
-    class="ion-text-end" size="auto" style="display: flex; align-items: center;">
-      <ion-button  (click)="action('tagEmployee', null)" class="icon-button">
+    <ion-col *ngIf="label === 'Employee'" class="ion-text-end" size="auto" style="display: flex; align-items: center;">
+      <ion-button (click)="action('tagEmployee', null)" class="icon-button">
         <ion-icon name="person-add-outline" slot="start"></ion-icon>&nbsp;
         Tag Employee</ion-button>
     </ion-col>
@@ -33,59 +31,68 @@
       {{ column.header }}
     </ion-col>
   </ion-row>
+  <ng-container *ngIf="data | async as resolvedData">
+    <ion-row *ngFor="let item of resolvedData?.content ; trackBy: trackByFn" class="data-row ion-text-center"
+      style="border-bottom: 1px solid #eee; align-items: center;">
 
-  <ion-row *ngFor="let item of data | async; trackBy: trackByFn" class="data-row ion-text-center"
-    style="border-bottom: 1px solid #eee; align-items: center;">
-    <ion-col *ngFor="let column of columns">
-      <ng-container *ngIf="column.cellTemplate; else defaultTemplate">
-        <ng-template [ngTemplateOutlet]="column.cellTemplate"
-          [ngTemplateOutletContext]="{ $implicit: item }"></ng-template>
-      </ng-container>
-      <ng-template #defaultTemplate>
-        <div *ngIf="column.field ==='status'" style="display: flex; justify-content: center;">
-          <ion-toggle *ngIf="column.field === 'status'" (ionChange)="toggleEvent($event,item)"
-            [checked]="item.status === 'Active'" justify="center">
-          </ion-toggle>
-        </div>
-        <div style="display: flex; gap: 10px; justify-content: center;" *ngIf="column.field==='action'">
-          <div *ngFor="let actionArray of column.type">
-            <ion-button *ngIf="actionArray==='view'" fill="clear" size="small" title="View"
-              (click)="action('view',item)">
-              <ion-icon name="eye-outline" class="action-color" slot="icon-only"></ion-icon>
-            </ion-button>
-            <ion-button [disabled]="item.status=== 'InActive'" *ngIf="actionArray==='edit'" fill="clear" size="small"
-              color="primary" title="Edit" (click)="action('edit',item)">
-              <ion-icon name="create-outline" class="action-color" slot="icon-only"></ion-icon>
-            </ion-button>
-            <ion-button [disabled]="item.status=== 'InActive'" *ngIf="actionArray==='delete'" fill="clear" size="small"
-              color="danger" title="Delete" (click)="action('delete',item)">
-              <ion-icon name="trash-outline" class="action-color" slot="icon-only"></ion-icon>
-            </ion-button>
+
+      <ion-col *ngFor="let column of columns">
+        <ng-container *ngIf="column.cellTemplate; else defaultTemplate">
+          <ng-template [ngTemplateOutlet]="column.cellTemplate"
+            [ngTemplateOutletContext]="{ $implicit: item }"></ng-template>
+        </ng-container>
+        <ng-template #defaultTemplate>
+          <div *ngIf="column.field ==='status'" style="display: flex; justify-content: center;">
+            <ion-toggle *ngIf="column.field === 'status'" (ionChange)="toggleEvent($event,item)"
+              [checked]="item.status === 'Active'" justify="center">
+            </ion-toggle>
           </div>
-        </div>
-        <div *ngIf="column.linkEnable">
-          <a fill="clear" size="small" class="button-link" (click)="action(column.field,item)">
-            {{ item[column.field]?item[column.field]:'View'}}
-          </a>
-        </div>
-        <div *ngIf="!column.linkEnable  && column.field !='status' ">
-          {{ item[column.field] }}
-        </div>
-      </ng-template>
-    </ion-col>
-
-  </ion-row>
- <ng-container>
-    <ion-row *ngIf="(data | async)?.length === 0" class="ion-text-center" style="border-bottom: 1px solid #eee;">
-      <ion-col [attr.colspan]="columns?.length" class="ion-padding" >
-        <ion-icon name="information-circle-outline" color="medium" size="small"></ion-icon>
-        <div >
-          <strong>No tasks found.</strong>
-        </div>
+          <div style="display: flex; gap: 10px; justify-content: center;" *ngIf="column.field==='action'">
+            <div *ngFor="let actionArray of column.type">
+              <ion-button *ngIf="actionArray==='view'" fill="clear" size="small" title="View"
+                (click)="action('view',item)">
+                <ion-icon name="eye-outline" class="action-color" slot="icon-only"></ion-icon>
+              </ion-button>
+              <ion-button [disabled]="item.status=== 'InActive'" *ngIf="actionArray==='edit'" fill="clear" size="small"
+                color="primary" title="Edit" (click)="action('edit',item)">
+                <ion-icon name="create-outline" class="action-color" slot="icon-only"></ion-icon>
+              </ion-button>
+              <ion-button [disabled]="item.status=== 'InActive'" *ngIf="actionArray==='delete'" fill="clear"
+                size="small" color="danger" title="Delete" (click)="action('delete',item)">
+                <ion-icon name="trash-outline" class="action-color" slot="icon-only"></ion-icon>
+              </ion-button>
+            </div>
+          </div>
+          <div *ngIf="column.linkEnable">
+            <a fill="clear" size="small" class="button-link" (click)="action(column.field,item)">
+              {{ item[column.field]?item[column.field]:'View'}}
+            </a>
+          </div>
+          <div *ngIf="!column.linkEnable  && column.field !='status' ">
+            {{ item[column.field] }}
+          </div>
+        </ng-template>
       </ion-col>
+
     </ion-row>
+    <ng-container>
+      <ion-row *ngIf="resolvedData?.content?.length === 0" class="ion-text-center"
+        style="border-bottom: 1px solid #eee;">
+        <ion-col [attr.colspan]="columns?.length" class="ion-padding">
+          <ion-icon name="information-circle-outline" color="medium" size="small"></ion-icon>
+          <div>
+            <strong>No tasks found.</strong>
+          </div>
+        </ion-col>
 
+
+      </ion-row>
+
+    </ng-container>
+
+    <app-test-paginator [totalItems]="resolvedData?.totalElements" [itemsPerPage]="resolvedData?.pageSize"
+      [currentPage]="resolvedData?.pageNumber" [pageSizeOptions]="[5, 10, 20, 50]" (pageChange)="onPageChange($event)"
+      (pageSizeChange)="onPageSizeChange($event)"></app-test-paginator>
   </ng-container>
-
 
 </ion-grid>

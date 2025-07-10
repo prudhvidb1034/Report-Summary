@@ -100,6 +100,11 @@ export const routes: Routes = [
     loadComponent: () => import('../app/features/ai-chatbot/ai-chatbot.component').then((m) => m.AiChatbotComponent),
     canActivate: [RoleGuard],
   },
+   {
+    path: 'sprint-report',
+    loadComponent: () => import('../app/features/sprint-report/sprint-report.component').then((m) => m.SprintReportComponent),
+    canActivate: [RoleGuard],
+  },
 
   {
     path: '',

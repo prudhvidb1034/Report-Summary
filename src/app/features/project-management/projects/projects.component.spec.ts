@@ -3,16 +3,16 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ProjectListComponent } from './projects.component';
 import { provideRouter, Router } from '@angular/router';
 import { provideHttpClient } from '@angular/common/http';
-import { TeamStore } from '../../../state/project.store';
+import { ProjectStore } from '../../../state/project.store';
 import { ToastService } from '../../../shared/toast.service';
 
-fdescribe('ProjectListComponent', () => {
+describe('ProjectListComponent', () => {
   let component: ProjectListComponent;
   let fixture: ComponentFixture<ProjectListComponent>;
   let router = {
     navigate: jasmine.createSpy('navigate')
   };
-  let teamStoreSpy: jasmine.SpyObj<TeamStore>;
+  let teamStoreSpy: jasmine.SpyObj<ProjectStore>;
     let toastServiceSpy: jasmine.SpyObj<ToastService>;
   
 
@@ -24,7 +24,7 @@ fdescribe('ProjectListComponent', () => {
       imports: [ProjectListComponent],
       providers: [provideHttpClient(), provideRouter([]),
       { provide: Router, useValue: router },
-      { provide: TeamStore, useValue: teamStoreSpy },
+      { provide: ProjectStore, useValue: teamStoreSpy },
      { provide: ToastService, useValue: toastServiceSpy }]
     })
       .compileComponents();

@@ -1,0 +1,39 @@
+<ion-grid class="paginator-container">
+  <ion-row class="ion-align-items-center ion-justify-content-between">
+    <ion-col size="6" class="page-size-selector">
+      <ion-label class="page-label">Items per page:</ion-label>
+      <ion-select
+        interface="popover"
+        [ngModel]="itemsPerPage"
+        (ngModelChange)="changePageSize($event)"
+        class="page-size-select"
+      >
+        <ion-select-option *ngFor="let size of pageSizeOptions" [value]="size">
+          {{ size }}
+        </ion-select-option>
+      </ion-select>
+    </ion-col>
+
+    <ion-col size="6" class="page-range-actions ion-text-end">
+      <span class="range-label">
+        {{ getStartIndex() + 1 }} – {{ getEndIndex() }} of {{ totalItems }}
+      </span>
+      <ion-button
+        size="small"
+        fill="clear"
+        [disabled]="currentPage === 0"
+        (click)="changePage(currentPage - 1)"
+      >
+        <ion-icon name="chevron-back-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+      <ion-button
+        size="small"
+        fill="clear"
+        [disabled]="getEndIndex() >= totalItems"
+        (click)="changePage(currentPage + 1)"
+      >
+        <ion-icon name="chevron-forward-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-col>
+  </ion-row>
+</ion-grid>

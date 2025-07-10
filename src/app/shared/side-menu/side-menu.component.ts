@@ -66,6 +66,13 @@ export class SideMenuComponent {
     roles: ['superadmin', 'manager','employee'],
     isBottom: false
   },
+   {
+    label: 'Spring Report',
+    icon: 'bookmark-outline',
+    path: '/sprint-report',
+    roles: ['superadmin', 'manager','employee'],
+    isBottom: false
+  },
 
   // {
   //   label: 'View Reports',

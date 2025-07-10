@@ -60,9 +60,8 @@ export class LoginComponent {
     return !!(control && control.valid && control.touched);
   }
 
-  googleSignIn() {
-    // call Capacitor GoogleAuth or Firebase login
+  forgot(){
+    
   }
-  forgot() { /* nav to forgot */ }
-  signUp() { /* nav to sign-up */ }
+
 }

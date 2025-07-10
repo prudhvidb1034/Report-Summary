@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AccountCreateComponent } from './account.component';
+import { TestPaginatorComponent } from './paginator.component';
 
-describe('AccountCreateComponent', () => {
-  let component: AccountCreateComponent;
-  let fixture: ComponentFixture<AccountCreateComponent>;
+describe('TestPaginatorComponent', () => {
+  let component: TestPaginatorComponent;
+  let fixture: ComponentFixture<TestPaginatorComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AccountCreateComponent]
+      imports: [TestPaginatorComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(AccountCreateComponent);
+    fixture = TestBed.createComponent(TestPaginatorComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

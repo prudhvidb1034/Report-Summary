@@ -33,20 +33,32 @@ describe('LoginComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should show error toast when form is invalid', () => {
-    component.loginForm.controls['username'].setValue('');
-    component.loginForm.controls['password'].setValue('');
-    component.onSubmit();
-    expect(toastServiceSpy.show).toHaveBeenCalledWith('error', 'Please fill in all required fields.');
-  });
+it('should call loginStore.login with correct credentials when form is valid', () => {
+  const credentials = {
+    userName: 'testuser@example.com',
+    password: 'TestPassword123'
+  };
+  component.form.controls['userName'].setValue(credentials.userName);
+  component.form.controls['password'].setValue(credentials.password);
+  component.submit();
+  expect(loginStoreSpy.login).toHaveBeenCalledWith(credentials);
+});
 
-  it('should call when form is valid',()=>{
-    component.loginForm.controls['username'].setValue('sarath@qentelli.com');
-    component.loginForm.controls['password'].setValue('Sarath11@');
-    console.log('Form value before login call:', component.loginForm.value);
-    component.onSubmit();
-    expect(loginStoreSpy.login).toHaveBeenCalledWith(component.loginForm.value);
-  })    
+
+it("should call method for togglePw",()=>{
+  component.togglePw();
+  expect(component.showPwd).toBe(!(component.showPwd));
+})
+  
+
+
+  // it('should call when form is valid',()=>{
+  //   component.loginForm.controls['username'].setValue('sarath@qentelli.com');
+  //   component.loginForm.controls['password'].setValue('Sarath11@');
+  //   console.log('Form value before login call:', component.loginForm.value);
+  //   component.onSubmit();
+  //   expect(loginStoreSpy.login).toHaveBeenCalledWith(component.loginForm.value);
+  // })    
 
 });
 

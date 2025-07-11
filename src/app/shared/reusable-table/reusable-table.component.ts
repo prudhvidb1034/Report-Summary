@@ -3,12 +3,15 @@ import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 import { map, Observable } from 'rxjs';
 import { LoginStore } from '../../state/login.store';
+import { FormsModule } from '@angular/forms';
+import { SharedService } from '../../services/shared/shared.service';
+import { urls } from '../../constants/string-constants';
 import { PaginatorComponent } from '../paginator/paginator.component';
 
 @Component({
   selector: 'app-reusable-table',
   standalone: true,
-  imports: [IonicModule, CommonModule,PaginatorComponent],
+  imports: [IonicModule, CommonModule,PaginatorComponent, FormsModule],
   templateUrl: './reusable-table.component.html',
   styleUrl: './reusable-table.component.scss'
 })
@@ -18,6 +21,9 @@ export class ReusableTableComponent {
   @Output() rowAction: EventEmitter<any> = new EventEmitter<any>();
   @Input() label: string = '';
   @Input() showHeader = true;
+  @Input() searchTerm: string = '';
+  @Output() searchTermChange = new EventEmitter<string>();
+  @Output() searchTermChanged = new EventEmitter<string>();
   totalItems = 100;
   itemsPerPage = 5;
   currentPage = 0;
@@ -28,16 +34,31 @@ loadPage(event: { pageIndex: number; pageSize: number }) {
 }
 
 
-  private  loginStore = inject(LoginStore)
+  private loginStore = inject(LoginStore)
+  private sharedservice = inject(SharedService)
 
-    userRole$ = this.loginStore.user$.pipe(
-      map(res => res?.role?.toLocaleLowerCase())
-    );
+  userRole$ = this.loginStore.user$.pipe(
+    map(res => res?.role?.toLocaleLowerCase())
+  );
   trackByFn(index: number, item: any): any {
     return item ? item['id'] : undefined;
   }
 
   ngOnInit() {
+    console.log(this.searchTerm)
+  }
+
+  // onSearchTermChange(value: string) {
+  //   console.log(value)
+  //   this.searchTerm = value;
+  //   this.searchTermChange.emit(value);
+  // }
+
+  onSearchTermChange() {
+    console.log(this.searchTerm)
+    const urlWithParams = `${urls.PROJECT_SEARCH}?name=${this.searchTerm}`;
+    this.sharedservice.getData(urlWithParams).subscribe();
+    this.searchTermChanged.emit(this.searchTerm);
     this.data.subscribe((data:any)=>{
       console.log(data)
     })

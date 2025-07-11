@@ -4,17 +4,18 @@
       <span class="project-title"> {{label}} List</span>
     </ion-col>
 
-    <ion-col class="ion-text-end" size="auto"
-      style="display: flex; align-items: center; gap: 8px; width: 100%; flex-wrap: nowrap;">
-      <ion-searchbar class="search-bar-input" style="flex-grow: 4;"></ion-searchbar>
-      <ion-button *ngIf="(userRole$|async)!=='employee'" (click)="action('create', null)">
+    <ion-col class="ion-text-end" size="auto" style="display: flex; align-items: center; gap: 8px; width: 100%; flex-wrap: nowrap;">
+      <ion-searchbar class="search-bar-input" [(ngModel)]="searchTerm" (ngModelChange)="onSearchTermChange()" style="flex-grow: 4;"></ion-searchbar>
+      <ion-button *ngIf="(userRole$|async)!=='employee'"  
+        (click)="action('create', null)">
         Create {{label}}</ion-button>
     </ion-col>
 
     <ion-col *ngIf="label==='Summary'" class="ion-text-end" size="auto" style="display: flex; align-items: center;">
       <!-- <ion-searchbar class="search-bar-input" style="flex-grow: 4;"></ion-searchbar> -->
-      <ion-button (click)="action('createStatus', null)">
-        Create Status</ion-button>
+      <ion-button 
+        (click)="action('createStatus', null)">
+        Create Task</ion-button>
     </ion-col>
     <ion-col *ngIf="label === 'Employee'" class="ion-text-end" size="auto" style="display: flex; align-items: center;">
       <ion-button (click)="action('tagEmployee', null)" class="icon-button">

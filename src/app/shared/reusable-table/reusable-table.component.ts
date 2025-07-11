@@ -6,17 +6,17 @@ import { LoginStore } from '../../state/login.store';
 import { FormsModule } from '@angular/forms';
 import { SharedService } from '../../services/shared/shared.service';
 import { urls } from '../../constants/string-constants';
+import { PaginatorComponent } from '../paginator/paginator.component';
 
 @Component({
   selector: 'app-reusable-table',
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule],
+  imports: [IonicModule, CommonModule,PaginatorComponent, FormsModule],
   templateUrl: './reusable-table.component.html',
   styleUrl: './reusable-table.component.scss'
 })
 export class ReusableTableComponent {
   @Input() data!: Observable<any>;
-
   @Input() columns: any[] | undefined;
   @Output() rowAction: EventEmitter<any> = new EventEmitter<any>();
   @Input() label: string = '';
@@ -24,6 +24,15 @@ export class ReusableTableComponent {
   @Input() searchTerm: string = '';
   @Output() searchTermChange = new EventEmitter<string>();
   @Output() searchTermChanged = new EventEmitter<string>();
+  totalItems = 100;
+  itemsPerPage = 5;
+  currentPage = 0;
+
+loadPage(event: { pageIndex: number; pageSize: number }) {
+  console.log('Load data for:', event);
+  // Your logic to fetch data based on event.pageIndex and event.pageSize
+}
+
 
   private loginStore = inject(LoginStore)
   private sharedservice = inject(SharedService)
@@ -50,6 +59,9 @@ export class ReusableTableComponent {
     const urlWithParams = `${urls.PROJECT_SEARCH}?name=${this.searchTerm}`;
     this.sharedservice.getData(urlWithParams).subscribe();
     this.searchTermChanged.emit(this.searchTerm);
+    this.data.subscribe((data:any)=>{
+      console.log(data)
+    })
   }
 
   action(type: string, item: any) {
@@ -59,5 +71,14 @@ export class ReusableTableComponent {
   toggleEvent(event: any, item: any) {
     this.rowAction.emit({ type: 'toggle-status', value: event.detail.checked === true ? 'Active' : 'InActive', item: item })
     console.log(event.detail.checked)
+  }
+
+  onPageSizeChange(event:any){
+    console.log(event);
+
+  }
+
+  onPageChange(event:any){
+    console.log(event);
   }
 }

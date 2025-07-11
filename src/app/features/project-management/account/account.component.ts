@@ -1,6 +1,5 @@
 import { Component, inject } from '@angular/core';
 import { IonicModule, ModalController, NavParams } from '@ionic/angular';
-import { Observable, of } from 'rxjs';
 import { ReusableTableComponent } from "../../../shared/reusable-table/reusable-table.component";
 import { ConfirmDeleteComponent } from '../../../pop-ups/confirm-delete/confirm-delete.component';
 import { ReusablePopUpComponent } from '../../../pop-ups/reusable-pop-up/reusable-pop-up.component';
@@ -26,6 +25,7 @@ isLoading$ = this.accountStore.select(state => state.loading);
   constructor() {
     this.accountStore.getAccounts();
     this.accountList$ = this.accountStore.account$;
+
 
   }
 

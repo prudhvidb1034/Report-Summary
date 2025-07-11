@@ -1,0 +1,67 @@
+<ion-header translucent>
+  <ion-toolbar color="primary">
+    <ion-title class="ion-text-center">Resource Summary</ion-title>
+    <ion-buttons slot="end">
+      <ion-icon name="star" size="large"></ion-icon>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<div class="container">
+    <ion-icon name="arrow-down-circle" slot="end" size="large" (click)="downloadAsPptx()"></ion-icon>
+   <h2 class="subtitle">Project Wise Resources UI-UX-JAVA-RPA</h2>
+
+  <div class="grid-layout">
+    <div class="chart-section" style="height: 360px;">
+      <canvas id="barChart" style="width: 100%;"></canvas>
+    </div>
+    <div class="table-section">
+      <h3>Technology Wise Summary</h3>
+      <table class="styled-table">
+        <thead>
+          <tr>
+            <th rowspan="2">Technology</th>
+            <th colspan="2">Resource</th>
+            <th rowspan="2">Ratio</th>
+          </tr>
+          <tr>
+            <th>Onsite</th>
+            <th>Offshore</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of techSummary">
+            <td>{{ row.tech }}</td>
+            <td>{{ row.onsite }}</td>
+            <td>{{ row.offshore }}</td>
+            <td>{{ row.ratio }}</td>
+          </tr>
+        </tbody>
+      </table>
+
+
+      <h3 class="pt-2">Project Wise Summary</h3>
+      <table class="styled-table">
+        <thead>
+          <tr>
+            <th rowspan="2">Project</th>
+            <th colspan="2">Resource</th>
+            <th rowspan="2">Ratio</th>
+          </tr>
+          <tr>
+            <th>Onsite</th>
+            <th>Offshore</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of projectSummary">
+            <td>{{ row.project }}</td>
+            <td>{{ row.onsite }}</td>
+            <td>{{ row.offshore }}</td>
+            <td>{{ row.ratio }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

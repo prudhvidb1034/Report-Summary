@@ -5,7 +5,7 @@
     </ion-col>
 
     <ion-col class="ion-text-end" size="auto" style="display: flex; align-items: center; gap: 8px; width: 100%; flex-wrap: nowrap;">
-      <ion-searchbar class="search-bar-input" style="flex-grow: 4;"></ion-searchbar>
+      <ion-searchbar class="search-bar-input" [(ngModel)]="searchTerm" (ngModelChange)="onSearchTermChange()" style="flex-grow: 4;"></ion-searchbar>
       <ion-button *ngIf="(userRole$|async)!=='employee'"  
         (click)="action('create', null)">
         Create {{label}}</ion-button>

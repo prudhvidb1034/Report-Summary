@@ -15,7 +15,11 @@
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
 }
 
-
+ion-content.ion-padding ion-grid{
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
 
 // ion-footer {
 //   position: relative;

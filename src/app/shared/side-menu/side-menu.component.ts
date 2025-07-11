@@ -88,7 +88,14 @@ export class SideMenuComponent {
     path: '/settings',
     roles: ['superadmin', 'manager'],
     isBottom: true
-  }
+  },
+   {
+    label: 'SprintHealth',
+    icon: 'document-text',
+    path: '/sprint-health',
+    roles: ['superadmin', 'manager','employee'],
+    isBottom: false
+  },
 ];
 
   ngOnInit(){

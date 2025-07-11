@@ -27,7 +27,6 @@ isLoading$ = this.accountStore.select(state => state.loading);
     this.accountStore.getAccounts();
     this.accountList$ = this.accountStore.account$;
 
-
   }
 
 

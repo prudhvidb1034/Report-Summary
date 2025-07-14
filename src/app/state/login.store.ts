@@ -39,7 +39,7 @@ login = this.effect((credentials$: Observable<LoginCredentials>) =>
         tap({
           next: (user: any) => {
             if (user) {
-              this.patchState({ user }); // Save user state
+              this.patchState({ user }); 
               localStorage.setItem('user', JSON.stringify(user.data));
               localStorage.setItem('token', user.data.acessToken); 
               this.router.navigate(['/home']);
@@ -50,10 +50,10 @@ login = this.effect((credentials$: Observable<LoginCredentials>) =>
           },
           error: () => {
             this.toast.show('error', 'Login failed. Please try again.');
-            this.patchState({ error: 'Login failed.' }); // Optionally add error msg
+            this.patchState({ error: 'Login failed.' }); 
           }
         }),
-        finalize(() => this.patchState({ loading: false })) // 🔁 Always stop loading
+        finalize(() => this.patchState({ loading: false })) 
       );
     })
   )

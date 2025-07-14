@@ -81,52 +81,49 @@ export class ProjectStore extends ComponentStore<TeamState> {
 
 
 
-   readonly updateProject = this.effect(
-          (account$: Observable<{ id: string; data: createProject }>) =>
-              account$.pipe(
-                  exhaustMap(({ id, data }) => {
-                      this.patchState({ loading: true, error: null });
-                      return this.sharedservice.patchData(`${urls.CREATE_PROJECT}/${id}`, data).pipe(
-                          tap({
-                              next: (updatedAccount: any) => {
-                                  this._accountCreateStatus.set('update');
-                                  // this.getAccounts(); // Refresh after update
-                                  this.patchState({ loading: false });
-                              },
-                              error: () => {
-                                  this._accountCreateStatus.set('error');
-                                  this.patchState({ loading: false, error: 'Failed to update account' });
-                                  this.toast.show('error', 'Update failed!');
-                              }
-                          })
-                      );
-                  })
-              )
-      );
+  readonly updateProject = this.effect(
+    (account$: Observable<{ id: string; data: createProject }>) =>
+      account$.pipe(
+        exhaustMap(({ id, data }) => {
+          this.patchState({ loading: true, error: null });
+          return this.sharedservice.patchData(`${urls.CREATE_PROJECT}/${id}`, data).pipe(
+            tap({
+              next: (updatedAccount: any) => {
+                this._accountCreateStatus.set('update');
+                this.patchState({ loading: false });
+              },
+              error: () => {
+                this._accountCreateStatus.set('error');
+                this.patchState({ loading: false, error: 'Failed to update account' });
+                this.toast.show('error', 'Update failed!');
+              }
+            })
+          );
+        })
+      )
+  );
 
-readonly deleteProject = this.effect((accountId$: Observable<string>) =>
-  accountId$.pipe(
-    exhaustMap(id => {
-      this.patchState({ loading: true, error: null }); // Set loading true before API call
-
-      return this.sharedservice.deleteData(`${urls.CREATE_PROJECT}/${id}`).pipe(
-        tapResponse(
-          () => {
-            this.patchState({ loading: false }); // Set loading false on success
-            this._accountCreateStatus.set('deleted');
-            this.getTeam();
-             this.toast.show('success', 'Account deleted successfully!');
-          },
-          (error) => {
-            this.patchState({ loading: false, error: '' }); // Set loading false on error
-            this._accountCreateStatus.set('error');
-            // this.toast.show('error', 'Failed to delete account!');
-          }
-        )
-      );
-    })
-  )
-);
+  readonly deleteProject = this.effect((accountId$: Observable<string>) =>
+    accountId$.pipe(
+      exhaustMap(id => {
+        this.patchState({ loading: true, error: null });
+        return this.sharedservice.deleteData(`${urls.CREATE_PROJECT}/${id}`).pipe(
+          tapResponse(
+            () => {
+              this.patchState({ loading: false });
+              this._accountCreateStatus.set('deleted');
+              this.getTeam();
+              this.toast.show('success', 'Account deleted successfully!');
+            },
+            (error) => {
+              this.patchState({ loading: false, error: '' });
+              this._accountCreateStatus.set('error');
+            }
+          )
+        );
+      })
+    )
+  );
 
 
 }

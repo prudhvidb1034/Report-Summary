@@ -120,9 +120,5 @@ export const routes: Routes = [
   //   redirectTo: 'login',
   //   pathMatch: 'full',
   // },
-   {
-    path: 'sprint-health',
-    loadComponent: () => import('../app/features/sprint-health/sprint-health.component').then((m) => m.SprintHealthComponent),
-    canActivate: [RoleGuard]
-  },
+ 
 ];

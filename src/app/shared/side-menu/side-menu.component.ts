@@ -67,7 +67,7 @@ export class SideMenuComponent {
     isBottom: false
   },
    {
-    label: 'Spring Report',
+    label: 'Sprint Report',
     icon: 'bookmark-outline',
     path: '/sprint-report',
     roles: ['superadmin', 'manager','employee'],
@@ -96,14 +96,7 @@ export class SideMenuComponent {
     roles: ['superadmin', 'manager'],
     isBottom: true
   },
-   {
-    label: 'SprintHealth',
-    icon: 'document-text',
-    path: '/sprint-health',
-    roles: ['superadmin', 'manager','employee'],
-    isBottom: false
-  },
-];
+ ];
 
   ngOnInit(){
          this.loginStore.user$.pipe(

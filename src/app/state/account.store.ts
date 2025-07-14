@@ -41,7 +41,6 @@ export class AccountStore extends ComponentStore<AccountState> {
                         next: (user: any) => {
                             this.patchState({ account: [user], loading: false });
                             this._accountCreateStatus.set('success');
-                            //  this.getAccounts();
                         },
                         error: () => {
                             this.patchState({ loading: false, error: '' });

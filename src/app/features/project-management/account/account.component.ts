@@ -24,7 +24,8 @@ export class AccountCreateComponent {
 isLoading$ = this.accountStore.select(state => state.loading);
   constructor() {
     this.accountStore.getAccounts();
-    this.accountList$ = this.accountStore.account$
+    this.accountList$ = this.accountStore.account$;
+
 
   }
 

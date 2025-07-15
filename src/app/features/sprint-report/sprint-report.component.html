@@ -1,0 +1,138 @@
+<div id="pptContainer">
+  <ion-header translucent>
+    <ion-toolbar color="primary">
+      <ion-title class="ion-text-center">Resource Summary</ion-title>
+      <ion-buttons slot="end">
+        <ion-icon name="star" size="large"></ion-icon>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+
+  <div class="container">
+    <ion-icon name="arrow-down-circle" slot="end" size="large" (click)="downloadAsPptx()"></ion-icon>
+    <h2 class="subtitle">Project Wise Resources UI-UX-JAVA-RPA</h2>
+
+    <div class="grid-layout">
+      <div class="chart-section" style="height: 360px;">
+        <canvas id="barChart" style="width: 100%;"></canvas>
+      </div>
+
+      <div class="table-section">
+        <h3>Technology Wise Summary</h3>
+        <table class="styled-table">
+          <thead>
+            <tr>
+              <th rowspan="2">Technology</th>
+              <th colspan="2">Resource</th>
+              <th rowspan="2">Ratio</th>
+            </tr>
+            <tr>
+              <th>Onsite</th>
+              <th>Offshore</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let row of techSummary">
+              <td>{{ row.tech }}</td>
+              <td>{{ row.onsite }}</td>
+              <td>{{ row.offshore }}</td>
+              <td>{{ row.ratio }}</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3 class="pt-2">Project Wise Summary</h3>
+        <table class="styled-table">
+          <thead>
+            <tr>
+              <th rowspan="2">Project</th>
+              <th colspan="2">Resource</th>
+              <th rowspan="2">Ratio</th>
+            </tr>
+            <tr>
+              <th>Onsite</th>
+              <th>Offshore</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let row of projectSummary">
+              <td>{{ row.project }}</td>
+              <td>{{ row.onsite }}</td>
+              <td>{{ row.offshore }}</td>
+              <td>{{ row.ratio }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+ 
+  <ion-header translucent>
+    <ion-toolbar color="dark">
+      <ion-title>Sprint 2503.0 - Sprint Health & Release</ion-title>
+    </ion-toolbar>
+  </ion-header>
+<div class="container">
+ 
+    <div class="table-container">
+      <h3 class="table-title">Sprint Health</h3>
+      <table class="styled-table">
+        <thead>
+          <tr>
+            <th rowspan="2">Team</th>
+            <th colspan="2">Health</th>
+            <th rowspan="2">Overall Sprint Completion %</th>
+            <th colspan="4">Stories - Count(SP)</th>
+          </tr>
+          <tr>
+            <th>Estimation</th>
+            <th>Grooming & Backlog</th>
+            <th>In Dev</th>
+            <th>In QA</th>
+            <th>Blocked</th>
+            <th>At Risk</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let team of sprintHealth">
+            <td>{{ team.name }}</td>
+            <td [class.green]="team.est === 'G'">{{ team.est }}</td>
+            <td [class.green]="team.groom === 'G'">{{ team.groom }}</td>
+            <td>{{ team.completion }}</td>
+            <td>{{ team.inDev }}</td>
+            <td>{{ team.inQA }}</td>
+            <td>{{ team.blocked }}</td>
+            <td>{{ team.atRisk }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="table-container">
+      <h3 class="table-title">Release (Count)</h3>
+      <table class="styled-table">
+        <thead>
+          <tr>
+            <th>Team</th>
+            <th>Major</th>
+            <th>Minor</th>
+            <th>Incident Created</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let release of releaseData">
+            <td>{{ release.team }}</td>
+            <td>{{ release.major }}</td>
+            <td>{{ release.minor }}</td>
+            <td>{{ release.incident }}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p class="release-info">
+        <strong>CoreTex:</strong> Minor fixes released on 06/26 related to Party domain, external Nginx service and signature adapter.
+      </p>
+    </div> 
+    </div>
+</div>

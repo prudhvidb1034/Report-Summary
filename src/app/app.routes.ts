@@ -100,19 +100,25 @@ export const routes: Routes = [
     loadComponent: () => import('../app/features/ai-chatbot/ai-chatbot.component').then((m) => m.AiChatbotComponent),
     canActivate: [RoleGuard],
   },
+   {
+    path: 'sprint-report',
+    loadComponent: () => import('../app/features/sprint-report/sprint-report.component').then((m) => m.SprintReportComponent),
+    canActivate: [RoleGuard],
+  },
 
   {
     path: '',
     redirectTo: 'login',
     pathMatch: 'full',
   },
-  // {
-  //   path: 'view-reports/:id',
-  //   loadComponent: () => import('../app/shared/view-reports/view-reports.component').then((m) => m.ViewReportsComponent)
-  // },
+  {
+    path: 'chat-ai',
+    loadComponent: () => import('../app/features/ai-chatbot/ai-chatbot.component').then((m) => m.AiChatbotComponent)
+  },
   // {
   //   path: '**',
   //   redirectTo: 'login',
   //   pathMatch: 'full',
   // },
+ 
 ];

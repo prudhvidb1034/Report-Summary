@@ -1,82 +1,152 @@
-
 <div class="modal-wrapper">
-<ion-header>
-  <ion-toolbar color="light">
-    <ion-buttons slot="start">
-      <ion-title><b>Tag Employee</b></ion-title>
-    </ion-buttons>
-    <ion-buttons slot="end">
-      <ion-button fill="clear" (click)="closeModal()">
-        <ion-icon name="close-outline" class="icon-medium"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-  </ion-toolbar>
-</ion-header>
+  <ion-header>
+    <ion-toolbar color="light">
+      <ion-buttons slot="start">
+        <ion-title><b>Tag Employee</b> </ion-title>
+      </ion-buttons>
+      <ion-buttons slot="end">
+        <ion-button fill="clear" (click)="closeModal()">
+          <ion-icon name="close-outline" class="icon-medium"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
 
-<ion-content class="ion-padding">
-  <ion-grid>
-    <ion-row>
-      <ion-col size="8">
-        <ion-label class="ion-margin">Project Name</ion-label>
-        <ion-searchbar 
-          [(ngModel)]="projectSearch"
-          [debounce]="300"
-          (ionClear)="clearProjectSearch()"
-          (ionInput)="onProjectTyping()">
-        </ion-searchbar>
-      </ion-col>
-    </ion-row>
+  <ion-content class="ion-padding">
+    <ion-grid>
+      <!-- <ion-row>
+        <ion-col size="8">
+          <ion-label class="ion-margin">Project Name</ion-label>
+          <ion-searchbar
+            [(ngModel)]="projectSearch"
+            [debounce]="300"
+            (ionClear)="clearProjectSearch()"
+            (ionInput)="onProjectTyping()"
+          >
+          </ion-searchbar>
 
-    <ion-row *ngIf="projectSearch && !projectSelected">
-      <ion-col size="8">
-        <ion-list class="scroll-list" *ngIf="(teamsList$ | async) as projects">
-          <ion-item
-           *ngFor="let project of filterItems(projects, projectSearch, 'projectName', projectSelected)"
-            button
-            lines="none"
-            (click)="selectProject(project.projectName)">
-            <ion-label>{{ project.projectName }}</ion-label>
+          <ion-item>
+            <ion-select label="Account Name" labelPlacement="floating">
+            </ion-select>
           </ion-item>
-        </ion-list>
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col size="8" class="ion-margin-top">
-        <ion-label class="ion-margin">Employee Name</ion-label>
-        <ion-searchbar
-          [(ngModel)]="employeeSearch"
-          [debounce]="300"
-          animated="true"
-          (ionClear)="clearEmployeeSearch()"
-          (ionInput)="onEmployeeTyping()">
-        </ion-searchbar>
-      </ion-col>
-    </ion-row>
+        </ion-col>
+      </ion-row> -->
 
-    <ion-row *ngIf="employeeSearch && !employeeSelected">
-      <ion-col size="8">
-        <ion-list class="scroll-list" *ngIf="(registerList$ | async) as employees">
-          <ion-item
-           *ngFor="let emp of filterItems(employees, employeeSearch, 'firstName', employeeSelected)"
-            button
-            lines="none"
-            (click)="selectEmployee(emp.firstName)">
-            <ion-label>{{ emp.firstName }}</ion-label>
-          </ion-item>
-        </ion-list>
-      </ion-col>
-    </ion-row>
+      <!-- <ion-row>
+        <ion-col size="8">
+          <ion-label class="ion-margin">Project Name</ion-label>
+          <ion-searchbar
+            *ngFor="let project of projectList$ | async"
+            [(ngModel)]="project.projectName"
+            [debounce]="300"
+            (ionClear)="clearProjectSearch(project)"
+            (ionInput)="onProjectTyping(project)"
+          >
+          </ion-searchbar>
+        </ion-col>
+      </ion-row> -->
+      <!-- {{projectList$|async|json}} -->
+      <!-- <ion-select-option
+                *ngFor="let project of projectList$ | async"
+                
+              >
+                <p>{{ project.projectName}}</p>
+              </ion-select-option> -->
 
-  </ion-grid>
-</ion-content>
+      <ion-row>
+        <ion-col size="8">
+          <ion-label class="ion-margin">Project Name</ion-label>
+          <ion-searchbar
+            [(ngModel)]="projectSearch"
+            [debounce]="300"
+            (ionClear)="clearProjectSearch()"
+            (ionInput)="onProjectTyping()"
+          >
+          </ion-searchbar>
 
-<ion-footer>
-  <ion-toolbar>
-    <ion-buttons slot="end">
-        <ion-button  (click)="closeModal()">Close</ion-button>
-      <ion-button 
-          (click)="tagEmployee()">Save</ion-button>
-    </ion-buttons>
-  </ion-toolbar>
-</ion-footer>
+          <!-- <ion-list>
+            <ion-item *ngFor="let project of projectList$ | async">
+              {{ project.projectName }}
+            </ion-item>
+          </ion-list> -->
+        </ion-col>
+      </ion-row>
+
+      <ion-row *ngIf="projectSearch && !projectSelected">
+        <ion-col size="8">
+          <ion-list class="scroll-list" *ngIf="teamsList$ | async as projects">
+            <ion-item
+              *ngFor="
+                let project of filterItems(
+                  projects,
+                  projectSearch,
+                  'projectName',
+                  projectSelected
+                )
+              "
+              button
+              lines="none"
+              (click)="selectProject(project)"
+            >
+              <ion-label>{{ project.projectName }}</ion-label>
+            </ion-item>
+          </ion-list>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="8" class="ion-margin-top">
+          <ion-label class="ion-margin">Employee Name</ion-label>
+          <ion-searchbar
+            [(ngModel)]="employeeSearch"
+            [debounce]="300"
+            animated="true"
+            (ionClear)="clearEmployeeSearch()"
+            (ionInput)="onEmployeeTyping()"
+          >
+          </ion-searchbar>
+        </ion-col>
+      </ion-row>
+
+      <ion-row *ngIf="employeeSearch && !employeeSelected">
+        <ion-col size="8">
+          <ion-list
+            class="scroll-list"
+            *ngIf="registerList$ | async as employees"
+          >
+            <ion-item
+              *ngFor="
+                let emp of filterItems(
+                  employees,
+                  employeeSearch,
+                  'firstName',
+                  employeeSelected
+                )
+              "
+              button
+              lines="none"
+              (click)="selectEmployee(emp)"
+            >
+              <ion-label>{{ emp.firstName }}</ion-label>
+            </ion-item>
+          </ion-list>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <!-- <ion-select-option
+      class="label-texts"
+      *ngFor="let p of projectList$ | async"
+      [value]="p.projectId"
+    >
+      {{ p.projectName }}
+    </ion-select-option> -->
+  </ion-content>
+
+  <ion-footer>
+    <ion-toolbar>
+      <ion-buttons slot="end">
+        <ion-button (click)="closeModal()">Close</ion-button>
+        <ion-button (click)="tagEmployee()">Save</ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-footer>
 </div>

@@ -66,6 +66,13 @@ export class SideMenuComponent {
     roles: ['superadmin', 'manager','employee'],
     isBottom: false
   },
+   {
+    label: 'Sprint Report',
+    icon: 'bookmark-outline',
+    path: '/sprint-report',
+    roles: ['superadmin', 'manager','employee'],
+    isBottom: false
+  },
 
   // {
   //   label: 'View Reports',
@@ -88,8 +95,8 @@ export class SideMenuComponent {
     path: '/settings',
     roles: ['superadmin', 'manager'],
     isBottom: true
-  }
-];
+  },
+ ];
 
   ngOnInit(){
          this.loginStore.user$.pipe(

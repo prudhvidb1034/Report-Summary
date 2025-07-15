@@ -29,6 +29,7 @@ export class ProjectListComponent {
 
   private url = "http://localhost:3000/teamslist"
   isModalOpen = false;
+  searchProject = '';
   teamForm !: FormGroup;
   private fb = inject(FormBuilder)
   private toast = inject(ToastService)
@@ -47,6 +48,10 @@ isLoading$ = this.projectStore.select(state => state.loading);
   ngOnInit() {
     this.CreateForm();
   }
+onSearchTermChanged(term: string) {
+  this.searchProject = term;
+  // You can also trigger search logic here
+}
 
   goToProject(project: any) {
     console.log(project);
@@ -140,7 +145,7 @@ isLoading$ = this.projectStore.select(state => state.loading);
   updateCreateEmployeeModal(item: any) {
     this.modalController.create({
       component: CreateProjectComponent,
-      cssClass: 'custom-modal',
+      cssClass: 'create-project-modal',
       componentProps: {
         editData: item
 

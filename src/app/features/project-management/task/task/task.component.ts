@@ -8,6 +8,7 @@ import { IonicModule, ModalController } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
 import { CreateSummaryComponent } from '../../../../pop-ups/create-summary/create-summary.component';
 import { ConfirmDeleteComponent } from '../../../../pop-ups/confirm-delete/confirm-delete.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-task',
@@ -20,6 +21,7 @@ import { ConfirmDeleteComponent } from '../../../../pop-ups/confirm-delete/confi
 export class TaskComponent {
 
   private modalController = inject(ModalController);
+  private router = inject(Router);
   private projectData$ = new BehaviorSubject<any[]>([]);
   public readonly projectDataObservable$ = this.projectData$.asObservable();
 
@@ -113,15 +115,17 @@ export class TaskComponent {
     }
   }
   openModal() {
-    this.modalController.create({
-      component: CreateSummaryComponent,
-      componentProps: {}
-    }).then((modal) => {
-      modal.present();
-      modal.onDidDismiss().then((data) => {
-        console.log('Modal dismissed with data:', data);
-      });
-    });
+    // this.modalController.create({
+    //   component: CreateSummaryComponent,
+    //   componentProps: {}
+    // }).then((modal) => {
+    //   modal.present();
+    //   modal.onDidDismiss().then((data) => {
+    //     console.log('Modal dismissed with data:', data);
+    //   });
+    // });
+
+    this.router.navigate(['/employee-dashboard'])
   }
 
   deleteModal() {

@@ -37,14 +37,14 @@ export class TaskComponent {
     { header: 'Employee Name', field: 'employee_name' },
     { header: 'Upcoming Tasks', field: 'upcomingTasks' },
     { header: 'Summary', field: 'summary' },
-      { header: 'Task Type', field: ' ' },
+    { header: 'Task Type', field: ' ' },
     { header: 'Key Accomplishments', field: 'keyAccomplishments' },
     { header: 'Action', field: 'action', type: ['edit', 'delete'] }
   ];
 
   ngOnInit() {  
-    this.getprojects.getDetails();
-
+    this.getprojects.getDetails('');
+    console.log("tasj")
     this.getprojects.projects$.subscribe((projects: any[]) => {
       this.allProjects = projects;
       this.onSearch(); // ✅ Load all employee data on init
@@ -104,7 +104,6 @@ export class TaskComponent {
 
   handleRowAction(event: any) {
     switch (event.type) {
-
       case 'edit':
         this.openModal();
         break;

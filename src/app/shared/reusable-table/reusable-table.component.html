@@ -68,7 +68,8 @@
               {{ item[column.field]?item[column.field]:'View'}}
             </a>
           </div>
-          <div *ngIf="!column.linkEnable  && column.field !='status' ">
+
+          <div *ngIf="!column.linkEnable  && column.field !='status'">
             {{ item[column.field] }}
           </div>
         </ng-template>

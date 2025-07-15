@@ -4,11 +4,12 @@ import { IonicModule } from '@ionic/angular';
 import { map, Observable } from 'rxjs';
 import { LoginStore } from '../../state/login.store';
 import { PaginatorComponent } from '../paginator/paginator.component';
+import { WeekRangePipe } from '../pipes/week-range.pipe';
 
 @Component({
   selector: 'app-reusable-table',
   standalone: true,
-  imports: [IonicModule, CommonModule,PaginatorComponent],
+  imports: [IonicModule, CommonModule,PaginatorComponent,WeekRangePipe],
   templateUrl: './reusable-table.component.html',
   styleUrl: './reusable-table.component.scss'
 })

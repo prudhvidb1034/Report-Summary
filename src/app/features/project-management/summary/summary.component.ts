@@ -23,7 +23,7 @@ export class SummaryComponent {
   label = 'Summary';
   private modalController = inject(ModalController);
     private  loginStore = inject(LoginStore)
-  
+  private readonly summaryStore = inject(SummaryStore);
   // projects: createProject[] = [];
   // private summary = inject(SummaryService);
   // weekSummaryForm !: FormGroup;
@@ -34,6 +34,16 @@ export class SummaryComponent {
   role:any;
 
   columns:any;
+
+
+constructor(){
+  this.summaryStore.getDetails('page=0&size=10');
+  this.summarylist$=this.summaryStore.weeklyRange$;
+  this.summaryStore.weeklyRange$.subscribe((data:any)=>{
+    console.log(data);
+  })
+}
+
   ngOnInit(){
     this.userRole$.pipe(take(1)).subscribe(role => {
       this.role=role;
@@ -41,14 +51,14 @@ export class SummaryComponent {
 });
 if(this.role=='employee'){
   this.columns = [
-    { header: 'Name ', field: 'weekId' },
+    { header: 'Name ', field: 'weekRange' },
     {header:'View Task',field:'viewTask',linkEnable:true},
     {header:'View Report',field:'viewReport',linkEnable:true},
   ];
 
 }else{
    this.columns = [
-    { header: 'Name ', field: 'weekId' },
+    { header: 'Name ', field: 'weekRange' },
     { header: 'Status', field: 'status' },
     {header:'View Task',field:'viewTask',linkEnable:true},
     {header:'View Report',field:'viewReport',linkEnable:true},
@@ -145,13 +155,13 @@ console.log(this.userRole$)
     }
   ];
 
-  summarylist$: Observable<any[]> = of(this.summary);
+  summarylist$:any;
 
   handleRowAction(event: any) {
     console.log(event)
     switch (event.type) {
       case 'viewTask':
-        this.route.navigate(['summary/task', event.item.weekNo]);
+        this.route.navigate(['summary/task', event.item.weekId]);
         break;
       case 'viewReport':
         this.route.navigate(['summary/project-status', event.item.weekNo]);

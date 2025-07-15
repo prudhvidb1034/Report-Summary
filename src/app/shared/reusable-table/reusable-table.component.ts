@@ -7,11 +7,12 @@ import { FormsModule } from '@angular/forms';
 import { SharedService } from '../../services/shared/shared.service';
 import { urls } from '../../constants/string-constants';
 import { PaginatorComponent } from '../paginator/paginator.component';
+import { WeekRangePipe } from '../pipes/week-range.pipe';
 
 @Component({
   selector: 'app-reusable-table',
   standalone: true,
-  imports: [IonicModule, CommonModule,PaginatorComponent, FormsModule],
+  imports: [IonicModule, CommonModule,PaginatorComponent,WeekRangePipe,FormsModule],
   templateUrl: './reusable-table.component.html',
   styleUrl: './reusable-table.component.scss'
 })

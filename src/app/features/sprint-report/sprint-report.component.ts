@@ -18,6 +18,7 @@
       { tech: 'Java', onsite: 2, offshore: 7, ratio: '22% : 78%' },
       { tech: 'RPA', onsite: 0, offshore: 2, ratio: '0% : 100%' },
       { tech: 'Total', onsite: 4, offshore: 19, ratio: '17% : 83%' },
+   
     ];
 
     projectSummary = [
@@ -88,39 +89,62 @@
         }
       });
     }
-  async downloadAsPptx(): Promise<void> {
-    try {
-      const pptx = new PptxGenJS();
-      const pageSections = document.querySelectorAll('.container') as NodeListOf<HTMLElement>;
+async downloadAsPptx(): Promise<void> {
+  try {
+    const pptx = new PptxGenJS();
+    const pageSections = document.querySelectorAll('.container') as NodeListOf<HTMLElement>;
 
-      for (let page of Array.from(pageSections)) {
-        const canvas = await html2canvas(page, {
-          scale: 2,
-          useCORS: true
-        });
+    // Wait for fonts to be fully loaded
+    await document.fonts.ready;
 
-        const imageData = canvas.toDataURL('image/png');
-        const slide = pptx.addSlide();
-        const aspectRatio = canvas.width / canvas.height;
-        const maxWidth = 9;
-        const width = maxWidth;
-        const height = width / aspectRatio;
+    const totalPages = pageSections.length;
 
-        slide.addImage({
-          data: imageData,
-          x: 0.5,
-          y: 0.5,
-          w: width,
-          h: height
-        });
-      }
+    for (const [index, page] of Array.from(pageSections).entries()) {
+      // Force consistent font styling
+      page.style.fontFamily = "'Poppins', sans-serif";
+      page.style.fontSize = '12px';
 
-      await pptx.writeFile({ fileName: 'Sprint_Report_Slides.pptx' });
-      console.log('PowerPoint generated with multiple pages!');
-    } catch (error) {
-      console.error('Error while generating PPT:', error);
+      const canvas = await html2canvas(page, {
+        scale: 3,
+        useCORS: true
+      });
+
+      const fullWidth = canvas.width;
+      const fullHeight = canvas.height;
+      const aspectRatio = fullHeight / fullWidth;
+      const imgData = canvas.toDataURL('image/png');
+
+      const slide = pptx.addSlide();
+
+      // Add image to slide
+      slide.addImage({
+        data: imgData,
+        x: 0,
+        y: 0,
+        w: 10,
+        h: 10 * aspectRatio
+      });
+
+      // Add bottom-right page number (e.g. "1 of 7")
+      const pageNumber = `${index + 1} of ${totalPages}`;
+      slide.addText(pageNumber, {
+        x: '85%', // 85% from left (approximate bottom-right)
+        y: '90%', // 90% from top
+        fontSize: 10,
+        color: '666666',
+        align: 'right',
+        w: '15%',
+        h: 0.3
+      });
     }
+
+    await pptx.writeFile({ fileName: 'Sprint_Report_Slides.pptx' });
+    console.log('PowerPoint generated and downloaded successfully!');
+  } catch (error) {
+    console.error('Error while generating PPT:', error);
   }
+}
+
 
 
   }

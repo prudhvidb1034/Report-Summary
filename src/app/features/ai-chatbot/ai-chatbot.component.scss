@@ -47,6 +47,8 @@ ion-textarea.chat-input {
   border-radius: 20px;
 }
 
+ 
+
 .send-button {
   color: #1a6b5e;
   min-width: 40px;
@@ -94,4 +96,8 @@ ion-textarea.chat-input {
   background-color: #F1F0F0; 
   color: #000;
   border-bottom-left-radius: 0;
+}
+
+::ng-deep .textarea-highlight.sc-ion-textarea-md {
+  background-color: transparent;
 }

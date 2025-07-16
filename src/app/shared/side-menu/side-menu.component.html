@@ -1,22 +1,40 @@
- <ion-menu side="start" menuId="main-menu" contentId="main-content">
-    <ion-header>
-      <ion-toolbar>
-        <ion-title>Menu</ion-title>
-      </ion-toolbar>
-    </ion-header>
-    <ion-content>
-      <ng-container *ngFor="let item of menuItems;let i=index;">
-        <ion-menu-toggle *ngIf="userRole && item.roles.includes(userRole)" style="display: flex; flex-direction: column;">
-          <ion-list lines="none">
-            <!-- Single clean ion-item per menu item -->
-            <ion-item  menuClose class="cursor hover-item"
-               (click)="navigate(item.path)">
-              <ion-icon size="small" [name]="item.icon" slot="start"></ion-icon>
-              <p style="margin-left: 12px;font-size: 14px;">{{ item.label }}</p>
-            </ion-item>
-          </ion-list>
+<ion-menu side="start" menuId="main-menu" contentId="main-content">
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>Menu</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content>
+    <ion-list lines="none">
+      <ng-container *ngFor="let item of menuItems">
+
+        <ng-container *ngIf="item.children && userRole && item.roles.includes(userRole)">
+          <ion-item button (click)="onItemClick(item)">
+            <ion-icon size="small" [name]="item.icon" slot="start"></ion-icon>
+            <p style="margin-left: 12px; font-size: 14px;">{{ item.label }}</p>
+            <ion-icon slot="end" [name]="item.isExpanded ? 'chevron-up-outline' : 'chevron-down-outline'"></ion-icon>
+          </ion-item>
+
+          <div *ngIf="item.isExpanded" class="cursor">
+            <ion-menu-toggle auto-hide="true" *ngFor="let child of item.children">
+              <ion-item (click)="onChildItemClick(child.path)">
+                <p style="margin-left: 40px; font-size: 13px;">{{ child.label }}</p>
+              </ion-item>
+            </ion-menu-toggle>
+          </div>
+        </ng-container>
+
+        <ion-menu-toggle auto-hide="true" *ngIf="!item.children && userRole && item.roles.includes(userRole)">
+          <ion-item button (click)="onItemClick(item)">
+            <ion-icon size="small" [name]="item.icon" slot="start"></ion-icon>
+            <p style="margin-left: 12px; font-size: 14px; ">{{item.label }}</p>
+          </ion-item>
         </ion-menu-toggle>
+
       </ng-container>
-    </ion-content>
-  </ion-menu>
-  <ion-router-outlet id="main-content"></ion-router-outlet>
+    </ion-list>
+  </ion-content>
+</ion-menu>
+
+<ion-router-outlet id="main-content"></ion-router-outlet>

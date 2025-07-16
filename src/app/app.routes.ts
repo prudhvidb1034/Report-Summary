@@ -106,6 +106,20 @@ export const routes: Routes = [
     canActivate: [RoleGuard],
   },
 
+
+
+
+   {
+    path: 'create-sprint',
+    loadComponent: () => import('../app/features/create-sprint/create-sprint.component').then((m) => m.CreateSprintComponent),
+    canActivate: [RoleGuard],
+  },
+   {
+    path: 'create-weekly-sprint',
+    loadComponent: () => import('../app/features/create-weekly-sprint/create-weekly-sprint.component').then((m) => m.CreateWeeklySprintComponent),
+    canActivate: [RoleGuard],
+  },
+
   {
     path: '',
     redirectTo: 'login',

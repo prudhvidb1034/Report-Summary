@@ -54,7 +54,7 @@ isLoading$ = this.accountStore.select(state => state.loading);
       case 'delete':
         if (event.type === 'delete') {
           console.log('Row from table:', event.item);
-          this.deleteModal(event.item); // ✅ This is the selected row
+          this.deleteModal(event.item); 
         }
         // this.deleteModal(event.row);
         break;

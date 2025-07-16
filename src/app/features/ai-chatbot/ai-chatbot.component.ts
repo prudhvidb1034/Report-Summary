@@ -1,19 +1,23 @@
 import { CommonModule } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, ViewChild, ElementRef, AfterViewChecked } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, IonContent } from '@ionic/angular';
 import { GemeniAiService } from '../../services/gemeni-ai/gemeni-ai.service';
-// Assuming GemeniUpdatedAIService and GENAI are not directly used in this component for the current flow
-// import { GemeniUpdatedAIService } from '../../services/gemeni-ai/gemeni-updated-ai-service';
-// import { GENAI } from '../../services/gemeni-ai/gemeni-geni-service';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { MarkdownService } from '../../services/markdown/markdown.service';
 
+// Define a common interface for your ID objects
+interface SelectOption {
+  id: string;
+  name: string;
+}
 
 interface ChatMessage {
   displayHtml: SafeHtml;
   type: 'user' | 'ai';
+  showWeekIdSelection?: boolean;
+  showProjectIdSelection?: boolean; // New flag
+  showEmployeeIdSelection?: boolean; // New flag
 }
 
 @Component({
@@ -23,47 +27,207 @@ interface ChatMessage {
   templateUrl: './ai-chatbot.component.html',
   styleUrl: './ai-chatbot.component.scss'
 })
-export class AiChatbotComponent {
+export class AiChatbotComponent implements AfterViewChecked {
+
+  @ViewChild(IonContent) content!: IonContent;
 
   userInput: string = '';
   messages: ChatMessage[] = [];
   hasStartedChat: boolean = false;
   isLoading: boolean = false;
+
+  selectedWeekId: string = '';
+  selectedProjectId: string = ''; // New property
+  selectedEmployeeId: string = ''; // New property
+
+  // Changed to Array of SelectOption objects
+  weekIds: SelectOption[] = Array.from({ length: 52 }, (_, i) => ({ id: `Week ${i + 1}`, name: `Week ${i + 1}` }));
+
+  projectIds: SelectOption[] = [
+    { id: 'PROJ-ALPHA', name: 'Project Alpha' },
+    { id: 'PROJ-BETA', name: 'Project Beta' },
+    { id: 'PROJ-GAMMA', name: 'Project Gamma' },
+    { id: 'PROJ-DELTA', name: 'Project Delta' }
+  ];
+
+  employeeIds: SelectOption[] = [
+    { id: 'EMP001', name: 'Alice Smith (EMP001)' },
+    { id: 'EMP002', name: 'Bob Johnson (EMP002)' },
+    { id: 'EMP003', name: 'Charlie Brown (EMP003)' },
+    { id: 'EMP004', name: 'Diana Prince (EMP004)' },
+    { id: 'EMP005', name: 'Ethan Hunt (EMP005)' }
+  ];
+
+  // State to track which ID we're currently awaiting selection for
+  awaitingIdSelectionFor: 'weekId' | 'projectId' | 'employeeId' | null = null;
+
   constructor(
     private aiService: GemeniAiService,
     private sanitizer: DomSanitizer,
     private markdownService: MarkdownService
   ) { }
 
+  ngAfterViewChecked() {
+    this.scrollToBottom();
+  }
+
+  scrollToBottom() {
+    if (this.content) {
+      this.content.scrollToBottom(300);
+    }
+  }
+
   async submitQuestion() {
-    if (!this.userInput.trim()) {
-      return; // Prevent sending empty messages
+    if (!this.userInput.trim() && this.awaitingIdSelectionFor === null) {
+      return; // Prevent sending empty messages unless we are awaiting a selection
     }
 
     const userText = this.userInput;
+    this.userInput = ''; // Clear input immediately
+    this.hasStartedChat = true;
+
+    // If we're awaiting an ID selection and the user types, treat it as a continuation
+    // The service will implicitly handle if an ID is still missing for confirmation.
+    if (this.awaitingIdSelectionFor !== null) {
+      this.messages.push({
+        displayHtml: this.sanitizer.bypassSecurityTrustHtml(`<p><strong>You:</strong> ${userText}</p>`),
+        type: 'user'
+      });
+      const currentAwaitingType = this.awaitingIdSelectionFor;
+      this.awaitingIdSelectionFor = null; // Reset state before processing
+      // Pass the typed text as contextIdValue as well, in case the AI can parse it
+      this.processAiResponse(userText, currentAwaitingType, userText); 
+      return;
+    }
+
+    // Normal user message submission
     this.messages.push({
       displayHtml: this.sanitizer.bypassSecurityTrustHtml(`<p><strong>You:</strong> ${userText}</p>`),
       type: 'user'
     });
-    this.userInput = '';
-    this.hasStartedChat = true;
     this.isLoading = true;
 
+    this.processAiResponse(userText);
+  }
 
+  // Unified method to handle ID selection from the AI's prompt
+  async selectIdFromChat(idType: 'weekId' | 'projectId' | 'employeeId') {
+    let selectedValue: string = '';
+    let selectedName: string = ''; // To display in chat for clarity
+
+    // Determine the selected value and the message to send back based on idType
+    switch (idType) {
+      case 'weekId':
+        selectedValue = this.selectedWeekId;
+        selectedName = this.weekIds.find(w => w.id === selectedValue)?.name || selectedValue;
+        break;
+      case 'projectId':
+        selectedValue = this.selectedProjectId;
+        selectedName = this.projectIds.find(p => p.id === selectedValue)?.name || selectedValue;
+        break;
+      case 'employeeId':
+        selectedValue = this.selectedEmployeeId;
+        selectedName = this.employeeIds.find(e => e.id === selectedValue)?.name || selectedValue;
+        break;
+      default:
+        console.error('Unknown ID type selected:', idType);
+        return;
+    }
+
+    if (!selectedValue) {
+      return; // Ensure a value is selected
+    }
+
+    this.isLoading = true;
+    this.awaitingIdSelectionFor = null; // No longer awaiting, selection made
+
+    // Find the AI message that prompted for this ID and remove its dropdown
+    const lastAiMessageIndex = this.messages.length - 1;
+    if (lastAiMessageIndex >= 0 && (
+        (idType === 'weekId' && this.messages[lastAiMessageIndex].showWeekIdSelection) ||
+        (idType === 'projectId' && this.messages[lastAiMessageIndex].showProjectIdSelection) ||
+        (idType === 'employeeId' && this.messages[lastAiMessageIndex].showEmployeeIdSelection)
+    )) {
+      this.messages[lastAiMessageIndex].showWeekIdSelection = false;
+      this.messages[lastAiMessageIndex].showProjectIdSelection = false;
+      this.messages[lastAiMessageIndex].showEmployeeIdSelection = false;
+      
+      // Optionally, update the AI's message to reflect the selection
+      const originalHtml = this.messages[lastAiMessageIndex].displayHtml;
+      this.messages[lastAiMessageIndex].displayHtml = this.sanitizer.bypassSecurityTrustHtml(
+        this.markdownService.convertToHtml(`*AI: Please confirm for saving*`) +
+        `<p>You selected: **${selectedName}**</p>` // Display the friendly name
+      );
+    }
+
+    // Now, send the selected ID along with a confirmation instruction to the service
+    // The service needs to know this is a selection to fulfill a previous prompt
+    const confirmationMessage = `Selected ${idType.replace('Id', ' ID')}: ${selectedValue}. Please proceed with the enhancement/save.`;
+    this.messages.push({
+        displayHtml: this.sanitizer.bypassSecurityTrustHtml(`<p><strong>You:</strong> ${confirmationMessage}</p>`),
+        type: 'user'
+    });
+    
+    // Send to AI service
+    this.processAiResponse(confirmationMessage, idType, selectedValue);
+  }
+
+  private async processAiResponse(message: string, contextIdType: 'weekId' | 'projectId' | 'employeeId' | null = null, contextIdValue: string = '') {
     try {
-      const aiRawResponseHtml = await this.aiService.sendUserInput(userText);
-      const aiSafeHtmlResponse = this.markdownService.convertToHtml(aiRawResponseHtml);
-      this.messages.push({
-        displayHtml: aiSafeHtmlResponse,
-        type: 'ai'
-      });
+      let aiResponse: string;
+
+      // If we are currently responding to an ID selection, send the context to the service
+      if (contextIdType && contextIdValue) {
+        aiResponse = await this.aiService.sendUserInput(message, contextIdType, contextIdValue);
+      } else {
+        aiResponse = await this.aiService.sendUserInput(message);
+      }
+      
+      // Check for special instructions from the service to show an ID selection
+      if (aiResponse.startsWith('__PROMPT_WEEK_ID__')) {
+        const promptText = aiResponse.replace('__PROMPT_WEEK_ID__', '').trim();
+        this.messages.push({
+          displayHtml: this.sanitizer.bypassSecurityTrustHtml(promptText),
+          type: 'ai',
+          showWeekIdSelection: true
+        });
+        this.awaitingIdSelectionFor = 'weekId';
+      } else if (aiResponse.startsWith('__PROMPT_PROJECT_ID__')) {
+        const promptText = aiResponse.replace('__PROMPT_PROJECT_ID__', '').trim();
+        this.messages.push({
+          displayHtml: this.sanitizer.bypassSecurityTrustHtml(promptText),
+          type: 'ai',
+          showProjectIdSelection: true
+        });
+        this.awaitingIdSelectionFor = 'projectId';
+      } else if (aiResponse.startsWith('__PROMPT_EMPLOYEE_ID__')) {
+        const promptText = aiResponse.replace('__PROMPT_EMPLOYEE_ID__', '').trim();
+        this.messages.push({
+          displayHtml: this.sanitizer.bypassSecurityTrustHtml(promptText),
+          type: 'ai',
+          showEmployeeIdSelection: true
+        });
+        this.awaitingIdSelectionFor = 'employeeId';
+      }
+      else {
+        // Normal AI response
+        const aiSafeHtmlResponse = this.markdownService.convertToHtml(aiResponse);
+        this.messages.push({
+          displayHtml: aiSafeHtmlResponse,
+          type: 'ai'
+        });
+        this.awaitingIdSelectionFor = null; // Ensure it's off for normal responses
+      }
     } catch (error) {
+      console.error('AI chat error:', error);
       this.messages.push({
         displayHtml: this.sanitizer.bypassSecurityTrustHtml(`<p><strong>AI:</strong> Sorry, something went wrong.</p>`),
         type: 'ai'
       });
+      this.awaitingIdSelectionFor = null;
     } finally {
-      this.isLoading = false; 
+      this.isLoading = false;
+      this.scrollToBottom();
     }
   }
 }

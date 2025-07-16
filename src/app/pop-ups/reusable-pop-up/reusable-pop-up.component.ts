@@ -52,7 +52,8 @@ export class ReusablePopUpComponent {
   ngOnInit() {
     this.projectStore.getTeam()
     this.projectList$.subscribe(list => {
-      this.projectList = list;
+      this.projectList = list.content;
+      console.log(this.projectList)
       this.filteredProjects = list; // default: show all
     });
   }

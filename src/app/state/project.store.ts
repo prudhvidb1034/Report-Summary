@@ -8,7 +8,7 @@ import { urls } from "../constants/string-constants";
 import { ToastService } from "../shared/toast.service";
 
 interface TeamState {
-  teamDetails: createProject[];
+  teamDetails: any;
   loading: boolean;
   error: string | null;
 }

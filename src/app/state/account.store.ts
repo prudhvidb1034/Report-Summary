@@ -7,7 +7,7 @@ import { urls } from '../constants/string-constants';
 import { ToastService } from '../shared/toast.service';
 
 export interface AccountState {
-    account: createAccountForm[];
+    account: any;
     loading: boolean;
     error: string | null;
 }

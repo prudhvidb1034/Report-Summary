@@ -41,8 +41,14 @@ export class AiChatbotComponent implements AfterViewChecked {
   selectedEmployeeId: string = ''; // New property
 
   // Changed to Array of SelectOption objects
-  weekIds: SelectOption[] = Array.from({ length: 52 }, (_, i) => ({ id: `Week ${i + 1}`, name: `Week ${i + 1}` }));
+ // weekIds: SelectOption[] = Array.from({ length: 52 }, (_, i) => ({ id: `Week ${i + 1}`, name: `Week ${i + 1}` }));
 
+
+  weekIds: SelectOption[]=[
+ {id:'week1',name:'WEEK 01-June-2025 To 07-June-2025'},
+ {id:'week2',name:'WEEK 08-June-2025 To 14-June-2025'},
+ {id:'week3',name:'WEEK 15-June-2025 To 22-June-2025'}
+  ]
   projectIds: SelectOption[] = [
     { id: 'PROJ-ALPHA', name: 'Project Alpha' },
     { id: 'PROJ-BETA', name: 'Project Beta' },

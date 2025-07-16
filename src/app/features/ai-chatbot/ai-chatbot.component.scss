@@ -47,7 +47,7 @@ ion-textarea.chat-input {
   border-radius: 20px;
 }
 
- 
+
 
 .send-button {
   color: #1a6b5e;
@@ -62,9 +62,10 @@ ion-textarea.chat-input {
   left: 0;
   right: 0;
   padding: 8px 16px;
-  background: #f9f9f9;
+
   z-index: 99999;
 }
+
 .message-row {
   display: flex;
   margin-bottom: 10px;
@@ -72,6 +73,15 @@ ion-textarea.chat-input {
 
 .message-row.user-message {
   justify-content: flex-end;
+}
+
+.welcome-input-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 50px;
+  flex-direction: column;
+
 }
 
 .message-row.ai-message {
@@ -87,14 +97,10 @@ ion-textarea.chat-input {
 }
 
 .user-message .message-bubble {
-  background-color: #DCF8C6; 
-  color: #000;
   border-bottom-right-radius: 0;
 }
 
 .ai-message .message-bubble {
-  background-color: #F1F0F0; 
-  color: #000;
   border-bottom-left-radius: 0;
 }
 

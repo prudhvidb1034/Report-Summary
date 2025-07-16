@@ -8,7 +8,17 @@
   <ng-container *ngIf="hasStartedChat; else welcomeInput">
     <div *ngFor="let message of messages" class="message-row"
       [ngClass]="{'user-message': message.type === 'user', 'ai-message': message.type === 'ai'}">
-      <div class="message-bubble" [innerHTML]="message.displayHtml"></div>
+
+      <div class="message-bubble" style="display: flex; align-items: flex-start; gap: 8px;">
+        <ion-icon *ngIf="message.type === 'user'" name="person" style="font-size: 18px; margin-top: 3px;">
+        </ion-icon>
+
+        <ion-icon *ngIf="message.type === 'ai'" name="sparkles" style="font-size: 18px; margin-top: 3px;">
+        </ion-icon>
+
+        <div [innerHTML]="message.displayHtml"></div>
+      </div>
+
       <ng-container *ngIf="message.type === 'ai' && message.showWeekIdSelection">
         <div class="selection-in-chat">
           <ion-select label="Select Week ID" [(ngModel)]="selectedWeekId" placeholder="Choose a Week"
@@ -42,7 +52,7 @@
     <div class="welcome-input-container">
       <ion-text class="welcome-message">
         <h2>Welcome to ETS AI!</h2>
-        <p>Type your query below to get started.</p>
+        <p>How can i help you today ?</p>
       </ion-text>
       <div class="chat-input-container">
         <ion-textarea [(ngModel)]="userInput" placeholder="Ask anything" class="chat-input"

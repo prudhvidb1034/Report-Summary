@@ -90,7 +90,7 @@ export class AiChatbotComponent implements AfterViewChecked {
     // The service will implicitly handle if an ID is still missing for confirmation.
     if (this.awaitingIdSelectionFor !== null) {
       this.messages.push({
-        displayHtml: this.sanitizer.bypassSecurityTrustHtml(`<p><strong>You:</strong> ${userText}</p>`),
+        displayHtml: this.sanitizer.bypassSecurityTrustHtml(`<p> ${userText}</p>`),
         type: 'user'
       });
       const currentAwaitingType = this.awaitingIdSelectionFor;
@@ -102,7 +102,7 @@ export class AiChatbotComponent implements AfterViewChecked {
 
     // Normal user message submission
     this.messages.push({
-      displayHtml: this.sanitizer.bypassSecurityTrustHtml(`<p><strong>You:</strong> ${userText}</p>`),
+      displayHtml: this.sanitizer.bypassSecurityTrustHtml(`<p> ${userText}</p>`),
       type: 'user'
     });
     this.isLoading = true;

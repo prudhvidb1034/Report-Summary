@@ -19,6 +19,6 @@ export class MarkdownService {
 
   convertToHtml(markdownText: string): SafeHtml {
     const htmlString = this.marked.parse(markdownText) as string;
-    return this.sanitizer.bypassSecurityTrustHtml(htmlString);
+    return htmlString
   }
 }

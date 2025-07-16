@@ -11,19 +11,21 @@ import { lastValueFrom } from 'rxjs';
 interface EnhancedText {
   summary: string;
   keyAccomplishments: string[];
+  weekId?: string;
+  projectId?: string;
+  employeeId?: string;
 }
 
-// Define the structure for the processEmployeeInfo response
 interface ProcessResult {
   status: 'success' | 'error';
-  message: string; // This will now be a Markdown string
+  message: string;
 }
 
 @Injectable({ providedIn: 'root' })
 export class GemeniAiService {
   private ai = new GoogleGenAI({ apiKey: 'AIzaSyAaGaav8HmOznjdOazOUNuSz-ZiBKgmSUA' });
   private history: any[] = [];
-  private currentEnhancedText: EnhancedText | undefined; // Stores the last generated enhanced text for employee profile
+  private currentEnhancedText?: EnhancedText;
 
   constructor(private http: HttpClient) {}
 
@@ -34,219 +36,199 @@ export class GemeniAiService {
     }));
   }
 
-  // This method now returns a Promise<ProcessResult> where message is Markdown
-  private async processEmployeeInfo(dataToSave: EnhancedText): Promise<ProcessResult> {
+  private async processEmployeeInfo(data: EnhancedText): Promise<ProcessResult> {
     const body = { userName: 'superadmin@gmail.com', password: 'Sarath11@' };
     try {
       await lastValueFrom(this.http.post('https://emp-tcb1.onrender.com/auth/login', body));
-      console.log('Simulating saving enhanced employee info:', dataToSave);
+      console.log('Saving enhanced info:', data);
       return {
         status: 'success',
-        // Return Markdown for the success message
         message: `
-          ✅ **Profile Updated!**
-          
-          **Summary:** ${dataToSave.summary}
-          
-          **${dataToSave.keyAccomplishments.length} accomplishment(s) saved.**
-        `
+✅ **Profile Updated!**
+**Summary:** ${data.summary}
+**${data.keyAccomplishments.length} accomplishment(s) saved.**
+${data.weekId ? `**Week ID:** ${data.weekId}` : ''}
+${data.projectId ? `**Project ID:** ${data.projectId}` : ''}
+${data.employeeId ? `**Employee ID:** ${data.employeeId}` : ''}
+`
       };
     } catch (err: any) {
       return {
         status: 'error',
-        // Return Markdown for the error message
-        message: `
-          ❌ **Update Failed:** ${err.message || 'Unknown error'}
-        `
+        message: `❌ **Update Failed:** ${err.message || 'Unknown error'}`
       };
     }
   }
 
-  // Removed formatEnhancedTextAsHtml and formatGeneralTextAsHtml
-  // because the service will now return raw Markdown strings,
-  // and the Angular component will handle the conversion to HTML.
+  private determineMissingIdAndPrompt(): string {
+    if (!this.currentEnhancedText) {
+      return `❌ Error: No profile data. Please provide summary & accomplishments first.`;
+    }
+    if (!this.currentEnhancedText.weekId) {
+      return `__PROMPT_WEEK_ID__I can enhance your profile, but need the **Week ID**. Please select it.`;
+    }
+    if (!this.currentEnhancedText.projectId) {
+      return `__PROMPT_PROJECT_ID__Great! Now I need the **Project ID**. Please select it.`;
+    }
+    if (!this.currentEnhancedText.employeeId) {
+      return `__PROMPT_EMPLOYEE_ID__Almost there! Please provide your **Employee ID**.`;
+    }
+    return `__PROMPT_WEEK_ID__I still need some IDs. Please provide the Week ID.`;
+  }
 
-  async sendUserInput(text: string): Promise<string> {
-    // Add user's latest input to history
+  async sendUserInput(
+    text: string,
+    contextIdType: 'weekId' | 'projectId' | 'employeeId' | null = null,
+    contextIdValue: string = ''
+  ): Promise<string> {
     this.history.push({ role: 'user', parts: [{ text }] });
 
-    // Define function for enhancing employee profile text
-    const enhanceEmployeeInfoFn: FunctionDeclaration = {
+    if (contextIdType && contextIdValue && this.currentEnhancedText) {
+      this.currentEnhancedText[contextIdType] = contextIdValue;
+      if (
+        this.currentEnhancedText.weekId &&
+        this.currentEnhancedText.projectId &&
+        this.currentEnhancedText.employeeId
+      ) {
+        const result = await this.processEmployeeInfo(this.currentEnhancedText);
+        this.history.push({ role: 'assistant', parts: [{ text: result.message }] });
+        this.currentEnhancedText = undefined;
+        return result.message;
+      } else {
+        return this.determineMissingIdAndPrompt();
+      }
+    }
+
+    this.history = this.history.filter(item => item.role !== 'system');
+    this.history.unshift({
+      role: 'system',
+      parts: [{ text: `... your system prompt here ...` }]
+    });
+
+    const enhanceFn: FunctionDeclaration = {
       name: 'enhanceEmployeeInfo',
-      description: 'Rewrites and polishes user-provided summary and key accomplishments into a single, best corporate-tone version for an employee profile. Use this for initial input or subsequent refinements of profile-related text. This function is specifically for employee profile data. The generated summary and accomplishments should be in Markdown format.',
+      description: `Enhance a summary and accomplishments for an employee profile.`,
       parameters: {
         type: Type.OBJECT,
         properties: {
-          summary: { type: Type.STRING, description: 'The polished and enhanced summary in Markdown format.' },
+          summary: { type: Type.STRING, description: 'Polished summary in Markdown.' },
           keyAccomplishments: {
             type: Type.ARRAY,
             items: { type: Type.STRING },
-            description: 'The polished and enhanced key accomplishments, each as a Markdown string.'
-          }
+            description: 'Polished list of accomplishments.'
+          },
+          weekId: { type: Type.STRING, description: 'Week ID (e.g., "Week 3")' },
+          projectId: { type: Type.STRING, description: 'Project ID (e.g., "PROJ-ALPHA")' },
+          employeeId: { type: Type.STRING, description: 'Employee ID (e.g., "EMP001")' }
         },
         required: ['summary', 'keyAccomplishments']
       }
     };
 
-    // Define function for general text formatting
-    const formatTextFn: FunctionDeclaration = {
+    const formatFn: FunctionDeclaration = {
       name: 'formatText',
-      description: 'Formats, rephrases, or rewrites a given piece of text based on user instructions. The output will be in Markdown format. Use this for general text rephrasing or sentence correction. Do NOT use this for employee profile summaries or accomplishments.',
+      description: `General text formatting.`,
       parameters: {
         type: Type.OBJECT,
         properties: {
-          originalText: { type: Type.STRING, description: 'The original text provided by the user to be formatted.' },
-          formattedText: { type: Type.STRING, description: 'The rewritten or formatted version of the text in Markdown format.' }
+          originalText: { type: Type.STRING, description: 'Original.' },
+          formattedText: { type: Type.STRING, description: 'Formatted.' }
         },
         required: ['originalText', 'formattedText']
       }
     };
 
-    // Define function for confirming and saving the enhanced employee profile text
-    const confirmEnhancementFn: FunctionDeclaration = {
+    const confirmFn: FunctionDeclaration = {
       name: 'confirmEnhancement',
-      description: 'Confirms that the user is satisfied with the current enhanced *employee profile* text and triggers the save process. Call this ONLY when the user explicitly approves the profile text (e.g., "Looks good", "Save this", "Yes").',
+      description: `Confirm & save enhanced profile. Requires all IDs.`,
       parameters: {
         type: Type.OBJECT,
-        properties: {} // No parameters needed for confirmation
+        properties: {
+          weekId: { type: Type.STRING, description: 'Week ID' },
+          projectId: { type: Type.STRING, description: 'Project ID' },
+          employeeId: { type: Type.STRING, description: 'Employee ID' }
+        },
+        required: ['weekId', 'projectId', 'employeeId']
       }
     };
 
-    // --- System Prompt Management ---
-    // Ensure the system prompt is always the very first message in the history when sent to the API.
-    this.history = this.history.filter(item => item.role !== 'system');
-    this.history.unshift({
-      role: 'system',
-      parts: [{
-        text: `
-        You are a versatile and polite writing assistant.
-        
-        **Your primary goal is to understand user intent accurately.**
-        **All your text responses, whether directly generated by you or returned within function results (like 'formattedText' or 'summary'/'keyAccomplishments'), should use Markdown for formatting (e.g., **bold**, *italics*, - list items, ## headings, \`code\`).**
-        
-        **Instructions for Function Calling:**
-        
-        1.  **General Conversation:** If the user is simply greeting you (e.g., "hello", "hi", "how are you?"), asking a general question (e.g., "What is the capital of France?"), or making a statement that does NOT require text formatting or profile enhancement, respond naturally *without calling any function*.
-        
-        2.  **Employee Profile Enhancement:**
-            -   If the user provides input clearly related to their 'summary' or 'key accomplishments' (e.g., "summary: I am a software engineer.", "my accomplishments are...", "can you polish my profile?"), or asks to refine *previously provided profile text*, use the 'enhanceEmployeeInfo' function.
-            -   When calling 'enhanceEmployeeInfo', provide the 'summary' and 'keyAccomplishments' as polished Markdown text.
-            -   When the user explicitly approves the *employee profile* text (e.g., "Looks good", "Save it", "Confirm", "Yes, save this profile"), call the 'sa' function.
-            -   when the user expilicity mention want to save without modification(e.g., "summary:I worked on some task ", "my accomplishments are..." ,Please use this only) 'ads' function.
-        3.  **General Text Formatting/Rewriting:**
-            -   If the user asks to format, rephrase, or correct *any other general text* (e.g., "format this sentence", "rephrase this paragraph", "correct my grammar in 'I work here'"), use the 'formatText' function. Do NOT use 'enhanceEmployeeInfo' for general text.
-            -   When calling 'formatText', provide the 'formattedText' as polished Markdown text.
-            
-        **Important:** Always provide the best possible professional rewrite for any request. Prioritize calling the most appropriate function *only when explicitly needed*. If no specific function applies, respond conversationally.
-        `
-      }]
-    });
-
-
-    // Build the content for the AI.
-    let currentContents = this.sanitizeHistoryForApi();
-
-    // If there's an existing enhanced *employee profile* text and the user is asking for refinement,
-    // and the input is NOT a confirmation, then provide context for refinement.
-    if (this.currentEnhancedText && text && !/^(looks good|save|confirm|yes)$/i.test(text.trim())) {
-        const lastUserMessageIndex = currentContents.length - 1;
-        if (currentContents[lastUserMessageIndex]?.role === 'user' && currentContents[lastUserMessageIndex]?.parts?.[0]?.text === text) {
-             currentContents[lastUserMessageIndex] = {
-                 role: 'user',
-                 parts: [{
-                     text: `Considering the current employee profile text (Summary: "${this.currentEnhancedText.summary}", Key Accomplishments: ${this.currentEnhancedText.keyAccomplishments.map(a => `"${a}"`).join('; ')}). Please refine it based on my new request: "${text}"`
-                 }]
-             };
-        }
-    }
-
-
     const response = await this.ai.models.generateContent({
       model: 'gemini-2.5-pro',
-      contents: currentContents,
+      contents: this.sanitizeHistoryForApi(),
       config: {
-        tools: [{ functionDeclarations: [enhanceEmployeeInfoFn, formatTextFn, confirmEnhancementFn] }],
-        toolConfig: {
-          functionCallingConfig: { mode: FunctionCallingConfigMode.AUTO }
-        }
+        tools: [{ functionDeclarations: [enhanceFn, formatFn, confirmFn] }],
+        toolConfig: { functionCallingConfig: { mode: FunctionCallingConfigMode.AUTO } }
       }
     });
 
-    // --- Process Function Calls or Text Response ---
     const fc = response.functionCalls?.[0];
-
     if (fc) {
-      if (fc.name === 'enhanceEmployeeInfo') {
-        const args: any = fc.args;
-        this.currentEnhancedText = {
-          summary: args.summary, // This is expected to be Markdown from the AI
-          keyAccomplishments: args.keyAccomplishments || [] // These are expected to be Markdown
-        };
+      const args: any = fc.args;
+      switch (fc.name) {
+        case 'enhanceEmployeeInfo':
+          this.currentEnhancedText = {
+            summary: args.summary,
+            keyAccomplishments: args.keyAccomplishments || [],
+            weekId: args.weekId,
+            projectId: args.projectId,
+            employeeId: args.employeeId
+          };
+          if (
+            this.currentEnhancedText.weekId &&
+            this.currentEnhancedText.projectId &&
+            this.currentEnhancedText.employeeId
+          ) {
+            const md = `
+Summary: ${this.currentEnhancedText.summary}
 
-        // Construct a Markdown string to return to the component for display
-        const responseMarkdown = `
-          
-          Summary: ${this.currentEnhancedText.summary}
-          
-          Accomplishments:
-          ${this.currentEnhancedText.keyAccomplishments.map(a => `${a}`).join('\n')}
-          
-          *Reply "Looks good" to save, or tell me how to refine it.*
-        `;
+Accomplishments:
+${this.currentEnhancedText.keyAccomplishments.map(a => `- ${a}`).join('\n')}
 
-        this.history.push({
-          role: 'function',
-          name: 'enhanceEmployeeInfo',
-          parts: [{ functionResponse: { name: 'enhanceEmployeeInfo', response: this.currentEnhancedText } }]
-        });
-        this.history.push({ role: 'assistant', parts: [{ text: responseMarkdown }] }); // Store Markdown in history
-        return responseMarkdown; // Return Markdown to the component
-      } else if (fc.name === 'formatText') {
-        const args: any = fc.args;
-        const formattedTextMarkdown = args.formattedText; // This is expected to be Markdown
+**Week ID:** ${this.currentEnhancedText.weekId}
+**Project ID:** ${this.currentEnhancedText.projectId}
+**Employee ID:** ${this.currentEnhancedText.employeeId}
 
-        // Construct a Markdown string to return to the component for display
-        const responseMarkdown = `
-          **Here's the formatted text:**
-          
-          ${formattedTextMarkdown}
-        `;
+*All IDs present. Reply "Looks good" to save, or tell me what to refine.*`;
+            this.history.push({ role: 'function', name: fc.name, parts: [{ functionResponse: { name: fc.name, response: this.currentEnhancedText } }] });
+            this.history.push({ role: 'assistant', parts: [{ text: md }] });
+            return md;
+          }
+          return this.determineMissingIdAndPrompt();
 
-        this.history.push({
-          role: 'function',
-          name: 'formatText',
-          parts: [{ functionResponse: { name: 'formatText', response: { formattedText: formattedTextMarkdown } } }]
-        });
-        this.history.push({ role: 'assistant', parts: [{ text: responseMarkdown }] }); // Store Markdown in history
-        this.currentEnhancedText = undefined; // Clear as this is general formatting
-        return responseMarkdown; // Return Markdown to the component
-      } else if (fc.name === 'confirmEnhancement') {
-        if (this.currentEnhancedText) {
-          const result = await this.processEmployeeInfo(this.currentEnhancedText); // This now returns { status, message: Markdown }
-          this.history.push({
-            role: 'function',
-            name: 'confirmEnhancement',
-            parts: [{ functionResponse: { name: 'confirmEnhancement', response: result } }]
-          });
-          this.history.push({ role: 'assistant', parts: [{ text: result.message }] }); // Store Markdown in history
-          this.currentEnhancedText = undefined; // Clear after successful save
-          return result.message; // Return Markdown message
-        } else {
-          return `❌ *No enhanced employee profile text available to confirm. Please provide some profile input first (e.g., 'summary: ...', 'key accomplishments: ...').*`; // Return Markdown
-        }
+        case 'formatText':
+          const formattedText = args.formattedText;
+          this.history.push({ role: 'function', name: fc.name, parts: [{ functionResponse: { name: fc.name, response: { formattedText } } }] });
+          const replyMd = `**Here's the formatted text:**\n\n${formattedText}`;
+          this.history.push({ role: 'assistant', parts: [{ text: replyMd }] });
+          this.currentEnhancedText = undefined;
+          return replyMd;
+
+        case 'confirmEnhancement':
+          if (!this.currentEnhancedText) {
+            return `❌ No enhanced profile to confirm. Please provide summary first.`;
+          }
+          this.currentEnhancedText = {
+            ...this.currentEnhancedText,
+            weekId: args.weekId,
+            projectId: args.projectId,
+            employeeId: args.employeeId
+          };
+          const result = await this.processEmployeeInfo(this.currentEnhancedText);
+          this.history.push({ role: 'assistant', parts: [{ text: result.message }] });
+          this.currentEnhancedText = undefined;
+          return result.message;
+
+        default:
+          break;
       }
-    } else if (response.text) {
-      // Fallback for general chat or if the model doesn't call a function
-      const responseMarkdown = response.text; // AI's direct response is expected to be Markdown
-      this.history.push({ role: 'assistant', parts: [{ text: responseMarkdown }] });
-      // Heuristic to clear currentEnhancedText if the conversation shifts away from profile topics
-      if (this.currentEnhancedText && !/summary|accomplishments|profile/i.test(text)) {
-         this.currentEnhancedText = undefined;
-      }
-      return responseMarkdown; // Return raw Markdown
     }
 
-    // Default return for unhandled scenarios, ensure it's Markdown
-    return `*An unexpected error occurred or the request could not be processed.*`;
+    // fallback
+    const textResp = response.text || '';
+    this.history.push({ role: 'assistant', parts: [{ text: textResp }] });
+    if (this.currentEnhancedText && !/summary|accomplishments|profile|week id|project id|employee id/i.test(text)) {
+      this.currentEnhancedText = undefined;
+    }
+    return textResp;
   }
 }

@@ -50,18 +50,18 @@ export class AiChatbotComponent implements AfterViewChecked {
  {id:'week3',name:'WEEK 15-June-2025 To 22-June-2025'}
   ]
   projectIds: SelectOption[] = [
-    { id: 'PROJ-ALPHA', name: 'Project Alpha' },
-    { id: 'PROJ-BETA', name: 'Project Beta' },
-    { id: 'PROJ-GAMMA', name: 'Project Gamma' },
-    { id: 'PROJ-DELTA', name: 'Project Delta' }
+    { id: 'PROJ-ALPHA', name: 'Deloitte' },
+    { id: 'PROJ-BETA', name: 'TCB' },
+    { id: 'PROJ-GAMMA', name: 'South west airlines' },
+    { id: 'PROJ-DELTA', name: 'Adobe' }
   ];
 
   employeeIds: SelectOption[] = [
-    { id: 'EMP001', name: 'Alice Smith (EMP001)' },
-    { id: 'EMP002', name: 'Bob Johnson (EMP002)' },
-    { id: 'EMP003', name: 'Charlie Brown (EMP003)' },
-    { id: 'EMP004', name: 'Diana Prince (EMP004)' },
-    { id: 'EMP005', name: 'Ethan Hunt (EMP005)' }
+    { id: 'EMP001', name: 'prudhvivarma (EMP001)' },
+    { id: 'EMP002', name: 'Sarath (EMP002)' },
+    { id: 'EMP003', name: 'Madhu (EMP003)' },
+    { id: 'EMP004', name: 'Anil Kumar (EMP004)' },
+    { id: 'EMP005', name: 'Abhi Ram (EMP005)' }
   ];
 
   // State to track which ID we're currently awaiting selection for

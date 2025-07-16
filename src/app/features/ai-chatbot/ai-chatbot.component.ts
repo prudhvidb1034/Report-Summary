@@ -96,7 +96,7 @@ export class AiChatbotComponent implements AfterViewChecked {
       const currentAwaitingType = this.awaitingIdSelectionFor;
       this.awaitingIdSelectionFor = null; // Reset state before processing
       // Pass the typed text as contextIdValue as well, in case the AI can parse it
-      this.processAiResponse(userText, currentAwaitingType, userText); 
+      this.processAiResponse(userText, currentAwaitingType, userText);
       return;
     }
 
@@ -144,31 +144,30 @@ export class AiChatbotComponent implements AfterViewChecked {
     // Find the AI message that prompted for this ID and remove its dropdown
     const lastAiMessageIndex = this.messages.length - 1;
     if (lastAiMessageIndex >= 0 && (
-        (idType === 'weekId' && this.messages[lastAiMessageIndex].showWeekIdSelection) ||
-        (idType === 'projectId' && this.messages[lastAiMessageIndex].showProjectIdSelection) ||
-        (idType === 'employeeId' && this.messages[lastAiMessageIndex].showEmployeeIdSelection)
+      (idType === 'weekId' && this.messages[lastAiMessageIndex].showWeekIdSelection) ||
+      (idType === 'projectId' && this.messages[lastAiMessageIndex].showProjectIdSelection) ||
+      (idType === 'employeeId' && this.messages[lastAiMessageIndex].showEmployeeIdSelection)
     )) {
       this.messages[lastAiMessageIndex].showWeekIdSelection = false;
       this.messages[lastAiMessageIndex].showProjectIdSelection = false;
       this.messages[lastAiMessageIndex].showEmployeeIdSelection = false;
-      
-      // Optionally, update the AI's message to reflect the selection
-      const originalHtml = this.messages[lastAiMessageIndex].displayHtml;
-      this.messages[lastAiMessageIndex].displayHtml = this.sanitizer.bypassSecurityTrustHtml(
-        this.markdownService.convertToHtml(`*AI: Please confirm for saving*`) +
-        `<p>You selected: **${selectedName}**</p>` // Display the friendly name
-      );
+
+      // Update the AI's message to reflect the selection, without removing the full original text
+      const originalAiHtml = this.messages[lastAiMessageIndex].displayHtml;
+      // You might want to append the selection confirmation or let the next AI response handle it.
+      // For now, let's keep the original message and send the selection as a user message.
     }
 
     // Now, send the selected ID along with a confirmation instruction to the service
     // The service needs to know this is a selection to fulfill a previous prompt
-    const confirmationMessage = `Selected ${idType.replace('Id', ' ID')}: ${selectedValue}. Please proceed with the enhancement/save.`;
+    // This message is just for display in the chat, the actual selected ID goes via contextIdValue
+    const confirmationMessage = `Selected ${selectedName} for ${idType.replace('Id', ' ID')}.`;
     this.messages.push({
-        displayHtml: this.sanitizer.bypassSecurityTrustHtml(`<p><strong>You:</strong> ${confirmationMessage}</p>`),
-        type: 'user'
+      displayHtml: this.sanitizer.bypassSecurityTrustHtml(`<p><strong>You:</strong> ${confirmationMessage}</p>`),
+      type: 'user'
     });
-    
-    // Send to AI service
+
+    // Send to AI service, this is where the magic happens for ID handling
     this.processAiResponse(confirmationMessage, idType, selectedValue);
   }
 
@@ -182,12 +181,12 @@ export class AiChatbotComponent implements AfterViewChecked {
       } else {
         aiResponse = await this.aiService.sendUserInput(message);
       }
-      
+
       // Check for special instructions from the service to show an ID selection
       if (aiResponse.startsWith('__PROMPT_WEEK_ID__')) {
         const promptText = aiResponse.replace('__PROMPT_WEEK_ID__', '').trim();
         this.messages.push({
-          displayHtml: this.sanitizer.bypassSecurityTrustHtml(promptText),
+          displayHtml: this.sanitizer.bypassSecurityTrustHtml(this.markdownService.convertToHtml(promptText) as string),
           type: 'ai',
           showWeekIdSelection: true
         });
@@ -195,7 +194,7 @@ export class AiChatbotComponent implements AfterViewChecked {
       } else if (aiResponse.startsWith('__PROMPT_PROJECT_ID__')) {
         const promptText = aiResponse.replace('__PROMPT_PROJECT_ID__', '').trim();
         this.messages.push({
-          displayHtml: this.sanitizer.bypassSecurityTrustHtml(promptText),
+          displayHtml: this.sanitizer.bypassSecurityTrustHtml(this.markdownService.convertToHtml(promptText) as string),
           type: 'ai',
           showProjectIdSelection: true
         });
@@ -203,15 +202,15 @@ export class AiChatbotComponent implements AfterViewChecked {
       } else if (aiResponse.startsWith('__PROMPT_EMPLOYEE_ID__')) {
         const promptText = aiResponse.replace('__PROMPT_EMPLOYEE_ID__', '').trim();
         this.messages.push({
-          displayHtml: this.sanitizer.bypassSecurityTrustHtml(promptText),
+          displayHtml: this.sanitizer.bypassSecurityTrustHtml(this.markdownService.convertToHtml(promptText) as string),
           type: 'ai',
           showEmployeeIdSelection: true
         });
         this.awaitingIdSelectionFor = 'employeeId';
       }
       else {
-        // Normal AI response
-        const aiSafeHtmlResponse = this.markdownService.convertToHtml(aiResponse);
+        // Normal AI response, convert markdown to HTML
+        const aiSafeHtmlResponse = this.sanitizer.bypassSecurityTrustHtml(this.markdownService.convertToHtml(aiResponse) as string);
         this.messages.push({
           displayHtml: aiSafeHtmlResponse,
           type: 'ai'

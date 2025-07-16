@@ -8,7 +8,7 @@
   <ng-container *ngIf="hasStartedChat; else welcomeInput">
     <div *ngFor="let message of messages" class="message-row"
       [ngClass]="{'user-message': message.type === 'user', 'ai-message': message.type === 'ai'}">
-      <div class="message-bubble" [innerHTML]="message.displayHtml"></div>
+           <div class="message-bubble" [innerHTML]="message.displayHtml"></div>
       <ng-container *ngIf="message.type === 'ai' && message.showWeekIdSelection">
         <div class="selection-in-chat">
           <ion-select label="Select Week ID" [(ngModel)]="selectedWeekId" placeholder="Choose a Week"

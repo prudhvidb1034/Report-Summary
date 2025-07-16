@@ -2,7 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
 import { ComponentStore, tapResponse } from "@ngrx/component-store";
 import { exhaustMap, Observable, switchMap, take } from "rxjs";
-import { Project } from "../models/summary.model";
+import { Project, WeeklyDataResponse } from "../models/summary.model";
 import { SummaryService } from "../services/summary/summary.service";
 
 
@@ -10,6 +10,11 @@ interface ProjectsData {
   projects: Project[];
   loading: boolean;
   error: string | null;
+  weeklyRange:WeeklyDataResponse;
+}
+
+interface ApiResponse<T> {
+    data: T;
 }
 
 
@@ -18,12 +23,19 @@ interface ProjectsData {
 export class SummaryStore extends ComponentStore<ProjectsData>{
   
   constructor(){
-    super({projects:[],loading:false,error:null})
+    super({
+      projects: [],
+      loading: false,
+      error: null,
+      weeklyRange: {} as WeeklyDataResponse
+    })
   }
   readonly projects$ = this.select(state => state.projects);
   readonly loading$ = this.select(state => state.loading);
   readonly error$ = this.select(state => state.error);
   private summeryService = inject(SummaryService);
+  readonly weeklyRange$ = this.select(state => state.weeklyRange);
+
 
   private http=inject(HttpClient)
 
@@ -31,6 +43,8 @@ export class SummaryStore extends ComponentStore<ProjectsData>{
     ...state,
     projects
   }));
+
+
 
   readonly weeklyReport = this.effect((projects$: any) =>
   projects$.pipe(
@@ -55,13 +69,13 @@ export class SummaryStore extends ComponentStore<ProjectsData>{
 
 
 
-readonly getDetails = this.effect((trigger$: Observable<void>) =>
+readonly getDetails = this.effect((trigger$: Observable<any>) =>
   trigger$.pipe(
-    switchMap(() =>
-      this.summeryService.getProjectDetails().pipe(
+    switchMap(pageProperties =>
+      this.summeryService.getWeeklyRange(pageProperties).pipe(
         tapResponse(
-          (data) => {
-            this.setProjects(data);
+          (weekRanges:any) => {
+          this.patchState({ weeklyRange: weekRanges?.data, loading: false });
           },
           (error) => {
             // Handle error

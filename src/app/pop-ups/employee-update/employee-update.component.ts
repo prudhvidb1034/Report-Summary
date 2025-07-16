@@ -47,7 +47,7 @@ export class EmployeeUpdateComponent {
 
     // this.userInfo = JSON.parse(localStorage.getItem('userList') || '[]');
     console.log("userList", this.userInfo)
-    this.summary.getDetails();
+    this.summary.getDetails('');
     this.summary.projects$.subscribe((data: any) => {
       var d = data.find((ele: any) => ele.project_name === this.userInfo.projectName);
       this.projectInfo = d?.id;

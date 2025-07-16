@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { urls } from '../../constants/string-constants';
+import { Constants, urls } from '../../constants/string-constants';
 import { createProject } from '../../models/project.model';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -18,8 +19,8 @@ export class SummaryService {
      return this.http.get<createProject[]>(this.apiUrl);
    }
 
-   getProjectDetails(){
-     return this.http.get(this.projectdetails);
+   getWeeklyRange(pageProperties:string){
+     return this.http.get(environment.apiUrls+Constants.GET_WEEKLY_SUMMARY+pageProperties);
    }
 
    postWeeklySummary(summary:any):Observable<any>{

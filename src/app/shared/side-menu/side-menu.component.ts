@@ -70,7 +70,7 @@ export class SideMenuComponent {
     {
       label: 'Sprint Reports',
       icon: 'bookmark-outline',
-      path: '/sprint',
+      path: '/sprints',
       roles: ['superadmin', 'manager', 'employee'],
       isBottom: false,
       // isExpanded: false,

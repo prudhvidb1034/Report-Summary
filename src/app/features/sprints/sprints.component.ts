@@ -1,18 +1,20 @@
 import { Component, inject } from '@angular/core';
-import { ReusableTableComponent } from "../../shared/reusable-table/reusable-table.component";
-import { of } from 'rxjs';
 import { ModalController } from '@ionic/angular';
+import { ReusableTableComponent } from '../../shared/reusable-table/reusable-table.component';
 import { CreateSprintComponent } from '../../pop-ups/create-sprint/create-sprint.component';
+import { of } from 'rxjs';
 
 @Component({
-  selector: 'app-sprint',
+  selector: 'app-sprints',
   standalone: true,
-  imports: [ReusableTableComponent],
-  templateUrl: './sprint.component.html',
-  styleUrl: './sprint.component.scss'
+   imports: [ReusableTableComponent],
+
+  templateUrl: './sprints.component.html',
+  styleUrl: './sprints.component.scss'
 })
-export class SprintComponent {
-  label = 'Sprint';
+export class SprintsComponent {
+
+ label = 'Sprint';
  private modalController = inject(ModalController);
   columns = [
     { header: 'Sprint Number', field: 'sprintnumber' },
@@ -84,3 +86,5 @@ sprintList$ = of({
       });
     }
 }
+
+

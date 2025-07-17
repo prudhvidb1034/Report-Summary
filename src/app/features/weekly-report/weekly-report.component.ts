@@ -3,14 +3,14 @@ import { ReusableTableComponent } from "../../shared/reusable-table/reusable-tab
 import { of } from 'rxjs';
 
 @Component({
-  selector: 'app-create-weekly-sprint',
+  selector: 'app-weekly-report',
   standalone: true,
   imports: [ReusableTableComponent],
-  templateUrl: './create-weekly-sprint.component.html',
-  styleUrl: './create-weekly-sprint.component.scss'
+  templateUrl: './weekly-report.component.html',
+  styleUrl: './weekly-report.component.scss'
 })
-export class CreateWeeklySprintComponent {
- label = 'Weekly Sprint';
+export class WeeklyReportComponent {
+label = 'Weekly Report';
 
   columns = [
     { header: 'Week Number', field: 'weeknumber' },

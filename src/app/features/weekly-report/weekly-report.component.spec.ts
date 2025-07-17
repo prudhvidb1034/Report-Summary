@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SprintComponent } from './sprint.component';
+import { WeeklyReportComponent } from './weekly-report.component';
 
-describe('SprintComponent', () => {
-  let component: SprintComponent;
-  let fixture: ComponentFixture<SprintComponent>;
+describe('WeeklyReportComponent', () => {
+  let component: WeeklyReportComponent;
+  let fixture: ComponentFixture<WeeklyReportComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SprintComponent]
+      imports: [WeeklyReportComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(SprintComponent);
+    fixture = TestBed.createComponent(WeeklyReportComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

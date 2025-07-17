@@ -110,13 +110,13 @@ export const routes: Routes = [
 
 
    {
-    path: 'sprint',
-    loadComponent: () => import('./features/sprint/sprint.component').then((m) => m.SprintComponent),
+    path: 'sprints',
+    loadComponent: () => import('./features/sprints/sprints.component').then((m) => m.SprintsComponent),
     canActivate: [RoleGuard],
   },
    {
     path: 'create-weekly-sprint',
-    loadComponent: () => import('../app/features/create-weekly-sprint/create-weekly-sprint.component').then((m) => m.CreateWeeklySprintComponent),
+    loadComponent: () => import('./features/weekly-report/weekly-report.component').then((m) => m.WeeklyReportComponent),
     canActivate: [RoleGuard],
   },
 

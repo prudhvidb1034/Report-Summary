@@ -110,8 +110,8 @@ export const routes: Routes = [
 
 
    {
-    path: 'create-sprint',
-    loadComponent: () => import('../app/features/create-sprint/create-sprint.component').then((m) => m.CreateSprintComponent),
+    path: 'sprint',
+    loadComponent: () => import('./features/sprint/sprint.component').then((m) => m.SprintComponent),
     canActivate: [RoleGuard],
   },
    {

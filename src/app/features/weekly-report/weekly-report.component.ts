@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ReusableTableComponent } from "../../shared/reusable-table/reusable-table.component";
 import { of } from 'rxjs';
+import { CreateWeeklyReportComponent } from '../../pop-ups/create-weekly-report/create-weekly-report.component';
+import { ModalController } from '@ionic/angular';
 
 @Component({
   selector: 'app-weekly-report',
@@ -11,7 +13,7 @@ import { of } from 'rxjs';
 })
 export class WeeklyReportComponent {
 label = 'Weekly Report';
-
+ private modalController = inject(ModalController);
   columns = [
     { header: 'Week Number', field: 'weeknumber' },
     { header: 'Week Start Date', field: 'startdate' },
@@ -43,7 +45,7 @@ weeklysprintList$ = of({
   handleRowAction(event: any) {
     switch (event.type) {
       case 'create':
-        // this.loadCreateEmployeeModal();
+         this.loadCreateEmployeeModal();
         break;
       case 'delete':
         if (event.type === 'delete') {
@@ -60,4 +62,21 @@ weeklysprintList$ = of({
         console.log('Unknown action type:', event.type);
     }
   }
+
+     loadCreateEmployeeModal() {
+        this.modalController.create({
+          component: CreateWeeklyReportComponent,
+          cssClass: 'create-account-modal',
+          componentProps: {
+    
+          }
+        }).then((modal) => {
+          modal.present();
+          modal.onDidDismiss().then((data) => {
+         
+            console.log('Modal dismissed with data:', data);
+          });
+        });
+      }
+  
 }

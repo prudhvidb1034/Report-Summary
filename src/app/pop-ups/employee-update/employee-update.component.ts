@@ -65,7 +65,6 @@ export class EmployeeUpdateComponent {
 
   employeeUpdateForm !: FormGroup;
 
-
   constructor(private fb: FormBuilder) {
     this.initializeForm();
   }

@@ -119,6 +119,11 @@ export const routes: Routes = [
     loadComponent: () => import('./features/weekly-report/weekly-report.component').then((m) => m.WeeklyReportComponent),
     canActivate: [RoleGuard],
   },
+    {
+    path: 'create-weekly-report-sprint',
+    loadComponent: () => import('./features/weekly-sprint-update/weekly-sprint-update.component').then((m) => m.WeeklySprintUpdateComponent),
+    canActivate: [RoleGuard],
+  },
 
   {
     path: '',

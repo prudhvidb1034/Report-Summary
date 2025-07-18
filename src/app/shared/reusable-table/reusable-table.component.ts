@@ -76,11 +76,11 @@ loadPage(event: { pageIndex: number; pageSize: number }) {
   }
 
   onPageSizeChange(event:any){
-    console.log(event);
+    this.rowAction.emit({type:'pageSize',item:event});
 
   }
 
   onPageChange(event:any){
-    console.log(event);
+        this.rowAction.emit({ type: 'nextPage', item: event })
   }
 }

@@ -72,7 +72,7 @@ export class RegisterComponent {
   ngOnInit() {
     this.role = this.navParams?.get('role');
     this.roles = this.role?.toUpperCase();
-    this.projectStore.getTeam();
+  //  this.projectStore.getTeam();
     this.createForm();
     if (this.editData) {
       this.registrationForm?.patchValue(this.editData);

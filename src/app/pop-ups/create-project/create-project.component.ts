@@ -51,7 +51,7 @@ export class CreateProjectComponent {
 
   ngOnInit() {
     this.CreateForm();
-    this.accountStore.getAccounts();
+  //  this.accountStore.getAccounts();
     if (this.editData) {
       console.log('Edit Data:', this.editData);
       this.teamForm.patchValue(this.editData);

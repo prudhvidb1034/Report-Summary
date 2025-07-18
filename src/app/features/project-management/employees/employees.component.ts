@@ -35,7 +35,7 @@ export class EmployeesComponent {
   teamsList$ = this.projectStore.team$;
   isLoading$ = this.registerStore.select(state => state.loading);
   ngOnInit() {
-    this.projectStore.getTeam();
+   // this.projectStore.getTeam();
     this.registerStore.getRegisterData('employee');
 
 

@@ -59,12 +59,12 @@ export class ProjectStore extends ComponentStore<TeamState> {
   );
 
 
-  readonly getTeam = this.effect(
+  readonly getTeam = this.effect<{ page: number; size: number; sortBy: string }>(
     trigger$ =>
       trigger$.pipe(
         tap(() => this.patchState({ loading: true, error: null })),
-        switchMap(() =>
-          this.sharedservice.getData<ApiResponse<createProject[]>>(urls.CREATE_PROJECT).pipe(
+        switchMap(({ page, size, sortBy }) =>
+          this.sharedservice.getData<ApiResponse<createProject[]>>(`projects?page=${page}&size=${size}&sortBy=${sortBy}`).pipe(
             tapResponse(
               (projects) => {
                 this.patchState({ teamDetails: projects.data, loading: false });
@@ -112,7 +112,7 @@ export class ProjectStore extends ComponentStore<TeamState> {
             () => {
               this.patchState({ loading: false });
               this._accountCreateStatus.set('deleted');
-              this.getTeam();
+              this.getTeam({ page: 0, size: 5, sortBy: 'accountName' });
               this.toast.show('success', 'Account deleted successfully!');
             },
             (error) => {

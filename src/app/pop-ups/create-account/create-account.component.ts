@@ -3,7 +3,6 @@ import { Component, effect, inject, Input } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { IonicModule, ModalController, NavParams } from '@ionic/angular';
 import { SharedService } from '../../services/shared/shared.service';
-import { urls } from '../../constants/string-constants';
 import { AccountStore } from '../../state/account.store';
 import { ToastService } from '../../shared/toast.service';
 
@@ -33,7 +32,7 @@ export class CreateAccountComponent {
     const status = this.accountStore.accountCreateStatus();
 
     if (status === 'success') {
-      // this.accountStore.getAccounts();
+     this.accountStore.getAccounts({ page: 0, size: 5, sortBy: 'accountName' });
       this.setOpen(false);
       this.toast.show('success', 'Account created successfully!');
 
@@ -52,7 +51,7 @@ export class CreateAccountComponent {
 
   ngOnInit() {
     this.creteForm();
-    this.accountStore.getAccounts();
+    this.accountStore.getAccounts({ page: 0, size: 5, sortBy: 'accountName' });
     if (this.editData) {
       this.accountForm.patchValue(this.editData);
       this.isEditMode = true;

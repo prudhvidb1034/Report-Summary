@@ -1,0 +1,98 @@
+<div class="modal-wrapper">
+    <ion-header>
+        <ion-toolbar color="light">
+            <ion-buttons slot="start">
+                <ion-title>
+                    <b> {{ isEditMode ? 'Update' : 'Create' }} Sprint</b>
+                </ion-title>
+            </ion-buttons>
+            <ion-buttons slot="end">
+                <ion-button fill="clear" (click)="setOpen(false)">
+                    <ion-icon name="close-outline" class="icon-medium"></ion-icon>
+                </ion-button>
+            </ion-buttons>
+        </ion-toolbar>
+    </ion-header>
+
+ <ion-content>
+        <form [formGroup]="sprintForm">
+            <ion-grid>
+                <ion-row>
+                    <ion-col size="6">
+                        <ion-item class="custom-item" [class.invalid]="isInvalid('sprintName')"
+                            [class.valid]="isValid('sprintName')" lines="none">
+                            <ion-input formControlName="sprintName" label="Sprint Name" labelPlacement="floating"
+                                class="label-texts" placeholder="Enter sprint name" [clearOnEdit]="true"></ion-input>
+                        </ion-item>
+
+                        @if (sprintForm.get('sprintName')?.invalid &&
+                        (sprintForm.get('sprintName')?.dirty || sprintForm.get('sprintName')?.touched)) {
+                        <ion-text color="danger" class="error-message">
+                            @if (sprintForm.get('sprintName')?.errors?.['required']) {
+                            <p>sprint Name is required.</p>
+                            }
+
+                        </ion-text>
+                        }
+                    </ion-col>
+
+                    <!-- Start Date -->
+                    <ion-col size="6">
+                        <ion-item class="custom-item" [class.invalid]="isInvalid('fromDate')"
+                            [class.valid]="isValid('fromDate')" lines="none">
+                            <ion-input formControlName="fromDate" label="Start Date" labelPlacement="floating"
+                                class="label-texts" type="date" [clearOnEdit]="true"></ion-input>
+                        </ion-item>
+
+                        @if (sprintForm.get('fromDate')?.invalid &&
+                        (sprintForm.get('fromDate')?.dirty || sprintForm.get('fromDate')?.touched)) {
+                        <ion-text color="danger" class="error-message">
+                            @if (sprintForm.get('fromDate')?.errors?.['required']) {
+                            <p>Start Date is required.</p>
+                            }
+                        </ion-text>
+                        }
+                    </ion-col>
+                </ion-row>
+
+                <!-- Row 2: End Date -->
+                <ion-row>
+                    <ion-col size="6">
+                        <ion-item class="custom-item" [class.invalid]="isInvalid('toDate')"
+                            [class.valid]="isValid('toDate')" lines="none">
+                            <ion-input formControlName="toDate" label="End Date" labelPlacement="floating"
+                                class="label-texts" type="date" [clearOnEdit]="true"></ion-input>
+                        </ion-item>
+
+                        @if (sprintForm.get('toDate')?.invalid &&
+                        (sprintForm.get('toDate')?.dirty || sprintForm.get('toDate')?.touched)) {
+                        <ion-text color="danger" class="error-message">
+                            @if (sprintForm.get('toDate')?.errors?.['required']) {
+                            <p>End Date is required.</p>
+                            }
+                        </ion-text>
+                        }
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+        </form>
+
+   </ion-content>
+
+    <ion-footer>
+        <ion-toolbar>
+            <ion-buttons slot="end">
+
+                <ion-button class="close" (click)="setOpen(false)">Close</ion-button>
+
+                <ion-button class="save" (click)="SubmitForm()">
+
+                    {{ isEditMode ? 'Update' : 'Save' }}
+                </ion-button>
+            </ion-buttons>
+        </ion-toolbar>
+    </ion-footer>
+</div>
+<div class="loader-overlay" *ngIf="(isLoading$ | async)">
+    <ion-spinner name="crescent"></ion-spinner>
+</div>

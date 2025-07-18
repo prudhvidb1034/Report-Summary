@@ -29,6 +29,7 @@ export class PaginatorComponent {
   }
 
   changePage(index: number) {
+    console.log("index",index);
     this.pageChange.emit(index);
   }
 

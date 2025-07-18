@@ -48,6 +48,13 @@
             </ion-text>
             }
           </ion-col>
+          <!-- {{accounts$ | async | json}} -->
+
+             <!-- <ng-container *ngIf="(accounts$ | async) as accounts">
+                {{accounts.content | json}}
+            
+                </ng-container> -->
+
           <ion-col size="6">
             <ion-item
               class="custom-item"
@@ -60,12 +67,14 @@
                 label="Account Name"
                 labelPlacement="floating"
               >
+              <ng-container *ngIf="(accounts$ | async) as accounts">
                 <ion-select-option
-                  *ngFor="let account of accounts$ | async"
+                  *ngFor="let account of accounts.content"
                   [value]="account.accountId"
                 >
-                  {{ account.accountName }}
+                  {{ account?.accountName }}
                 </ion-select-option>
+                </ng-container>
               </ion-select>
             </ion-item>
             @if (teamForm.get('accountId')?.invalid &&

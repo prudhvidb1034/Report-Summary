@@ -22,11 +22,14 @@ export class AccountCreateComponent {
   accountStore = inject(AccountStore);
   accountList$: any;
 isLoading$ = this.accountStore.select(state => state.loading);
-  constructor() {
-    this.accountStore.getAccounts();
-    this.accountList$ = this.accountStore.account$;
+page=0
+pageSize=5
 
 
+constructor() {
+    this.loadAccounts(this.page,this.pageSize)
+    // this.accountStore.getAccounts({ page: this.page, size: this.pageSize, sortBy: 'accountName' });
+    // this.accountList$ = this.accountStore.account$;
   }
 
 
@@ -54,7 +57,7 @@ isLoading$ = this.accountStore.select(state => state.loading);
       case 'delete':
         if (event.type === 'delete') {
           console.log('Row from table:', event.item);
-          this.deleteModal(event.item); // ✅ This is the selected row
+          this.deleteModal(event.item); 
         }
         // this.deleteModal(event.row);
         break;
@@ -62,10 +65,23 @@ isLoading$ = this.accountStore.select(state => state.loading);
         this.updateCreateEmployeeModal(event.item);
         // this.updateCreateEmployeeModal(event.row);
         break;
-
+      case 'nextPage':
+        this.page=event.item;
+        this.loadAccounts(this.page,this.pageSize)
+       break;
+        case 'pageSize':
+        this.pageSize=event.item;
+        this.loadAccounts(this.page,this.pageSize)
+       break;  
       default:
         console.log('Unknown action type:', event.type);
     }
+  }
+
+
+  loadAccounts(pageNum:number,pageSize:number){
+   this.accountStore.getAccounts({ page: pageNum, size: pageSize, sortBy: 'accountName' });
+    this.accountList$ = this.accountStore.account$;
   }
 
   loadCreateEmployeeModal() {
@@ -78,7 +94,7 @@ isLoading$ = this.accountStore.select(state => state.loading);
     }).then((modal) => {
       modal.present();
       modal.onDidDismiss().then((data) => {
-        this.accountStore.getAccounts(); // Refresh the account list after modal is dismissed
+      //  this.accountStore.getAccounts(); // Refresh the account list after modal is dismissed
         console.log('Modal dismissed with data:', data);
       });
     });
@@ -96,7 +112,7 @@ isLoading$ = this.accountStore.select(state => state.loading);
     }).then((modal) => {
       modal.present();
       modal.onDidDismiss().then((data) => {
-        this.accountStore.getAccounts();
+       // this.accountStore.getAccounts();
         console.log('Modal dismissed with data:', data);
       });
     });

@@ -8,11 +8,12 @@ import { SharedService } from '../../services/shared/shared.service';
 import { urls } from '../../constants/string-constants';
 import { PaginatorComponent } from '../paginator/paginator.component';
 import { WeekRangePipe } from '../pipes/week-range.pipe';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-reusable-table',
   standalone: true,
-  imports: [IonicModule, CommonModule,PaginatorComponent,WeekRangePipe,FormsModule],
+  imports: [IonicModule, CommonModule,PaginatorComponent,WeekRangePipe,FormsModule,RouterModule],
   templateUrl: './reusable-table.component.html',
   styleUrl: './reusable-table.component.scss'
 })
@@ -75,11 +76,11 @@ loadPage(event: { pageIndex: number; pageSize: number }) {
   }
 
   onPageSizeChange(event:any){
-    console.log(event);
+    this.rowAction.emit({type:'pageSize',item:event});
 
   }
 
   onPageChange(event:any){
-    console.log(event);
+        this.rowAction.emit({ type: 'nextPage', item: event })
   }
 }

@@ -1,22 +1,28 @@
-import { Component } from '@angular/core';
-import { ReusableTableComponent } from "../../shared/reusable-table/reusable-table.component";
+import { Component, inject } from '@angular/core';
+import { ModalController } from '@ionic/angular';
+import { ReusableTableComponent } from '../../shared/reusable-table/reusable-table.component';
+import { CreateSprintComponent } from '../../pop-ups/create-sprint/create-sprint.component';
 import { of } from 'rxjs';
 
 @Component({
-  selector: 'app-create-sprint',
+  selector: 'app-sprints',
   standalone: true,
-  imports: [ReusableTableComponent],
-  templateUrl: './create-sprint.component.html',
-  styleUrl: './create-sprint.component.scss'
-})
-export class CreateSprintComponent {
-  label = 'Sprint';
+   imports: [ReusableTableComponent],
 
+  templateUrl: './sprints.component.html',
+  styleUrl: './sprints.component.scss'
+})
+export class SprintsComponent {
+
+ label = 'Sprint';
+ private modalController = inject(ModalController);
   columns = [
     { header: 'Sprint Number', field: 'sprintnumber' },
     { header: 'Sprint Name', field: 'sprintname' },
     { header: 'From Date', field: 'fromdate' },
     { header: 'To Date', field: 'todate' },
+     { header: 'Weekly Report',field: 'View', linkEnable: true, link: '/create-weekly-sprint' },
+      { header: 'Viewall Report', field: 'View', linkEnable: true, link: '/sprint-report' },
     { header: 'Action', field: 'action', type: ['edit', 'delete'] }
   ];
 sprintList$ = of({
@@ -48,7 +54,7 @@ sprintList$ = of({
   handleRowAction(event: any) {
     switch (event.type) {
       case 'create':
-        // this.loadCreateEmployeeModal();
+         this.loadCreateEmployeeModal();
         break;
       case 'delete':
         if (event.type === 'delete') {
@@ -58,11 +64,27 @@ sprintList$ = of({
         // this.deleteModal(event.row);
         break;
       case 'edit':
-
         break;
-
       default:
         console.log('Unknown action type:', event.type);
     }
   }
+
+   loadCreateEmployeeModal() {
+      this.modalController.create({
+        component: CreateSprintComponent,
+        cssClass: 'create-account-modal',
+        componentProps: {
+  
+        }
+      }).then((modal) => {
+        modal.present();
+        modal.onDidDismiss().then((data) => {
+       
+          console.log('Modal dismissed with data:', data);
+        });
+      });
+    }
 }
+
+

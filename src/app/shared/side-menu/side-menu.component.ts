@@ -70,15 +70,15 @@ export class SideMenuComponent {
     {
       label: 'Sprint Reports',
       icon: 'bookmark-outline',
-      path: '/sprint-report',
+      path: '/sprints',
       roles: ['superadmin', 'manager', 'employee'],
       isBottom: false,
-      isExpanded: false,
-      children: [
-        { label: 'Create Sprint', path: '/create-sprint' },
-        { label: 'Weekly Report', path: '/create-weekly-sprint' },
-        { label: 'View All Report', path: '/sprint-report' }
-      ]
+      // isExpanded: false,
+      // children: [
+      //   { label: 'Create Sprint', path: '/create-sprint' },
+      //   { label: 'Weekly Report', path: '/create-weekly-sprint' },
+      //   { label: 'View All Report', path: '/sprint-report' }
+      // ]
     },
 
 

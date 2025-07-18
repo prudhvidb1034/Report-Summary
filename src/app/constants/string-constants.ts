@@ -25,7 +25,8 @@ CREATE_PROJECT: 'projects',
 CREATE_PERSON:'Person',
 GET_MANAGRE_DETAILS: 'Person'+'/role',
 TAG_EMPLOYEE: 'Person/tag-projects',
-PROJECT_SEARCH: 'projects/search/name'
+PROJECT_SEARCH: 'projects/search',
+CREATE_SPRINT: 'api/sprints/createSprint',
 }
 
 

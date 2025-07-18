@@ -169,7 +169,7 @@ export class AiChatbotComponent implements AfterViewChecked {
     // This message is just for display in the chat, the actual selected ID goes via contextIdValue
     const confirmationMessage = `Selected ${selectedName} for ${idType.replace('Id', ' ID')}.`;
     this.messages.push({
-      displayHtml: this.sanitizer.bypassSecurityTrustHtml(`<p><strong>You:</strong> ${confirmationMessage}</p>`),
+      displayHtml: this.sanitizer.bypassSecurityTrustHtml(`<p> ${confirmationMessage}</p>`),
       type: 'user'
     });
 

@@ -79,8 +79,6 @@ export class ProjectStore extends ComponentStore<TeamState> {
       )
   );
 
-
-
   readonly updateProject = this.effect(
     (account$: Observable<{ id: string; data: createProject }>) =>
       account$.pipe(

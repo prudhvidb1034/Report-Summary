@@ -22,8 +22,8 @@ export class AccountCreateComponent {
   accountStore = inject(AccountStore);
   accountList$: any;
 isLoading$ = this.accountStore.select(state => state.loading);
-page=0
-pageSize=5
+page=0;
+pageSize=5;
 
 
 constructor() {

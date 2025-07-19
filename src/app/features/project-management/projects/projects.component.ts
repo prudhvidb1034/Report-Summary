@@ -99,7 +99,7 @@ onSearchTermChanged(term: string) {
     { header: 'Project Id', field: 'projectId' },
     { header: 'Project Name', field: 'projectName' },
     { header: 'Account Name', field: 'accountName' },
-    { header: 'Teams', field: 'viewTeam', linkEnable: true },
+    { header: 'Teams', field: 'viewTeam', linkEnable: true ,link:'employees' },
     // { header: 'Start Date', field: 'startDate' },
     // { header: 'End Date', field: 'endDate' },
     { header: 'Action', field: 'action', type: ['edit', 'delete'] }

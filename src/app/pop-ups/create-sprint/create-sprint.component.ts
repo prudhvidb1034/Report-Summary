@@ -24,6 +24,10 @@ export class CreateSprintComponent {
   sprintForm!: FormGroup;
   @Input() editData: any;
   isEditMode: boolean = false;
+minEndDate: string | null = null;
+maxEndDate: string | null = null;
+minStartDate: string | null = null;
+maxStartDate: string | null = null;
   constructor() { }
 
   sprintStore = inject(CreateSprintStore)
@@ -95,6 +99,33 @@ export class CreateSprintComponent {
     //   this.accountForm.markAllAsTouched();
     // }
   }
+
+ 
+
+onStartDateChange(e: any) {
+  const start = new Date(e.detail.value);
+  const exactly21 = new Date(start);
+  exactly21.setDate(start.getDate() + 21);
+  const iso = exactly21.toISOString().split('T')[0];
+  this.minEndDate = iso;
+  this.maxEndDate = iso;
+  this.sprintForm.get('toDate')?.setValue(iso);
+  this.minStartDate = null;
+  this.maxStartDate = null;
+}
+
+onEndDateChange(e: any) {
+  const end = new Date(e.detail.value);
+  const exactly21Before = new Date(end);
+  exactly21Before.setDate(end.getDate() - 21);
+  const isoBefore = exactly21Before.toISOString().split('T')[0];
+  this.minStartDate = isoBefore;
+  this.maxStartDate = isoBefore;
+  this.sprintForm.get('fromDate')?.setValue(isoBefore);
+  this.minEndDate = null;
+  this.maxEndDate = null;
+}
+
 
 
   isInvalid(controlName: string): boolean {

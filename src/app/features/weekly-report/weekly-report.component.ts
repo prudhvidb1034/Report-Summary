@@ -12,40 +12,40 @@ import { ModalController } from '@ionic/angular';
   styleUrl: './weekly-report.component.scss'
 })
 export class WeeklyReportComponent {
-label = 'Weekly Report';
- private modalController = inject(ModalController);
+  label = 'Weekly Report';
+  private modalController = inject(ModalController);
   columns = [
     { header: 'Week Number', field: 'weeknumber' },
     { header: 'Week Start Date', field: 'startdate' },
     { header: 'Week End Date', field: 'enddate' },
-       { header: 'Action', field: 'action', type: ['edit', 'delete'] }
+    { header: 'Weekly Update', field: 'View', linkEnable: true, link: '/create-weekly-report-sprint' },
   ];
-weeklysprintList$ = of({
-  content: [
-    {
-      weeknumber: 1,
-      startdate: '2025-07-01',
-      enddate: '2025-07-07'
-    },
-    {
-      weeknumber: 2,
-      startdate: '2025-07-08',
-      enddate: '2025-07-14'
-    },
-    {
-      weeknumber: 3,
-      startdate: '2025-07-15',
-      enddate: '2025-07-21'
-    }
-  ],
-  totalElements: 3,
-  pageSize: 10,
-  pageNumber: 0
-});
+  weeklysprintList$ = of({
+    content: [
+      {
+        weeknumber: 1,
+        startdate: '2025-07-01',
+        enddate: '2025-07-07'
+      },
+      {
+        weeknumber: 2,
+        startdate: '2025-07-08',
+        enddate: '2025-07-14'
+      },
+      {
+        weeknumber: 3,
+        startdate: '2025-07-15',
+        enddate: '2025-07-21'
+      }
+    ],
+    totalElements: 3,
+    pageSize: 10,
+    pageNumber: 0
+  });
   handleRowAction(event: any) {
     switch (event.type) {
       case 'create':
-         this.loadCreateEmployeeModal();
+        this.loadCreateEmployeeModal();
         break;
       case 'delete':
         if (event.type === 'delete') {
@@ -63,20 +63,20 @@ weeklysprintList$ = of({
     }
   }
 
-     loadCreateEmployeeModal() {
-        this.modalController.create({
-          component: CreateWeeklyReportComponent,
-          cssClass: 'create-account-modal',
-          componentProps: {
-    
-          }
-        }).then((modal) => {
-          modal.present();
-          modal.onDidDismiss().then((data) => {
-         
-            console.log('Modal dismissed with data:', data);
-          });
-        });
+  loadCreateEmployeeModal() {
+    this.modalController.create({
+      component: CreateWeeklyReportComponent,
+      cssClass: 'create-account-modal',
+      componentProps: {
+
       }
-  
+    }).then((modal) => {
+      modal.present();
+      modal.onDidDismiss().then((data) => {
+
+        console.log('Modal dismissed with data:', data);
+      });
+    });
+  }
+
 }

@@ -65,11 +65,10 @@
             </div>
           </div>
           <div *ngIf="column.linkEnable">
-            <a fill="clear" size="small" class="button-link" [routerLink]="column.link">
+            <a fill="clear" size="small" class="button-link" (click)="navigation('navigate',item,column.header)">
               {{ item[column.field]?item[column.field]:'View'}}
             </a>
           </div>
-
           <div *ngIf="!column.linkEnable  && column.field !='status'">
             {{ item[column.field] }}
           </div>
@@ -91,10 +90,12 @@
       </ion-row>
 
     </ng-container>
-
+    <div *ngIf="resolvedData?.totalElements">
     <app-test-paginator [totalItems]="resolvedData?.totalElements" [itemsPerPage]="resolvedData?.pageSize"
       [currentPage]="resolvedData?.pageNumber" [pageSizeOptions]="[5, 10, 20, 50]" (pageChange)="onPageChange($event)"
       (pageSizeChange)="onPageSizeChange($event)"></app-test-paginator>
+    </div>
   </ng-container>
+
 
 </ion-grid>

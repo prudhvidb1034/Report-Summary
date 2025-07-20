@@ -18,18 +18,15 @@ import { CommonModule } from '@angular/common';
 export class AccountCreateComponent {
   private modalController = inject(ModalController);
   label = 'Account';
-
   accountStore = inject(AccountStore);
   accountList$: any;
-isLoading$ = this.accountStore.select(state => state.loading);
-page=0;
-pageSize=5;
+  isLoading$ = this.accountStore.select(state => state.loading);
+  page = 0;
+  pageSize = 5;
 
 
 constructor() {
     this.loadAccounts(this.page,this.pageSize)
-    // this.accountStore.getAccounts({ page: this.page, size: this.pageSize, sortBy: 'accountName' });
-    // this.accountList$ = this.accountStore.account$;
   }
 
 
@@ -42,7 +39,6 @@ constructor() {
     { header: 'Account Name', field: 'accountName' },
     { header: 'Start Date', field: 'accountStartDate' },
     { header: 'End Date', field: 'accountEndDate' },
-
     { header: 'Action', field: 'action', type: ['edit', 'delete'] }
   ];
 
@@ -55,24 +51,19 @@ constructor() {
         this.loadCreateEmployeeModal();
         break;
       case 'delete':
-        if (event.type === 'delete') {
-          console.log('Row from table:', event.item);
-          this.deleteModal(event.item); 
-        }
-        // this.deleteModal(event.row);
+          this.deleteModal(event.item);
         break;
       case 'edit':
         this.updateCreateEmployeeModal(event.item);
-        // this.updateCreateEmployeeModal(event.row);
         break;
       case 'nextPage':
-        this.page=event.item;
-        this.loadAccounts(this.page,this.pageSize)
-       break;
-        case 'pageSize':
-        this.pageSize=event.item;
-        this.loadAccounts(this.page,this.pageSize)
-       break;  
+        this.page = event.item;
+        this.loadAccounts(this.page, this.pageSize)
+        break;
+      case 'pageSize':
+        this.pageSize = event.item;
+        this.loadAccounts(this.page, this.pageSize)
+        break;
       default:
         console.log('Unknown action type:', event.type);
     }
@@ -94,7 +85,7 @@ constructor() {
     }).then((modal) => {
       modal.present();
       modal.onDidDismiss().then((data) => {
-      //  this.accountStore.getAccounts(); // Refresh the account list after modal is dismissed
+        this.loadAccounts(this.page,this.pageSize);
         console.log('Modal dismissed with data:', data);
       });
     });

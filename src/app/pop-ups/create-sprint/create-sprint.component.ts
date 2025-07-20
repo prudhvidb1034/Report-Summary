@@ -1,16 +1,16 @@
-import { Component, inject, Input } from '@angular/core';
+import { Component, effect, inject, Input } from '@angular/core';
 import { SharedService } from '../../services/shared/shared.service';
 import { IonicModule, ModalController } from '@ionic/angular';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ToastService } from '../../shared/toast.service';
-import { CreateSprintStore } from '../../state/create-sprint.store';
+import { SprintStore } from '../../state/sprint.store';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-create-sprint',
   standalone: true,
   imports: [CommonModule,IonicModule,ReactiveFormsModule],
-  providers: [CreateSprintStore],
+  providers: [SprintStore],
   templateUrl: './create-sprint.component.html',
   styleUrl: './create-sprint.component.scss'
 })
@@ -24,43 +24,43 @@ export class CreateSprintComponent {
   sprintForm!: FormGroup;
   @Input() editData: any;
   isEditMode: boolean = false;
-minEndDate: string | null = null;
-maxEndDate: string | null = null;
-minStartDate: string | null = null;
-maxStartDate: string | null = null;
+  minEndDate: string | null = null;
+  maxEndDate: string | null = null;
+  minStartDate: string | null = null;
+  maxStartDate: string | null = null;
   constructor() { }
 
-  sprintStore = inject(CreateSprintStore)
+  sprintStore = inject(SprintStore)
   accounts$ = this.sprintStore.sprint$; 
  isLoading$ = this.sprintStore.select(state => state.loading);
-  // readonly accountStatusEffect = effect(() => {
-  //   const status = this.accountStore.accountCreateStatus();
+  readonly accountStatusEffect = effect(() => {
+    const status = this.sprintStore.sprintCreateStatus();
 
-  //   if (status === 'success') {
-  //     // this.accountStore.getAccounts();
-  //     this.setOpen(false);
-  //     this.toast.show('success', 'Account created successfully!');
+    if (status === 'success') {
+      // this.accountStore.getAccounts();
+      this.setOpen(true);
+      this.toast.show('success', 'Sprint created successfully!');
 
-  //   } else if (status === 'update') {
-  //     this.setOpen(false);
-  //     this.toast.show('success', 'Account updated successfully!');
+    } else if (status === 'update') {
+      this.setOpen(true);
+      this.toast.show('success', 'Sprint updated successfully!');
 
-  //   } else if (status === 'deleted') {
-  //     this.toast.show('success', 'Account deleted successfully!');
+    } else if (status === 'deleted') {
+      this.toast.show('success', 'Sprint deleted successfully!');
 
-  //   } else if (status === 'error') {
-  //     this.toast.show('error', 'Something went wrong!');
-  //   }
-  // });
+    } else if (status === 'error') {
+      this.toast.show('error', 'Something went wrong!');
+    }
+  });
 
 
   ngOnInit() {
     this.creteForm();
     // this.accountStore.getAccounts();
-    // if (this.editData) {
-    //   this.accountForm.patchValue(this.editData);
-    //   this.isEditMode = true;
-    // }
+    if (this.editData) {
+      this.sprintForm.patchValue(this.editData);
+      this.isEditMode = true;
+    }
 
   }
 
@@ -68,6 +68,7 @@ maxStartDate: string | null = null;
 
   creteForm() {
     this.sprintForm = this.fb.group({
+      sprintNumber: new FormControl(''),
       sprintName: ['', Validators.required],
       fromDate: ['', Validators.required],
       toDate: ['', Validators.required]
@@ -81,19 +82,22 @@ maxStartDate: string | null = null;
     if (!isOpen) {
       this.isEditMode = false; // Only reset on close
       this.sprintForm.reset();
-      this.modalCtrl.dismiss();
     }
+          this.modalCtrl.dismiss(isOpen);
+
   }
 
 
   SubmitForm() {
     if (this.sprintForm.valid) {
-      const formValue = this.sprintForm.value;
-
-      // if (this.isEditMode && this.editData?.accountId) {
-      //   this.accountStore.updateAccount({ id: this.editData.accountId, data: formValue });
-      // } else {
-        this.sprintStore.createSprint(formValue);
+      const id = this.generateSprintId();
+      const sprintIdControl = this.sprintForm.get('sprintNumber');
+      if (sprintIdControl && !this.editData) {
+        sprintIdControl.setValue(id);
+        this.sprintStore.createSprint(this.sprintForm.value);
+      } else {
+        this.sprintStore.updateSprint({id:this.editData.sprintId,data:this.sprintForm.value});
+      }
       }
     // } else {
     //   this.accountForm.markAllAsTouched();
@@ -124,6 +128,14 @@ onEndDateChange(e: any) {
   this.sprintForm.get('fromDate')?.setValue(isoBefore);
   this.minEndDate = null;
   this.maxEndDate = null;
+}
+
+generateSprintId(): string {
+const year = new Date().getFullYear();
+  const randomNum = Math.floor(Math.random() * 100) + 1;
+  const padded = String(randomNum).padStart(2, '0');
+  return `SPRINT-${year}-${padded}`;
+
 }
 
 

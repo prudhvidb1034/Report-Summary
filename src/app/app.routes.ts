@@ -73,9 +73,7 @@ export const routes: Routes = [
   {
     path: 'accounts',
     loadComponent: () => import('./features/project-management/account/account.component').then((m) => m.AccountCreateComponent),
-
     canActivate: [RoleGuard],
-
   },
   {
     path: 'employee-dashboard',
@@ -105,22 +103,18 @@ export const routes: Routes = [
     loadComponent: () => import('../app/features/sprint-report/sprint-report.component').then((m) => m.SprintReportComponent),
     canActivate: [RoleGuard],
   },
-
-
-
-
    {
     path: 'sprints',
     loadComponent: () => import('./features/sprints/sprints.component').then((m) => m.SprintsComponent),
     canActivate: [RoleGuard],
   },
    {
-    path: 'create-weekly-sprint',
+    path: 'sprints/create-weekly-sprint/:id',
     loadComponent: () => import('./features/weekly-report/weekly-report.component').then((m) => m.WeeklyReportComponent),
     canActivate: [RoleGuard],
   },
     {
-    path: 'create-weekly-report-sprint',
+    path: 'create-weekly-report-sprint/:id',
     loadComponent: () => import('./features/weekly-sprint-update/weekly-sprint-update.component').then((m) => m.WeeklySprintUpdateComponent),
     canActivate: [RoleGuard],
   },

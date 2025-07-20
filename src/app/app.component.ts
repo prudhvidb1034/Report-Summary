@@ -9,6 +9,8 @@ import { LoginService } from './services/login-service/login.service';
 import { ToastComponent } from './shared/toast/toast.component';
 import { LoginStore } from './state/login.store';
 import { SideMenuComponent } from './shared/side-menu/side-menu.component';
+import { ProjectStore } from './state/project.store';
+import { CommonStore } from './state/common.store';
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -26,7 +28,12 @@ export class AppComponent {
   private menuCtrl = inject(MenuController)
 
   isLoggedIn = true;
-  private  loginStore = inject(LoginStore)
+  private  loginStore = inject(LoginStore);
+  private commonStore=inject(CommonStore);
+
+  ngOnInit(){
+   this.commonStore.getAllProjects();
+  }
 
   fullName$ = this.loginStore.user$.pipe(
     map(res =>  `${res?.['firstName']}`+' '+`${res?.['lastName']}`)

@@ -1,4 +1,4 @@
-import { Component, effect, EventEmitter, inject, Input, Output, output, signal } from '@angular/core';
+import { Component, effect, EventEmitter, Inject, inject, Input, Output, output, signal } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, AbstractControl } from '@angular/forms';
 import { IonicModule, ModalController, NavParams } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
@@ -10,6 +10,7 @@ import { ToastService } from '../../shared/toast.service';
 import { SummaryService } from '../../services/summary/summary.service';
 import { RegistrationForm } from '../../models/register.mode';
 import { ValidationsService } from '../../services/validation/validations.service';
+import { CommonStore } from '../../state/common.store';
 
 @Component({
   selector: 'app-register',
@@ -17,7 +18,7 @@ import { ValidationsService } from '../../services/validation/validations.servic
   imports: [IonicModule, CommonModule, ReactiveFormsModule],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss',
-  providers: [RegisterStore, ProjectStore],
+  providers: [RegisterStore,ProjectStore],
 })
 export class RegisterComponent {
   teamList = signal<createProject[]>([]);
@@ -47,8 +48,13 @@ export class RegisterComponent {
   private modalCtrl = inject(ModalController);
   register$ = this.store.register$;
   isLoading$ = this.store.select(state => state.loading);
-  private routering = inject(ActivatedRoute)
-  constructor(private navParams: NavParams) { }
+  private routering = inject(ActivatedRoute);
+  private commonStore=inject(CommonStore);
+  allProjects$=this.commonStore.allProjects$;
+  weekId: any;
+  constructor(private navParams: NavParams) {
+
+   }
 
   readonly accountStatusEffect = effect(() => {
     const status = this.store.accountCreateStatus();
@@ -70,8 +76,10 @@ export class RegisterComponent {
     }
   });
   ngOnInit() {
+
     this.role = this.navParams?.get('role');
     this.roles = this.role?.toUpperCase();
+
   //  this.projectStore.getTeam();
     this.createForm();
     if (this.editData) {

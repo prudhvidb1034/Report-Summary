@@ -21,11 +21,15 @@ export class ManagersComponent {
   private modalController = inject(ModalController);
 
   private registerStore = inject(RegisterStore);
-  managerList$ = this.registerStore.register$;
+ managerList$ :any;
   isLoading$ = this.registerStore.select(state => state.loading);
-  ngOnInit() {
-    this.registerStore.getRegisterData('manager');
+page=0;
+pageSize=5;
+
+  constructor(){
+    this.loadManagers(this.page,this.pageSize);
   }
+
   columns = [
     { header: 'Manager ID', field: 'personId' },
     { header: 'Manager Name', field: 'firstName' },
@@ -49,6 +53,14 @@ export class ManagersComponent {
       case 'delete':
         this.deleteModal(event.item);
         break;
+      case 'nextPage':
+        this.page=event.item;
+        this.loadManagers(this.page,this.pageSize);
+       break;
+        case 'pageSize':
+        this.pageSize=event.item;
+        this.loadManagers(this.page,this.pageSize);
+        break;
       default:
         console.log('Unknown action type:');
     }
@@ -64,7 +76,7 @@ export class ManagersComponent {
     }).then((modal) => {
       modal.present();
       modal.onDidDismiss().then((data) => {
-        this.registerStore.getRegisterData('manager');
+        this.registerStore.getRegisterData({ page: this.page, size: this.pageSize, sortBy: 'firstName' });
         console.log('Modal dismissed with data:', data);
         // Handle any data returned from the modal if needed
       });
@@ -82,7 +94,7 @@ export class ManagersComponent {
     }).then((modal) => {
       modal.present();
       modal.onDidDismiss().then((data) => {
-            this.registerStore.getRegisterData('manager');
+            this.registerStore.getRegisterData({ page: this.page, size: this.pageSize, sortBy: 'firstName' });
         console.log('Modal dismissed with data:12345667', data);
         // Handle any data returned from the modal if needed
       });
@@ -113,4 +125,9 @@ export class ManagersComponent {
       });
     });
   }
-}
+
+  loadManagers(pageNum:number,pageSize:number){
+  this.registerStore.getRegisterData({ page: pageNum, size: pageSize, sortBy: 'firstName' });
+  this.managerList$ = this.registerStore.register$;
+ 
+}}

@@ -32,7 +32,8 @@ export class ProjectStore extends ComponentStore<TeamState> {
   readonly accountCreateStatus = this._accountCreateStatus.asReadonly();
   private readonly teamListService = inject(TeamListService);
   private sharedservice = inject(SharedService);
-  readonly team$ = this.select(state => state.teamDetails)
+  readonly team$ = this.select(state => state.teamDetails);
+  //readonly fullProjects$=this.select(state=>state.allprojects);
 
   readonly addTeam = this.effect((projects$: Observable<createProject>) =>
     projects$.pipe(
@@ -43,7 +44,6 @@ export class ProjectStore extends ComponentStore<TeamState> {
             next: (user: any) => {
               this.patchState({
                 teamDetails: [user], loading: false
-
 
               });
               this._accountCreateStatus.set('success');
@@ -57,6 +57,40 @@ export class ProjectStore extends ComponentStore<TeamState> {
       })
     )
   );
+
+
+readonly setProjectDetails = this.updater(
+  (state, projectDetails: createProject[]) => ({
+    ...state,
+    allprojects: projectDetails
+  })
+);
+
+// readonly getAllProjects = this.effect<void>(trigger$ =>
+//   trigger$.pipe(
+//     tap(() => this.patchState({ loading: true, error: null })),
+//     switchMap(() =>
+//       this.sharedservice
+//         .getData<ApiResponse<createProject[]>>(`projects/all`)
+//         .pipe(
+//           tapResponse(
+//             response => {
+//               this.patchState({
+//                 allprojects: response.data, // <-- access array correctly
+//                 loading: false
+//               });
+//             },
+//             error => {
+//               this.patchState({
+//                 loading: false,
+//                 error: 'Failed to fetch projects'
+//               });
+//             }
+//           )
+//         )
+//     )
+//   )
+// );
 
 
   readonly getTeam = this.effect<{ page: number; size: number; sortBy: string }>(
@@ -78,8 +112,6 @@ export class ProjectStore extends ComponentStore<TeamState> {
         )
       )
   );
-
-
 
   readonly updateProject = this.effect(
     (account$: Observable<{ id: string; data: createProject }>) =>

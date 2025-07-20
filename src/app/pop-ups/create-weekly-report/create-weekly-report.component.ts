@@ -24,7 +24,7 @@ export class CreateWeeklyReportComponent {
   isEditMode: boolean = false;
   constructor() { }
 
-//   sprintStore = inject(CreateSprintStore)
+//   sprintStore = inject(SprintStore)
 //   accounts$ = this.sprintStore.sprint$; 
 //  isLoading$ = this.sprintStore.select(state => state.loading);
   // readonly accountStatusEffect = effect(() => {

@@ -34,9 +34,12 @@ export class EmployeesComponent {
   registerList$ = this.registerStore.register$;
   teamsList$ = this.projectStore.team$;
   isLoading$ = this.registerStore.select(state => state.loading);
+
+
+
   ngOnInit() {
    // this.projectStore.getTeam();
-    this.registerStore.getRegisterData('employee');
+    this.registerStore.getRegisterData({ page: 0, size: 5, sortBy: 'firstName' });
 
 
     this.router.paramMap.subscribe((params: ParamMap) => {
@@ -86,7 +89,7 @@ export class EmployeesComponent {
     }).then((modal) => {
       modal.present();
       modal.onDidDismiss().then((data) => {
-          this.registerStore.getRegisterData('employee');
+          this.registerStore.getRegisterData({ page: 0, size: 5, sortBy: 'firstName' });
         console.log('Modal dismissed with data:', data);
       });
     });
@@ -102,7 +105,7 @@ export class EmployeesComponent {
     }).then((modal) => {
       modal.present();
       modal.onDidDismiss().then((data) => {
-          this.registerStore.getRegisterData('employee');
+          this.registerStore.getRegisterData({ page: 0, size: 5, sortBy: 'firstName' });
         console.log('Modal dismissed with data:', data);
       });
     });

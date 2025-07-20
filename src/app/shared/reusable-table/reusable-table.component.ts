@@ -32,7 +32,6 @@ export class ReusableTableComponent {
 
 loadPage(event: { pageIndex: number; pageSize: number }) {
   console.log('Load data for:', event);
-  // Your logic to fetch data based on event.pageIndex and event.pageSize
 }
 
 
@@ -49,12 +48,6 @@ loadPage(event: { pageIndex: number; pageSize: number }) {
   ngOnInit() {
     console.log(this.searchTerm)
   }
-
-  // onSearchTermChange(value: string) {
-  //   console.log(value)
-  //   this.searchTerm = value;
-  //   this.searchTermChange.emit(value);
-  // }
 
   onSearchTermChange() {
     console.log(this.searchTerm)
@@ -81,6 +74,10 @@ loadPage(event: { pageIndex: number; pageSize: number }) {
   }
 
   onPageChange(event:any){
-        this.rowAction.emit({ type: 'nextPage', item: event })
+    this.rowAction.emit({ type: 'nextPage', item: event })
+  }
+
+  navigation(type:string,item:any,columnName:string){
+    this.rowAction.emit({type:type,item:item,columnName:columnName});
   }
 }

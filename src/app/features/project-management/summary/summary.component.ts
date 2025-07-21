@@ -41,15 +41,10 @@ export class SummaryComponent {
 constructor(){
     this.loadSummary(this.page,this.pageSize)
 
-  this.summaryStore.getDetails('page=0&size=10');
-  this.summarylist$=this.summaryStore.weeklyRange$;
+  //this.summaryStore.getDetails('page=0&size=10');
 
 }
-  loadSummary(pageNum:number,pageSize:number){
-    this.summaryStore.getDetails({ page: pageNum, size: pageSize, sortBy: 'accountName' });
-  //  this.accountStore.getAccounts({ page: pageNum, size: pageSize, sortBy: 'accountName' });
-  //   this.accountList$ = this.accountStore.account$;
-  }
+
   ngOnInit(){
     this.userRole$.pipe(take(1)).subscribe(role => {
       this.role=role;
@@ -186,6 +181,14 @@ console.log(this.userRole$)
       case 'delete':
         this.deleteModal();
         break;
+            case 'nextPage':
+        this.page = event.item;
+        this.loadSummary(this.page, this.pageSize)
+        break;
+      case 'pageSize':
+        this.pageSize = event.item;
+        this.loadSummary(this.page, this.pageSize)
+        break;  
       default:
         console.log('Unknown action type:', event.type);
     }
@@ -239,4 +242,9 @@ console.log(this.userRole$)
           });
         });
      }
+
+  loadSummary(pageNum: number, pageSize: number) {
+    this.summaryStore.getDetails({ page: pageNum, size: pageSize });
+    this.summarylist$ = this.summaryStore.weeklyRange$;
+  }
 }

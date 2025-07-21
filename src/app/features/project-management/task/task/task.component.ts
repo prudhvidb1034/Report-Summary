@@ -43,7 +43,7 @@ export class TaskComponent {
   ];
 
   ngOnInit() {  
-    this.getprojects.getDetails('');
+   // this.getprojects.getDetails('');
     console.log("tasj")
     this.getprojects.projects$.subscribe((projects: any[]) => {
       this.allProjects = projects;

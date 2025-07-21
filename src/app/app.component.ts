@@ -31,10 +31,10 @@ export class AppComponent {
   private  loginStore = inject(LoginStore);
   private commonStore=inject(CommonStore);
 
-  ngOnInit(){
-   this.commonStore.getAllProjects();
-  }
 
+  ngOnInit(){
+       this.commonStore.getAllProjects();
+  }
   fullName$ = this.loginStore.user$.pipe(
     map(res =>  `${res?.['firstName']}`+' '+`${res?.['lastName']}`)
   );

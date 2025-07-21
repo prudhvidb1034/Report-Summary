@@ -4,6 +4,7 @@ import { ComponentStore, tapResponse } from "@ngrx/component-store";
 import { exhaustMap, Observable, switchMap, take } from "rxjs";
 import { Project, WeeklyDataResponse } from "../models/summary.model";
 import { SummaryService } from "../services/summary/summary.service";
+import { SharedService } from "../services/shared/shared.service";
 
 
 interface ProjectsData {
@@ -21,7 +22,7 @@ interface ApiResponse<T> {
 @Injectable()
 
 export class SummaryStore extends ComponentStore<ProjectsData>{
-  
+      private sharedservice = inject(SharedService);
   constructor(){
     super({
       projects: [],
@@ -69,10 +70,10 @@ export class SummaryStore extends ComponentStore<ProjectsData>{
 
 
 
-readonly getDetails = this.effect((trigger$: Observable<any>) =>
+readonly getDetails = this.effect<{ page: number; size: number }>((trigger$) =>
   trigger$.pipe(
-    switchMap(pageProperties =>
-      this.summeryService.getWeeklyRange(pageProperties).pipe(
+    switchMap(({ page, size }) =>
+      this.sharedservice.getData(`api/view-report/AllReports?page=${page}&size=${size}`).pipe(
         tapResponse(
           (weekRanges:any) => {
           this.patchState({ weeklyRange: weekRanges?.data, loading: false });

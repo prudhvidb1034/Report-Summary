@@ -107,8 +107,12 @@ onSearchTermChanged(term: string) {
 
   handleRowAction(action: any) {
     switch (action.type) {
-      case 'viewTeam':
-        this.router.navigate(['/projects/employees', action.item.id]);
+      case 'navigate':
+        this.router.navigate(
+          ['/projects/employees', action.item.projectId],
+          { state: { projectName: action.item.projectName } }
+        );
+       // this.router.navigate(['/projects/employees', action.item.projectId], { state: { projectName: action.item.projectName });
         break;
       case 'create':
         this.loadCreateEmployeeModal();

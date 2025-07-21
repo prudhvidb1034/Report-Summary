@@ -34,38 +34,44 @@ export class SummaryComponent {
   role:any;
 
   columns:any;
+  page = 0;
+  pageSize = 5;
 
 
 constructor(){
+    this.loadSummary(this.page,this.pageSize)
+
   this.summaryStore.getDetails('page=0&size=10');
   this.summarylist$=this.summaryStore.weeklyRange$;
-  this.summaryStore.weeklyRange$.subscribe((data:any)=>{
-    console.log(data);
-  })
-}
 
+}
+  loadSummary(pageNum:number,pageSize:number){
+    this.summaryStore.getDetails({ page: pageNum, size: pageSize, sortBy: 'accountName' });
+  //  this.accountStore.getAccounts({ page: pageNum, size: pageSize, sortBy: 'accountName' });
+  //   this.accountList$ = this.accountStore.account$;
+  }
   ngOnInit(){
     this.userRole$.pipe(take(1)).subscribe(role => {
       this.role=role;
       console.log('User role:', role);
 });
-if(this.role=='employee'){
-  this.columns = [
-    { header: 'Name ', field: 'weekRange' },
-    {header:'View Task',field:'viewTask',linkEnable:true},
-    {header:'View Report',field:'viewReport',linkEnable:true},
-  ];
+    if (this.role == 'employee') {
+      this.columns = [
+        { header: 'Name ', field: 'weekRange' },
+        { header: 'View Task', field: 'viewTask', linkEnable: true },
+        { header: 'View Report', field: 'viewReport', linkEnable: true },
+      ];
 
-}else{
-   this.columns = [
-    { header: 'Name ', field: 'weekRange' },
-    { header: 'Status', field: 'status' },
-    {header:'View Task',field:'viewTask',linkEnable:true},
-    {header:'View Report',field:'viewReport',linkEnable:true},
-    { header: 'Action', field: 'action', type: [ 'edit', 'delete'], },
-  ];
+    } else {
+      this.columns = [
+        { header: 'Name ', field: 'weekRange' },
+        { header: 'Status', field: 'status' },
+        { header: 'View Task', field: 'viewTask', linkEnable: true },
+        { header: 'View Report', field: 'viewReport', linkEnable: true },
+        { header: 'Action', field: 'action', type: ['edit', 'delete'], },
+      ];
 
-}
+    }
 
 console.log(this.userRole$)
   }
@@ -158,7 +164,6 @@ console.log(this.userRole$)
   summarylist$:any;
 
   handleRowAction(event: any) {
-    console.log(event)
     switch (event.type) {
       case 'viewTask':
         this.route.navigate(['summary/task', event.item.weekId]);

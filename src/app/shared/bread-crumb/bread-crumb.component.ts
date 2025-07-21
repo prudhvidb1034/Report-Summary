@@ -63,6 +63,7 @@ projects: { projects: ProjectsMap } = {
     "83f2": [{ projectName: "spp canada" }]
   }
 };
+  projectName: any;
 
 
   constructor(
@@ -70,6 +71,7 @@ projects: { projects: ProjectsMap } = {
     private activatedRoute: ActivatedRoute,
     private breadcrumbStore: BreadcrumbStore
   ) {
+
     this.breadcrumbs$ = this.breadcrumbStore.breadcrumbs$;
   }
 
@@ -85,6 +87,9 @@ projects: { projects: ProjectsMap } = {
             route = route.firstChild;
           }
           this.extendedRoute=route.snapshot.paramMap.get('id');
+          const nav = this.router.getCurrentNavigation();
+    console.log("nav",nav)
+    this.projectName = nav?.extras.state?.['projectName']
           return route;
         }),
         filter((route) => route.outlet === 'primary'),
@@ -93,6 +98,10 @@ projects: { projects: ProjectsMap } = {
       .subscribe(() => {
         this.buildBreadcrumbs(this.router.url);
       });
+    // const nav = this.router.getCurrentNavigation();
+    // console.log("nav",nav)
+    // this.projectName = nav?.extras.state?.['projectName']
+
   }
 
   breadcrumbConfig: { label: any; url: string }[] = [
@@ -146,7 +155,7 @@ projects: { projects: ProjectsMap } = {
     else if(segment.startsWith('employees')){
       const id = urlSegments[urlSegments.length - 1]; // Get the last segment as ID
       breadcrumbs.push({
-        label:this.getProjectName(id) +' '+'/'+' '+'Employees', // Customize the label as needed
+        label:this.projectName +' '+'/'+' '+'Employees', // Customize the label as needed
         url: currentUrl
       });
     }

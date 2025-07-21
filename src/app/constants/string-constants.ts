@@ -4,7 +4,10 @@ export const Constants = {
     GET_LOGIN_DETAILS: 'assets/jsons/loginDetails.json',
     GET_REGISTER_DETAILS: 'assets/jsons/loginDetails.json',
     POST_TEAMS_LIST: 'assets/jsons/teamslist.json',
-    GET_WEEKLY_SUMMARY: 'api'+'/weekly-summary/all?'
+    GET_WEEKLY_SUMMARY: 'api'+'/weekly-summary/all?',
+    ROLE_MANAGER:'Person/role/MANAGER',
+ROLE_EMPLOYEE:'Person/role/EMPLOYEE',
+
 
 }
 
@@ -27,6 +30,7 @@ GET_MANAGRE_DETAILS: 'Person'+'/role',
 TAG_EMPLOYEE: 'Person/tag-projects',
 PROJECT_SEARCH: 'projects/search',
 CREATE_SPRINT: 'api/sprints/createSprint',
+
 }
 
 

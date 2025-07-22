@@ -25,14 +25,14 @@ export interface ApiResponse<T> {
 @Injectable()
 export class SprintReleaseStore extends ComponentStore<CreateSprint> {
 
-private sharedservice = inject(SharedService);
+
     constructor() {
         super({Sprintrelease:[], loading: false, error: null });
     }
     private _sprintCreateStatus = signal<null | 'success' | 'deleted' | 'update' | 'error'>(null);
 
     readonly sprintCreateStatus = this._sprintCreateStatus.asReadonly();
-
+private sharedservice = inject(SharedService);
   
     readonly Sprintrelease$=this.select(state=>state.Sprintrelease);
     readonly loading$ = this.select(state => state.loading);

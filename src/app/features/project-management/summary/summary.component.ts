@@ -10,20 +10,24 @@ import { CreateSummaryComponent } from '../../../pop-ups/create-summary/create-s
 import { EmployeeUpdateComponent } from '../../../pop-ups/employee-update/employee-update.component';
 import { ConfirmDeleteComponent } from '../../../pop-ups/confirm-delete/confirm-delete.component';
 import { LoginStore } from '../../../state/login.store';
+import { WeekRangePipe } from '../../../shared/pipes/week-range.pipe';
 
 @Component({
   selector: 'app-summary',
   standalone: true,
-  imports: [IonicModule, CommonModule, ReactiveFormsModule, ReusableTableComponent],
-  providers: [SummaryStore],
+  imports: [IonicModule, CommonModule, ReactiveFormsModule, ReusableTableComponent,IonicModule],
+  providers: [SummaryStore,WeekRangePipe],
   templateUrl: './summary.component.html',
   styleUrl: './summary.component.scss'
 })
 export class SummaryComponent {
   label = 'Summary';
   private modalController = inject(ModalController);
-    private  loginStore = inject(LoginStore)
+  private  loginStore = inject(LoginStore)
   private readonly summaryStore = inject(SummaryStore);
+  private datePipe=inject(WeekRangePipe);
+  isLoading$ = this.summaryStore.select(state => state.loading);
+
   // projects: createProject[] = [];
   // private summary = inject(SummaryService);
   // weekSummaryForm !: FormGroup;
@@ -40,9 +44,6 @@ export class SummaryComponent {
 
 constructor(){
     this.loadSummary(this.page,this.pageSize)
-
-  //this.summaryStore.getDetails('page=0&size=10');
-
 }
 
   ngOnInit(){
@@ -188,7 +189,10 @@ console.log(this.userRole$)
       case 'pageSize':
         this.pageSize = event.item;
         this.loadSummary(this.page, this.pageSize)
-        break;  
+        break;
+      case 'navigate':
+        this.navigate(event);
+        break;       
       default:
         console.log('Unknown action type:', event.type);
     }
@@ -210,6 +214,23 @@ console.log(this.userRole$)
         console.log('Modal dismissed with data:', data);
       });
     });
+  }
+
+
+  navigate(event:any){
+    if(event.columnName === 'View Task'){
+    this.route.navigate(
+          ['/summary/task', event.item.weekRange.weekId],
+          { state: { name: this.datePipe.transform(event.item.weekRange) } }
+        );
+      console.log(this.datePipe.transform(event.item.weekRange));
+    }else{
+          this.route.navigate(
+          ['view-reports/', event.item.weekRange.weekId],
+          { state: { name: this.datePipe.transform(event.item.weekRange) } }
+        );
+    }
+    console.log(event);
   }
 
   updateWeeklySummary() {

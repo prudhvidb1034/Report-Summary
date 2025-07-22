@@ -26,15 +26,12 @@ export class CreateSummaryComponent {
   private readonly fb = inject(FormBuilder);
   ngOnInit() {
     this.weekSummaryForm = this.fb.group({
-      project: [null, Validators.required],
-      startDate: ['', [Validators.required]],
-      endDate: ['', [Validators.required]],
-      upcomingTasks: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(500)]]
+      weekFromDate: ['', [Validators.required]],
+      weekToDate: ['', [Validators.required]],
     });
-    this.weekSummaryForm.get('endDate')?.valueChanges.subscribe(() => {
+    this.weekSummaryForm.get('weekToDate')?.valueChanges.subscribe(() => {
       this.validateDates();
     });
-    this.getProjects()
   }
 
   // create a formArray for upcoming tasks
@@ -43,14 +40,14 @@ export class CreateSummaryComponent {
   }
 
   validateDates(): boolean {
-    const startDate = this.weekSummaryForm.get('startDate')?.value;
-    const endDate = this.weekSummaryForm.get('endDate')?.value;
-    if (!startDate || !endDate) {
+    const weekFromDate = this.weekSummaryForm.get('weekFromDate')?.value;
+    const weekToDate = this.weekSummaryForm.get('weekToDate')?.value;
+    if (!weekFromDate || !weekToDate) {
       this.dateError = null;
       return true;
     }
-    const start = new Date(startDate);
-    const end = new Date(endDate);
+    const start = new Date(weekFromDate);
+    const end = new Date(weekToDate);
     if (start > end) {
       this.dateError = 'Start date cannot be greater than end date';
       return false;
@@ -59,11 +56,6 @@ export class CreateSummaryComponent {
     return true;
   }
 
-  getProjects() {
-    this.summary.getProjectTitles().subscribe((val: any) => {
-      this.projects = val
-    })
-  }
   setOpen(isOpen: boolean) {
     this.modalCtrl.dismiss();
     this.weekSummaryForm.reset()
@@ -78,16 +70,7 @@ export class CreateSummaryComponent {
     }
     if (this.weekSummaryForm.valid) {
       console.log(this.weekSummaryForm.value);
-      const transformedState = {
-        project_id: this.weekSummaryForm.value.id,
-        project_name: this.weekSummaryForm.value.project.projectname,
-        start_date: this.weekSummaryForm.value.startDate,
-        end_date: this.weekSummaryForm.value.endDate,
-        upcomingTasks: this.weekSummaryForm.value.upcomingTasks,
-        employees: []
-      };
-      this.store.weeklyReport(transformedState)
-      this.route.navigate(['/dashboard'])
+      this.store.weeklyReport(this.weekSummaryForm.value)
     }else{
       this.weekSummaryForm.markAllAsTouched();
     }

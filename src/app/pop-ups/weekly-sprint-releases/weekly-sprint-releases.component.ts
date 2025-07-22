@@ -19,7 +19,7 @@ export class WeeklySprintReleasesComponent {
   private sprintReleaseStore = inject(SprintReleaseStore);
   isLoading$ = this.sprintReleaseStore.select(state => state.loading);
   weeklyIncidentForm!: FormGroup;
-  @Input() weekId: any;
+  @Input() editData: any;
   private fb = inject(FormBuilder);
   private commonStore = inject(CommonStore);
   private modalCtrl = inject(ModalController);
@@ -30,13 +30,13 @@ export class WeeklySprintReleasesComponent {
 
   ngOnInit() {
 
-    console.log('Week ID:', this.weekId);
+    console.log('Week ID:', this.editData);
     this.commonStore.getAllProjects();
     this.createIncientForm();
   }
   createIncientForm() {
     this.weeklyIncidentForm = this.fb.group({
-      weekId: [parseInt(this.weekId)],
+      weekId: [parseInt(this.editData)],
       projectId: [null, Validators.required],
       major: [null],
       minor: [null],

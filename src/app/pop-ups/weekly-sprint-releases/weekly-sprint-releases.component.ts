@@ -31,13 +31,14 @@ export class WeeklySprintReleasesComponent {
   ngOnInit() {
 
     console.log('Week ID:', this.editData);
-    this.commonStore.getAllProjects();
+    // this.commonStore.getAllProjects();
     this.createIncientForm();
   }
   createIncientForm() {
     this.weeklyIncidentForm = this.fb.group({
       weekId: [parseInt(this.editData)],
       projectId: [null, Validators.required],
+       sprintId:1,
       major: [null],
       minor: [null],
       incidentCreated: [null],

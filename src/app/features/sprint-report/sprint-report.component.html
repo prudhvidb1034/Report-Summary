@@ -15,6 +15,8 @@
 
     <h2 class="subtitle">Project Wise Resources UI-UX-JAVA-RPA</h2>
 
+
+    <!-- {{SprintList$ | async | json}} -->
     <div class="grid-layout">
       <div class="chart-section" style="height: 360px;">
         <canvas id="barChart" style="width: 100%;"></canvas>
@@ -76,7 +78,7 @@
       <ion-title>Sprint 2503.0 - Sprint Health & Release</ion-title>
     </ion-toolbar>
   </ion-header>
-  <div class="container">
+  <div class="container"  >
 
     <div class="table-container">
       <h3 class="table-title">Sprint Health</h3>
@@ -98,15 +100,17 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let team of sprintHealth">
-            <td>{{ team.name }}</td>
-            <td [class.green]="team.est === 'G'">{{ team.est }}</td>
-            <td [class.green]="team.groom === 'G'">{{ team.groom }}</td>
-            <td>{{ team.completion }}</td>
-            <td>{{ team.inDev }}</td>
-            <td>{{ team.inQA }}</td>
-            <td>{{ team.blocked }}</td>
-            <td>{{ team.atRisk }}</td>
+          <tr *ngFor="let sprint of SprintList$ | async">
+
+            <!-- {{SprintList$ | async | json}} -->
+            <td>{{ sprint?.projectId }}</td>
+            <td [class.green]="sprint.estimationHealthStatus === 'G'">{{ sprint.estimationHealthStatus }}</td>
+            <td [class.green]="sprint.groomingHealthStatus === 'G'">{{ sprint.groomingHealthStatus }}</td>
+            <td>{{ sprint.completePoints }}</td>
+            <td>{{ sprint.inDevPoints }}</td>
+            <td>{{ sprint.inQaPoints }}</td>
+            <td>{{ sprint.blockedPoints }}</td>
+            <td>{{ sprint.riskPoints }}</td>
           </tr>
         </tbody>
       </table>

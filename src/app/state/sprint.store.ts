@@ -13,7 +13,8 @@ import { ToastService } from "../shared/toast.service";
 export interface CreateSprint {
 
     sprint: Sprint[];
-    weeklySprint: Sprint[];
+    weeklySprint: any[];
+     sprintReport: any[];  
     loading: boolean;
     error: string | null;
 }
@@ -24,6 +25,8 @@ export interface Sprintweek{
    loading: boolean;
     error: string | null;
 }
+
+
 export interface ApiResponse<T> {
     data: T;
 }
@@ -33,7 +36,7 @@ export class SprintStore extends ComponentStore<CreateSprint> {
 
 private sharedservice = inject(SharedService);
     constructor() {
-        super({ sprint: [],weeklySprint:[], loading: false, error: null });
+        super({ sprint: [],weeklySprint:[],sprintReport:[], loading: false, error: null });
     }
     private _sprintCreateStatus = signal<null | 'success' | 'deleted' | 'update' | 'error'>(null);
 
@@ -168,6 +171,42 @@ private sharedservice = inject(SharedService);
           })
         )
       );
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        readonly getReportById = this.effect((sprintId$: Observable<string>) =>
+    sprintId$.pipe(
+        tap(() => this.patchState({ loading: true, error: null })),
+      exhaustMap(sprintNumber =>
+        this.sharedservice.getData<ApiResponse<any[]>>(`weekly-sprint-update/by-sprint-number?sprintNumber=${sprintNumber}`).pipe(
+          tapResponse(
+            (response) => {
+              this.patchState({ sprintReport: response.data, loading: false });
+            },
+            (error) => {
+              this.patchState({ loading: false, error: 'Failed to fetch sprint by ID' });
+              this.toast.show('error', 'Failed to load sprint!');
+            }
+          )
+        )
+      )
+    )
+  );
+
+
 
 
 

@@ -22,3 +22,7 @@
 
 
 </div>
+
+<div class="loader-overlay" *ngIf="(isLoading$ | async)">
+    <ion-spinner name="crescent"></ion-spinner>
+</div>

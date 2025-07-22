@@ -17,15 +17,15 @@
         <ion-row>
           <ion-col size="6">
             <ion-item class="custom-item" lines="none"
-              [class.invalid]="validationService.isInvalid('projectIds', weeklysprintUpdateForm)"
-              [class.valid]="validationService.isValid('projectIds', weeklysprintUpdateForm)">
+              [class.invalid]="validationService.isInvalid('projectId', weeklysprintUpdateForm)"
+              [class.valid]="validationService.isValid('projectId', weeklysprintUpdateForm)">
               <ion-select
                 class="label-texts"
-                formControlName="projectIds"
+                formControlName="projectId"
                 label="Projects"
                 labelPlacement="floating"
                 interface="popover"
-                multiple="true"
+  
                 placeholder="Select Project"
               >
                 <ng-container *ngIf="allProjects$ | async as projectList">
@@ -38,7 +38,7 @@
                 </ng-container>
               </ion-select>
             </ion-item>
-            @if (validationService.isInvalid('projectIds', weeklysprintUpdateForm)) {
+            @if (validationService.isInvalid('projectId', weeklysprintUpdateForm)) {
               <ion-text color="danger" class="error-message">
                 <p>At least one project must be selected.</p>
               </ion-text>

@@ -102,7 +102,7 @@ export class EmployeeUpdateComponent {
       endDate: ['', [Validators.required]],
       task: ['', [Validators.required, Validators.minLength(3)]],
       status: ['', [Validators.required]],
-    weekRange: [this.weekOptions[0], Validators.required],  // default
+      weekRange: [this.weekOptions[0], Validators.required],  // default
         Comments: ['', Validators.required]  // ← Add this
 
 

@@ -22,6 +22,7 @@ export class ReusableTableComponent {
   @Input() columns: any[] | undefined;
   @Output() rowAction: EventEmitter<any> = new EventEmitter<any>();
   @Input() label: string = '';
+  @Input() weekLabel: string = '';
   @Input() showHeader = true;
   @Input() searchTerm: string = '';
   @Output() searchTermChange = new EventEmitter<string>();

@@ -124,7 +124,9 @@ projects: { projects: ProjectsMap } = {
     { label: 'View Reports', url: '/summary/project-status/:id' },
      { label: 'Sprints', url: '/sprints' },
      {label:'Weekly Sprint',url:'/sprints/create-weekly-sprint/:id'},
-     {label:'Week Wise List',url:'sprints/create-weekly-sprint/create-weekly-report-sprint/:id'}
+     {label:'Week Wise List',url:'sprints/create-weekly-sprint/create-weekly-report-sprint/:id'},
+          {label:'Sprint Report',url:'/sprint-report'}
+
   ];
      breadcrumbLabel():any {
       this.activatedRoute.paramMap.subscribe(params => {

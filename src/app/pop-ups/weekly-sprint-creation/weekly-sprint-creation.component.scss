@@ -1,3 +1,9 @@
+.large-modal {
+  max-width: 98vw;
+  width: 100%;
+}
+
+
 .modal-wrapper {
   display: flex;
   flex-direction: column;
@@ -25,7 +31,6 @@
     .error-message {
       display: block;
       margin-top: -8px;
-      /* Pull error message closer to its field */
       margin-bottom: 12px;
       font-size: 12px;
     }
@@ -33,5 +38,5 @@
 }
 
 ion-grid {
-  margin-top: 10px;
+  margin-top: 5px;
 }

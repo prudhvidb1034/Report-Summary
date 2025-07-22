@@ -103,6 +103,8 @@ export class EmployeeUpdateComponent {
       task: ['', [Validators.required, Validators.minLength(3)]],
       status: ['', [Validators.required]],
     weekRange: [this.weekOptions[0], Validators.required],  // default
+        Comments: ['', Validators.required]  // ← Add this
+
 
     });
     group.get('endDate')?.valueChanges.subscribe(() => {
@@ -140,6 +142,7 @@ export class EmployeeUpdateComponent {
   }
 
   onSubmit() {
+    debugger
     if (this.employeeUpdateForm.valid) {
       const d = {
         projectId: '',

@@ -69,8 +69,11 @@
               {{ item[column.field]?item[column.field]:'View'}}
             </a>
           </div>
-          <div *ngIf="!column.linkEnable  && column.field !='status'">
+          <div *ngIf="!column.linkEnable  && column.field !='status' && column.field !='weekRange'">
             {{ item[column.field] }}
+          </div>
+          <div *ngIf="column.field === 'weekRange'">
+            {{item[column.field]|weekRange}}
           </div>
         </ng-template>
       </ion-col>

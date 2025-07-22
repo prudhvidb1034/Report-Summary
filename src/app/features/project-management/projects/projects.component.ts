@@ -110,7 +110,7 @@ onSearchTermChanged(term: string) {
       case 'navigate':
         this.router.navigate(
           ['/projects/employees', action.item.projectId],
-          { state: { projectName: action.item.projectName } }
+          { state: { name: action.item.projectName } }
         );
        // this.router.navigate(['/projects/employees', action.item.projectId], { state: { projectName: action.item.projectName });
         break;

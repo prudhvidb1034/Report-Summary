@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, ViewChild } from '@angular/core';
+import { Component, effect, inject, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { IonicModule, IonTabs, ModalController } from '@ionic/angular';
 import { CommonStore } from '../../state/common.store';
@@ -10,6 +10,7 @@ import { ReusableTableComponent } from "../../shared/reusable-table/reusable-tab
 import { of } from 'rxjs';
 import { WeeklySprintCreationComponent } from '../../pop-ups/weekly-sprint-creation/weekly-sprint-creation.component';
 import { WeeklySprintReleasesComponent } from '../../pop-ups/weekly-sprint-releases/weekly-sprint-releases.component';
+import { ToastService } from '../../shared/toast.service';
 
 @Component({
   selector: 'app-weekly-sprint-update',
@@ -29,8 +30,29 @@ export class WeeklySprintUpdateComponent {
   private routering = inject(ActivatedRoute);
   private sprintStore = inject(SprintStore);
   allProjects$ = this.commonStore.allProjects$;
-  public validationService = inject(ValidationsService);
+  private toast = inject(ToastService);
 
+  public validationService = inject(ValidationsService);
+  isLoading$ = this.sprintStore.select(state => state.loading);
+  readonly accountStatusEffect = effect(() => {
+    const status = this.sprintStore.sprintCreateStatus();
+
+    if (status === 'success') {
+   //  this.sprintStore.getSprintDetails({ page: 0, size: 5 });
+      this.setOpen(false);
+      this.toast.show('success', 'Weekly Sprint Updated Successfully!');
+
+    } else if (status === 'update') {
+      this.setOpen(false);
+      this.toast.show('success', 'Weekly Sprint Updated successfully!');
+
+    } else if (status === 'deleted') {
+      this.toast.show('success', 'Account deleted successfully!');
+
+    } else if (status === 'error') {
+      this.toast.show('error', 'Something went wrong!');
+    }
+  });
 
   weekId: any;
 
@@ -158,7 +180,7 @@ loadCreateModalByTab() {
     component: componentToLoad,
     cssClass: 'create-account-modal',
     componentProps: {
-      // pass any data if needed
+       editData: this.weekId
     }
   }).then((modal) => {
     modal.present();

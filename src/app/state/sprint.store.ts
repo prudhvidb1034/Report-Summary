@@ -17,6 +17,13 @@ export interface CreateSprint {
     loading: boolean;
     error: string | null;
 }
+
+export interface Sprintweek{
+  createweekSprint:any;
+
+   loading: boolean;
+    error: string | null;
+}
 export interface ApiResponse<T> {
     data: T;
 }
@@ -166,26 +173,7 @@ private sharedservice = inject(SharedService);
 
 
       
-   readonly createIncident = this.effect((register$: Observable<Sprint>) =>
-      register$.pipe(
-        exhaustMap(incident => {
-          this.patchState({ loading: true, error: null });
-          return this.sharedservice.postData(urls.CREATE_INCIENT, incident).pipe(
-            tap({
-              next: (user: any) => {
-                this.patchState({ sprint: [user], loading: false  });
-                this._sprintCreateStatus.set('success');
   
-              },
-              error: () => {
-                this.patchState({ loading: false, error: '' });
-                 this._sprintCreateStatus.set('error');
-              }
-            })
-          );
-        })
-      )
-    );
 }
 
 

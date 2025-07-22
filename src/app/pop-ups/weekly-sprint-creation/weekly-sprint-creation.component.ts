@@ -24,12 +24,12 @@ private fb = inject(FormBuilder);
 @Input() editData: any;
   weekId: any;
   private commonStore = inject(CommonStore);
- private modalCtrl = inject(ModalController)
+private modalCtrl = inject(ModalController)
   allProjects$ = this.commonStore.allProjects$;
   private sprintStore=inject(SprintStore);
- public validationService = inject(ValidationsService);
+public validationService = inject(ValidationsService);
    private toast = inject(ToastService);
- 
+
 ngOnInit() {
    this.weekId = this.editData
       this.createSprintForm();  
@@ -95,7 +95,7 @@ ngOnInit() {
       );
      this.sprintStore.updateWeeklyUpdateSprint(this.weeklysprintUpdateForm.value)
     }
- 
+
       setOpen(isOpen: boolean) {
         this.modalCtrl.dismiss()
     this.weeklysprintUpdateForm.reset()
@@ -103,3 +103,4 @@ ngOnInit() {
 
   }
 }
+ 

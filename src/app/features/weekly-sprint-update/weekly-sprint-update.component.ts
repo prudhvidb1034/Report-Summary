@@ -95,6 +95,7 @@ export class WeeklySprintUpdateComponent {
 
   ngOnInit() {
     this.weekId = this.routering.snapshot.paramMap.get('id');
+    console.log('Week ID:', this.weekId);
 
   }
 

@@ -73,6 +73,7 @@ export class WeeklySprintUpdateComponent {
 
   ngOnInit() {
     this.weekId = this.routering.snapshot.paramMap.get('id');
+    console.log('Week ID:', this.weekId);
 
   }
 
@@ -158,7 +159,7 @@ loadCreateModalByTab() {
     component: componentToLoad,
     cssClass: 'create-account-modal',
     componentProps: {
-      // pass any data if needed
+       weekId: this.weekId,
     }
   }).then((modal) => {
     modal.present();

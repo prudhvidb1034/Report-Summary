@@ -1,67 +1,72 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { ValidationsService } from '../../services/validation/validations.service';
 import { CommonStore } from '../../state/common.store';
 import { ModalController } from '@ionic/angular/standalone';
+import { SprintStore } from '../../state/sprint.store';
 
 @Component({
   selector: 'app-weekly-sprint-creation',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule,IonicModule],
+  imports: [CommonModule, ReactiveFormsModule, IonicModule],
+  providers: [SprintStore],
   templateUrl: './weekly-sprint-creation.component.html',
   styleUrl: './weekly-sprint-creation.component.scss'
 })
 export class WeeklySprintCreationComponent {
-    private routering = inject(ActivatedRoute);
-weeklysprintUpdateForm !: FormGroup;
-private fb = inject(FormBuilder);
-  weekId: any;
+  private routering = inject(ActivatedRoute);
+  weeklysprintUpdateForm !: FormGroup;
+  private fb = inject(FormBuilder);
+  @Input() weekId: any;
   private commonStore = inject(CommonStore);
- private modalCtrl = inject(ModalController)
+  private sprintStore = inject(SprintStore);
+  private modalCtrl = inject(ModalController)
   allProjects$ = this.commonStore.allProjects$;
- public validationService = inject(ValidationsService);
-ngOnInit() {
-   this.weekId = this.routering.snapshot.paramMap.get('id');
-      this.createSprintForm();  
-}
+  public validationService = inject(ValidationsService);
+  ngOnInit() {
+    this.commonStore.getAllProjects();
+    this.createSprintForm();
+  }
 
-   createSprintForm() {
-      this.weeklysprintUpdateForm = this.fb.group({
-        weekId: this.weekId,
-        projectIds: ['', Validators.required],
-        assignedPoints: [null],
-        assignedStoriesCount: [null],
-        inDevPoints: [null],
-        inDevStoriesCount: [null],
-        inQaPoints: [null],
-        inQaStoriesCount: [null],
-        completePoints: [null],
-        completeStoriesCount: [null],
-        blockedPoints: [null],
-        blockedStoriesCount: [null],
-        completePercentage: [null],
-        estimationHealth: [''],
-        groomingHealth: [''],
-        difficultCount1: [null],
-        difficultCount2: [null],
-        injection: [null],
-        riskPoints: [null],
-        riskStoryCounts: [null],
-        comments: [null]
-      });
+  createSprintForm() {
+    this.weeklysprintUpdateForm = this.fb.group({
+      weekId: this.weekId,
+      projectIds: ['', Validators.required],
+      assignedPoints: [null],
+      assignedStoriesCount: [null],
+      inDevPoints: [null],
+      inDevStoriesCount: [null],
+      inQaPoints: [null],
+      inQaStoriesCount: [null],
+      completePoints: [null],
+      completeStoriesCount: [null],
+      blockedPoints: [null],
+      blockedStoriesCount: [null],
+      completePercentage: [null],
+      estimationHealth: [''],
+      groomingHealth: [''],
+      difficultCount1: [null],
+      difficultCount2: [null],
+      injection: [null],
+      riskPoints: [null],
+      riskStoryCounts: [null],
+      comments: [null]
+    });
+  }
+
+  onSubmit() {
+    if (this.weeklysprintUpdateForm.valid) {
+      this.sprintStore.updateWeeklyUpdateSprint(this.weeklysprintUpdateForm.value);
     }
+    console.log("Form Submitted", this.weeklysprintUpdateForm.value);
+  }
 
-    onSubmit(){
-
-    }
- 
-      setOpen(isOpen: boolean) {
-        this.modalCtrl.dismiss()
+  setOpen(isOpen: boolean) {
+    this.modalCtrl.dismiss()
     this.weeklysprintUpdateForm.reset()
-
 
   }
 }

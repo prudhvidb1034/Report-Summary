@@ -69,7 +69,7 @@
               >
               <ng-container *ngIf="(accounts$ | async) as accounts">
                 <ion-select-option
-                  *ngFor="let account of accounts.content"
+                  *ngFor="let account of accounts"
                   [value]="account.accountId"
                 >
                   {{ account?.accountName }}

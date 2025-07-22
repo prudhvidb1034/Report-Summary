@@ -18,19 +18,26 @@ export interface ApiResponse<T> {
 
 export interface ProjectsStateModel {
   allprojects:any;
+  allAccounts:any;
+  allEmployees:any;
   loading: boolean;
   error: string | null;
+  weeklyRange:any;
 }
 
 @Injectable({ providedIn: 'root' })
 export class CommonStore extends ComponentStore<ProjectsStateModel> {
   constructor(private sharedservice: SharedService) {
-    super({ allprojects: [], loading: false, error: null });
+    super({ allprojects: [],allAccounts:[],allEmployees:[],weeklyRange:[], loading: false, error: null });
   }
 
   readonly allProjects$ = this.select(state => state.allprojects);
+    readonly allAccounts$ = this.select(state => state.allAccounts);
+    readonly employeeList$=this.select(state=>state.allEmployees);
+
   readonly loading$     = this.select(state => state.loading);
   readonly error$       = this.select(state => state.error);
+  readonly weeklyRangeList$=this.select(state=>state.weeklyRange)
 
   readonly setProjectDetails = this.updater(
     (state, projects: CreateProject[]) => ({
@@ -40,6 +47,34 @@ export class CommonStore extends ComponentStore<ProjectsStateModel> {
       error: null
     })
   );
+
+    readonly setAccountDetails = this.updater(
+    (state, accounts:any) => ({
+      ...state,
+      allAccounts: accounts,
+      loading: false,
+      error: null
+    })
+  );
+
+     readonly setEmployees = this.updater(
+    (state, employees:any) => ({
+      ...state,
+      allEmployees: employees,
+      loading: false,
+      error: null
+    })
+  );
+
+    readonly setWeeklyRange = this.updater(
+    (state, weeklyRange:any) => ({
+      ...state,
+      weeklyRange: weeklyRange,
+      loading: false,
+      error: null
+    })
+  );
+
 
   readonly setLoading = this.updater(
     (state, loading: boolean) => ({ ...state, loading })
@@ -57,7 +92,86 @@ export class CommonStore extends ComponentStore<ProjectsStateModel> {
           .getData<ApiResponse<any>>('projects/all')
           .pipe(
             tapResponse(
-              (response:any) => this.setProjectDetails(response.data),
+              (response:any) => {
+                this.setProjectDetails(response.data)
+                              this.getAllAccounts();
+},
+              (error: any) => {
+                this.setError('Failed to fetch projects');
+              }
+            )
+          )
+      )
+    )
+  );
+
+  
+  readonly getAllAccounts = this.effect<void>(trigger$ =>
+    trigger$.pipe(
+      tap(() => this.setLoading(true)),
+      switchMap(() =>
+        this.sharedservice
+          .getData<ApiResponse<any>>('Account/all')
+          .pipe(
+            tapResponse(
+              (response:any) => {this.setAccountDetails(response.data)
+                this.getEmployees();
+              },
+            
+              () => this.setError('Failed to fetch projects')
+            )
+          )
+      )
+    )
+  );
+
+    readonly getEmployees = this.effect<void>(trigger$ =>
+    trigger$.pipe(
+      tap(() => this.setLoading(true)),
+      switchMap(() =>
+        this.sharedservice
+          .getData<ApiResponse<any>>('Person')
+          .pipe(
+            tapResponse(
+              (response:any) => 
+            {
+                 this.setEmployees(response.data);
+                                 this.getWeeklyRange();
+
+              //     const mapped = response.data.map(person => ({
+              //   email: person.email,
+              //   id: person.personId,
+              //   name: `${person.firstName} ${person.lastName}`
+              
+              // }));
+             
+            },
+              () => this.setError('Failed to fetch projects')
+            )
+          )
+      )
+    )
+  );
+
+   readonly getWeeklyRange = this.effect<void>(trigger$ =>
+    trigger$.pipe(
+      tap(() => this.setLoading(true)),
+      switchMap(() =>
+        this.sharedservice
+          .getData<ApiResponse<any>>('api/view-report/all')
+          .pipe(
+            tapResponse(
+              (response:any) => 
+            {
+                 this.setWeeklyRange(response.content);
+              //     const mapped = response.data.map(person => ({
+              //   email: person.email,
+              //   id: person.personId,
+              //   name: `${person.firstName} ${person.lastName}`
+              
+              // }));
+             
+            },
               () => this.setError('Failed to fetch projects')
             )
           )

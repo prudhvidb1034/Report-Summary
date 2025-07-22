@@ -1,72 +1,106 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, Input } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component, effect, inject, Input } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { ValidationsService } from '../../services/validation/validations.service';
 import { CommonStore } from '../../state/common.store';
 import { ModalController } from '@ionic/angular/standalone';
 import { SprintStore } from '../../state/sprint.store';
+import { ToastService } from '../../shared/toast.service';
 
 @Component({
   selector: 'app-weekly-sprint-creation',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, IonicModule],
-  providers: [SprintStore],
+  imports: [CommonModule, ReactiveFormsModule,IonicModule],
+  providers:[SprintStore],
   templateUrl: './weekly-sprint-creation.component.html',
   styleUrl: './weekly-sprint-creation.component.scss'
 })
 export class WeeklySprintCreationComponent {
-  private routering = inject(ActivatedRoute);
-  weeklysprintUpdateForm !: FormGroup;
-  private fb = inject(FormBuilder);
-  @Input() weekId: any;
+    private routering = inject(ActivatedRoute);
+weeklysprintUpdateForm !: FormGroup;
+private fb = inject(FormBuilder);
+@Input() editData: any;
+  weekId: any;
   private commonStore = inject(CommonStore);
-  private sprintStore = inject(SprintStore);
-  private modalCtrl = inject(ModalController)
+private modalCtrl = inject(ModalController)
   allProjects$ = this.commonStore.allProjects$;
-  public validationService = inject(ValidationsService);
-  ngOnInit() {
-    this.commonStore.getAllProjects();
-    this.createSprintForm();
-  }
+  private sprintStore=inject(SprintStore);
+public validationService = inject(ValidationsService);
+   private toast = inject(ToastService);
 
-  createSprintForm() {
-    this.weeklysprintUpdateForm = this.fb.group({
-      weekId: this.weekId,
-      projectIds: ['', Validators.required],
-      assignedPoints: [null],
-      assignedStoriesCount: [null],
-      inDevPoints: [null],
-      inDevStoriesCount: [null],
-      inQaPoints: [null],
-      inQaStoriesCount: [null],
-      completePoints: [null],
-      completeStoriesCount: [null],
-      blockedPoints: [null],
-      blockedStoriesCount: [null],
-      completePercentage: [null],
-      estimationHealth: [''],
-      groomingHealth: [''],
-      difficultCount1: [null],
-      difficultCount2: [null],
-      injection: [null],
-      riskPoints: [null],
-      riskStoryCounts: [null],
-      comments: [null]
-    });
-  }
+ngOnInit() {
+   this.weekId = this.editData
+      this.createSprintForm();  
+}
 
-  onSubmit() {
-    if (this.weeklysprintUpdateForm.valid) {
-      this.sprintStore.updateWeeklyUpdateSprint(this.weeklysprintUpdateForm.value);
+  readonly accountStatusEffect = effect(() => {
+    const status = this.sprintStore.sprintCreateStatus();
+
+    if (status === 'success') {
+   //  this.sprintStore.getSprintDetails({ page: 0, size: 5 });
+      this.setOpen(false);
+      this.toast.show('success', 'Weekly Sprint Updated Successfully!');
+
+    } else if (status === 'update') {
+      this.setOpen(false);
+      this.toast.show('success', 'Weekly Sprint Updated successfully!');
+
+    } else if (status === 'deleted') {
+      this.toast.show('success', 'Account deleted successfully!');
+
+    } else if (status === 'error') {
+      this.toast.show('error', 'Something went wrong!');
     }
-    console.log("Form Submitted", this.weeklysprintUpdateForm.value);
-  }
+  });
 
-  setOpen(isOpen: boolean) {
-    this.modalCtrl.dismiss()
+
+
+   createSprintForm() {
+      this.weeklysprintUpdateForm = this.fb.group({
+        weeekRangeId: this.weekId,
+        projectId: ['', Validators.required],
+        assignedPoints: [null],
+        assignedStoriesCount: [null],
+        inDevPoints: [null],
+        inDevStoriesCount: [null],
+        inQaPoints: [null],
+        inQaStoriesCount: [null],
+        completePoints: [null],
+        completeStoriesCount: [null],
+        blockedPoints: [null],
+        blockedStoriesCount: [null],
+        completePercentage: [null],
+        estimationHealth: [''],
+        groomingHealth: [''],
+        difficultCount1: [null],
+        difficultCount2: [null],
+       // injection: [null],
+        riskPoints: [null],
+        riskStoryCounts: [null],
+        comments: [null],
+        weeklySprintUpdateStatus: true
+      });
+    }
+
+    onSubmit(){
+      this.weeklysprintUpdateForm.addControl(
+        'estimationHealthStatus',
+        new FormControl(this.weeklysprintUpdateForm.get('estimationHealth')?.value)
+      );
+      this.weeklysprintUpdateForm.addControl(
+        'groomingHealthStatus',
+        new FormControl(this.weeklysprintUpdateForm.get('groomingHealth')?.value)
+      );
+     this.sprintStore.updateWeeklyUpdateSprint(this.weeklysprintUpdateForm.value)
+    }
+
+      setOpen(isOpen: boolean) {
+        this.modalCtrl.dismiss()
     this.weeklysprintUpdateForm.reset()
+
 
   }
 }
+ 

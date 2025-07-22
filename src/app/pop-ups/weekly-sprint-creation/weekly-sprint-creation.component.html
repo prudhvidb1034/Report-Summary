@@ -10,31 +10,41 @@
         </ion-toolbar>
     </ion-header>
 
-    <ion-content>
-        <form [formGroup]="weeklysprintUpdateForm" (ngSubmit)="onSubmit()" class="register-form">
-            <ion-grid>
-                <!-- Project Select -->
-                <ion-row>
-                    <ion-col size="6">
-                        <ion-item class="custom-item" lines="none"
-                            [class.invalid]="validationService.isInvalid('projectIds', weeklysprintUpdateForm)"
-                            [class.valid]="validationService.isValid('projectIds', weeklysprintUpdateForm)">
-                            <ion-select class="label-texts" formControlName="projectIds" label="Projects"
-                                labelPlacement="floating" interface="popover" placeholder="Select Project">
-                                <ng-container *ngIf="allProjects$ | async as projectList">
-                                    <ion-select-option *ngFor="let p of projectList" [value]="p.projectId">
-                                        {{ p.projectName }}
-                                    </ion-select-option>
-                                </ng-container>
-                            </ion-select>
-                        </ion-item>
-                        @if (validationService.isInvalid('projectIds', weeklysprintUpdateForm)) {
-                        <ion-text color="danger" class="error-message">
-                            <p>At least one project must be selected.</p>
-                        </ion-text>
-                        }
-                    </ion-col>
-                </ion-row>
+  <ion-content>
+    <form [formGroup]="weeklysprintUpdateForm" (ngSubmit)="onSubmit()" class="register-form">
+      <ion-grid>
+        <!-- Project Select -->
+        <ion-row>
+          <ion-col size="6">
+            <ion-item class="custom-item" lines="none"
+              [class.invalid]="validationService.isInvalid('projectId', weeklysprintUpdateForm)"
+              [class.valid]="validationService.isValid('projectId', weeklysprintUpdateForm)">
+              <ion-select
+                class="label-texts"
+                formControlName="projectId"
+                label="Projects"
+                labelPlacement="floating"
+                interface="popover"
+  
+                placeholder="Select Project"
+              >
+                <ng-container *ngIf="allProjects$ | async as projectList">
+                  <ion-select-option
+                    *ngFor="let p of projectList"
+                    [value]="p.projectId"
+                  >
+                    {{ p.projectName }}
+                  </ion-select-option>
+                </ng-container>
+              </ion-select>
+            </ion-item>
+            @if (validationService.isInvalid('projectId', weeklysprintUpdateForm)) {
+              <ion-text color="danger" class="error-message">
+                <p>At least one project must be selected.</p>
+              </ion-text>
+            }
+          </ion-col>
+        </ion-row>
 
                 <!-- Metrics Section 1 -->
                 <ion-row>

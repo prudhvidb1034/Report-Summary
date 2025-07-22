@@ -63,7 +63,7 @@ projects: { projects: ProjectsMap } = {
     "83f2": [{ projectName: "spp canada" }]
   }
 };
-  projectName: any;
+  name: any;
 
 
   constructor(
@@ -88,8 +88,7 @@ projects: { projects: ProjectsMap } = {
           }
           this.extendedRoute=route.snapshot.paramMap.get('id');
           const nav = this.router.getCurrentNavigation();
-    console.log("nav",nav)
-    this.projectName = nav?.extras.state?.['projectName']
+          this.name = nav?.extras.state?.['name']
           return route;
         }),
         filter((route) => route.outlet === 'primary'),
@@ -148,14 +147,14 @@ projects: { projects: ProjectsMap } = {
     else if (segment.startsWith('task')){
      const id = urlSegments[urlSegments.length - 1]; // Get the last segment as ID
       breadcrumbs.push({
-        label:this.renameFunc(id) +' '+'/'+' '+'Task', // Customize the label as needed
+        label:this.name +' '+'/'+' '+'Task', // Customize the label as needed
         url: currentUrl
       });
     }
     else if(segment.startsWith('employees')){
       const id = urlSegments[urlSegments.length - 1]; // Get the last segment as ID
       breadcrumbs.push({
-        label:this.projectName +' '+'/'+' '+'Employees', // Customize the label as needed
+        label:this.name +' '+'/'+' '+'Employees', // Customize the label as needed
         url: currentUrl
       });
     }

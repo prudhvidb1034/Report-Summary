@@ -9,9 +9,10 @@
   </ion-header>
 
   <div class="container">
-  <ion-item lines="none">
-   <ion-icon name="arrow-down-circle" class="cursor" slot="end" size="large" title="Download the Report" (click)="downloadAsPptx()"></ion-icon>
-</ion-item>
+    <ion-item lines="none">
+      <ion-icon name="arrow-down-circle" class="cursor" slot="end" size="large" title="Download the Report"
+        (click)="downloadAsPptx()"></ion-icon>
+    </ion-item>
 
     <h2 class="subtitle">Project Wise Resources UI-UX-JAVA-RPA</h2>
 
@@ -71,18 +72,16 @@
       </div>
     </div>
   </div>
-
-
   <ion-header translucent>
     <ion-toolbar color="dark">
       <ion-title>Sprint 2503.0 - Sprint Health & Release</ion-title>
     </ion-toolbar>
   </ion-header>
-  <div class="container"  >
+  <div class="container">
 
     <div class="table-container">
       <h3 class="table-title">Sprint Health</h3>
-          <table class="styled-table">
+      <table class="styled-table">
         <thead>
           <tr>
             <th rowspan="2">Team</th>
@@ -100,21 +99,46 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let sprint of SprintList$ | async">
+          <ng-container *ngIf="SprintList$ | async as sprintList">
 
-            
-            <td>{{ sprint?.projectId }}</td>
-            <td [class.green]="sprint.estimationHealthStatus === 'G'">{{ sprint.estimationHealthStatus }}</td>
-            <td [class.green]="sprint.groomingHealthStatus === 'G'">{{ sprint.groomingHealthStatus }}</td>
-            <td>{{ sprint.completePoints }}</td>
-            <td>{{ sprint.inDevPoints }}</td>
-            <td>{{ sprint.inQaPoints }}</td>
-            <td>{{ sprint.blockedPoints }}</td>
-            <td>{{ sprint.riskPoints }}</td>
-          </tr>
+
+            <tr *ngFor="let sprint of sprintList.content">
+              <td>{{ sprint?.projectName }}</td>
+              <!-- Estimation Health -->
+              <td [ngStyle]="getBgStyle(sprint.estimationHealthStatus)">
+                {{ sprint.estimationHealthStatus }}
+              </td>
+
+              <!-- Grooming Health -->
+              <td [ngStyle]="getBgStyle(sprint.groomingHealthStatus)">
+                {{ sprint.groomingHealthStatus }}
+              </td>
+              <td [class.green]="sprint.groomingHealthStatus === 'G'">{{ sprint.groomingHealthStatus }}</td>
+              <td>{{ sprint.completePoints }}</td>
+              <td>{{ sprint.inDevPoints }}</td>
+              <td>{{ sprint.inQaPoints }}</td>
+              <td>{{ sprint.blockedPoints }}</td>
+              <td>{{ sprint.riskPoints }}</td>
+            </tr>
+          </ng-container>
+
+
+
         </tbody>
       </table>
+
+
+      <div *ngIf="SprintList$ | async as SprintList">
+        <ng-container *ngFor="let item of SprintList.content">
+          <p *ngIf="item.comments" class="release-info">
+            <strong>{{item.projectName}}</strong> {{ item.comments }}
+          </p>
+        </ng-container>
+      </div>
+
     </div>
+
+
 
     <div class="table-container">
       <h3 class="table-title">Release (Count)</h3>
@@ -128,19 +152,26 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let release of releaseData">
-            <td>{{ release.team }}</td>
-            <td>{{ release.major }}</td>
-            <td>{{ release.minor }}</td>
-            <td>{{ release.incident }}</td>
-          </tr>
+
+          <ng-container *ngIf="incidentList$ | async as incidentList">
+
+            <tr *ngFor="let item of incidentList.content">
+              <td>{{ item.projectName }}</td>
+              <td>{{ item.major }}</td>
+              <td>{{ item.minor }}</td>
+              <td>{{ item.incidentCreated }}</td>
+            </tr>
+          </ng-container>
         </tbody>
       </table>
 
-      <p class="release-info">
-        <strong>CoreTex:</strong> Minor fixes released on 06/26 related to Party domain, external Nginx service and
-        signature adapter.
-      </p>
+      <div *ngIf="incidentList$ | async as incidentList">
+        <ng-container *ngFor="let item of incidentList.content">
+          <p *ngIf="item.releaseInformation" class="release-info">
+            <strong>{{item.projectName}}</strong> {{ item.releaseInformation }}
+          </p>
+        </ng-container>
+      </div>
     </div>
   </div>
 
@@ -170,66 +201,25 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>Customer 360</td>
-            <td>27</td>
-            <td>21</td>
-            <td>0%</td>
-            <td>0</td>
-            <td>0</td>
-            <td>4903</td>
-            <td>N/A</td>
-          </tr>
-          <tr>
-            <td>Onboarding</td>
-            <td>8</td>
-            <td>2</td>
-            <td>0%</td>
-            <td>0</td>
-            <td>0</td>
-            <td>625</td>
-            <td>N/A</td>
-          </tr>
-          <tr>
-            <td>Innovation</td>
-            <td>8</td>
-            <td>8</td>
-            <td>0%</td>
-            <td>0</td>
-            <td>0</td>
-            <td>9688</td>
-            <td>N/A</td>
-          </tr>
-          <tr>
-            <td>RPA</td>
-            <td>14</td>
-            <td>10</td>
-            <td>0%</td>
-            <td>0</td>
-            <td>0</td>
-            <td>5117</td>
-            <td>N/A</td>
-          </tr>
-          <tr>
-            <td>CoreTex</td>
-            <td>5</td>
-            <td>5</td>
-            <td>0%</td>
-            <td>0</td>
-            <td>0</td>
-            <td>51</td>
-            <td>N/A</td>
-          </tr>
-          <tr>
-            <td>UX</td>
-            <td>94</td>
-            <td>94</td>
-            <td>0%</td>
-            <td>N/A</td>
-            <td>N/A</td>
-            <td>N/A</td>
-            <td>N/A</td>
-          </tr>
+
+          <ng-container *ngIf="SprintList$ | async as sprintList">
+
+            <!-- {{ sprintList.content | json }} -->
+
+            <tr *ngFor="let sprint of sprintList.content">
+              <td>{{sprint.projectName}}</td>
+              <td>{{sprint.assignedPoints}}</td>
+              <td>{{sprint.completePoints}}</td>
+              <td>{{sprint.riskPoints}}</td>
+              <td>0</td>
+              <td>0</td>
+              <td>0</td>
+              <td>N/A</td>
+            </tr>
+
+
+
+          </ng-container>
         </tbody>
       </table>
     </div>
@@ -404,4 +394,8 @@
   </div>
 
 
+</div>
+
+<div class="loader-overlay" *ngIf="(isLoading$ | async)">
+    <ion-spinner name="crescent"></ion-spinner>
 </div>

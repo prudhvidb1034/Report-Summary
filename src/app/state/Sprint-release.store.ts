@@ -67,4 +67,68 @@ private sharedservice = inject(SharedService);
 
 
 
+
+     readonly getReleaseByWeekId = this.effect((WeekId$: Observable<string>) =>
+        WeekId$.pipe(
+            tap(() => this.patchState({ loading: true, error: null })),
+          exhaustMap(weekId =>
+            this.sharedservice.getData<ApiResponse<any[]>>(`api/releases/week/${weekId}`).pipe(
+              tapResponse(
+                (response) => {
+                  this.patchState({ Sprintrelease: response.data, loading: false });
+                },
+                (error) => {
+                  this.patchState({ loading: false, error: 'Failed to fetch sprint by ID' });
+                  this.toast.show('error', 'Failed to load sprint!');
+                }
+              )
+            )
+          )
+        )
+      );
+
+
+
+
+        readonly updateRelease = this.effect(
+              (account$: Observable<{ id: string; data: any }>) =>
+                  account$.pipe(
+                      exhaustMap(({ id, data }) => {
+                          this.patchState({ loading: true, error: null });
+                          return this.sharedservice.patchData(`api/releases/update/${id}`, data).pipe(
+                              tap({
+                                  next: (updatedAccount: any) => {
+                                      // this._accountCreateStatus.set('update');
+                                      this.patchState({ loading: false });
+                                  },
+                                  error: () => {
+                                      // this._accountCreateStatus.set('error');
+                                      this.patchState({ loading: false, error: 'Failed to update account' });
+                                      this.toast.show('error', 'Update failed!');
+                                  }
+                              })
+                          );
+                      })
+                  )
+          );
+      
+      
+          readonly deleteRelease = this.effect((releaseId$: Observable<string>) =>
+              releaseId$.pipe(
+                  exhaustMap(id =>
+                      this.sharedservice.deleteData(`api/releases/delete/${id}`).pipe(
+                          tapResponse(
+                              () => {
+                                  // this._accountCreateStatus.set('deleted');
+                                  // this.getAccounts({ page: 0, size: 5, sortBy: 'accountName' });
+                                  this.toast.show('success', 'Account deleted successfully!');
+                              },
+                              (error) => {
+                                  this.toast.show('error', 'Failed to delete account!');
+                              }
+                          )
+                      )
+                  )
+              )
+          );
 }

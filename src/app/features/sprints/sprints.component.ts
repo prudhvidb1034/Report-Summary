@@ -34,6 +34,16 @@ export class SprintsComponent {
     this.loadSprint(this.page, this.pageSize)
   }
 
+    navigate(event:any){
+    if(event.columnName==='Weekly Report'){
+      console.log(event.item.sprintId,'create-weekly-sprint'+'/'+event.item.sprintId);
+      this.router.navigateByUrl('sprints/create-weekly-sprint'+'/'+event.item.sprintId);
+    }else{
+      this.router.navigateByUrl('sprint-report'+'/'+event.item.sprintId)
+    }
+  }
+
+
 
   columns = [
     { header: 'Sprint Number', field: 'sprintNumber' },
@@ -139,13 +149,12 @@ export class SprintsComponent {
   }
 
 
-  navigate(event:any){
-    if(event.columnName==='Weekly Report'){
-      this.router.navigateByUrl('sprints/create-weekly-sprint/' + event.item.sprintId, { state: { sprintName: event.item.sprintName} });
-    }else{
-      this.router.navigateByUrl('sprint-report')
-    }
-  }
+
+
+
+
+
+
 }
 
 

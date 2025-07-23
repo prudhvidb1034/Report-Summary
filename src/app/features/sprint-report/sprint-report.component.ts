@@ -1,17 +1,34 @@
   import { CommonModule } from '@angular/common';
-  import { Component } from '@angular/core';
+  import { Component, inject } from '@angular/core';
   import { IonicModule } from '@ionic/angular';
   import { Chart } from 'chart.js/auto';
   import PptxGenJS from 'pptxgenjs';
   import html2canvas from 'html2canvas';
+import { SprintStore } from '../../state/sprint.store';
+import { ActivatedRoute } from '@angular/router';
   @Component({
     selector: 'app-sprint-report',
     standalone: true,
     imports: [IonicModule, CommonModule],
+    providers: [SprintStore],
     templateUrl: './sprint-report.component.html',
     styleUrl: './sprint-report.component.scss'
   })
   export class SprintReportComponent {
+
+    private sprintSore = inject(SprintStore);
+
+    SprintList$ = this.sprintSore.weeklySprint$;  
+    isLoading$ = this.sprintSore.select((state: { loading: any; }) => state.loading);
+private router = inject(ActivatedRoute);
+    ngOnInit() {
+const sprintNumber = this.router.snapshot.paramMap.get('id');
+
+if (sprintNumber !== null) {
+  this.sprintSore.getReportById(sprintNumber);
+}
+
+}
     techSummary = [
       { tech: 'UX', onsite: 1, offshore: 3, ratio: '25% : 75%' },
       { tech: 'UI', onsite: 1, offshore: 7, ratio: '13% : 87%' },

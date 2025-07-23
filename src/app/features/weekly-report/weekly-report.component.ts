@@ -18,7 +18,7 @@ import { WeekRangePipe } from '../../shared/pipes/week-range.pipe';
 })
 export class WeeklyReportComponent {
   label = 'Weekly Report';
-    private routering = inject(ActivatedRoute);
+  private routering = inject(ActivatedRoute);
   private modalController = inject(ModalController);
   columns = [
     { header: 'Week Number', field: 'weekId' },
@@ -26,10 +26,11 @@ export class WeeklyReportComponent {
     { header: 'Week End Date', field: 'weekToDate' },
     { header: 'Weekly Update', field: 'View', linkEnable: true, },
   ];
-  sprintId:any;
+  sprintId: any;
 
-  private sprintStore=inject(SprintStore);
+  private sprintStore = inject(SprintStore);
   weeklysprintList$: any;
+  weeklyReportById$: any;
   isLoading$ = this.sprintStore.select(state => state.loading);
   private router = inject(Router);
 private datePipe=inject(WeekRangePipe);
@@ -37,14 +38,13 @@ private datePipe=inject(WeekRangePipe);
   constructor(private route: ActivatedRoute) {
     this.sprintId = this.route.snapshot.paramMap.get('id');
     this.sprintStore.getSprintById(this.sprintId);
-    
   }
 
-  ngOnInit(){
+  ngOnInit() {
     this.loadWeeklyReport();
-
+    console.log(this.sprintId);
   }
-  
+
   handleRowAction(event: any) {
     switch (event.type) {
       case 'create':
@@ -56,7 +56,7 @@ private datePipe=inject(WeekRangePipe);
         break;
       case 'navigate':
         this.navigate(event);
-        break;  
+        break;
 
       default:
         console.log('Unknown action type:', event.type);

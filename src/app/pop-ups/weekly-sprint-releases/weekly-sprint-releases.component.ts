@@ -31,13 +31,14 @@ export class WeeklySprintReleasesComponent {
   ngOnInit() {
 
     console.log('Week ID:', this.editData);
-    this.commonStore.getAllProjects();
+    // this.commonStore.getAllProjects();
     this.createIncientForm();
   }
   createIncientForm() {
     this.weeklyIncidentForm = this.fb.group({
       weekId: [parseInt(this.editData)],
       projectId: [null, Validators.required],
+       sprintId:1,
       major: [null],
       minor: [null],
       incidentCreated: [null],
@@ -53,9 +54,10 @@ export class WeeklySprintReleasesComponent {
     if (this.weeklyIncidentForm.valid) {
 
       const formdata = this.weeklyIncidentForm.value;
+      console.log('Form Data:', formdata);
       this.sprintReleaseStore.createIncident(formdata);
-      this.setOpen(false);
-      this.weeklyIncidentForm.reset();
+          
+            //  this.setOpen(false);
     }
   }
 

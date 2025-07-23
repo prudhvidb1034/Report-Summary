@@ -34,7 +34,7 @@
               >
                 <ng-container *ngIf="allProjects$ | async as projectList">
                   <ion-select-option
-                    *ngFor="let p of projectList"
+                  *ngFor="let p of projectList"
                     [value]="p.projectId"
                   >
                     {{ p.projectName }}

@@ -11,8 +11,6 @@
 
     <app-reusable-table [columns]="columns"[weekLabel]='name' [data]="sprintstore$" [label]="label"
         (rowAction)="handleRowAction($event)"></app-reusable-table>
-{{sprintstore$ | async | json}}
-    
 </div>
 
 <div class="modal-wrapper" *ngIf="selectedTab === 'link'">

@@ -76,7 +76,7 @@ ngOnInit() {
         groomingHealth: [''],
         difficultCount1: [null],
         difficultCount2: [null],
-       // injection: [null],
+        injection: [null],
         riskPoints: [null],
         riskStoryCounts: [null],
         comments: [null],

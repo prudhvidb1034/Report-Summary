@@ -34,7 +34,6 @@ export class WeeklySprintUpdateComponent {
   private sprintStore = inject(SprintStore);
   sprintstore$ = this.sprintStore.weeklySprint$;
   private sprintReleaseStore = inject(SprintReleaseStore);
-
   sprintlistStore$ = this.sprintReleaseStore.select(state => state.Sprintrelease);
   weeklyReportById$: any;
   allProjects$ = this.commonStore.allProjects$;
@@ -79,6 +78,7 @@ export class WeeklySprintUpdateComponent {
     // console.log('Week ID:', this.weekId);
     this.sprintStore.getWeeklyReportById(this.weekId);
    this.sprintReleaseStore.getReleaseByWeekId(this.weekId);
+   this.getWeeklyReportById() 
   }
 
   columnsWeekly = [
@@ -132,7 +132,6 @@ export class WeeklySprintUpdateComponent {
     case 'create':
       this.loadCreateModalByTab();
       break;
-
     default:
       console.log('Unknown action type:', event.type);
   }
@@ -162,6 +161,38 @@ loadCreateModalByTab() {
     modal.present(); 
   });
 }
+
+  getWeeklyReportById() {
+    this.weeklyReportById$ = this.sprintStore.weeklySprint$.pipe(
+      map((resp: any) => {
+        const weeks = resp;
+        console.log(resp)
+        return {
+          content: weeks
+        };
+      })
+    );
+  }
+
+  updateWeeklySprintById(item:any){
+    console.log(item);
+     this.modalController.create({
+            component: WeeklySprintCreationComponent,
+            cssClass: 'weekly-sprint-creation-modal',
+            componentProps: {
+              editData: item
+            }
+          }).then((modal) => {
+            modal.present();
+            modal.onDidDismiss().then((val) => {
+              if(val.data){
+              }
+              console.log("Model",val.data)
+              console.log('Modal dismissed with data:', val.data);
+            });
+          });
+          this.getWeeklyReportById()
+  }
 
 
 }

@@ -151,7 +151,7 @@ private sharedservice = inject(SharedService);
         )
     );
 
-  readonly updateWeeklyUpdateSprint = this.effect((sprintUpdate$: Observable<any>) =>
+  readonly createWeeklyUpdateSprint = this.effect((sprintUpdate$: Observable<any>) =>
         sprintUpdate$.pipe(
           exhaustMap(updateBody => {
             this.patchState({ loading: true, error: null });
@@ -193,7 +193,46 @@ private sharedservice = inject(SharedService);
   );
 
 
+  readonly updateWeeklySprintById = this.effect(
+          (account$: Observable<{ id: string; data: any }>) =>
+              account$.pipe(
+                  exhaustMap(({ id, data }) => {
+                      this.patchState({ loading: true, error: null });
+                      return this.sharedservice.patchData(`weekly-sprint-update/${id}`, data).pipe(
+                          tap({
+                              next: (updatedAccount: any) => {
+                                  this._sprintCreateStatus.set('update');
+                                  this.patchState({ loading: false });
+                              },
+                              error: () => {
+                                  this._sprintCreateStatus.set('error');
+                                  this.patchState({ loading: false, error: 'Failed to update account' });
+                                  this.toast.show('error', 'Update failed!');
+                              }
+                          })
+                      );
+                  })
+              )
+      );
 
+         readonly deleteWeeklySprintById = this.effect((accountId$: Observable<string>) =>
+        accountId$.pipe(
+            exhaustMap(id =>
+                this.sharedservice.deleteData(`weekly-sprint-update/${id}`).pipe(
+                    tapResponse(
+                        () => {
+                            this._sprintCreateStatus.set('deleted');
+                            this.getSprintDetails({ page: 0, size: 5});
+                            this.toast.show('success', 'Sprint deleted successfully!');
+                        },
+                        (error) => {
+                            this.toast.show('error', 'Failed to delete sprint!');
+                        }
+                    )
+                )
+            )
+        )
+    );
 
 
 

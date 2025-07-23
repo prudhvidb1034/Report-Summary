@@ -29,23 +29,33 @@ private modalCtrl = inject(ModalController)
   private sprintStore=inject(SprintStore);
 public validationService = inject(ValidationsService);
    private toast = inject(ToastService);
+  isEditMode: boolean=false;
 
 ngOnInit() {
    this.weekId = this.editData
       this.createSprintForm();  
+          if (this.editData) {
+      this.weeklysprintUpdateForm.patchValue(this.editData);
+      this.isEditMode = true;
+    }
+
 }
 
   readonly accountStatusEffect = effect(() => {
     const status = this.sprintStore.sprintCreateStatus();
 
     if (status === 'success') {
-   //  this.sprintStore.getSprintDetails({ page: 0, size: 5 });
+    // this.sprintStore.getWeeklyReportById(this.weekId.weeekRangeId);
       this.setOpen(false);
       this.toast.show('success', 'Weekly Sprint Updated Successfully!');
 
     } else if (status === 'update') {
       this.setOpen(false);
+      console.log(this.weekId)
+      this.sprintStore.getWeeklyReportById(this.weekId.weeekRangeId);
+
       this.toast.show('success', 'Weekly Sprint Updated successfully!');
+      
 
     } else if (status === 'deleted') {
       this.toast.show('success', 'Account deleted successfully!');
@@ -93,7 +103,13 @@ ngOnInit() {
         'groomingHealthStatus',
         new FormControl(this.weeklysprintUpdateForm.get('groomingHealth')?.value)
       );
-     this.sprintStore.updateWeeklyUpdateSprint(this.weeklysprintUpdateForm.value)
+
+       if (this.isEditMode) {
+        this.sprintStore.updateWeeklySprintById({ id: this.editData.weekSprintId, data: this.weeklysprintUpdateForm.value });
+      } else {
+        this.sprintStore.createWeeklyUpdateSprint(this.weeklysprintUpdateForm.value)
+      }
+     
     }
 
       setOpen(isOpen: boolean) {

@@ -34,7 +34,6 @@ export class WeeklySprintUpdateComponent {
   private sprintStore = inject(SprintStore);
   sprintstore$ = this.sprintStore.weeklySprint$;
   private sprintReleaseStore = inject(SprintReleaseStore);
-
   sprintlistStore$ = this.sprintReleaseStore.select(state => state.Sprintrelease);
   weeklyReportById$: any;
   allProjects$ = this.commonStore.allProjects$;
@@ -130,14 +129,20 @@ export class WeeklySprintUpdateComponent {
  handleRowAction(event: any) {
   switch (event.type) {
     case 'create':
-      this.loadCreateModalByTab();
+      this.loadCreateModalByTab(this.weekId);
       break;
+     case 'edit':
+      this.loadCreateModalByTab(event);
+      break;
+     case 'delete':
+      this.deleteModal(event);
+     break; 
 
     default:
-      console.log('Unknown action type:', event.type);
+      console.log('Unknown action type:', event);
   }
 }
-loadCreateModalByTab() {
+loadCreateModalByTab(item:any) {
   let componentToLoad: any;
   let cssClass = '';
 
@@ -156,12 +161,35 @@ loadCreateModalByTab() {
     component: componentToLoad,
     cssClass: cssClass, 
     componentProps: {
-      editData: this.weekId
+      editData: item
     }
   }).then(modal => {
     modal.present(); 
   });
 }
+
+  deleteModal(item: any) {
+    this.modalController.create({
+      component: ConfirmDeleteComponent,
+      cssClass: 'custom-delete-modal',
+      componentProps: {
+        role: 'delete',
+        data: {
+          id: item.item.releaseId?item.item.releaseId:item.item.weekSprintId,
+          name: item.item.projectName,
+
+        }
+      }
+    }).then((modal) => {
+      modal.present();
+      modal.onDidDismiss().then((result) => {
+        if (result?.data?.confirmed) {
+          item.item.releaseId? this.sprintReleaseStore.deleteRelease(result.data.id):this.sprintStore.deleteWeeklySprintById(result.data.id);
+        }
+         
+      });
+    });
+  }
 
 
 }

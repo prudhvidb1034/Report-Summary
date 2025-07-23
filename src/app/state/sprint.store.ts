@@ -173,7 +173,24 @@ private sharedservice = inject(SharedService);
       );
 
 
-
+  readonly getWeeklyReportById = this.effect((sprintId$: Observable<string>) =>
+    sprintId$.pipe(
+        tap(() => this.patchState({ loading: true, error: null })),
+      exhaustMap(weekNumber =>
+        this.sharedservice.getData<ApiResponse<Sprint>>(`weekly-sprint-update/active/week/${weekNumber}`).pipe(
+          tapResponse(
+            (response) => {
+              this.patchState({ weeklySprint: [response.data], loading: false });
+            },
+            (error) => {
+              this.patchState({ loading: false, error: 'Failed to fetch sprint by ID' });
+              this.toast.show('error', 'Failed to load sprint!');
+            }
+          )
+        )
+      )
+    )
+  );
 
 
 

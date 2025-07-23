@@ -201,6 +201,17 @@ ion-modal.reusable-popUp-modal {
   --height: calc(100vh - 48vh);
 }
 
+ion-modal.weekly-sprint-creation-modal {
+--height: calc(100vh - 20vh);
+}
+
+ion-modal.weekly-sprint-releases-modal {
+--height: calc(100vh - 50vh);
+}
+
+
+
+
 // ion-header,
 // ion-footer {
 //   flex-shrink: 0;
@@ -294,7 +305,7 @@ ion-input.label-text::label {
   line-height: 20px;
 }
 ion-input.label-texts .label-text-wrapper {
-  font-size: 11px;
+  font-size: 14px;
   line-height: 20px;
 }
 

@@ -7,7 +7,7 @@ import { ValidationsService } from '../../services/validation/validations.servic
 import { ActivatedRoute, Router } from '@angular/router';
 import { SprintStore } from '../../state/sprint.store';
 import { ReusableTableComponent } from "../../shared/reusable-table/reusable-table.component";
-import { of } from 'rxjs';
+import { of, map } from 'rxjs';
 import { WeeklySprintCreationComponent } from '../../pop-ups/weekly-sprint-creation/weekly-sprint-creation.component';
 import { WeeklySprintReleasesComponent } from '../../pop-ups/weekly-sprint-releases/weekly-sprint-releases.component';
 import { ToastService } from '../../shared/toast.service';
@@ -32,8 +32,11 @@ export class WeeklySprintUpdateComponent {
   private routering = inject(ActivatedRoute);
   private router=inject(Router);
   private sprintStore = inject(SprintStore);
+  sprintstore$ = this.sprintStore.weeklySprint$;
   private sprintReleaseStore = inject(SprintReleaseStore);
+
   sprintlistStore$ = this.sprintReleaseStore.select(state => state.Sprintrelease);
+  weeklyReportById$: any;
   allProjects$ = this.commonStore.allProjects$;
   private toast = inject(ToastService);
 
@@ -43,7 +46,7 @@ export class WeeklySprintUpdateComponent {
     const status = this.sprintStore.sprintCreateStatus();
 
     if (status === 'success') {
-   //  this.sprintStore.getSprintDetails({ page: 0, size: 5 });
+      //  this.sprintStore.getSprintDetails({ page: 0, size: 5 });
       this.setOpen(false);
       this.toast.show('success', 'Weekly Sprint Updated Successfully!');
 
@@ -71,22 +74,22 @@ export class WeeklySprintUpdateComponent {
           this.name=nav?.extras.state?.['name']
   }
 }
- ngOnInit() {
+  ngOnInit() {
     this.weekId = this.routering.snapshot.paramMap.get('id');
-    console.log('Week ID:', this.weekId);
-
-    this.sprintReleaseStore.getReleaseByWeekId(this.weekId);
+    // console.log('Week ID:', this.weekId);
+    this.sprintStore.getWeeklyReportById(this.weekId);
+   this.sprintReleaseStore.getReleaseByWeekId(this.weekId);
   }
 
   columnsWeekly = [
-    { header: 'Week', field: 'week' },
-    { header: 'Assigned Points', field: 'assignedPoint' },
-    { header: 'Assigned Stores', field: 'assignedStores' },
-    { header: 'In Dev Stories', field: 'inDevStories' },
-    { header: 'QA Stories', field: 'qaStories' },
-    { header: 'Prod Stories', field: 'prodStories' },
-    { header: 'Comments', field: 'comments' },
-    { header: 'Injections', field: 'injections' },
+    { header: 'Week', field: 'weekSprintId' },
+    { header: 'Assigned Points', field: 'assignedPoints' },
+    { header: 'Assigned Stores', field: 'assignedStoriesCount' },
+    { header: 'In Dev Stories', field: 'inDevStoriesCount' },
+    { header: 'QA Stories', field: 'inQaStoriesCount' },
+    { header: 'Dev Stories', field: 'inDevStoriesCount' },
+    // { header: 'Comments', field: 'comments' },
+    // { header: 'Injections', field: 'injections' },
     { header: 'Action', field: 'action', type: ['edit', 'delete'] }
   ];
 
@@ -113,16 +116,12 @@ export class WeeklySprintUpdateComponent {
 
   }
 
- 
 
 
-
-
+  
 
   setOpen(isOpen: boolean) {
     this.weeklysprintUpdateForm.reset()
-
-
   }
 
  
@@ -133,23 +132,21 @@ export class WeeklySprintUpdateComponent {
     case 'create':
       this.loadCreateModalByTab();
       break;
- case 'edit':
-        this.updateCreateEmployeeModal(event.item);
-        break;
-         case 'delete':
-          this.deleteModal(event.item);
-        break;
+
     default:
       console.log('Unknown action type:', event.type);
   }
 }
 loadCreateModalByTab() {
   let componentToLoad: any;
+  let cssClass = '';
 
   if (this.selectedTab === 'active') {
     componentToLoad = WeeklySprintCreationComponent;
+    cssClass = 'weekly-sprint-creation-modal';
   } else if (this.selectedTab === 'link') {
     componentToLoad = WeeklySprintReleasesComponent;
+    cssClass = 'weekly-sprint-releases-modal';
   } else {
     console.warn('No modal defined for tab:', this.selectedTab);
     return;
@@ -157,55 +154,15 @@ loadCreateModalByTab() {
 
   this.modalController.create({
     component: componentToLoad,
-    cssClass: 'create-account-modal',
+    cssClass: cssClass, 
     componentProps: {
-       editData: this.weekId
+      editData: this.weekId
     }
-  }).then((modal) => {
-    modal.present();
-    modal.onDidDismiss().then((data) => {
-      console.log('Modal dismissed with data:', data);
-    });
+  }).then(modal => {
+    modal.present(); 
   });
 }
 
-  updateCreateEmployeeModal(item: any) {
-       this.modalController.create({
-         component: WeeklySprintReleasesComponent,
-         cssClass: 'create-account-modal',
-         componentProps: {
-           editData: item
-         }
-       }).then((modal) => {
-         modal.present();
-         modal.onDidDismiss().then((val) => {
-         
-           console.log("Model",val.data)
-          // this.accountStore.getAccounts();
-           console.log('Modal dismissed with data:', val.data);
-         });
-       });
-     }
- 
- 
-   deleteModal(item: any) {
-     this.modalController.create({
-       component: ConfirmDeleteComponent,
-       cssClass: 'custom-delete-modal',
-       componentProps: {
-         role: 'delete',
-         data: {
-        
- 
-         }
-       }
-     }).then((modal) => {
-       modal.present();
-       modal.onDidDismiss().then((result) => {
-         if (result?.data?.confirmed) {
-           
-         }
-       });
-     });
-   }
+
 }
+

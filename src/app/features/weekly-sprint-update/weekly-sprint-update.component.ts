@@ -7,7 +7,7 @@ import { ValidationsService } from '../../services/validation/validations.servic
 import { ActivatedRoute } from '@angular/router';
 import { SprintStore } from '../../state/sprint.store';
 import { ReusableTableComponent } from "../../shared/reusable-table/reusable-table.component";
-import { of } from 'rxjs';
+import { of, map } from 'rxjs';
 import { WeeklySprintCreationComponent } from '../../pop-ups/weekly-sprint-creation/weekly-sprint-creation.component';
 import { WeeklySprintReleasesComponent } from '../../pop-ups/weekly-sprint-releases/weekly-sprint-releases.component';
 import { ToastService } from '../../shared/toast.service';
@@ -29,6 +29,7 @@ export class WeeklySprintUpdateComponent {
   private commonStore = inject(CommonStore);
   private routering = inject(ActivatedRoute);
   private sprintStore = inject(SprintStore);
+  weeklyReportById$: any;
   allProjects$ = this.commonStore.allProjects$;
   private toast = inject(ToastService);
 
@@ -38,7 +39,7 @@ export class WeeklySprintUpdateComponent {
     const status = this.sprintStore.sprintCreateStatus();
 
     if (status === 'success') {
-   //  this.sprintStore.getSprintDetails({ page: 0, size: 5 });
+      //  this.sprintStore.getSprintDetails({ page: 0, size: 5 });
       this.setOpen(false);
       this.toast.show('success', 'Weekly Sprint Updated Successfully!');
 
@@ -59,14 +60,14 @@ export class WeeklySprintUpdateComponent {
   selectedTab = 'active';
 
   columnsWeekly = [
-    { header: 'Week', field: 'week' },
-    { header: 'Assigned Points', field: 'assignedPoint' },
-    { header: 'Assigned Stores', field: 'assignedStores' },
-    { header: 'In Dev Stories', field: 'inDevStories' },
-    { header: 'QA Stories', field: 'qaStories' },
-    { header: 'Prod Stories', field: 'prodStories' },
-    { header: 'Comments', field: 'comments' },
-    { header: 'Injections', field: 'injections' },
+    { header: 'Week', field: 'weekSprintId' },
+    { header: 'Assigned Points', field: 'assignedPoints' },
+    { header: 'Assigned Stores', field: 'assignedStoriesCount' },
+    { header: 'In Dev Stories', field: 'inDevStoriesCount' },
+    { header: 'QA Stories', field: 'inQaStoriesCount' },
+    { header: 'Dev Stories', field: 'inDevStoriesCount' },
+    // { header: 'Comments', field: 'comments' },
+    // { header: 'Injections', field: 'injections' },
     { header: 'Action', field: 'action', type: ['edit', 'delete'] }
   ];
 
@@ -95,19 +96,14 @@ export class WeeklySprintUpdateComponent {
 
   ngOnInit() {
     this.weekId = this.routering.snapshot.paramMap.get('id');
-    console.log('Week ID:', this.weekId);
-
+    // console.log('Week ID:', this.weekId);
+    this.sprintStore.getWeeklyReportById(this.weekId);
+    this.getWeeklyReportById()
   }
-
-
-
-
 
 
   setOpen(isOpen: boolean) {
     this.weeklysprintUpdateForm.reset()
-
-
   }
 
   sprintweekList = {
@@ -155,57 +151,57 @@ export class WeeklySprintUpdateComponent {
   sprintweekList$ = of(this.sprintweekList);
 
 
- handleRowAction(event: any) {
-  switch (event.type) {
-    case 'create':
-      this.loadCreateModalByTab();
-      break;
+  handleRowAction(event: any) {
+    switch (event.type) {
+      case 'create':
+        this.loadCreateModalByTab();
+        break;
 
-    default:
-      console.log('Unknown action type:', event.type);
-  }
-}
-loadCreateModalByTab() {
-  let componentToLoad: any;
-
-  if (this.selectedTab === 'active') {
-    componentToLoad = WeeklySprintCreationComponent;
-  } else if (this.selectedTab === 'link') {
-    componentToLoad = WeeklySprintReleasesComponent;
-  } else {
-    console.warn('No modal defined for tab:', this.selectedTab);
-    return;
-  }
-
-  this.modalController.create({
-    component: componentToLoad,
-    cssClass: 'create-account-modal',
-    componentProps: {
-       editData: this.weekId
+      default:
+        console.log('Unknown action type:', event.type);
     }
-  }).then((modal) => {
-    modal.present();
-    modal.onDidDismiss().then((data) => {
-      console.log('Modal dismissed with data:', data);
+  }
+
+  loadCreateModalByTab() {
+    let componentToLoad: any;
+    let cssClass = '';
+
+    if (this.selectedTab === 'active') {
+      componentToLoad = WeeklySprintCreationComponent;
+      cssClass = 'weekly-sprint-creation-modal';
+    } else if (this.selectedTab === 'link') {
+      componentToLoad = WeeklySprintReleasesComponent;
+      cssClass = 'weekly-sprint-releases-modal';
+    } else {
+      console.warn('No modal defined for tab:', this.selectedTab);
+      return;
+    }
+
+    this.modalController.create({
+      component: componentToLoad,
+      cssClass: cssClass,
+      componentProps: {
+        editData: this.weekId
+      }
+    }).then((modal) => {
+      modal.present();
+      modal.onDidDismiss().then((data) => {
+        console.log('Modal dismissed with data:', data);
+      });
     });
-  });
-}
-
-  // onSubmit() {
-  //   if (this.weeklysprintUpdateForm.valid) {
-  //     this.sprintStore.updateWeeklyUpdateSprint(this.weeklysprintUpdateForm.value);
-  //   }
-  //   console.log("Form Submitted", this.weeklysprintUpdateForm.value);
-  // }
+  }
 
 
-  // createIncient() {
-  //   if (this.weeklyIncidentForm.valid) {
-  //     this.sprintStore.createIncident(this.weeklyIncidentForm.value);
-  //     this.setOpen(false);
-  //     this.weeklyIncidentForm.reset();
-  //   }
 
-
-  // }
+  getWeeklyReportById() {
+    this.weeklyReportById$ = this.sprintStore.weeklySprint$.pipe(
+      map((resp: any) => {
+        const weeks = resp[0];
+        console.log(resp[0])
+        return {
+          content: weeks
+        };
+      })
+    );
+  }
 }

@@ -10,14 +10,14 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-weekly-report',
   standalone: true,
-  imports: [ReusableTableComponent,IonicModule,CommonModule],
-  providers:[SprintStore],
+  imports: [ReusableTableComponent, IonicModule, CommonModule],
+  providers: [SprintStore],
   templateUrl: './weekly-report.component.html',
   styleUrl: './weekly-report.component.scss'
 })
 export class WeeklyReportComponent {
   label = 'Weekly Report';
-    private routering = inject(ActivatedRoute);
+  private routering = inject(ActivatedRoute);
   private modalController = inject(ModalController);
   columns = [
     { header: 'Week Number', field: 'weekId' },
@@ -25,25 +25,25 @@ export class WeeklyReportComponent {
     { header: 'Week End Date', field: 'weekToDate' },
     { header: 'Weekly Update', field: 'View', linkEnable: true, },
   ];
-  sprintId:any;
+  sprintId: any;
 
-  private sprintStore=inject(SprintStore);
+  private sprintStore = inject(SprintStore);
   weeklysprintList$: any;
+  weeklyReportById$: any;
   isLoading$ = this.sprintStore.select(state => state.loading);
   private router = inject(Router);
 
-  
+
   constructor(private route: ActivatedRoute) {
     this.sprintId = this.route.snapshot.paramMap.get('id');
     this.sprintStore.getSprintById(this.sprintId);
-    
   }
 
-  ngOnInit(){
+  ngOnInit() {
     this.loadWeeklyReport();
-
+    console.log(this.sprintId);
   }
-  
+
   handleRowAction(event: any) {
     switch (event.type) {
       case 'create':
@@ -55,7 +55,7 @@ export class WeeklyReportComponent {
         break;
       case 'navigate':
         this.navigate(event);
-        break;  
+        break;
 
       default:
         console.log('Unknown action type:', event.type);
@@ -90,8 +90,8 @@ export class WeeklyReportComponent {
 
   navigate(event: any) {
     if (event.columnName === 'Weekly Update') {
-      console.log(event, 'create-weekly-report-sprint' + '/' + event.item.sprintId);
-      this.router.navigateByUrl('/create-weekly-report-sprint'+'/'+event.item.weekId);
+      // console.log(event, 'create-weekly-report-sprint' + '/' + event.item.sprintId);
+      this.router.navigateByUrl('/create-weekly-report-sprint' + '/' + event.item.weekId);
     }
   }
 

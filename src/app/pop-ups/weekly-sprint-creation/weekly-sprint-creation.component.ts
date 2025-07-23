@@ -34,8 +34,8 @@ public validationService = inject(ValidationsService);
 ngOnInit() {
    this.weekId = this.editData
       this.createSprintForm();  
-          if (this.editData) {
-      this.weeklysprintUpdateForm.patchValue(this.editData);
+          if (this.editData?.item?.weeekRangeId) {
+      this.weeklysprintUpdateForm.patchValue(this.editData.item);
       this.isEditMode = true;
     }
 
@@ -52,7 +52,6 @@ ngOnInit() {
     } else if (status === 'update') {
       this.setOpen(false);
       console.log(this.weekId)
-      this.sprintStore.getWeeklyReportById(this.weekId.weeekRangeId);
 
       this.toast.show('success', 'Weekly Sprint Updated successfully!');
       
@@ -105,7 +104,7 @@ ngOnInit() {
       );
 
        if (this.isEditMode) {
-        this.sprintStore.updateWeeklySprintById({ id: this.editData.weekSprintId, data: this.weeklysprintUpdateForm.value });
+        this.sprintStore.updateWeeklySprintById({ id: this.editData.item.weekSprintId, data: this.weeklysprintUpdateForm.value });
       } else {
         this.sprintStore.createWeeklyUpdateSprint(this.weeklysprintUpdateForm.value)
       }

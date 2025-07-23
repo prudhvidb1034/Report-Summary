@@ -78,7 +78,6 @@ export class WeeklySprintUpdateComponent {
     // console.log('Week ID:', this.weekId);
     this.sprintStore.getWeeklyReportById(this.weekId);
    this.sprintReleaseStore.getReleaseByWeekId(this.weekId);
-   this.getWeeklyReportById() 
   }
 
   columnsWeekly = [
@@ -130,13 +129,20 @@ export class WeeklySprintUpdateComponent {
  handleRowAction(event: any) {
   switch (event.type) {
     case 'create':
-      this.loadCreateModalByTab();
+      this.loadCreateModalByTab(this.weekId);
       break;
+     case 'edit':
+      this.loadCreateModalByTab(event);
+      break;
+     case 'delete':
+      this.deleteModal(event);
+     break; 
+
     default:
-      console.log('Unknown action type:', event.type);
+      console.log('Unknown action type:', event);
   }
 }
-loadCreateModalByTab() {
+loadCreateModalByTab(item:any) {
   let componentToLoad: any;
   let cssClass = '';
 
@@ -155,43 +161,34 @@ loadCreateModalByTab() {
     component: componentToLoad,
     cssClass: cssClass, 
     componentProps: {
-      editData: this.weekId
+      editData: item
     }
   }).then(modal => {
     modal.present(); 
   });
 }
 
-  getWeeklyReportById() {
-    this.weeklyReportById$ = this.sprintStore.weeklySprint$.pipe(
-      map((resp: any) => {
-        const weeks = resp;
-        console.log(resp)
-        return {
-          content: weeks
-        };
-      })
-    );
-  }
+  deleteModal(item: any) {
+    this.modalController.create({
+      component: ConfirmDeleteComponent,
+      cssClass: 'custom-delete-modal',
+      componentProps: {
+        role: 'delete',
+        data: {
+          id: item.item.releaseId?item.item.releaseId:item.item.weekSprintId,
+          name: item.item.projectName,
 
-  updateWeeklySprintById(item:any){
-    console.log(item);
-     this.modalController.create({
-            component: WeeklySprintCreationComponent,
-            cssClass: 'weekly-sprint-creation-modal',
-            componentProps: {
-              editData: item
-            }
-          }).then((modal) => {
-            modal.present();
-            modal.onDidDismiss().then((val) => {
-              if(val.data){
-              }
-              console.log("Model",val.data)
-              console.log('Modal dismissed with data:', val.data);
-            });
-          });
-          this.getWeeklyReportById()
+        }
+      }
+    }).then((modal) => {
+      modal.present();
+      modal.onDidDismiss().then((result) => {
+        if (result?.data?.confirmed) {
+          item.item.releaseId? this.sprintReleaseStore.deleteRelease(result.data.id):this.sprintStore.deleteWeeklySprintById(result.data.id);
+        }
+         
+      });
+    });
   }
 
 

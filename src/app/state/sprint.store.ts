@@ -177,7 +177,7 @@ private sharedservice = inject(SharedService);
     sprintId$.pipe(
         tap(() => this.patchState({ loading: true, error: null })),
       exhaustMap(weekNumber =>
-        this.sharedservice.getData<ApiResponse<any[]>>(`weekly-sprint-update/active/week/${weekNumber}`).pipe(
+        this.sharedservice.getData<ApiResponse<any[]>>(`weekly-sprint-update/by-week-id?weekId=${weekNumber}`).pipe(
           tapResponse(
             (response) => {
               this.patchState({ weeklySprint: response.data, loading: false });

@@ -82,7 +82,7 @@
 
     <div class="table-container">
       <h3 class="table-title">Sprint Health</h3>
-      <table class="styled-table">
+          <table class="styled-table">
         <thead>
           <tr>
             <th rowspan="2">Team</th>
@@ -102,7 +102,7 @@
         <tbody>
           <tr *ngFor="let sprint of SprintList$ | async">
 
-            <!-- {{SprintList$ | async | json}} -->
+            
             <td>{{ sprint?.projectId }}</td>
             <td [class.green]="sprint.estimationHealthStatus === 'G'">{{ sprint.estimationHealthStatus }}</td>
             <td [class.green]="sprint.groomingHealthStatus === 'G'">{{ sprint.groomingHealthStatus }}</td>

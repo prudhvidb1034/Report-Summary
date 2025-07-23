@@ -39,7 +39,7 @@ export class SprintsComponent {
       console.log(event.item.sprintId,'create-weekly-sprint'+'/'+event.item.sprintId);
       this.router.navigateByUrl('sprints/create-weekly-sprint'+'/'+event.item.sprintId);
     }else{
-      this.router.navigateByUrl('sprint-report'+'/'+event.item.sprintNumber)
+      this.router.navigateByUrl('sprint-report'+'/'+event.item.sprintId)
     }
   }
 

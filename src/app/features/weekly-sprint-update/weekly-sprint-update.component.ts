@@ -11,12 +11,14 @@ import { of } from 'rxjs';
 import { WeeklySprintCreationComponent } from '../../pop-ups/weekly-sprint-creation/weekly-sprint-creation.component';
 import { WeeklySprintReleasesComponent } from '../../pop-ups/weekly-sprint-releases/weekly-sprint-releases.component';
 import { ToastService } from '../../shared/toast.service';
+import { SprintReleaseStore } from '../../state/Sprint-release.store';
+import { ConfirmDeleteComponent } from '../../pop-ups/confirm-delete/confirm-delete.component';
 
 @Component({
   selector: 'app-weekly-sprint-update',
   standalone: true,
   imports: [IonicModule, ReactiveFormsModule, CommonModule, ReusableTableComponent],
-  providers: [SprintStore],
+  providers: [SprintStore,SprintReleaseStore],
   templateUrl: './weekly-sprint-update.component.html',
   styleUrl: './weekly-sprint-update.component.scss'
 })
@@ -30,6 +32,8 @@ export class WeeklySprintUpdateComponent {
   private routering = inject(ActivatedRoute);
   private router=inject(Router);
   private sprintStore = inject(SprintStore);
+  private sprintReleaseStore = inject(SprintReleaseStore);
+  sprintlistStore$ = this.sprintReleaseStore.select(state => state.Sprintrelease);
   allProjects$ = this.commonStore.allProjects$;
   private toast = inject(ToastService);
 
@@ -67,6 +71,13 @@ export class WeeklySprintUpdateComponent {
           this.name=nav?.extras.state?.['name']
   }
 }
+ ngOnInit() {
+    this.weekId = this.routering.snapshot.paramMap.get('id');
+    console.log('Week ID:', this.weekId);
+
+    this.sprintReleaseStore.getReleaseByWeekId(this.weekId);
+  }
+
   columnsWeekly = [
     { header: 'Week', field: 'week' },
     { header: 'Assigned Points', field: 'assignedPoint' },
@@ -80,7 +91,7 @@ export class WeeklySprintUpdateComponent {
   ];
 
   columnsReleases = [
-    { header: 'Project', field: 'projectId' },
+    { header: 'Project', field: 'projectName' },
     { header: 'Major Version', field: 'major' },
     { header: 'Minor Version', field: 'minor' },
     { header: 'Incident Created', field: 'incidentCreated' },
@@ -102,12 +113,7 @@ export class WeeklySprintUpdateComponent {
 
   }
 
-  ngOnInit() {
-    this.weekId = this.routering.snapshot.paramMap.get('id');
-    console.log('Week ID:', this.weekId);
-
-  }
-
+ 
 
 
 
@@ -119,49 +125,7 @@ export class WeeklySprintUpdateComponent {
 
   }
 
-  sprintweekList = {
-    content: [
-      {
-        week: 'Sprint 1',
-        assignedPoint: 35,
-        assignedStores: 10,
-        inDevStories: 6,
-        qaStories: 5,
-        prodStories: 4,
-        comments: 'Initial sprint went smooth',
-        injections: 1,
-        status: 'Active'
-      },
-      {
-        week: 'Sprint 2',
-        assignedPoint: 42,
-        assignedStores: 12,
-        inDevStories: 9,
-        qaStories: 7,
-        prodStories: 6,
-        comments: 'Minor delays in QA',
-        injections: 2,
-        status: 'Active'
-      },
-      {
-        week: 'Sprint 3',
-        assignedPoint: 30,
-        assignedStores: 9,
-        inDevStories: 7,
-        qaStories: 4,
-        prodStories: 3,
-        comments: 'Less bandwidth due to leaves',
-        injections: 0,
-        status: 'InActive'
-      }
-    ],
-    pageNumber: 0,
-    pageSize: 10,
-    totalElements: 3
-  };
-
-
-  sprintweekList$ = of(this.sprintweekList);
+ 
 
 
  handleRowAction(event: any) {
@@ -169,7 +133,12 @@ export class WeeklySprintUpdateComponent {
     case 'create':
       this.loadCreateModalByTab();
       break;
-
+ case 'edit':
+        this.updateCreateEmployeeModal(event.item);
+        break;
+         case 'delete':
+          this.deleteModal(event.item);
+        break;
     default:
       console.log('Unknown action type:', event.type);
   }
@@ -200,21 +169,43 @@ loadCreateModalByTab() {
   });
 }
 
-  // onSubmit() {
-  //   if (this.weeklysprintUpdateForm.valid) {
-  //     this.sprintStore.updateWeeklyUpdateSprint(this.weeklysprintUpdateForm.value);
-  //   }
-  //   console.log("Form Submitted", this.weeklysprintUpdateForm.value);
-  // }
-
-
-  // createIncient() {
-  //   if (this.weeklyIncidentForm.valid) {
-  //     this.sprintStore.createIncident(this.weeklyIncidentForm.value);
-  //     this.setOpen(false);
-  //     this.weeklyIncidentForm.reset();
-  //   }
-
-
-  // }
+  updateCreateEmployeeModal(item: any) {
+       this.modalController.create({
+         component: WeeklySprintReleasesComponent,
+         cssClass: 'create-account-modal',
+         componentProps: {
+           editData: item
+         }
+       }).then((modal) => {
+         modal.present();
+         modal.onDidDismiss().then((val) => {
+         
+           console.log("Model",val.data)
+          // this.accountStore.getAccounts();
+           console.log('Modal dismissed with data:', val.data);
+         });
+       });
+     }
+ 
+ 
+   deleteModal(item: any) {
+     this.modalController.create({
+       component: ConfirmDeleteComponent,
+       cssClass: 'custom-delete-modal',
+       componentProps: {
+         role: 'delete',
+         data: {
+        
+ 
+         }
+       }
+     }).then((modal) => {
+       modal.present();
+       modal.onDidDismiss().then((result) => {
+         if (result?.data?.confirmed) {
+           
+         }
+       });
+     });
+   }
 }

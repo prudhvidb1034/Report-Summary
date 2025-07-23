@@ -54,9 +54,10 @@ export class WeeklySprintReleasesComponent {
     if (this.weeklyIncidentForm.valid) {
 
       const formdata = this.weeklyIncidentForm.value;
+      console.log('Form Data:', formdata);
       this.sprintReleaseStore.createIncident(formdata);
-      this.setOpen(false);
-      this.weeklyIncidentForm.reset();
+          
+            //  this.setOpen(false);
     }
   }
 

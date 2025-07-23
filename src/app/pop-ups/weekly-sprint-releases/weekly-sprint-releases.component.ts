@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, Input } from '@angular/core';
+import { Component, effect, inject, Input } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { IonicModule, ModalController } from '@ionic/angular';
 import { CommonStore } from '../../state/common.store';
 import { ValidationsService } from '../../services/validation/validations.service';
 import { SprintReleaseStore } from '../../state/Sprint-release.store';
+import { ToastService } from '../../shared/toast.service';
 
 @Component({
   selector: 'app-weekly-sprint-releases',
@@ -24,16 +25,43 @@ export class WeeklySprintReleasesComponent {
   private commonStore = inject(CommonStore);
   private modalCtrl = inject(ModalController);
   allProjects$ = this.commonStore.allProjects$;
+  private toast=inject(ToastService);
   public validationService = inject(ValidationsService);
 
   private route = inject(ActivatedRoute);
+  isEditMode=false;
+
+    readonly accountStatusEffect = effect(() => {
+      const status = this.sprintReleaseStore.sprintCreateStatus();
+  
+      if (status === 'success') {
+        // this.accountStore.getAccounts();
+        this.setOpen(true);
+        this.toast.show('success', 'Sprint created successfully!');
+  
+      } else if (status === 'update') {
+        this.setOpen(true);
+        this.toast.show('success', 'Sprint updated successfully!');
+  
+      } else if (status === 'deleted') {
+        this.toast.show('success', 'Sprint deleted successfully!');
+  
+      } else if (status === 'error') {
+        this.toast.show('error', 'Something went wrong!');
+      }
+    });
 
   ngOnInit() {
+    this.createIncientForm();
 
     console.log('Week ID:', this.editData);
+    if(this.editData!=null){
+      this.weeklyIncidentForm.patchValue(this.editData.item);
+        this.isEditMode = true;
+    }
     // this.commonStore.getAllProjects();
-    this.createIncientForm();
   }
+  
   createIncientForm() {
     this.weeklyIncidentForm = this.fb.group({
       weekId: [parseInt(this.editData)],
@@ -52,10 +80,15 @@ export class WeeklySprintReleasesComponent {
 
   createIncient() {
     if (this.weeklyIncidentForm.valid) {
-
       const formdata = this.weeklyIncidentForm.value;
-      console.log('Form Data:', formdata);
+
+      if(this.editData && this.isEditMode){
+this.sprintReleaseStore.updateRelase({id:this.editData.item.releaseId,data:formdata})
+      }else{
       this.sprintReleaseStore.createIncident(formdata);
+
+      }
+      console.log('Form Data:', formdata);
           
             //  this.setOpen(false);
     }

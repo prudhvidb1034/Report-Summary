@@ -34,7 +34,6 @@ export class WeeklySprintUpdateComponent {
   private sprintStore = inject(SprintStore);
   sprintstore$ = this.sprintStore.weeklySprint$;
   private sprintReleaseStore = inject(SprintReleaseStore);
-
   sprintlistStore$ = this.sprintReleaseStore.select(state => state.Sprintrelease);
   weeklyReportById$: any;
   allProjects$ = this.commonStore.allProjects$;
@@ -130,7 +129,7 @@ export class WeeklySprintUpdateComponent {
  handleRowAction(event: any) {
   switch (event.type) {
     case 'create':
-      this.loadCreateModalByTab(null);
+      this.loadCreateModalByTab(this.weekId);
       break;
      case 'edit':
       this.loadCreateModalByTab(event);
@@ -176,7 +175,7 @@ loadCreateModalByTab(item:any) {
       componentProps: {
         role: 'delete',
         data: {
-          id: item.item.releaseId,
+          id: item.item.releaseId?item.item.releaseId:item.item.weekSprintId,
           name: item.item.projectName,
 
         }
@@ -185,8 +184,9 @@ loadCreateModalByTab(item:any) {
       modal.present();
       modal.onDidDismiss().then((result) => {
         if (result?.data?.confirmed) {
-          this.sprintReleaseStore.deleteRelease(result.data.id);
+          item.item.releaseId? this.sprintReleaseStore.deleteRelease(result.data.id):this.sprintStore.deleteWeeklySprintById(result.data.id);
         }
+         
       });
     });
   }

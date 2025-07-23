@@ -51,6 +51,7 @@ export class SprintsComponent {
     { header: 'To Date', field: 'toDate' },
     { header: 'Weekly Report', field: 'View', linkEnable: true, link: '/create-weekly-sprint' },
     { header: 'Viewall Report', field: 'View', linkEnable: true, link: '/sprint-report' },
+    { header: 'Status', field: 'status' },
     { header: 'Action', field: 'action', type: ['edit', 'delete'] }
   ];
 

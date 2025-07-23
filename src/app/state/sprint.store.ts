@@ -21,14 +21,6 @@ export interface CreateSprint {
     error: string | null;
 }
 
-// export interface Sprintweek{
-//   createweekSprint:any;
-
-//    loading: boolean;
-//     error: string | null;
-// }
-
-
 export interface ApiResponse<T> {
     data: T;
 }

@@ -25,48 +25,50 @@ export class WeeklySprintReleasesComponent {
   private commonStore = inject(CommonStore);
   private modalCtrl = inject(ModalController);
   allProjects$ = this.commonStore.allProjects$;
-  private toast=inject(ToastService);
+  private toast = inject(ToastService);
   public validationService = inject(ValidationsService);
 
   private route = inject(ActivatedRoute);
-  isEditMode=false;
+  isEditMode = false;
 
-    readonly accountStatusEffect = effect(() => {
-      const status = this.sprintReleaseStore.sprintCreateStatus();
-  
-      if (status === 'success') {
-        // this.accountStore.getAccounts();
-        this.setOpen(true);
-        this.toast.show('success', 'Sprint created successfully!');
-  
-      } else if (status === 'update') {
-        this.setOpen(true);
-        this.toast.show('success', 'Sprint updated successfully!');
-  
-      } else if (status === 'deleted') {
-        this.toast.show('success', 'Sprint deleted successfully!');
-  
-      } else if (status === 'error') {
-        this.toast.show('error', 'Something went wrong!');
-      }
-    });
+  readonly accountStatusEffect = effect(() => {
+    const status = this.sprintReleaseStore.sprintCreateStatus();
+
+    if (status === 'success') {
+      // this.accountStore.getAccounts();
+      this.setOpen(false);
+     
+      this.toast.show('success', 'Sprint created successfully!');
+
+    } else if (status === 'update') {
+      this.setOpen(false);
+      this.toast.show('success', 'Sprint updated successfully!');
+
+    } else if (status === 'deleted') {
+      this.toast.show('success', 'Sprint deleted successfully!');
+
+    } else if (status === 'error') {
+      this.toast.show('error', 'Something went wrong!');
+    }
+  });
 
   ngOnInit() {
     this.createIncientForm();
 
     console.log('Week ID:', this.editData);
-    if(this.editData!=null){
+    if (this.editData != null) {
       this.weeklyIncidentForm.patchValue(this.editData.item);
-        this.isEditMode = true;
+      this.isEditMode = true;
     }
     // this.commonStore.getAllProjects();
+     this.sprintReleaseStore.getReleaseByWeekId(this.editData.item.releaseId);
   }
-  
+
   createIncientForm() {
     this.weeklyIncidentForm = this.fb.group({
       weekId: [parseInt(this.editData)],
       projectId: [null, Validators.required],
-       sprintId:1,
+      sprintId: 1,
       major: [null],
       minor: [null],
       incidentCreated: [null],
@@ -82,15 +84,13 @@ export class WeeklySprintReleasesComponent {
     if (this.weeklyIncidentForm.valid) {
       const formdata = this.weeklyIncidentForm.value;
 
-      if(this.editData && this.isEditMode){
-this.sprintReleaseStore.updateRelase({id:this.editData.item.releaseId,data:formdata})
-      }else{
-      this.sprintReleaseStore.createIncident(formdata);
-
+      if (this.editData && this.editData?.item?.releaseId) {
+        this.sprintReleaseStore.updateRelase({ id: this.editData?.item?.releaseId, data: formdata })
+      } else {
+        this.sprintReleaseStore.createIncident(formdata);
+        
       }
       console.log('Form Data:', formdata);
-          
-            //  this.setOpen(false);
     }
   }
 

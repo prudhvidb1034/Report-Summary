@@ -18,7 +18,7 @@ import { ConfirmDeleteComponent } from '../../pop-ups/confirm-delete/confirm-del
   selector: 'app-weekly-sprint-update',
   standalone: true,
   imports: [IonicModule, ReactiveFormsModule, CommonModule, ReusableTableComponent],
-  providers: [SprintStore,SprintReleaseStore],
+  providers: [SprintStore, SprintReleaseStore],
   templateUrl: './weekly-sprint-update.component.html',
   styleUrl: './weekly-sprint-update.component.scss'
 })
@@ -30,7 +30,7 @@ export class WeeklySprintUpdateComponent {
   private fb = inject(FormBuilder);
   private commonStore = inject(CommonStore);
   private routering = inject(ActivatedRoute);
-  private router=inject(Router);
+  private router = inject(Router);
   private sprintStore = inject(SprintStore);
   sprintstore$ = this.sprintStore.weeklySprint$;
   private sprintReleaseStore = inject(SprintReleaseStore);
@@ -65,19 +65,19 @@ export class WeeklySprintUpdateComponent {
 
   selectedTab = 'active';
   name: any;
-  
 
-  constructor(){
-          const nav = this.router.getCurrentNavigation();
-         if(nav?.extras.state?.['name']){
-          this.name=nav?.extras.state?.['name']
+
+  constructor() {
+    const nav = this.router.getCurrentNavigation();
+    if (nav?.extras.state?.['name']) {
+      this.name = nav?.extras.state?.['name']
+    }
   }
-}
   ngOnInit() {
     this.weekId = this.routering.snapshot.paramMap.get('id');
     // console.log('Week ID:', this.weekId);
     this.sprintStore.getWeeklyReportById(this.weekId);
-   this.sprintReleaseStore.getReleaseByWeekId(this.weekId);
+    this.sprintReleaseStore.getReleaseByWeekId(this.weekId);
   }
 
   columnsWeekly = [
@@ -87,8 +87,6 @@ export class WeeklySprintUpdateComponent {
     { header: 'In Dev Stories', field: 'inDevStoriesCount' },
     { header: 'QA Stories', field: 'inQaStoriesCount' },
     { header: 'Dev Stories', field: 'inDevStoriesCount' },
-    // { header: 'Comments', field: 'comments' },
-    // { header: 'Injections', field: 'injections' },
     { header: 'Action', field: 'action', type: ['edit', 'delete'] }
   ];
 
@@ -117,56 +115,56 @@ export class WeeklySprintUpdateComponent {
 
 
 
-  
+
 
   setOpen(isOpen: boolean) {
     this.weeklysprintUpdateForm.reset()
   }
 
- 
 
 
- handleRowAction(event: any) {
-  switch (event.type) {
-    case 'create':
-      this.loadCreateModalByTab(this.weekId);
-      break;
-     case 'edit':
-      this.loadCreateModalByTab(event);
-      break;
-     case 'delete':
-      this.deleteModal(event);
-     break; 
 
-    default:
-      console.log('Unknown action type:', event);
-  }
-}
-loadCreateModalByTab(item:any) {
-  let componentToLoad: any;
-  let cssClass = '';
+  handleRowAction(event: any) {
+    switch (event.type) {
+      case 'create':
+        this.loadCreateModalByTab(this.weekId);
+        break;
+      case 'edit':
+        this.loadCreateModalByTab(event);
+        break;
+      case 'delete':
+        this.deleteModal(event);
+        break;
 
-  if (this.selectedTab === 'active') {
-    componentToLoad = WeeklySprintCreationComponent;
-    cssClass = 'weekly-sprint-creation-modal';
-  } else if (this.selectedTab === 'link') {
-    componentToLoad = WeeklySprintReleasesComponent;
-    cssClass = 'weekly-sprint-releases-modal';
-  } else {
-    console.warn('No modal defined for tab:', this.selectedTab);
-    return;
-  }
-
-  this.modalController.create({
-    component: componentToLoad,
-    cssClass: cssClass, 
-    componentProps: {
-      editData: item
+      default:
+        console.log('Unknown action type:', event);
     }
-  }).then(modal => {
-    modal.present(); 
-  });
-}
+  }
+  loadCreateModalByTab(item: any) {
+    let componentToLoad: any;
+    let cssClass = '';
+
+    if (this.selectedTab === 'active') {
+      componentToLoad = WeeklySprintCreationComponent;
+      cssClass = 'weekly-sprint-creation-modal';
+    } else if (this.selectedTab === 'link') {
+      componentToLoad = WeeklySprintReleasesComponent;
+      cssClass = 'weekly-sprint-releases-modal';
+    } else {
+      console.warn('No modal defined for tab:', this.selectedTab);
+      return;
+    }
+
+    this.modalController.create({
+      component: componentToLoad,
+      cssClass: cssClass,
+      componentProps: {
+        editData: item
+      }
+    }).then(modal => {
+      modal.present();
+    });
+  }
 
   deleteModal(item: any) {
     this.modalController.create({
@@ -175,7 +173,7 @@ loadCreateModalByTab(item:any) {
       componentProps: {
         role: 'delete',
         data: {
-          id: item.item.releaseId?item.item.releaseId:item.item.weekSprintId,
+          id: item.item.releaseId ? item.item.releaseId : item.item.weekSprintId,
           name: item.item.projectName,
 
         }
@@ -184,9 +182,9 @@ loadCreateModalByTab(item:any) {
       modal.present();
       modal.onDidDismiss().then((result) => {
         if (result?.data?.confirmed) {
-          item.item.releaseId? this.sprintReleaseStore.deleteRelease(result.data.id):this.sprintStore.deleteWeeklySprintById(result.data.id);
+          item.item.releaseId ? this.sprintReleaseStore.deleteRelease(result.data.id) : this.sprintStore.deleteWeeklySprintById(result.data.id);
         }
-         
+
       });
     });
   }

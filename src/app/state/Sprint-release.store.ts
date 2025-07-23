@@ -1,7 +1,7 @@
 import { inject, Injectable, signal } from "@angular/core";
 import { Sprint } from "../models/create-sprint.model";
 import { ComponentStore, tapResponse } from "@ngrx/component-store";
-import { exhaustMap, Observable, of, switchMap, tap } from "rxjs";
+import { debounce, debounceTime, exhaustMap, Observable, of, switchMap, tap } from "rxjs";
 import { SharedService } from "../services/shared/shared.service";
 import { urls } from "../constants/string-constants";
 import { ToastService } from "../shared/toast.service";
@@ -63,6 +63,30 @@ private sharedservice = inject(SharedService);
         })
       )
     );
+
+    
+  readonly updateRelase = this.effect(
+          (account$: Observable<{ id: string; data: any }>) =>
+              account$.pipe(
+                  exhaustMap(({ id, data }) => {
+                      this.patchState({ loading: true, error: null });
+                      return this.sharedservice.patchData(`api/releases/update/${id}`, data).pipe(
+                          tap({
+                              next: (updatedAccount: any) => {
+                                  this._sprintCreateStatus.set('update');
+                                  this.patchState({ loading: false });
+                              },
+                              error: () => {
+                                  this._sprintCreateStatus.set('error');
+                                  this.patchState({ loading: false, error: 'Failed to update account' });
+                                  this.toast.show('error', 'Update failed!');
+                              }
+                          })
+                      );
+                  })
+              )
+      );
+
 
 
 

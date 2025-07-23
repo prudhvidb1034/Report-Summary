@@ -163,31 +163,52 @@ export class WeeklySprintUpdateComponent {
       }
     }).then(modal => {
       modal.present();
-    });
-  }
-
-  deleteModal(item: any) {
-    this.modalController.create({
-      component: ConfirmDeleteComponent,
-      cssClass: 'custom-delete-modal',
-      componentProps: {
-        role: 'delete',
-        data: {
-          id: item.item.releaseId ? item.item.releaseId : item.item.weekSprintId,
-          name: item.item.projectName,
-
+      modal.onDidDismiss().then(() => {
+        if (this.selectedTab === 'link') {
+          this.sprintReleaseStore.getReleaseByWeekId(this.weekId);
+        } else {
+          this.sprintStore.getWeeklyReportById(this.weekId); 
         }
-      }
-    }).then((modal) => {
-      modal.present();
-      modal.onDidDismiss().then((result) => {
-        if (result?.data?.confirmed) {
-          item.item.releaseId ? this.sprintReleaseStore.deleteRelease(result.data.id) : this.sprintStore.deleteWeeklySprintById(result.data.id);
-        }
-
       });
     });
   }
+
+ deleteModal(item: any) {
+  this.modalController.create({
+    component: ConfirmDeleteComponent,
+    cssClass: 'custom-delete-modal',
+    componentProps: {
+      role: 'delete',
+      data: {
+        id: item.item.releaseId ? item.item.releaseId : item.item.weekSprintId,
+        name: item.item.projectName,
+      }
+    }
+  }).then((modal) => {
+    modal.present();
+
+    modal.onDidDismiss().then((result) => {
+      if (result?.data?.confirmed) {
+        const isRelease = !!item.item.releaseId;
+        const deletedId = result.data.id;
+
+        if (isRelease) {
+          this.sprintReleaseStore.deleteRelease(deletedId);
+
+                  setTimeout(() => {
+            this.sprintReleaseStore.getReleaseByWeekId(this.weekId);
+          }, 300);
+
+        } else {
+          this.sprintStore.deleteWeeklySprintById(deletedId);
+          setTimeout(() => {
+            this.sprintStore.getWeeklyReportById(this.weekId);
+          }, 300);
+        }
+      }
+    });
+  });
+}
 
 
 }

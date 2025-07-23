@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { IonicModule, IonTabs, ModalController } from '@ionic/angular';
 import { CommonStore } from '../../state/common.store';
 import { ValidationsService } from '../../services/validation/validations.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { SprintStore } from '../../state/sprint.store';
 import { ReusableTableComponent } from "../../shared/reusable-table/reusable-table.component";
 import { of, map } from 'rxjs';
@@ -21,13 +21,14 @@ import { ToastService } from '../../shared/toast.service';
   styleUrl: './weekly-sprint-update.component.scss'
 })
 export class WeeklySprintUpdateComponent {
-  label = 'Weekly Sprint Update';
+  label = 'Week Wise';
   weeklysprintUpdateForm !: FormGroup;
   weeklyIncidentForm!: FormGroup;
   private modalController = inject(ModalController);
   private fb = inject(FormBuilder);
   private commonStore = inject(CommonStore);
   private routering = inject(ActivatedRoute);
+  private router=inject(Router);
   private sprintStore = inject(SprintStore);
   weeklyReportById$: any;
   allProjects$ = this.commonStore.allProjects$;
@@ -58,7 +59,15 @@ export class WeeklySprintUpdateComponent {
   weekId: any;
 
   selectedTab = 'active';
+  name: any;
+  
 
+  constructor(){
+          const nav = this.router.getCurrentNavigation();
+         if(nav?.extras.state?.['name']){
+          this.name=nav?.extras.state?.['name']
+  }
+}
   columnsWeekly = [
     { header: 'Week', field: 'weekSprintId' },
     { header: 'Assigned Points', field: 'assignedPoints' },
@@ -85,10 +94,10 @@ export class WeeklySprintUpdateComponent {
   switchTab(tab: string): void {
     this.selectedTab = tab;
     if (tab === 'active') {
-      this.label = 'Weekly Sprint Update';
+      this.label = 'Week Wise';
       this.columns = this.columnsWeekly;
     } else {
-      this.label = 'Release Summary Report';
+      this.label = 'Release';
       this.columns = this.columnsReleases;
     }
 

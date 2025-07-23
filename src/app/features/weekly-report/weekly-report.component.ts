@@ -6,12 +6,13 @@ import { IonicModule, ModalController } from '@ionic/angular';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SprintStore } from '../../state/sprint.store';
 import { CommonModule } from '@angular/common';
+import { WeekRangePipe } from '../../shared/pipes/week-range.pipe';
 
 @Component({
   selector: 'app-weekly-report',
   standalone: true,
-  imports: [ReusableTableComponent, IonicModule, CommonModule],
-  providers: [SprintStore],
+  imports: [ReusableTableComponent,IonicModule,CommonModule],
+  providers:[SprintStore,WeekRangePipe],
   templateUrl: './weekly-report.component.html',
   styleUrl: './weekly-report.component.scss'
 })
@@ -32,8 +33,8 @@ export class WeeklyReportComponent {
   weeklyReportById$: any;
   isLoading$ = this.sprintStore.select(state => state.loading);
   private router = inject(Router);
-
-
+private datePipe=inject(WeekRangePipe);
+  
   constructor(private route: ActivatedRoute) {
     this.sprintId = this.route.snapshot.paramMap.get('id');
     this.sprintStore.getSprintById(this.sprintId);
@@ -90,8 +91,8 @@ export class WeeklyReportComponent {
 
   navigate(event: any) {
     if (event.columnName === 'Weekly Update') {
-      // console.log(event, 'create-weekly-report-sprint' + '/' + event.item.sprintId);
-      this.router.navigateByUrl('/create-weekly-report-sprint' + '/' + event.item.weekId);
+      console.log(event);
+      this.router.navigateByUrl('sprints/create-weekly-sprint/create-weekly-report-sprint'+'/'+event.item.weekId,  { state: { name: this.datePipe.transform(event.item) } });
     }
   }
 

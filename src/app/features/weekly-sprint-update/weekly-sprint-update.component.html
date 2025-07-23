@@ -9,7 +9,7 @@
 
 <div class="modal-wrapper" *ngIf="selectedTab === 'active'">
 
-    <app-reusable-table [columns]="columns" [data]="weeklyReportById$" [label]="label"
+    <app-reusable-table [columns]="columns"[weekLabel]='name' [data]="weeklyReportById$" [label]="label"
         (rowAction)="handleRowAction($event)"></app-reusable-table>
 
 </div>
@@ -17,7 +17,7 @@
 <div class="modal-wrapper" *ngIf="selectedTab === 'link'">
 
 
-    <app-reusable-table [columns]="columns" [data]="sprintweekList$" [label]="label"
+    <app-reusable-table [columns]="columns" [weekLabel]='name' [data]="sprintweekList$" [label]="label"
         (rowAction)="handleRowAction($event)"></app-reusable-table>
 
 

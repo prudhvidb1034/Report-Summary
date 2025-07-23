@@ -14,17 +14,19 @@ export interface CreateSprint {
 
     sprint: Sprint[];
     weeklySprint: any[];
-     sprintReport: any[];  
+     sprintReport: any; 
+     incidentReport:any; 
     loading: boolean;
+    createweekSprint:any;
     error: string | null;
 }
 
-export interface Sprintweek{
-  createweekSprint:any;
+// export interface Sprintweek{
+//   createweekSprint:any;
 
-   loading: boolean;
-    error: string | null;
-}
+//    loading: boolean;
+//     error: string | null;
+// }
 
 
 export interface ApiResponse<T> {
@@ -36,7 +38,7 @@ export class SprintStore extends ComponentStore<CreateSprint> {
 
 private sharedservice = inject(SharedService);
     constructor() {
-        super({ sprint: [],weeklySprint:[],sprintReport:[], loading: false, error: null });
+        super({ sprint: [],weeklySprint:[],sprintReport:[],incidentReport:[],createweekSprint:[], loading: false, error: null });
     }
     private _sprintCreateStatus = signal<null | 'success' | 'deleted' | 'update' | 'error'>(null);
 
@@ -44,6 +46,8 @@ private sharedservice = inject(SharedService);
 
     readonly sprint$ = this.select(state => state.sprint);
     readonly weeklySprint$=this.select(state=>state.weeklySprint);
+    readonly sprintReport$ = this.select(state => state.sprintReport);
+ readonly incidentReport$ = this.select(state => state.incidentReport);
     readonly loading$ = this.select(state => state.loading);
     readonly error$ = this.select(state => state.error);
     private toast = inject(ToastService);
@@ -246,8 +250,8 @@ private sharedservice = inject(SharedService);
         readonly getReportById = this.effect((sprintId$: Observable<string>) =>
     sprintId$.pipe(
         tap(() => this.patchState({ loading: true, error: null })),
-      exhaustMap(sprintNumber =>
-        this.sharedservice.getData<ApiResponse<any[]>>(`weekly-sprint-update/by-sprint-id?sprintId=${sprintNumber}`).pipe(
+      exhaustMap(sprintId =>
+        this.sharedservice.getData<ApiResponse<any[]>>(`weekly-sprint-update/by-sprint-id?sprintId=${sprintId}`).pipe(
           tapResponse(
             (response) => {
               this.patchState({ sprintReport: response.data, loading: false });
@@ -265,8 +269,27 @@ private sharedservice = inject(SharedService);
 
 
 
+  // https://employeetracking-main.onrender.com/api/releases/sprint/1
 
 
+     readonly getIndicentById = this.effect((sprintId$: Observable<string>) =>
+    sprintId$.pipe(
+        tap(() => this.patchState({ loading: true, error: null })),
+      exhaustMap(sprintId =>
+        this.sharedservice.getData<ApiResponse<any[]>>(`api/releases/sprint/${sprintId}`).pipe(
+          tapResponse(
+            (response) => {
+              this.patchState({ incidentReport: response.data, loading: false });
+            },
+            (error) => {
+              this.patchState({ loading: false, error: 'Failed to fetch sprint by ID' });
+              this.toast.show('error', 'Failed to load sprint!');
+            }
+          )
+        )
+      )
+    )
+  );
       
   
 }

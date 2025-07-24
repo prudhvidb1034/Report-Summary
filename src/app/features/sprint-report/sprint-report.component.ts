@@ -109,6 +109,7 @@ export class SprintReportComponent {
     });
   }
   async downloadAsPptx(): Promise<void> {
+    this.sprintSore.patchState({ loading: true });
     try {
       const pptx = new PptxGenJS();
       const pageSections = document.querySelectorAll('.container') as NodeListOf<HTMLElement>;
@@ -161,15 +162,17 @@ export class SprintReportComponent {
       console.log('PowerPoint generated and downloaded successfully!');
     } catch (error) {
       console.error('Error while generating PPT:', error);
+    } finally {
+      this.sprintSore.patchState({ loading: false });
     }
   }
 
 
   getBgStyle(status: string): { [key: string]: string } {
     const colorMap: { [key: string]: string } = {
-      'Green': '#28a745', // solid green
-      'Amber': '#ffc107', // solid amber (yellow/orange)
-      'Red': '#dc3545'    // solid red
+      'Green': '#28a745',
+      'Amber': '#ffc107',
+      'Red': '#dc3545'
     };
 
     return {

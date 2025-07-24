@@ -331,13 +331,17 @@ ion-textarea.label-texts textarea::placeholder {
 
 /* For textarea input directly */
 ion-textarea.label-texts textarea {
-  font-size: 11px;
+  font-size: 14px;
 }
 
 /* Optional: label font size */
 ion-textarea.label-texts .label-text-wrapper {
-  font-size: 11px;
+  font-size: 14px;
   line-height: 20px;
+}
+
+ion-select.label-texts {
+  font-size: 14px;
 }
 
 ion-modal.custom-delete-modal::part(content) {

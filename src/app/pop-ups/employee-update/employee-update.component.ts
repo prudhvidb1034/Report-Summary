@@ -142,7 +142,6 @@ export class EmployeeUpdateComponent {
   }
 
   onSubmit() {
-    debugger
     if (this.employeeUpdateForm.valid) {
       const d = {
         projectId: '',

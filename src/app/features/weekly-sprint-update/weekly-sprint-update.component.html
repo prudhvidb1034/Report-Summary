@@ -1,8 +1,11 @@
 <ion-header>
     <ion-toolbar>
         <div class="custom-nav">
-            <a [class.active]="selectedTab === 'active'" (click)="switchTab('active')" class="cursor">Weekly Report</a>
-            <a [class.active]="selectedTab === 'link'" (click)="switchTab('link')" class="cursor">Releases</a>
+            <!-- <a [class.active]="selectedTab === 'active'" (click)="switchTab('active')" class="cursor">Weekly Report</a> -->
+            <ion-chip [outline]="true" [class.active]="selectedTab === 'active'" (click)="switchTab('active')">Weekly Report</ion-chip>
+            <!-- <a [class.active]="selectedTab === 'link'" (click)="switchTab('link')" class="cursor">Releases</a> -->
+            <ion-chip [outline]="true"  [class.active]="selectedTab === 'link'" (click)="switchTab('link')">Releases</ion-chip>
+            
         </div>
     </ion-toolbar>
 </ion-header>

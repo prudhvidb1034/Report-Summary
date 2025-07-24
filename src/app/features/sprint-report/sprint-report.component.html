@@ -72,19 +72,16 @@
       </div>
     </div>
   </div>
-  <ion-header translucent>
 
-   <ng-container *ngIf="(SprintList$ | async) as sprintList">
-  <ion-toolbar color="dark" *ngIf="sprintList?.content?.length > 0">
-    <ion-title style="background-color: #0b0b4c; color: white; padding: 12px;">
-      Sprint {{ sprintList.content[0].sprintNumber }} - Sprint Health & Release
-    </ion-title>
-  </ion-toolbar>
-</ng-container>
-
-
-  </ion-header>
   <div class="container">
+    <ng-container *ngIf="(SprintList$ | async) as sprintList">
+      <ion-toolbar color="dark" *ngIf="sprintList?.content?.length > 0">
+        <ion-title class="heading">
+          Sprint {{ sprintList.content[0].sprintNumber }} - Sprint Health & Release
+        </ion-title>
+      </ion-toolbar>
+    </ng-container>
+
     <div class="table-container">
       <h3 class="table-title">Sprint Health</h3>
       <table class="styled-table">
@@ -111,12 +108,11 @@
             <tr *ngFor="let sprint of sprintList.content">
               <td>{{ sprint?.projectName }}</td>
               <td [ngStyle]="getBgStyle(sprint.estimationHealthStatus)">
-                {{ sprint.estimationHealthStatus }}
+                {{ sprint.estimationHealthStatus?.charAt(0) }}
               </td>
 
-
               <td [ngStyle]="getBgStyle(sprint.groomingHealthStatus)">
-                {{ sprint.groomingHealthStatus }}
+                {{ sprint.groomingHealthStatus?.charAt(0) }}
               </td>
               <td>{{ sprint.completePoints }}</td>
               <td>{{ sprint.inDevPoints }}</td>
@@ -182,16 +178,13 @@
 
   <div class="container">
 
-     <ng-container *ngIf="(SprintList$ | async) as sprintList">
-  <ion-toolbar color="dark" *ngIf="sprintList?.content?.length > 0">
-    <ion-title style="background-color: #0b0b4c; color: white; padding: 12px;">
-      Sprint {{ sprintList.content[0].sprintNumber }} - Weekly Progess
-    </ion-title>
-  </ion-toolbar>
-</ng-container>
-    <!-- <div class="header" style="background-color: #0b0b4c; color: white; padding: 12px;">
-      <h2>Sprint 2503.0 - Weekly Progress</h2>
-    </div> -->
+    <ng-container *ngIf="(SprintList$ | async) as sprintList">
+      <ion-toolbar color="dark" *ngIf="sprintList?.content?.length > 0">
+        <ion-title class="heading">
+          Sprint {{ sprintList.content[0].sprintNumber }} - Weekly Progess
+        </ion-title>
+      </ion-toolbar>
+    </ng-container>
 
     <div class="table-container">
       <table class="styled-table">
@@ -240,8 +233,8 @@
 
   <!-- PAGE 4 -->
   <div class="container">
-    <div class="header" style="background-color: #0b0b4c; color: white; padding: 12px;">
-      <h2>Sprint Dependencies & Blockers</h2>
+    <div class="heading">
+      Sprint Dependencies & Blockers
     </div>
 
     <div class="table-container">
@@ -290,119 +283,85 @@
   </div>
 
 
+
   <div class="container">
-    <h2 class="subtitle">Sprint Dependencies & Blockers</h2>
-    <table class="styled-table">
-      <thead>
-        <tr>
-          <th>Team</th>
-          <th>Dependency / Blocker</th>
-          <th>Description</th>
-          <th>Owner</th>
-          <th>Date</th>
-          <th>Status</th>
-          <th>Impact</th>
-          <th>Action Taken</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Onboarding</td>
-          <td>Dependency</td>
-          <td>Lack of rich backlog</td>
-          <td>Qentelli (Arpit)</td>
-          <td>04-Jun</td>
-          <td>In Progress</td>
-          <td>Team is underutilized and increase injection in middle of the sprint.</td>
-          <td>Discussion with TPM to ensure enough stories for next sprint.</td>
-        </tr>
-        <tr>
-          <td>C360</td>
-          <td>Dependency</td>
-          <td>Swagger hub limited access.</td>
-          <td>Qentelli (Arpit)</td>
-          <td>01-Jul</td>
-          <td>In Progress</td>
-          <td>Delay in ARB permits.</td>
-          <td>Connecting with TCB stakeholders for access.</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  <div class="container">
-    <h2 class="subtitle">PI3 Standing</h2>
-    <table class="styled-table">
-      <thead>
-        <tr>
-          <th>Team</th>
-          <th>Feature</th>
-          <th>Sprint 0</th>
-          <th>Sprint 1</th>
-          <th>Sprint 2</th>
-          <th>Sprint 3</th>
-          <th>Sprint 4</th>
-          <th>% of Completion</th>
-          <th>Status</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>C360</td>
-          <td>Rebate Tool</td>
-          <td>X</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td>99%</td>
-          <td>Waiting for Release</td>
-        </tr>
-        <tr>
-          <td>C360</td>
-          <td>Fee Refund</td>
-          <td>X</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td>99%</td>
-          <td>Waiting for Release</td>
-        </tr>
-        <tr>
-          <td>Onboarding</td>
-          <td>Initio 2.0 Enhancements</td>
-          <td>X</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td>99%</td>
-          <td>Waiting for Release</td>
-        </tr>
-        <tr>
-          <td>Onboarding</td>
-          <td>Consumer Digital Alloy Journey Enhancement</td>
-          <td>X</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td>99%</td>
-          <td>Waiting for Release</td>
-        </tr>
-        <tr>
-          <td>Innovation</td>
-          <td>Financial module</td>
-          <td>X</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td>99%</td>
-          <td>Pen testing yet to start</td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="heading">
+      PI3 Standing
+    </div>
+    <div class="table-container">
+      <table class="styled-table">
+        <thead>
+          <tr>
+            <th>Team</th>
+            <th>Feature</th>
+            <th>Sprint 0</th>
+            <th>Sprint 1</th>
+            <th>Sprint 2</th>
+            <th>Sprint 3</th>
+            <th>Sprint 4</th>
+            <th>% of Completion</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>C360</td>
+            <td>Rebate Tool</td>
+            <td>X</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>99%</td>
+            <td>Waiting for Release</td>
+          </tr>
+          <tr>
+            <td>C360</td>
+            <td>Fee Refund</td>
+            <td>X</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>99%</td>
+            <td>Waiting for Release</td>
+          </tr>
+          <tr>
+            <td>Onboarding</td>
+            <td>Initio 2.0 Enhancements</td>
+            <td>X</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>99%</td>
+            <td>Waiting for Release</td>
+          </tr>
+          <tr>
+            <td>Onboarding</td>
+            <td>Consumer Digital Alloy Journey Enhancement</td>
+            <td>X</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>99%</td>
+            <td>Waiting for Release</td>
+          </tr>
+          <tr>
+            <td>Innovation</td>
+            <td>Financial module</td>
+            <td>X</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>99%</td>
+            <td>Pen testing yet to start</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 
 

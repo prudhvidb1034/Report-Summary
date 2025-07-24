@@ -13,7 +13,7 @@ import { ToastService } from "../shared/toast.service";
 export interface CreateSprint {
 
     sprint: Sprint[];
-    weeklySprint: any[];
+    weeklySprint: any;
      sprintReport: any; 
      incidentReport:any; 
     loading: boolean;
@@ -180,7 +180,7 @@ private sharedservice = inject(SharedService);
             },
             (error) => {
               this.patchState({ loading: false, error: 'Failed to fetch sprint by ID' });
-              this.toast.show('error', 'Failed to load sprint!');
+              this.toast.show('error', 'Failed to fetch sprint by ID');
             }
           )
         )

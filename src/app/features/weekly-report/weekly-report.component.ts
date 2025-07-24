@@ -25,7 +25,7 @@ export class WeeklyReportComponent {
     { header: 'Week Start Date', field: 'weekFromDate' },
     { header: 'Week End Date', field: 'weekToDate' },
     { header: 'Weekly Update', field: 'View', linkEnable: true, },
-        { header: 'Status', field: 'status' },
+    { header: 'Status', field: 'status' },
 
   ];
   sprintId: any;

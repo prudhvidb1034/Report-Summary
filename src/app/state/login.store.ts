@@ -7,6 +7,7 @@ import { LoginCredentials, User } from '../models/login.model';
 import { ToastService } from '../shared/toast.service';
 import { SharedService } from '../services/shared/shared.service';
 import { urls } from '../constants/string-constants';
+import { CommonStore } from './common.store';
 // Import or define LOGIN_DETAILS
 
 
@@ -25,7 +26,8 @@ const initialState: LoginState={
 })
 export class LoginStore extends ComponentStore<LoginState> {
   private toast = inject(ToastService);
-  private sharedservice = inject(SharedService)
+  private sharedservice = inject(SharedService);
+  private commonStore=inject(CommonStore);
   constructor(private auth: LoginService, private router: Router) {
     super(initialState);
   }
@@ -39,9 +41,10 @@ login = this.effect((credentials$: Observable<LoginCredentials>) =>
         tap({
           next: (user: any) => {
             if (user) {
-              this.patchState({ user }); // Save user state
+              this.patchState({ user }); 
               localStorage.setItem('user', JSON.stringify(user.data));
               localStorage.setItem('token', user.data.acessToken); 
+              this.commonStore.getAllProjects();
               this.router.navigate(['/home']);
               this.toast.show('success', 'Login successfully!');
             } else {
@@ -50,10 +53,10 @@ login = this.effect((credentials$: Observable<LoginCredentials>) =>
           },
           error: () => {
             this.toast.show('error', 'Login failed. Please try again.');
-            this.patchState({ error: 'Login failed.' }); // Optionally add error msg
+            this.patchState({ error: 'Login failed.' }); 
           }
         }),
-        finalize(() => this.patchState({ loading: false })) // 🔁 Always stop loading
+        finalize(() => this.patchState({ loading: false })) 
       );
     })
   )

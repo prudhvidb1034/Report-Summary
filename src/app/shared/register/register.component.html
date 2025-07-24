@@ -122,7 +122,6 @@
           </ion-col>
         </ion-row>
 
-
         <ion-row>
           <ion-col size="6">
             <ion-item class="stack-dropdown custom-item" lines="none"
@@ -131,9 +130,12 @@
               <ion-label class="label-texts" position="stacked">Projects</ion-label>
               <ion-select class="label-texts" interface="popover" multiple="true" formControlName="projectIds"
                 placeholder="Select Project">
-                <ion-select-option class="label-texts" *ngFor="let p of  projectList$ |async " [value]="p.projectId">
+                <ng-container *ngIf="allProjects$ | async as projectList">
+              <ion-select-option class="label-texts" *ngFor="let p of  projectList" [value]="p.projectId">
                   {{ p.projectName }}
                 </ion-select-option>
+                </ng-container>
+           
               </ion-select>
             </ion-item>
 

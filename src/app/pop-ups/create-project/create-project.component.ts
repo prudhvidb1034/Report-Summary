@@ -5,6 +5,7 @@ import { IonicModule, ModalController } from '@ionic/angular';
 import { ToastService } from '../../shared/toast.service';
 import { AccountStore } from '../../state/account.store';
 import { ProjectStore, } from '../../state/project.store';
+import { CommonStore } from '../../state/common.store';
 
 @Component({
   selector: 'app-create-project',
@@ -23,9 +24,10 @@ export class CreateProjectComponent {
   isModalOpen = false;
   private modalCtrl = inject(ModalController);
   projectStore = inject(ProjectStore);
+  commonStore=inject(CommonStore);
   teams$ = this.projectStore.team$;
   accountStore = inject(AccountStore)
-  accounts$ = this.accountStore.account$;
+  accounts$ = this.commonStore.allAccounts$;
 
   isLoading$ = this.projectStore.select(state => state.loading);
   readonly accountStatusEffect = effect(() => {
@@ -51,7 +53,7 @@ export class CreateProjectComponent {
 
   ngOnInit() {
     this.CreateForm();
-    this.accountStore.getAccounts();
+  //  this.accountStore.getAccounts();
     if (this.editData) {
       console.log('Edit Data:', this.editData);
       this.teamForm.patchValue(this.editData);

@@ -1,20 +1,21 @@
 <ion-grid *ngIf="label">
   <ion-row style="display: flex;align-items: center; gap: 8px; margin-bottom: 8px;">
     <ion-col class="ion-text-start">
-      <span class="project-title"> {{label}} List</span>
+      <span class="project-title"> {{label}} List </span>  <span *ngIf="weekLabel">-</span>&nbsp;
+      <span *ngIf="weekLabel" class="week-label">{{weekLabel}}</span>
     </ion-col>
 
-    <ion-col class="ion-text-end" size="auto" style="display: flex; align-items: center; gap: 8px; width: 100%; flex-wrap: nowrap;">
-      <ion-searchbar class="search-bar-input" [(ngModel)]="searchTerm" (ngModelChange)="onSearchTermChange()" style="flex-grow: 4;"></ion-searchbar>
-      <ion-button *ngIf="(userRole$|async)!=='employee'"  
-        (click)="action('create', null)">
+    <ion-col class="ion-text-end" size="auto"
+      style="display: flex; align-items: center; gap: 8px; width: 100%; flex-wrap: nowrap;">
+      <ion-searchbar class="search-bar-input" [(ngModel)]="searchTerm" (ngModelChange)="onSearchTermChange()"
+        style="flex-grow: 4;"></ion-searchbar>
+      <ion-button *ngIf="(userRole$|async)!=='employee'" (click)="action('create', null)">
         Create {{label}}</ion-button>
     </ion-col>
 
     <ion-col *ngIf="label==='Summary'" class="ion-text-end" size="auto" style="display: flex; align-items: center;">
       <!-- <ion-searchbar class="search-bar-input" style="flex-grow: 4;"></ion-searchbar> -->
-      <ion-button 
-        (click)="action('createStatus', null)">
+      <ion-button (click)="action('createStatus', null)">
         Create Task</ion-button>
     </ion-col>
     <ion-col *ngIf="label === 'Employee'" class="ion-text-end" size="auto" style="display: flex; align-items: center;">
@@ -22,7 +23,7 @@
         <ion-icon name="person-add-outline" slot="start"></ion-icon>&nbsp;
         Tag Employee</ion-button>
     </ion-col>
-  </ion-row>
+     </ion-row>
 </ion-grid>
 
 
@@ -65,12 +66,15 @@
             </div>
           </div>
           <div *ngIf="column.linkEnable">
-            <a fill="clear" size="small" class="button-link" (click)="action(column.field,item)">
+            <a fill="clear" size="small" class="button-link" (click)="navigation('navigate',item,column.header)">
               {{ item[column.field]?item[column.field]:'View'}}
             </a>
           </div>
-          <div *ngIf="!column.linkEnable  && column.field !='status' ">
+          <div *ngIf="!column.linkEnable  && column.field !='status' && column.field !='weekRange'">
             {{ item[column.field] }}
+          </div>
+          <div *ngIf="column.field === 'weekRange'">
+            {{item[column.field]|weekRange}}
           </div>
         </ng-template>
       </ion-col>
@@ -90,10 +94,12 @@
       </ion-row>
 
     </ng-container>
-
+    <div *ngIf="resolvedData?.totalElements">
     <app-test-paginator [totalItems]="resolvedData?.totalElements" [itemsPerPage]="resolvedData?.pageSize"
       [currentPage]="resolvedData?.pageNumber" [pageSizeOptions]="[5, 10, 20, 50]" (pageChange)="onPageChange($event)"
       (pageSizeChange)="onPageSizeChange($event)"></app-test-paginator>
+    </div>
   </ng-container>
+
 
 </ion-grid>

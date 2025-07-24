@@ -12,9 +12,9 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-   background: white;
+  background: white;
   padding: 16px;
-  border-radius: 8px
+  border-radius: 8px;
 }
 
 .chart-section {
@@ -27,34 +27,57 @@
   padding: 10px;
 }
 
-ion-grid {
-  border: 1px solid #ccc;
-  margin-bottom: 20px;
-}
-
-ion-row.header {
-  font-weight: bold;
-  background-color: #dbe4f3;
-}
 .styled-table {
   width: 100%;
   border-collapse: collapse;
   font-family: Arial, sans-serif;
   font-size: 14px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+  th,
+  td {
+    padding: 2px 4px;
+    text-align: center;
+    border: 1px solid #000;
+  }
+
+  thead {
+    background-color: #cfe2f3;
+    color: #000;
+    font-weight: bold;
+  }
+
+  .green {
+    background-color: #28a745;
+    color: white;
+  }
 }
 
-.styled-table th,
-.styled-table td {
-  padding: 2px 4px;
-  text-align: center;
-  border: 1px solid #000;
+.pt-2 {
+  margin-top: 12px;
 }
 
-.styled-table thead {
-  background-color: #cfe2f3;
-  color: #000;
+.table-container {
+  margin-top: 20px;
+  background: #f9f9f9;
+  padding: 16px;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+
+.table-title {
   font-weight: bold;
+  margin-bottom: 10px;
 }
 
+.release-info {
+  margin-top: 10px;
+  font-size: 14px;
+}
 
+.internal-note {
+  text-align: right;
+  font-size: 12px;
+  font-style: italic;
+  margin-top: 20px;
+}

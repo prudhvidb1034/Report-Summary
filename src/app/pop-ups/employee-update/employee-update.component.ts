@@ -47,7 +47,7 @@ export class EmployeeUpdateComponent {
 
     // this.userInfo = JSON.parse(localStorage.getItem('userList') || '[]');
     console.log("userList", this.userInfo)
-    this.summary.getDetails();
+  //  this.summary.getDetails('');
     this.summary.projects$.subscribe((data: any) => {
       var d = data.find((ele: any) => ele.project_name === this.userInfo.projectName);
       this.projectInfo = d?.id;
@@ -64,7 +64,6 @@ export class EmployeeUpdateComponent {
   }
 
   employeeUpdateForm !: FormGroup;
-
 
   constructor(private fb: FormBuilder) {
     this.initializeForm();
@@ -103,7 +102,9 @@ export class EmployeeUpdateComponent {
       endDate: ['', [Validators.required]],
       task: ['', [Validators.required, Validators.minLength(3)]],
       status: ['', [Validators.required]],
-    weekRange: [this.weekOptions[0], Validators.required],  // default
+      weekRange: [this.weekOptions[0], Validators.required],  // default
+        Comments: ['', Validators.required]  // ← Add this
+
 
     });
     group.get('endDate')?.valueChanges.subscribe(() => {

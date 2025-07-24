@@ -194,12 +194,23 @@ ion-modal.create-project-modal {
 }
 
 ion-modal.create-summary-modal {
-  --height: calc(100vh - 36vh);
+  --height: calc(100vh - 60vh);
 }
 
 ion-modal.reusable-popUp-modal {
   --height: calc(100vh - 48vh);
 }
+
+ion-modal.weekly-sprint-creation-modal {
+--height: calc(100vh - 20vh);
+}
+
+ion-modal.weekly-sprint-releases-modal {
+--height: calc(100vh - 50vh);
+}
+
+
+
 
 // ion-header,
 // ion-footer {
@@ -294,7 +305,7 @@ ion-input.label-text::label {
   line-height: 20px;
 }
 ion-input.label-texts .label-text-wrapper {
-  font-size: 11px;
+  font-size: 14px;
   line-height: 20px;
 }
 
@@ -320,13 +331,17 @@ ion-textarea.label-texts textarea::placeholder {
 
 /* For textarea input directly */
 ion-textarea.label-texts textarea {
-  font-size: 11px;
+  font-size: 14px;
 }
 
 /* Optional: label font size */
 ion-textarea.label-texts .label-text-wrapper {
-  font-size: 11px;
+  font-size: 14px;
   line-height: 20px;
+}
+
+ion-select.label-texts {
+  font-size: 14px;
 }
 
 ion-modal.custom-delete-modal::part(content) {

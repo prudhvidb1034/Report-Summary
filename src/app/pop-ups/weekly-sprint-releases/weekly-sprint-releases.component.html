@@ -1,0 +1,120 @@
+<div class="modal-wrapper">
+  <ion-header>
+    <ion-toolbar color="light">
+      <ion-title>
+        <b>Create Incidents</b>
+      </ion-title>
+      <ion-buttons slot="end">
+        <ion-button fill="clear" (click)="setOpen(false)">
+          <ion-icon name="close-outline" class="icon-medium"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content>
+    <form [formGroup]="weeklyIncidentForm">
+      <ion-grid>
+        <ion-row>
+          <!-- Projects -->
+          <ion-col size="6">
+            <ion-item
+              class="custom-item"
+              lines="none"
+              [class.invalid]="validationService.isInvalid('projectId', weeklyIncidentForm)"
+              [class.valid]="validationService.isValid('projectId', weeklyIncidentForm)"
+            >
+              <ion-select
+                formControlName="projectId"
+                label="Projects"
+                labelPlacement="floating"
+                class="label-texts"
+                interface="popover"
+                placeholder="Select Project"
+              >
+                <ng-container *ngIf="allProjects$ | async as projectList">
+                  <ion-select-option
+                  *ngFor="let p of projectList"
+                    [value]="p.projectId"
+                  >
+                    {{ p.projectName }}
+                  </ion-select-option>
+                </ng-container>
+              </ion-select>
+            </ion-item>
+            @if (validationService.isInvalid('projectId', weeklyIncidentForm)) {
+              <ion-text color="danger" class="error-message">
+                <p>At least one project must be selected.</p>
+              </ion-text>
+            }
+          </ion-col>
+
+          <!-- Major -->
+          <ion-col size="6">
+            <ion-item class="custom-item" lines="none">
+              <ion-input
+                formControlName="major"
+                label="Major"
+                labelPlacement="floating"
+                class="label-texts"
+                type="number"
+              ></ion-input>
+            </ion-item>
+          </ion-col>
+
+          <!-- Minor -->
+          <ion-col size="6">
+            <ion-item class="custom-item" lines="none">
+              <ion-input
+                formControlName="minor"
+                label="Minor"
+                labelPlacement="floating"
+                class="label-texts"
+                type="number"
+              ></ion-input>
+            </ion-item>
+          </ion-col>
+
+          <!-- Incidents Created -->
+          <ion-col size="6">
+            <ion-item class="custom-item" lines="none">
+              <ion-input
+                formControlName="incidentCreated"
+                label="Incidents Created"
+                labelPlacement="floating"
+                class="label-texts"
+                type="number"
+              ></ion-input>
+            </ion-item>
+          </ion-col>
+
+          <!-- Release Information -->
+          <ion-col size="12">
+            <ion-item class="custom-item" lines="none">
+              <ion-input
+                formControlName="releaseInformation"
+                label="Release Information"
+                labelPlacement="floating"
+                class="label-texts"
+                type="text"
+              ></ion-input>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </form>
+  </ion-content>
+
+  <ion-footer>
+    <ion-toolbar>
+      <ion-buttons slot="end">
+        <ion-button class="close" (click)="setOpen(false)">Close</ion-button>
+        <ion-button class="save" type="submit" (click)="createIncient()">Submit</ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-footer>
+</div>
+
+<div class="loader-overlay" *ngIf="isLoading$ | async">
+  <ion-spinner name="crescent"></ion-spinner>
+</div>

@@ -36,14 +36,17 @@ export class ProjectListComponent {
   private router = inject(Router)
   teamList = signal<createProject[]>([]);
   private projectStore = inject(ProjectStore);
-  projectList$ = this.projectStore.team$;
   private modalController = inject(ModalController);
   private loginStore = inject(LoginStore);
   // projectStore = inject(TeamStore);
 isLoading$ = this.projectStore.select(state => state.loading);
+  projectList$: any;
+  page=0
+pageSize=5
+
 
   constructor(private route: ActivatedRoute) {
-    this.projectStore.getTeam();
+    this.loadProjects(this.page,this.pageSize);
   }
   ngOnInit() {
     this.CreateForm();
@@ -96,7 +99,7 @@ onSearchTermChanged(term: string) {
     { header: 'Project Id', field: 'projectId' },
     { header: 'Project Name', field: 'projectName' },
     { header: 'Account Name', field: 'accountName' },
-    { header: 'Teams', field: 'viewTeam', linkEnable: true },
+    { header: 'Teams', field: 'viewTeam', linkEnable: true ,link:'employees' },
     // { header: 'Start Date', field: 'startDate' },
     // { header: 'End Date', field: 'endDate' },
     { header: 'Action', field: 'action', type: ['edit', 'delete'] }
@@ -104,8 +107,12 @@ onSearchTermChanged(term: string) {
 
   handleRowAction(action: any) {
     switch (action.type) {
-      case 'viewTeam':
-        this.router.navigate(['/projects/employees', action.item.id]);
+      case 'navigate':
+        this.router.navigate(
+          ['/projects/employees', action.item.projectId],
+          { state: { name: action.item.projectName } }
+        );
+       // this.router.navigate(['/projects/employees', action.item.projectId], { state: { projectName: action.item.projectName });
         break;
       case 'create':
         this.loadCreateEmployeeModal();
@@ -115,10 +122,16 @@ onSearchTermChanged(term: string) {
         console.log('Row from table:', action.item);
         break;
       case 'delete':
-
         this.deleteModal(action.item);
-
         break;
+      case 'nextPage':
+        this.page=action.item;
+        this.loadProjects(this.page,this.pageSize)
+       break;
+        case 'pageSize':
+        this.pageSize=action.item;
+        this.loadProjects(this.page,this.pageSize)
+       break;  
       default:
         console.log('failing')
     }
@@ -134,7 +147,8 @@ onSearchTermChanged(term: string) {
     }).then((modal) => {
       modal.present();
       modal.onDidDismiss().then((data) => {
-         this.projectStore.getTeam();
+      this.loadProjects(this.page,this.pageSize);
+
         console.log('Modal dismissed with data:', data);
         // Handle any data returned from the modal if needed
       });
@@ -153,7 +167,8 @@ onSearchTermChanged(term: string) {
     }).then((modal) => {
       modal.present();
       modal.onDidDismiss().then((data) => {
-           this.projectStore.getTeam();
+      this.loadProjects(this.page,this.pageSize);
+
         console.log('Modal dismissed with data:', data);
         // Handle any data returned from the modal if needed
       });
@@ -180,5 +195,12 @@ onSearchTermChanged(term: string) {
         // Handle any data returned from the modal if needed
       });
     });
+  }
+
+
+    loadProjects(pageNum:number,pageSize:number){
+    this.projectStore.getTeam({ page: pageNum, size: pageSize, sortBy: 'projectName' });
+    this.projectList$ = this.projectStore.team$;
+
   }
 }

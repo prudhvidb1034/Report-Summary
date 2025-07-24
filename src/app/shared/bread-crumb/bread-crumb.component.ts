@@ -63,13 +63,16 @@ projects: { projects: ProjectsMap } = {
     "83f2": [{ projectName: "spp canada" }]
   }
 };
-
+  name: any;
+  sprintName: any;
+  sprintId: any;
 
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private breadcrumbStore: BreadcrumbStore
   ) {
+
     this.breadcrumbs$ = this.breadcrumbStore.breadcrumbs$;
   }
 
@@ -85,6 +88,15 @@ projects: { projects: ProjectsMap } = {
             route = route.firstChild;
           }
           this.extendedRoute=route.snapshot.paramMap.get('id');
+          const nav = this.router.getCurrentNavigation();
+         if(nav?.extras.state?.['name']){
+          this.name=nav?.extras.state?.['name']
+         }else{
+          this.sprintName=this.name=nav?.extras.state?.['sprintName']
+          this.sprintId=route.snapshot.paramMap.get('id');
+               if(this.sprintName){ localStorage.setItem('sprintName',this.sprintName)}
+
+         }
           return route;
         }),
         filter((route) => route.outlet === 'primary'),
@@ -93,6 +105,10 @@ projects: { projects: ProjectsMap } = {
       .subscribe(() => {
         this.buildBreadcrumbs(this.router.url);
       });
+    // const nav = this.router.getCurrentNavigation();
+    // console.log("nav",nav)
+    // this.projectName = nav?.extras.state?.['projectName']
+
   }
 
   breadcrumbConfig: { label: any; url: string }[] = [
@@ -105,7 +121,12 @@ projects: { projects: ProjectsMap } = {
     { label: 'Employees', url: '/projects/employees/:id' },
     { label: 'Employees', url: '/employees' },
     { label: 'View Individual Project Status', url: '/summary/task/:id' },
-    { label: 'View Reports', url: '/summary/project-status/:id' }
+    { label: 'View Reports', url: '/summary/project-status/:id' },
+     { label: 'Sprints', url: '/sprints' },
+     {label:'Weekly Sprint',url:'/sprints/create-weekly-sprint/:id'},
+     {label:'Week Wise List',url:'sprints/create-weekly-sprint/create-weekly-report-sprint/:id'},
+          {label:'Sprint Report',url:'/sprint-report'}
+
   ];
      breadcrumbLabel():any {
       this.activatedRoute.paramMap.subscribe(params => {
@@ -139,17 +160,38 @@ projects: { projects: ProjectsMap } = {
     else if (segment.startsWith('task')){
      const id = urlSegments[urlSegments.length - 1]; // Get the last segment as ID
       breadcrumbs.push({
-        label:this.renameFunc(id) +' '+'/'+' '+'Task', // Customize the label as needed
+        label:this.name +' '+'/'+' '+'Task', // Customize the label as needed
         url: currentUrl
       });
     }
     else if(segment.startsWith('employees')){
       const id = urlSegments[urlSegments.length - 1]; // Get the last segment as ID
       breadcrumbs.push({
-        label:this.getProjectName(id) +' '+'/'+' '+'Employees', // Customize the label as needed
+        label:this.name +' '+'/'+' '+'Employees', // Customize the label as needed
         url: currentUrl
       });
     }
+    else if(segment.startsWith('create-weekly-sprint')){
+      const id = urlSegments[urlSegments.length - 1]; // Get the last segment as ID
+   this.sprintName=localStorage.getItem('sprintName');
+   console.log("this.sprintName",this.sprintName)
+      breadcrumbs.push({
+        label:this.sprintName +' '+'/'+' '+'Weekly Report', // Customize the label as needed
+        url: currentUrl+'/'+this.sprintId
+      });
+
+    }
+    // else if(segment.startsWith('create-weekly-report-sprint')){
+    //   const id = urlSegments[urlSegments.length - 1]; // Get the last segment as ID
+    // console.log(this.updatedBreadCrumb[this.updatedBreadCrumb.length-1].label)
+    //   breadcrumbs.push({
+    //     label: 'Week Wise List', // Customize the label as needed
+    //     url: currentUrl
+    //   });
+
+
+    // }
+    
 
     this.updatedBreadCrumb = breadcrumbs;
   });

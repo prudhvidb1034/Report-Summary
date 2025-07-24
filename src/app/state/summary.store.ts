@@ -1,29 +1,46 @@
 import { HttpClient } from "@angular/common/http";
-import { inject, Injectable } from "@angular/core";
+import { inject, Injectable, signal } from "@angular/core";
 import { ComponentStore, tapResponse } from "@ngrx/component-store";
 import { exhaustMap, Observable, switchMap, take } from "rxjs";
-import { Project } from "../models/summary.model";
+import { Project, WeeklyDataResponse } from "../models/summary.model";
 import { SummaryService } from "../services/summary/summary.service";
+import { SharedService } from "../services/shared/shared.service";
 
 
 interface ProjectsData {
   projects: Project[];
   loading: boolean;
   error: string | null;
+  weeklyRange:WeeklyDataResponse;
+}
+
+interface ApiResponse<T> {
+    data: T;
 }
 
 
 @Injectable()
 
 export class SummaryStore extends ComponentStore<ProjectsData>{
-  
+      private sharedservice = inject(SharedService);
   constructor(){
-    super({projects:[],loading:false,error:null})
+    super({
+      projects: [],
+      loading: false,
+      error: null,
+      weeklyRange: {} as WeeklyDataResponse
+    })
   }
+      private _weeklySummary = signal<null | 'success' | 'deleted' | 'update' | 'error'>(null);
+  
+      readonly weeklySummary = this._weeklySummary.asReadonly();
+  
   readonly projects$ = this.select(state => state.projects);
   readonly loading$ = this.select(state => state.loading);
   readonly error$ = this.select(state => state.error);
   private summeryService = inject(SummaryService);
+  readonly weeklyRange$ = this.select(state => state.weeklyRange);
+
 
   private http=inject(HttpClient)
 
@@ -32,20 +49,26 @@ export class SummaryStore extends ComponentStore<ProjectsData>{
     projects
   }));
 
+
+
   readonly weeklyReport = this.effect((projects$: any) =>
   projects$.pipe(
       exhaustMap(projectInfo => {
           this.patchState({ loading: true, error: null });
-          return this.summeryService.postWeeklySummary(projectInfo).pipe(
+          return this.sharedservice.postData('api/week-ranges/save',projectInfo).pipe(
               tapResponse(
                   (savedData) => {
-                    this.setProjects(savedData)
+                  this.setProjects(savedData);
+                  this.patchState({ loading: false});
+                  this._weeklySummary.set('success');
                   },
                   (error: any) => {
                       this.patchState({
                           loading: false,
                           error: error?.message ?? 'Unknown error'
                       });
+                    this._weeklySummary.set('error');
+
                   }
               )
           );
@@ -55,21 +78,26 @@ export class SummaryStore extends ComponentStore<ProjectsData>{
 
 
 
-readonly getDetails = this.effect((trigger$: Observable<void>) =>
+readonly getDetails = this.effect<{ page: number; size: number }>((trigger$) =>
   trigger$.pipe(
-    switchMap(() =>
-      this.summeryService.getProjectDetails().pipe(
+    switchMap(({ page, size }) => {
+      this.patchState({ loading: true, error: null });
+      return this.sharedservice.getData(`api/view-report/AllReports?page=${page}&size=${size}`).pipe(
         tapResponse(
-          (data) => {
-            this.setProjects(data);
+          (weekRanges: any) => {
+            this.patchState({ weeklyRange: weekRanges?.data, loading: false });
+            this._weeklySummary.set('success');
+
           },
           (error) => {
-            // Handle error
+            this.patchState({ loading: false, error: '' });
             this.patchState({ error: 'Failed to load project details' });
+        this._weeklySummary.set('error');
+
           }
         )
-      )
-    )
+      );
+    })
   )
 );
 

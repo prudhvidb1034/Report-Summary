@@ -1,3 +1,4 @@
+
 <div class="modal-wrapper">
   <ion-header>
     <ion-toolbar color="light">
@@ -20,42 +21,17 @@
       <ion-grid class="ion-margin-top">
 
         <ion-row>
-          <!-- <ion-col size="6">
-            <ion-item class="stack-dropdown custom-item" lines="none" [class.invalid]="isInvalid('project')"
-              [class.valid]="isValid('project')">
-              <ion-label class="label-texts" position="stacked">Projects</ion-label>
-              <ion-select class="label-texts" interface="popover" formControlName="project"
-                placeholder="Select Project">
-                <ion-select-option *ngFor="let p of projects" [value]="p">
-                  {{ p.projectName }}
-                </ion-select-option>
-              </ion-select>
-            </ion-item>
-
-            
-            @if (weekSummaryForm.get('project')?.invalid &&
-            (weekSummaryForm.get('project')?.dirty || weekSummaryForm.get('project')?.touched)) {
-            <ion-text color="danger" class="error-message">
-              @if (weekSummaryForm.get('project')?.errors?.['required']) {
-              <p>Project selection is required</p>
-              }
-            </ion-text>
-            }
-
-
-          </ion-col> -->
-
           <ion-col size="6">
-            <ion-item class="custom-item" [class.invalid]="isInvalid('startDate')" [class.valid]="isValid('startDate')"
+            <ion-item class="custom-item" [class.invalid]="isInvalid('weekFromDate')" [class.valid]="isValid('weekFromDate')"
               lines="none">
-              <ion-input type="date" formControlName="startDate" label="Week Start Date" labelPlacement="floating"
+              <ion-input type="date" formControlName="weekFromDate" label="Week Start Range" labelPlacement="floating"
                 class="label-texts" placeholder="Select start of week" [clearOnEdit]="true"></ion-input>
             </ion-item>
 
-            @if (weekSummaryForm.get('startDate')?.invalid &&
-            (weekSummaryForm.get('startDate')?.dirty || weekSummaryForm.get('startDate')?.touched)) {
+            @if (weekSummaryForm.get('weekFromDate')?.invalid &&
+            (weekSummaryForm.get('weekFromDate')?.dirty || weekSummaryForm.get('weekFromDate')?.touched)) {
             <ion-text color="danger" class="error-message">
-              @if (weekSummaryForm.get('startDate')?.errors?.['required']) {
+              @if (weekSummaryForm.get('weekFromDate')?.errors?.['required']) {
               <p>Start date is required</p>
               }
             </ion-text>
@@ -63,45 +39,22 @@
           </ion-col>
 
           <ion-col size="6">
-            <ion-item class="custom-item" [class.invalid]="isInvalid('endDate')" [class.valid]="isValid('endDate')"
+            <ion-item class="custom-item" [class.invalid]="isInvalid('weekToDate')" [class.valid]="isValid('weekToDate')"
               lines="none">
-              <ion-input type="date" formControlName="endDate" label="Week End Date" labelPlacement="floating"
+              <ion-input type="date" formControlName="weekToDate" label="Week End Range" labelPlacement="floating"
                 class="label-texts" placeholder="End of week" (ionBlur)="validateDates()"></ion-input>
             </ion-item>
 
-           @if (weekSummaryForm.get('endDate')?.invalid &&
-            (weekSummaryForm.get('endDate')?.dirty || weekSummaryForm.get('endDate')?.touched)) {
+           @if (weekSummaryForm.get('weekToDate')?.invalid &&
+            (weekSummaryForm.get('weekToDate')?.dirty || weekSummaryForm.get('weekToDate')?.touched)) {
             <ion-text color="danger" class="error-message">
-              @if (weekSummaryForm.get('endDate')?.errors?.['required']) {
+              @if (weekSummaryForm.get('weekToDate')?.errors?.['required']) {
               <p>Start date is required</p>
               }
             </ion-text>
             }
           </ion-col>
         </ion-row>
-
-        <!-- Row 3: Upcoming Tasks -->
-        <!-- <ion-row>
-          <ion-col size="12">
-            <ion-item class="custom-item" [class.invalid]="isInvalid('upcomingTasks')"
-              [class.valid]="isValid('upcomingTasks')" lines="none">
-              <ion-textarea formControlName="upcomingTasks" label="Upcoming Tasks" labelPlacement="floating"
-                class="label-texts" placeholder="Enter tasks..."></ion-textarea>
-            </ion-item>
-
-            @if (weekSummaryForm.get('upcomingTasks')?.invalid &&
-            (weekSummaryForm.get('upcomingTasks')?.dirty || weekSummaryForm.get('upcomingTasks')?.touched)) {
-            <ion-text color="danger" class="error-message">
-              @if (weekSummaryForm.get('upcomingTasks')?.errors?.['required']) {
-              <p>Upcoming Tasks are required</p>
-              }
-              @if (weekSummaryForm.get('upcomingTasks')?.errors?.['minlength']) {
-              <p>Minimum length not met</p>
-              }
-            </ion-text>
-            }
-          </ion-col>
-        </ion-row> -->
 
       </ion-grid>
     </form>

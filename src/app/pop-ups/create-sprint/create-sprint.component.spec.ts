@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SprintHealthComponent } from './sprint-health.component';
+import { CreateSprintComponent } from './create-sprint.component';
 
-describe('SprintHealthComponent', () => {
-  let component: SprintHealthComponent;
-  let fixture: ComponentFixture<SprintHealthComponent>;
+describe('CreateSprintComponent', () => {
+  let component: CreateSprintComponent;
+  let fixture: ComponentFixture<CreateSprintComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SprintHealthComponent]
+      imports: [CreateSprintComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(SprintHealthComponent);
+    fixture = TestBed.createComponent(CreateSprintComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

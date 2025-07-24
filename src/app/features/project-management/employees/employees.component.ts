@@ -12,6 +12,7 @@ import { SummaryStore } from '../../../state/summary.store';
 import { RegisterStore } from '../../../state/register.store';
 import { ConfirmDeleteComponent } from '../../../pop-ups/confirm-delete/confirm-delete.component';
 import { CommonModule } from '@angular/common';
+import { Constants } from '../../../constants/string-constants';
 
 @Component({
   selector: 'app-employees',
@@ -30,19 +31,23 @@ export class EmployeesComponent {
   employeeId: any;
   private projectStore = inject(ProjectStore);
   private registerStore = inject(RegisterStore);
-
-  registerList$ = this.registerStore.register$;
   teamsList$ = this.projectStore.team$;
   isLoading$ = this.registerStore.select(state => state.loading);
+  page = 0;
+  pageSize = 5;
+  registerList$: any;
+  projectId: string | null;
+  baseUrl:string | null | undefined;
+
+
+
+  constructor(){
+    this.projectId = this.router.snapshot.paramMap.get('id');
+    this.projectId?this.baseUrl='Person/project/'+this.projectId:this.baseUrl=Constants.ROLE_EMPLOYEE
+    this.loadEmployees(this.page,this.pageSize);
+  }
   ngOnInit() {
-    this.projectStore.getTeam();
-    this.registerStore.getRegisterData('employee');
-
-
-    this.router.paramMap.subscribe((params: ParamMap) => {
-      console.log(params.get('id'));
-      this.employeeId = params.get('id')
-    });
+   // this.projectStore.getTeam();
 
 
   }
@@ -71,6 +76,14 @@ export class EmployeesComponent {
       case 'delete':
         this.deleteModal(event.item);
         break;
+        case 'nextPage':
+        this.page=event.item;
+        this.loadEmployees(this.page,this.pageSize);
+       break;
+        case 'pageSize':
+        this.pageSize=event.item;
+        this.loadEmployees(this.page,this.pageSize);  
+        break;
       default:
         console.log('Unknown action type:', event.type);
     }
@@ -86,7 +99,7 @@ export class EmployeesComponent {
     }).then((modal) => {
       modal.present();
       modal.onDidDismiss().then((data) => {
-          this.registerStore.getRegisterData('employee');
+          this.registerStore.getRegisterData({ page: 0, size: 5, sortBy: 'firstName',url: this.baseUrl ?? ''});
         console.log('Modal dismissed with data:', data);
       });
     });
@@ -102,7 +115,7 @@ export class EmployeesComponent {
     }).then((modal) => {
       modal.present();
       modal.onDidDismiss().then((data) => {
-          this.registerStore.getRegisterData('employee');
+        this.registerStore.getRegisterData({ page: 0, size: 5, sortBy: 'firstName',url: this.baseUrl ?? '' });
         console.log('Modal dismissed with data:', data);
       });
     });
@@ -144,4 +157,10 @@ export class EmployeesComponent {
       });
     });
   }
+
+  loadEmployees(pageNum:number,pageSize:number ){
+  this.registerStore.getRegisterData({ page: pageNum, size: pageSize, sortBy: 'firstName', url: this.baseUrl ?? '' });
+  this.registerList$ = this.registerStore.register$;
+}
+
 }

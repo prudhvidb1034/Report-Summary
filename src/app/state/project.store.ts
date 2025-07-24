@@ -8,7 +8,7 @@ import { urls } from "../constants/string-constants";
 import { ToastService } from "../shared/toast.service";
 
 interface TeamState {
-  teamDetails: createProject[];
+  teamDetails: any;
   loading: boolean;
   error: string | null;
 }
@@ -32,7 +32,8 @@ export class ProjectStore extends ComponentStore<TeamState> {
   readonly accountCreateStatus = this._accountCreateStatus.asReadonly();
   private readonly teamListService = inject(TeamListService);
   private sharedservice = inject(SharedService);
-  readonly team$ = this.select(state => state.teamDetails)
+  readonly team$ = this.select(state => state.teamDetails);
+  //readonly fullProjects$=this.select(state=>state.allprojects);
 
   readonly addTeam = this.effect((projects$: Observable<createProject>) =>
     projects$.pipe(
@@ -43,7 +44,6 @@ export class ProjectStore extends ComponentStore<TeamState> {
             next: (user: any) => {
               this.patchState({
                 teamDetails: [user], loading: false
-
 
               });
               this._accountCreateStatus.set('success');
@@ -59,12 +59,46 @@ export class ProjectStore extends ComponentStore<TeamState> {
   );
 
 
-  readonly getTeam = this.effect(
+readonly setProjectDetails = this.updater(
+  (state, projectDetails: createProject[]) => ({
+    ...state,
+    allprojects: projectDetails
+  })
+);
+
+// readonly getAllProjects = this.effect<void>(trigger$ =>
+//   trigger$.pipe(
+//     tap(() => this.patchState({ loading: true, error: null })),
+//     switchMap(() =>
+//       this.sharedservice
+//         .getData<ApiResponse<createProject[]>>(`projects/all`)
+//         .pipe(
+//           tapResponse(
+//             response => {
+//               this.patchState({
+//                 allprojects: response.data, // <-- access array correctly
+//                 loading: false
+//               });
+//             },
+//             error => {
+//               this.patchState({
+//                 loading: false,
+//                 error: 'Failed to fetch projects'
+//               });
+//             }
+//           )
+//         )
+//     )
+//   )
+// );
+
+
+  readonly getTeam = this.effect<{ page: number; size: number; sortBy: string }>(
     trigger$ =>
       trigger$.pipe(
         tap(() => this.patchState({ loading: true, error: null })),
-        switchMap(() =>
-          this.sharedservice.getData<ApiResponse<createProject[]>>(urls.CREATE_PROJECT).pipe(
+        switchMap(({ page, size, sortBy }) =>
+          this.sharedservice.getData<ApiResponse<createProject[]>>(`projects?page=${page}&size=${size}&sortBy=${sortBy}`).pipe(
             tapResponse(
               (projects) => {
                 this.patchState({ teamDetails: projects.data, loading: false });
@@ -79,54 +113,49 @@ export class ProjectStore extends ComponentStore<TeamState> {
       )
   );
 
+  readonly updateProject = this.effect(
+    (account$: Observable<{ id: string; data: createProject }>) =>
+      account$.pipe(
+        exhaustMap(({ id, data }) => {
+          this.patchState({ loading: true, error: null });
+          return this.sharedservice.patchData(`${urls.CREATE_PROJECT}/${id}`, data).pipe(
+            tap({
+              next: (updatedAccount: any) => {
+                this._accountCreateStatus.set('update');
+                this.patchState({ loading: false });
+              },
+              error: () => {
+                this._accountCreateStatus.set('error');
+                this.patchState({ loading: false, error: 'Failed to update account' });
+                this.toast.show('error', 'Update failed!');
+              }
+            })
+          );
+        })
+      )
+  );
 
-
-   readonly updateProject = this.effect(
-          (account$: Observable<{ id: string; data: createProject }>) =>
-              account$.pipe(
-                  exhaustMap(({ id, data }) => {
-                      this.patchState({ loading: true, error: null });
-                      return this.sharedservice.patchData(`${urls.CREATE_PROJECT}/${id}`, data).pipe(
-                          tap({
-                              next: (updatedAccount: any) => {
-                                  this._accountCreateStatus.set('update');
-                                  // this.getAccounts(); // Refresh after update
-                                  this.patchState({ loading: false });
-                              },
-                              error: () => {
-                                  this._accountCreateStatus.set('error');
-                                  this.patchState({ loading: false, error: 'Failed to update account' });
-                                  this.toast.show('error', 'Update failed!');
-                              }
-                          })
-                      );
-                  })
-              )
-      );
-
-readonly deleteProject = this.effect((accountId$: Observable<string>) =>
-  accountId$.pipe(
-    exhaustMap(id => {
-      this.patchState({ loading: true, error: null }); // Set loading true before API call
-
-      return this.sharedservice.deleteData(`${urls.CREATE_PROJECT}/${id}`).pipe(
-        tapResponse(
-          () => {
-            this.patchState({ loading: false }); // Set loading false on success
-            this._accountCreateStatus.set('deleted');
-            this.getTeam();
-             this.toast.show('success', 'Account deleted successfully!');
-          },
-          (error) => {
-            this.patchState({ loading: false, error: '' }); // Set loading false on error
-            this._accountCreateStatus.set('error');
-            // this.toast.show('error', 'Failed to delete account!');
-          }
-        )
-      );
-    })
-  )
-);
+  readonly deleteProject = this.effect((accountId$: Observable<string>) =>
+    accountId$.pipe(
+      exhaustMap(id => {
+        this.patchState({ loading: true, error: null });
+        return this.sharedservice.deleteData(`${urls.CREATE_PROJECT}/${id}`).pipe(
+          tapResponse(
+            () => {
+              this.patchState({ loading: false });
+              this._accountCreateStatus.set('deleted');
+              this.getTeam({ page: 0, size: 5, sortBy: 'accountName' });
+              this.toast.show('success', 'Account deleted successfully!');
+            },
+            (error) => {
+              this.patchState({ loading: false, error: '' });
+              this._accountCreateStatus.set('error');
+            }
+          )
+        );
+      })
+    )
+  );
 
 
 }

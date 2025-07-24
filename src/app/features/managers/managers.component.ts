@@ -6,6 +6,7 @@ import { RegisterComponent } from '../../shared/register/register.component';
 import { ConfirmDeleteComponent } from '../../pop-ups/confirm-delete/confirm-delete.component';
 import { RegisterStore } from '../../state/register.store';
 import { CommonModule } from '@angular/common';
+import { Constants } from '../../constants/string-constants';
 
 @Component({
   selector: 'app-managers',
@@ -21,33 +22,41 @@ export class ManagersComponent {
   private modalController = inject(ModalController);
 
   private registerStore = inject(RegisterStore);
-  managerList$ = this.registerStore.register$;
+  managerList$: any;
   isLoading$ = this.registerStore.select(state => state.loading);
-  ngOnInit() {
-    this.registerStore.getRegisterData('manager');
+  page = 0;
+  pageSize = 5;
+
+  constructor(){
+    this.loadManagers(this.page,this.pageSize);
   }
+
   columns = [
     { header: 'Manager ID', field: 'personId' },
     { header: 'Manager Name', field: 'firstName' },
     { header: 'Mail id', field: 'email' },
     { header: 'Project', field: 'projectNames' },
-    // { header: 'End Date', field: 'endDate' },
-    {
-      header: 'Action', field: 'action', type: ['edit', 'delete']
-    },
-
+    { header: 'Action', field: 'action', type: ['edit', 'delete'] },
   ];
+
    handleRowAction(event: any) {
     switch (event.type) {
       case 'create':
         this.loadCreateEmployeeModal();
-        //this.route.navigate(['/projects/employees/create']);
         break;
       case 'edit':
         this.editCreateEmployeeModal(event.item);
         break;
       case 'delete':
         this.deleteModal(event.item);
+        break;
+      case 'nextPage':
+        this.page=event.item;
+        this.loadManagers(this.page,this.pageSize);
+       break;
+        case 'pageSize':
+        this.pageSize=event.item;
+        this.loadManagers(this.page,this.pageSize);
         break;
       default:
         console.log('Unknown action type:');
@@ -64,7 +73,7 @@ export class ManagersComponent {
     }).then((modal) => {
       modal.present();
       modal.onDidDismiss().then((data) => {
-        this.registerStore.getRegisterData('manager');
+        this.registerStore.getRegisterData({ page: this.page, size: this.pageSize, sortBy: 'firstName', url:Constants.ROLE_MANAGER });
         console.log('Modal dismissed with data:', data);
         // Handle any data returned from the modal if needed
       });
@@ -82,7 +91,7 @@ export class ManagersComponent {
     }).then((modal) => {
       modal.present();
       modal.onDidDismiss().then((data) => {
-            this.registerStore.getRegisterData('manager');
+        this.registerStore.getRegisterData({ page: this.page, size: this.pageSize, sortBy: 'firstName', url:Constants.ROLE_MANAGER});
         console.log('Modal dismissed with data:12345667', data);
         // Handle any data returned from the modal if needed
       });
@@ -113,4 +122,9 @@ export class ManagersComponent {
       });
     });
   }
+
+  loadManagers(pageNum:number,pageSize:number){
+  this.registerStore.getRegisterData({ page: pageNum, size: pageSize, sortBy: 'firstName', url:Constants.ROLE_MANAGER });
+  this.managerList$ = this.registerStore.register$;
+}
 }

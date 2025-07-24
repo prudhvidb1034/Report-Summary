@@ -10,20 +10,24 @@ import { CreateSummaryComponent } from '../../../pop-ups/create-summary/create-s
 import { EmployeeUpdateComponent } from '../../../pop-ups/employee-update/employee-update.component';
 import { ConfirmDeleteComponent } from '../../../pop-ups/confirm-delete/confirm-delete.component';
 import { LoginStore } from '../../../state/login.store';
+import { WeekRangePipe } from '../../../shared/pipes/week-range.pipe';
 
 @Component({
   selector: 'app-summary',
   standalone: true,
-  imports: [IonicModule, CommonModule, ReactiveFormsModule, ReusableTableComponent],
-  providers: [SummaryStore],
+  imports: [IonicModule, CommonModule, ReactiveFormsModule, ReusableTableComponent,IonicModule],
+  providers: [SummaryStore,WeekRangePipe],
   templateUrl: './summary.component.html',
   styleUrl: './summary.component.scss'
 })
 export class SummaryComponent {
   label = 'Summary';
   private modalController = inject(ModalController);
-    private  loginStore = inject(LoginStore)
-  
+  private  loginStore = inject(LoginStore)
+  private readonly summaryStore = inject(SummaryStore);
+  private datePipe=inject(WeekRangePipe);
+  isLoading$ = this.summaryStore.select(state => state.loading);
+
   // projects: createProject[] = [];
   // private summary = inject(SummaryService);
   // weekSummaryForm !: FormGroup;
@@ -34,28 +38,36 @@ export class SummaryComponent {
   role:any;
 
   columns:any;
+  page = 0;
+  pageSize = 5;
+
+
+constructor(){
+    this.loadSummary(this.page,this.pageSize)
+}
+
   ngOnInit(){
     this.userRole$.pipe(take(1)).subscribe(role => {
       this.role=role;
       console.log('User role:', role);
 });
-if(this.role=='employee'){
-  this.columns = [
-    { header: 'Name ', field: 'weekId' },
-    {header:'View Task',field:'viewTask',linkEnable:true},
-    {header:'View Report',field:'viewReport',linkEnable:true},
-  ];
+    if (this.role == 'employee') {
+      this.columns = [
+        { header: 'Name ', field: 'weekRange' },
+        { header: 'View Task', field: 'viewTask', linkEnable: true },
+        { header: 'View Report', field: 'viewReport', linkEnable: true },
+      ];
 
-}else{
-   this.columns = [
-    { header: 'Name ', field: 'weekId' },
-    { header: 'Status', field: 'status' },
-    {header:'View Task',field:'viewTask',linkEnable:true},
-    {header:'View Report',field:'viewReport',linkEnable:true},
-    { header: 'Action', field: 'action', type: [ 'edit', 'delete'], },
-  ];
+    } else {
+      this.columns = [
+        { header: 'Name ', field: 'weekRange' },
+        { header: 'Status', field: 'status' },
+        { header: 'View Task', field: 'viewTask', linkEnable: true },
+        { header: 'View Report', field: 'viewReport', linkEnable: true },
+        { header: 'Action', field: 'action', type: ['edit', 'delete'], },
+      ];
 
-}
+    }
 
 console.log(this.userRole$)
   }
@@ -145,13 +157,12 @@ console.log(this.userRole$)
     }
   ];
 
-  summarylist$: Observable<any[]> = of(this.summary);
+  summarylist$:any;
 
   handleRowAction(event: any) {
-    console.log(event)
     switch (event.type) {
       case 'viewTask':
-        this.route.navigate(['summary/task', event.item.weekNo]);
+        this.route.navigate(['summary/task', event.item.weekId]);
         break;
       case 'viewReport':
         this.route.navigate(['summary/project-status', event.item.weekNo]);
@@ -171,6 +182,17 @@ console.log(this.userRole$)
       case 'delete':
         this.deleteModal();
         break;
+            case 'nextPage':
+        this.page = event.item;
+        this.loadSummary(this.page, this.pageSize)
+        break;
+      case 'pageSize':
+        this.pageSize = event.item;
+        this.loadSummary(this.page, this.pageSize)
+        break;
+      case 'navigate':
+        this.navigate(event);
+        break;       
       default:
         console.log('Unknown action type:', event.type);
     }
@@ -192,6 +214,23 @@ console.log(this.userRole$)
         console.log('Modal dismissed with data:', data);
       });
     });
+  }
+
+
+  navigate(event:any){
+    if(event.columnName === 'View Task'){
+    this.route.navigate(
+          ['/summary/task', event.item.weekRange.weekId],
+          { state: { name: this.datePipe.transform(event.item.weekRange) } }
+        );
+      console.log(this.datePipe.transform(event.item.weekRange));
+    }else{
+          this.route.navigate(
+          ['view-reports/', event.item.weekRange.weekId],
+          { state: { name: this.datePipe.transform(event.item.weekRange) } }
+        );
+    }
+    console.log(event);
   }
 
   updateWeeklySummary() {
@@ -224,4 +263,9 @@ console.log(this.userRole$)
           });
         });
      }
+
+  loadSummary(pageNum: number, pageSize: number) {
+    this.summaryStore.getDetails({ page: pageNum, size: pageSize });
+    this.summarylist$ = this.summaryStore.weeklyRange$;
+  }
 }

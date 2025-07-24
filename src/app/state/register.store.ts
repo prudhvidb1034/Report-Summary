@@ -4,7 +4,7 @@ import { exhaustMap, Observable, switchMap, tap } from 'rxjs';
 import { RegistrationForm } from '../models/register.mode';
 import { RegisterService } from '../services/register-service/register.service';
 import { SharedService } from '../services/shared/shared.service';
-import { urls } from '../constants/string-constants';
+import { Constants, urls } from '../constants/string-constants';
 import { NavParams } from '@ionic/angular';
 import { ToastService } from '../shared/toast.service';
 
@@ -60,12 +60,12 @@ export class RegisterStore extends ComponentStore<RegistrationState> {
 
 
 
-  readonly getRegisterData = this.effect<string>( // Accepts 'manager' or 'employee' directly
+  readonly getRegisterData = this.effect<{ page: number; size: number; sortBy: string,url:string}>( // Accepts 'manager' or 'employee' directly
     trigger$ =>
       trigger$.pipe(
         tap(() => this.patchState({ loading: true, error: null })),
-        switchMap((role) =>
-          this.sharedservice.getData<ApiResponse<RegistrationForm[]>>(`${urls.GET_MANAGRE_DETAILS}/${role}`).pipe( // Append to URL
+        switchMap(({ page, size, sortBy,url }) =>
+          this.sharedservice.getData<ApiResponse<RegistrationForm[]>>(`${url}?page=${page}&size=${size}&sortBy=${sortBy}`).pipe( // Append to URL
             tapResponse(
               (manager) => {
                 this.patchState({ register: manager.data, loading: false });
@@ -111,10 +111,9 @@ export class RegisterStore extends ComponentStore<RegistrationState> {
             () => {
               this._accountCreateStatus.set('deleted');
               if (this.role === 'manager') {
-                this.getRegisterData('manager');
-                this.getRegisterData('employee');
+                this.getRegisterData({ page: 0, size: 5, sortBy: 'firstName', url:Constants.ROLE_MANAGER});
               } else if (this.role === 'employee') {
-                this.getRegisterData('employee');
+                this.getRegisterData({ page: 0, size: 5, sortBy: 'firstName',url:Constants.ROLE_EMPLOYEE});
               }
               this.toast.show('success', 'Account deleted successfully!');
             },

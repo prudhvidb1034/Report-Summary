@@ -7,7 +7,7 @@ import { urls } from '../constants/string-constants';
 import { ToastService } from '../shared/toast.service';
 
 export interface AccountState {
-    account: createAccountForm[];
+    account: any;
     loading: boolean;
     error: string | null;
 }
@@ -41,7 +41,6 @@ export class AccountStore extends ComponentStore<AccountState> {
                         next: (user: any) => {
                             this.patchState({ account: [user], loading: false });
                             this._accountCreateStatus.set('success');
-                            //  this.getAccounts();
                         },
                         error: () => {
                             this.patchState({ loading: false, error: '' });
@@ -53,12 +52,12 @@ export class AccountStore extends ComponentStore<AccountState> {
         )
     );
 
-    readonly getAccounts = this.effect<void>(
+    readonly getAccounts = this.effect<{ page: number; size: number; sortBy: string }>(
         trigger$ =>
             trigger$.pipe(
                 tap(() => this.patchState({ loading: true, error: null })),
-                switchMap(() =>
-                    this.sharedservice.getData<ApiResponse<createAccountForm[]>>(urls.CREATE_ACCOUNT).pipe(
+                switchMap(({ page, size, sortBy }) =>
+                    this.sharedservice.getData<ApiResponse<createAccountForm[]>>(`Account?page=${page}&size=${size}&sortBy=${sortBy}`).pipe(
                         tapResponse(
                             (accounts) => {
                                 this.patchState({ account: accounts.data, loading: false });
@@ -104,7 +103,7 @@ export class AccountStore extends ComponentStore<AccountState> {
                     tapResponse(
                         () => {
                             this._accountCreateStatus.set('deleted');
-                            this.getAccounts();
+                            this.getAccounts({ page: 0, size: 5, sortBy: 'accountName' });
                             this.toast.show('success', 'Account deleted successfully!');
                         },
                         (error) => {

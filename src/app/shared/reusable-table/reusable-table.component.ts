@@ -7,11 +7,13 @@ import { FormsModule } from '@angular/forms';
 import { SharedService } from '../../services/shared/shared.service';
 import { urls } from '../../constants/string-constants';
 import { PaginatorComponent } from '../paginator/paginator.component';
+import { WeekRangePipe } from '../pipes/week-range.pipe';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-reusable-table',
   standalone: true,
-  imports: [IonicModule, CommonModule,PaginatorComponent, FormsModule],
+  imports: [IonicModule, CommonModule,PaginatorComponent,WeekRangePipe,FormsModule,RouterModule],
   templateUrl: './reusable-table.component.html',
   styleUrl: './reusable-table.component.scss'
 })
@@ -20,6 +22,7 @@ export class ReusableTableComponent {
   @Input() columns: any[] | undefined;
   @Output() rowAction: EventEmitter<any> = new EventEmitter<any>();
   @Input() label: string = '';
+  @Input() weekLabel: string = '';
   @Input() showHeader = true;
   @Input() searchTerm: string = '';
   @Output() searchTermChange = new EventEmitter<string>();
@@ -30,7 +33,6 @@ export class ReusableTableComponent {
 
 loadPage(event: { pageIndex: number; pageSize: number }) {
   console.log('Load data for:', event);
-  // Your logic to fetch data based on event.pageIndex and event.pageSize
 }
 
 
@@ -47,12 +49,6 @@ loadPage(event: { pageIndex: number; pageSize: number }) {
   ngOnInit() {
     console.log(this.searchTerm)
   }
-
-  // onSearchTermChange(value: string) {
-  //   console.log(value)
-  //   this.searchTerm = value;
-  //   this.searchTermChange.emit(value);
-  // }
 
   onSearchTermChange() {
     console.log(this.searchTerm)
@@ -74,11 +70,15 @@ loadPage(event: { pageIndex: number; pageSize: number }) {
   }
 
   onPageSizeChange(event:any){
-    console.log(event);
+    this.rowAction.emit({type:'pageSize',item:event});
 
   }
 
   onPageChange(event:any){
-    console.log(event);
+    this.rowAction.emit({ type: 'nextPage', item: event })
+  }
+
+  navigation(type:string,item:any,columnName:string){
+    this.rowAction.emit({type:type,item:item,columnName:columnName});
   }
 }

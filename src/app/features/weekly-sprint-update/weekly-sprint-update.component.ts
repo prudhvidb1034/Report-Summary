@@ -81,12 +81,12 @@ export class WeeklySprintUpdateComponent {
   }
 
   columnsWeekly = [
-    { header: 'Week', field: 'weekSprintId' },
-    { header: 'Assigned Points', field: 'assignedPoints' },
+       { header: 'Project name', field: 'projectName' },
     { header: 'Assigned Stores', field: 'assignedStoriesCount' },
     { header: 'In Dev Stories', field: 'inDevStoriesCount' },
     { header: 'QA Stories', field: 'inQaStoriesCount' },
     { header: 'Dev Stories', field: 'inDevStoriesCount' },
+     { header: 'Completed Stories', field: 'completePoints' },
     { header: 'Action', field: 'action', type: ['edit', 'delete'] }
   ];
 

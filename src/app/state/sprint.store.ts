@@ -13,7 +13,7 @@ import { ToastService } from "../shared/toast.service";
 export interface CreateSprint {
 
     sprint: Sprint[];
-    weeklySprint: any[];
+    weeklySprint: any;
      sprintReport: any; 
      incidentReport:any; 
     loading: boolean;

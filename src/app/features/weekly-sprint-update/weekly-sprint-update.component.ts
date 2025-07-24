@@ -32,7 +32,7 @@ export class WeeklySprintUpdateComponent {
   private routering = inject(ActivatedRoute);
   private router = inject(Router);
   private sprintStore = inject(SprintStore);
-  sprintstore$ = this.sprintStore.weeklySprint$;
+  sprintstore$ :any;
   private sprintReleaseStore = inject(SprintReleaseStore);
   sprintlistStore$ = this.sprintReleaseStore.select(state => state.Sprintrelease);
   weeklyReportById$: any;
@@ -75,18 +75,30 @@ export class WeeklySprintUpdateComponent {
   }
   ngOnInit() {
     this.weekId = this.routering.snapshot.paramMap.get('id');
-    // console.log('Week ID:', this.weekId);
+    this.sprintstore$ = this.sprintStore.weeklySprint$.pipe(
+  map(payload => ({
+    ...payload,
+    content: payload?.content?.map((item:any) => ({
+      ...item,
+      totalAssigned: `${item.assignedStoriesCount} ( ${item.assignedPoints} )`,
+      totalDevs:`${item.inDevStoriesCount} ( ${item.inDevPoints} )`,
+      totalQA:`${item.inQaStoriesCount} ( ${item.inQaPoints} )`,
+      totalBlocked:`${item.blockedStoriesCount} ( ${item.blockedPoints} )`,
+       totalCompletion:`${item.completeStoriesCount} ( ${item.completePoints} )`,
+    }))
+  }))
+);
     this.sprintStore.getWeeklyReportById(this.weekId);
     this.sprintReleaseStore.getReleaseByWeekId(this.weekId);
   }
 
   columnsWeekly = [
        { header: 'Project name', field: 'projectName' },
-    { header: 'Assigned Stores', field: 'assignedStoriesCount' },
-    { header: 'In Dev Stories', field: 'inDevStoriesCount' },
-    { header: 'QA Stories', field: 'inQaStoriesCount' },
-    { header: 'Dev Stories', field: 'inDevStoriesCount' },
-     { header: 'Completed Stories', field: 'completePoints' },
+    { header: 'Assigned', field: 'totalAssigned' },
+    { header: 'In Dev', field: 'totalDevs' },
+    { header: 'QA', field: 'totalQA' },
+    { header: 'Blocked', field: 'totalBlocked' },
+     { header: 'Completed', field: 'totalCompletion' },
     { header: 'Action', field: 'action', type: ['edit', 'delete'] }
   ];
 

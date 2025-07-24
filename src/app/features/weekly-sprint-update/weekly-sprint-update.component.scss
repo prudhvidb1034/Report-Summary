@@ -22,15 +22,16 @@ ion-grid {
  
 .custom-nav a {
   text-decoration: none;
-  color: #007bff;
+  color: #818181;
   font-size: 16px;
-  font-weight: 500;
+  // font-weight: 500;
   cursor: pointer;
 }
  
 .custom-nav a.active {
   font-weight: bold;
-  border-bottom: 2px solid #007bff;
+  color: #191947;
+  border-bottom: 2px solid #191947;
 }
 .custom-no-border {
   border-bottom: none !important;

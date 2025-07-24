@@ -9,7 +9,9 @@ import { environment } from '../../../environments/environment';
 export class SharedService {
 
  private http = inject(HttpClient);
- private url = environment.apiUrls
+ private url = environment.apiUrls;
+ 
+ sprintId:any;
 
   getData<T>(url: string): Observable<T> {
     return this.http.get<T>(this.url+url);

@@ -7,6 +7,7 @@ import { CommonStore } from '../../state/common.store';
 import { ValidationsService } from '../../services/validation/validations.service';
 import { SprintReleaseStore } from '../../state/Sprint-release.store';
 import { ToastService } from '../../shared/toast.service';
+import { SharedService } from '../../services/shared/shared.service';
 
 @Component({
   selector: 'app-weekly-sprint-releases',
@@ -27,10 +28,10 @@ export class WeeklySprintReleasesComponent {
   allProjects$ = this.commonStore.allProjects$;
   private toast = inject(ToastService);
   public validationService = inject(ValidationsService);
-
   private route = inject(ActivatedRoute);
   isEditMode = false;
 
+  constructor(private commonService:SharedService){}
   readonly accountStatusEffect = effect(() => {
     const status = this.sprintReleaseStore.sprintCreateStatus();
 
@@ -55,7 +56,7 @@ export class WeeklySprintReleasesComponent {
   ngOnInit() {
     this.createIncientForm();
 
-    console.log('Week ID:', this.editData.item);
+    console.log('Week ID:', this.editData);
     if (this.editData != null) {
       this.weeklyIncidentForm.patchValue(this.editData.item);
       this.isEditMode = true;
@@ -68,7 +69,7 @@ export class WeeklySprintReleasesComponent {
     this.weeklyIncidentForm = this.fb.group({
       weekId: [parseInt(this.editData)],
       projectId: [null, Validators.required],
-      sprintId: 1,
+      sprintId: this.commonService.sprintId,
       major: [null],
       minor: [null],
       incidentCreated: [null],

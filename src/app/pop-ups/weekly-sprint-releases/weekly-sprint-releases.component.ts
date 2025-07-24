@@ -55,7 +55,7 @@ export class WeeklySprintReleasesComponent {
   ngOnInit() {
     this.createIncientForm();
 
-    console.log('Week ID:', this.editData);
+    console.log('Week ID:', this.editData.item);
     if (this.editData != null) {
       this.weeklyIncidentForm.patchValue(this.editData.item);
       this.isEditMode = true;
@@ -80,10 +80,9 @@ export class WeeklySprintReleasesComponent {
 
 
 
-  createIncient() {
+  createIncient() { 
     if (this.weeklyIncidentForm.valid) {
       const formdata = this.weeklyIncidentForm.value;
-
       if (this.editData && this.editData?.item?.releaseId) {
         this.sprintReleaseStore.updateRelase({ id: this.editData?.item?.releaseId, data: formdata })
       } else {

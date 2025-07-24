@@ -73,12 +73,18 @@
     </div>
   </div>
   <ion-header translucent>
-    <ion-toolbar color="dark">
-      <ion-title>Sprint 2503.0 - Sprint Health & Release</ion-title>
-    </ion-toolbar>
+
+   <ng-container *ngIf="(SprintList$ | async) as sprintList">
+  <ion-toolbar color="dark" *ngIf="sprintList?.content?.length > 0">
+    <ion-title style="background-color: #0b0b4c; color: white; padding: 12px;">
+      Sprint {{ sprintList.content[0].sprintNumber }} - Sprint Health & Release
+    </ion-title>
+  </ion-toolbar>
+</ng-container>
+
+
   </ion-header>
   <div class="container">
-
     <div class="table-container">
       <h3 class="table-title">Sprint Health</h3>
       <table class="styled-table">
@@ -104,16 +110,14 @@
 
             <tr *ngFor="let sprint of sprintList.content">
               <td>{{ sprint?.projectName }}</td>
-              <!-- Estimation Health -->
               <td [ngStyle]="getBgStyle(sprint.estimationHealthStatus)">
                 {{ sprint.estimationHealthStatus }}
               </td>
 
-              <!-- Grooming Health -->
+
               <td [ngStyle]="getBgStyle(sprint.groomingHealthStatus)">
                 {{ sprint.groomingHealthStatus }}
               </td>
-              <td [class.green]="sprint.groomingHealthStatus === 'G'">{{ sprint.groomingHealthStatus }}</td>
               <td>{{ sprint.completePoints }}</td>
               <td>{{ sprint.inDevPoints }}</td>
               <td>{{ sprint.inQaPoints }}</td>
@@ -177,9 +181,17 @@
 
 
   <div class="container">
-    <div class="header" style="background-color: #0b0b4c; color: white; padding: 12px;">
+
+     <ng-container *ngIf="(SprintList$ | async) as sprintList">
+  <ion-toolbar color="dark" *ngIf="sprintList?.content?.length > 0">
+    <ion-title style="background-color: #0b0b4c; color: white; padding: 12px;">
+      Sprint {{ sprintList.content[0].sprintNumber }} - Weekly Progess
+    </ion-title>
+  </ion-toolbar>
+</ng-container>
+    <!-- <div class="header" style="background-color: #0b0b4c; color: white; padding: 12px;">
       <h2>Sprint 2503.0 - Weekly Progress</h2>
-    </div>
+    </div> -->
 
     <div class="table-container">
       <table class="styled-table">
@@ -397,5 +409,5 @@
 </div>
 
 <div class="loader-overlay" *ngIf="(isLoading$ | async)">
-    <ion-spinner name="crescent"></ion-spinner>
+  <ion-spinner name="crescent"></ion-spinner>
 </div>

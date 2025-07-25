@@ -14,7 +14,7 @@
         </ion-toolbar>
     </ion-header>
 
- <ion-content>
+    <ion-content>
         <form [formGroup]="sprintForm">
             <ion-grid>
                 <ion-row>
@@ -22,7 +22,7 @@
                         <ion-item class="custom-item" [class.invalid]="isInvalid('sprintName')"
                             [class.valid]="isValid('sprintName')" lines="none">
                             <ion-input formControlName="sprintName" label="Sprint Name" labelPlacement="floating"
-                                class="label-texts" placeholder="Enter sprint name" [clearOnEdit]="true" ></ion-input>
+                                class="label-texts" placeholder="Enter sprint name" [clearOnEdit]="true"></ion-input>
                         </ion-item>
 
                         @if (sprintForm.get('sprintName')?.invalid &&
@@ -41,8 +41,8 @@
                         <ion-item class="custom-item" [class.invalid]="isInvalid('fromDate')"
                             [class.valid]="isValid('fromDate')" lines="none">
                             <ion-input formControlName="fromDate" label="Start Date" labelPlacement="floating"
-                                class="label-texts" type="date" [clearOnEdit]="true"  [min]="minStartDate" [max]="maxStartDate"
-  (ionChange)="onStartDateChange($event)"></ion-input>
+                                class="label-texts" type="date" [clearOnEdit]="true" [min]="currentDate"
+                                [max]="maxStartDate" (ionChange)="onStartDateChange($event)"></ion-input>
                         </ion-item>
 
                         @if (sprintForm.get('fromDate')?.invalid &&
@@ -62,9 +62,8 @@
                         <ion-item class="custom-item" [class.invalid]="isInvalid('toDate')"
                             [class.valid]="isValid('toDate')" lines="none">
                             <ion-input formControlName="toDate" label="End Date" labelPlacement="floating"
-                                class="label-texts" type="date" [clearOnEdit]="true"[min]="minEndDate"
-  [max]="maxEndDate"
-  (ionChange)="onEndDateChange($event)"></ion-input>
+                                class="label-texts" type="date" [clearOnEdit]="true" [min]="minEndDate"
+                                [max]="maxEndDate" (ionChange)="onEndDateChange($event)"></ion-input>
                         </ion-item>
 
                         @if (sprintForm.get('toDate')?.invalid &&
@@ -80,7 +79,7 @@
             </ion-grid>
         </form>
 
-   </ion-content>
+    </ion-content>
 
     <ion-footer>
         <ion-toolbar>

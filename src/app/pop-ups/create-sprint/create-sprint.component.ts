@@ -28,6 +28,7 @@ export class CreateSprintComponent {
   maxEndDate: string | null = null;
   minStartDate: string | null = null;
   maxStartDate: string | null = null;
+  currentDate!: string;
   constructor() { }
 
   sprintStore = inject(SprintStore)
@@ -56,6 +57,8 @@ export class CreateSprintComponent {
 
   ngOnInit() {
     this.creteForm();
+    const today = new Date();
+  this.currentDate = today.toISOString().split('T')[0];
     // this.accountStore.getAccounts();
     if (this.editData) {
       this.sprintForm.patchValue(this.editData);

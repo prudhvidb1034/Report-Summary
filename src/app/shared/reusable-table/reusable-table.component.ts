@@ -52,13 +52,14 @@ loadPage(event: { pageIndex: number; pageSize: number }) {
   }
 
   onSearchTermChange() {
-    console.log(this.searchTerm)
-    const urlWithParams = `${urls.PROJECT_SEARCH}?name=${this.searchTerm}`;
-    this.sharedservice.getData(urlWithParams).subscribe();
-    this.searchTermChanged.emit(this.searchTerm);
-    this.data.subscribe((data:any)=>{
-      console.log(data)
-    })
+    console.log(this.searchTerm);
+    this.rowAction.emit({type:'search',item:this.searchTerm});
+    // const urlWithParams = `${urls.PROJECT_SEARCH}?name=${this.searchTerm}`;
+    // this.sharedservice.getData(urlWithParams).subscribe();
+    // this.searchTermChanged.emit(this.searchTerm);
+    // this.data.subscribe((data:any)=>{
+    //   console.log(data)
+    // })
   }
 
   action(type: string, item: any) {

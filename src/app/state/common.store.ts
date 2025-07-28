@@ -1,8 +1,9 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { ComponentStore } from '@ngrx/component-store';
-import { switchMap, tap } from 'rxjs/operators';
+import { debounceTime, switchMap, tap } from 'rxjs/operators';
 import { tapResponse } from '@ngrx/component-store';
 import { SharedService } from '../services/shared/shared.service';
+import { ToastService } from '../shared/toast.service';
 
 export interface CreateProject {
   // Define according to API
@@ -16,7 +17,9 @@ export interface ApiResponse<T> {
   // …other metadata if present
 }
 
+
 export interface ProjectsStateModel {
+      list: any;
   allprojects:any;
   allAccounts:any;
   allEmployees:any;
@@ -28,12 +31,14 @@ export interface ProjectsStateModel {
 @Injectable({ providedIn: 'root' })
 export class CommonStore extends ComponentStore<ProjectsStateModel> {
   constructor(private sharedservice: SharedService) {
-    super({ allprojects: [],allAccounts:[],allEmployees:[],weeklyRange:[], loading: false, error: null });
+    super({ allprojects: [],list:[],allAccounts:[],allEmployees:[],weeklyRange:[], loading: false, error: null });
   }
 
   readonly allProjects$ = this.select(state => state.allprojects);
     readonly allAccounts$ = this.select(state => state.allAccounts);
     readonly employeeList$=this.select(state=>state.allEmployees);
+    private toast = inject(ToastService);
+    readonly list$ = this.select(state => state.list);
 
   readonly loading$     = this.select(state => state.loading);
   readonly error$       = this.select(state => state.error);
@@ -178,5 +183,27 @@ export class CommonStore extends ComponentStore<ProjectsStateModel> {
       )
     )
   );
+
+
+        readonly getSearch = this.effect<{type:string,searchName:string, page: number; size: number; sortBy: string }>(
+          trigger$ =>
+              trigger$.pipe(
+                  debounceTime(300),
+                  tap(() => this.patchState({ loading: true, error: null })),
+                  switchMap(({type,searchName, page, size, sortBy }) =>
+                      this.sharedservice.getData<ApiResponse<any  >>(`${type}/search?name=${searchName}&page=${page}&size=${size}&sortBy=${sortBy}`).pipe(
+                          tapResponse(
+                              (list) => {
+                                  this.patchState({ list: list.data, loading: false });
+                              },
+                              (error) => {
+                                  this.patchState({ loading: false, error: 'Failed to fetch accounts' });
+                                  this.toast.show('error', 'Failed to load accounts!');
+                              }
+                          )
+                      )
+                  )
+              )
+      );
 
 }

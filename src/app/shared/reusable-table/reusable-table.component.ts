@@ -68,7 +68,7 @@ loadPage(event: { pageIndex: number; pageSize: number }) {
 
   toggleEvent(event: any, item: any) {
     this.rowAction.emit({ type: 'toggle-status', value: event.detail.checked === true ? 'Active' : 'InActive', item: item })
-    console.log(event.detail.checked)
+    console.log(event.detail.checked,event,item)
   }
 
   onPageSizeChange(event:any){

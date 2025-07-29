@@ -1,0 +1,44 @@
+
+  {
+    "data": {
+      "content": [
+        {
+          "team": "Team Alpha",
+          "feature": "User Authentication",
+          "sprint0": "Completed setup",
+          "sprint1": "Login/Logout done",
+          "sprint2": "OAuth integration",
+          "sprint3": "MFA & testing",
+          "completion": "90%",
+          "statusReport": "In Progress",
+          "action": null,
+          "id":1
+        },
+        {
+          "team": "Team Beta",
+          "feature": "Dashboard Analytics",
+          "sprint0": "Wireframes ready",
+          "sprint1": "Chart components done",
+          "sprint2": "API integration",
+          "sprint3": "Bug fixes",
+          "completion": "100%",
+          "statusReport": "Completed",
+          "action": null,
+          "id":2
+        },
+        {
+          "team": "Team Gamma",
+          "feature": "Notification System",
+          "sprint0": "Requirements gathering",
+          "sprint1": "Basic alerts",
+          "sprint2": "Push notifications",
+          "sprint3": "Email + SMS integration",
+          "completion": "75%",
+          "statusReport": "In Progress",
+          "action": null,
+          "id":3
+        }
+      ]
+    }
+  }
+

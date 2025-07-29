@@ -1,0 +1,188 @@
+<div class="modal-wrapper">
+  <ion-header>
+    <ion-toolbar color="light">
+      <ion-buttons slot="start">
+        <ion-title>
+          <b> {{ isEditMode ? "Update" : "Create" }} Quaterly Report</b>
+        </ion-title>
+      </ion-buttons>
+      <ion-buttons slot="end">
+        <ion-button fill="clear" (click)="setOpen(false)">
+          <ion-icon name="close-outline" class="icon-medium"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content>
+    <form [formGroup]="quaterlyStandingForm">
+      <ion-grid>
+        <ion-row>
+          <ion-col size="4">
+            <ion-item
+              class="custom-item"
+              [class.invalid]="isInvalid('team')"
+              [class.valid]="isValid('team')"
+              lines="none"
+            >
+              <ion-input
+                formControlName="team"
+                label="Team"
+                labelPlacement="floating"
+                class="label-texts"
+                placeholder="team"
+                [clearOnEdit]="true"
+              ></ion-input>
+            </ion-item>
+          </ion-col>
+
+          <ion-col size="4">
+            <ion-item
+              class="custom-item"
+              [class.invalid]="isInvalid('feature')"
+              [class.valid]="isValid('feature')"
+              lines="none"
+            >
+              <ion-input
+                formControlName="feature"
+                label="Feature"
+                labelPlacement="floating"
+                class="label-texts"
+                placeholder="feature"
+                [clearOnEdit]="true"
+              ></ion-input>
+            </ion-item>
+          </ion-col>
+
+          <ion-col size="4">
+            <ion-item
+              class="custom-item"
+              [class.invalid]="isInvalid('sprint0')"
+              [class.valid]="isValid('sprint0')"
+              lines="none"
+            >
+              <ion-input
+                formControlName="sprint0"
+                label="Sprint0"
+                labelPlacement="floating"
+                class="label-texts"
+                placeholder="feature"
+                [clearOnEdit]="true"
+              ></ion-input>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col size="4">
+            <ion-item
+              class="custom-item"
+              [class.invalid]="isInvalid('sprint1')"
+              [class.valid]="isValid('sprint1')"
+              lines="none"
+            >
+              <ion-input
+                formControlName="sprint1"
+                label="Sprint1"
+                labelPlacement="floating"
+                class="label-texts"
+                placeholder="floating"
+                [clearOnEdit]="true"
+              ></ion-input>
+            </ion-item>
+          </ion-col>
+
+          <ion-col size="4">
+            <ion-item
+              class="custom-item"
+              [class.invalid]="isInvalid('sprint2')"
+              [class.valid]="isValid('sprint2')"
+              lines="none"
+            >
+              <ion-input
+                formControlName="sprint2"
+                label="Sprint2"
+                labelPlacement="floating"
+                class="label-texts"
+                placeholder="sprint2"
+                [clearOnEdit]="true"
+              ></ion-input>
+            </ion-item>
+          </ion-col>
+          <ion-col size="4">
+            <ion-item
+              class="custom-item"
+              [class.invalid]="isInvalid('sprint3')"
+              [class.valid]="isValid('sprint3')"
+              lines="none"
+            >
+              <ion-input
+                formControlName="sprint3"
+                label="Sprint3"
+                labelPlacement="floating"
+                class="label-texts"
+                placeholder="sprint3"
+                [clearOnEdit]="true"
+              ></ion-input>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+        
+         
+          <ion-col size="4">
+            <ion-item
+              class="custom-item"
+              [class.invalid]="isInvalid('completion')"
+              [class.valid]="isValid('completion')"
+              lines="none"
+            >
+              <ion-input
+                formControlName="completion"
+                label="Completion"
+                labelPlacement="floating"
+                class="label-texts"
+                placeholder="completion"
+                [clearOnEdit]="true"
+              ></ion-input>
+            </ion-item>
+          </ion-col>
+           <ion-col size="4">
+            <ion-item
+              class="custom-item"
+              [class.invalid]="isInvalid('status')"
+              [class.valid]="isValid('status')"
+              lines="none"
+            >
+              <ion-input
+                formControlName="statusReport"
+                label="Status"
+                labelPlacement="floating"
+                class="label-texts"
+                placeholder="status"
+                [clearOnEdit]="true"
+              ></ion-input>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+    
+      </ion-grid>
+    </form>
+  </ion-content>
+
+  <ion-footer>
+    <ion-toolbar>
+      <ion-buttons slot="end">
+        <ion-button class="close" (click)="setOpen(false)">Close</ion-button>
+
+        <ion-button class="save" (click)="SubmitForm()">
+          {{ isEditMode ? "Update" : "Save" }}
+        </ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-footer>
+</div>
+<!-- <div class="loader-overlay" *ngIf="(isLoading$ | async)">
+  <ion-spinner name="crescent"></ion-spinner>
+</div> -->

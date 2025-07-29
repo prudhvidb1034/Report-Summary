@@ -246,142 +246,190 @@
   </ion-content> -->
 
   <ion-content style="height: calc(100vh - 32vh)">
-  <form
-    [formGroup]="employeeUpdateForm"
-    (ngSubmit)="onSubmit()"
-    class="register-form"
-  >
-    <ion-grid>
-      <ion-row>
-        <ion-col size="4">
-          <ion-item class="custom-item" lines="none">
-            <ion-label class="label-texts" position="stacked">Projects</ion-label>
-            <ion-select
-              formControlName="projectName"
-              interface="popover"
-              class="label-texts"
-              placeholder="Select Project"
+    <form
+      [formGroup]="employeeUpdateForm"
+      (ngSubmit)="onSubmit()"
+      class="register-form"
+    >
+      <ion-grid>
+        <ion-row>
+          <ion-col size="4">
+            <ion-item
+              class="custom-item"
+              [class.invalid]="isInvalid('weekRange')"
+              [class.valid]="isValid('weekRange')"
+              lines="none"
             >
-              <ion-select-option *ngFor="let p of allProjects" [value]="p.projectId">
-                {{ p.projectName }}
-              </ion-select-option>
-            </ion-select>
-          </ion-item>
-        </ion-col>
+              <ion-label class="label-texts" position="stacked"
+                >Week Range</ion-label
+              >
+              <ion-select
+                formControlName="weekRange"
+                interface="popover"
+                placeholder="Select Week Range"
+                class="label-texts"
+              >
+                <ion-select-option
+                  *ngFor="let week of weekOptions"
+                  [value]="week.weekId"
+                >
+                  {{ week }}
+                </ion-select-option>
+              </ion-select>
+            </ion-item>
+          </ion-col>
+          <ion-col size="4">
+            <ion-item class="custom-item" lines="none">
+              <ion-label class="label-texts" position="stacked"
+                >Projects</ion-label
+              >
+              <ion-select
+                formControlName="projectName"
+                interface="popover"
+                class="label-texts"
+                placeholder="Select Project"
+              >
+                <ion-select-option
+                  *ngFor="let p of allProjects"
+                  [value]="p.projectId"
+                >
+                  {{ p.projectName }}
+                </ion-select-option>
+              </ion-select>
+            </ion-item>
+          </ion-col>
 
-        <ion-col size="4">
-          <ion-item class="custom-item" lines="none">
-            <ion-label class="label-texts" position="stacked">Employees</ion-label>
-            <ion-select
-              formControlName="firstName"
-              interface="popover"
-              class="label-texts"
-              placeholder="Select Employee"
-            >
-              <ion-select-option *ngFor="let p of allEmployees" [value]="p.personId">
-                {{ p.firstName }}
-              </ion-select-option>
-            </ion-select>
-          </ion-item>
-        </ion-col>
+          <ion-col size="4">
+            <ion-item class="custom-item" lines="none">
+              <ion-label class="label-texts" position="stacked"
+                >Employees</ion-label
+              >
+              <ion-select
+                formControlName="firstName"
+                interface="popover"
+                class="label-texts"
+                placeholder="Select Employee"
+              >
+                <ion-select-option
+                  *ngFor="let p of allEmployees"
+                  [value]="p.personId"
+                >
+                  {{ p.firstName }}
+                </ion-select-option>
+              </ion-select>
+            </ion-item>
+          </ion-col>
 
-        <ion-col size="4">
+          <!-- <ion-col size="4">
           <ion-item class="custom-item">
             <ion-input placeholder="Task Name" formControlName="taskName"></ion-input>
           </ion-item>
         </ion-col>
 
-        <ion-row>
+      
           <ion-col size="4">
             <ion-item class="custom-item">
               <ion-input placeholder="Task Status" formControlName="taskStatus"></ion-input>
             </ion-item>
-          </ion-col>
+          </ion-col> -->
         </ion-row>
-      </ion-row>
 
-      <div formArrayName="weeklyUpdates">
-        <div *ngFor="let update of weeklyUpdates.controls; let i = index" [formGroupName]="i">
-          <ion-row>
-            <ion-col size="6">
-              <ion-item class="custom-item" lines="none">
-                <ion-label class="label-texts" position="stacked">Summary</ion-label>
-                <ion-textarea
-                  formControlName="summary"
-                  class="label-texts"
-                  placeholder="Enter summary"
-                  rows="2"
-                ></ion-textarea>
-              </ion-item>
-            </ion-col>
+        <div formArrayName="weeklyUpdates">
+          <div
+            *ngFor="let update of weeklyUpdates.controls; let i = index"
+            [formGroupName]="i"
+          >
+            <ion-row>
+              <ion-col size="6">
+                <ion-item class="custom-item" lines="none">
+                  <ion-label class="label-texts" position="stacked"
+                    >Summary</ion-label
+                  >
+                  <ion-textarea
+                    formControlName="summary"
+                    class="label-texts"
+                    placeholder="Enter summary"
+                    rows="2"
+                  ></ion-textarea>
+                </ion-item>
+              </ion-col>
 
-            <ion-col size="6">
-              <ion-item class="custom-item" lines="none">
-                <ion-label class="label-texts" position="stacked">Key Accomplishments</ion-label>
-                <ion-textarea
-                  formControlName="keyAccomplishments"
-                  class="label-texts"
-                  placeholder="Enter accomplishments"
-                  rows="2"
-                ></ion-textarea>
-              </ion-item>
-            </ion-col>
-          </ion-row>
+              <ion-col size="6">
+                <ion-item class="custom-item" lines="none">
+                  <ion-label class="label-texts" position="stacked"
+                    >Key Accomplishments</ion-label
+                  >
+                  <ion-textarea
+                    formControlName="keyAccomplishments"
+                    class="label-texts"
+                    placeholder="Enter accomplishments"
+                    rows="2"
+                  ></ion-textarea>
+                </ion-item>
+              </ion-col>
+            </ion-row>
 
-          <ion-row>
-            <ion-col size="6">
-              <ion-item class="custom-item" lines="none">
-                <ion-label class="label-texts" position="stacked">Upcoming Tasks</ion-label>
-                <ion-textarea
-                  formControlName="upcomingTasks"
-                  class="label-texts"
-                  placeholder="Enter upcoming tasks"
-                  rows="2"
-                ></ion-textarea>
-              </ion-item>
-            </ion-col>
+            <ion-row>
+              <ion-col size="6">
+                <ion-item class="custom-item" lines="none">
+                  <ion-label class="label-texts" position="stacked"
+                    >Upcoming Tasks</ion-label
+                  >
+                  <ion-textarea
+                    formControlName="upcomingTasks"
+                    class="label-texts"
+                    placeholder="Enter upcoming tasks"
+                    rows="2"
+                  ></ion-textarea>
+                </ion-item>
+              </ion-col>
 
-            <ion-col size="6">
-              <ion-item class="custom-item" lines="none">
-                <ion-label class="label-texts" position="stacked">Comments</ion-label>
-                <ion-textarea
-                  formControlName="comments"
-                  class="label-texts"
-                  placeholder="Enter comments"
-                  rows="2"
-                ></ion-textarea>
-              </ion-item>
-            </ion-col>
-          </ion-row>
+              <ion-col size="6">
+                <ion-item class="custom-item" lines="none">
+                  <ion-label class="label-texts" position="stacked"
+                    >Comments</ion-label
+                  >
+                  <ion-textarea
+                    formControlName="comments"
+                    class="label-texts"
+                    placeholder="Enter comments"
+                    rows="2"
+                  ></ion-textarea>
+                </ion-item>
+              </ion-col>
+            </ion-row>
 
-          <ion-row>
-            <ion-col size="1" class="ion-text-center">
-              <ion-icon
-                name="add-outline"
-                color="primary"
-                style="cursor: pointer; font-size: 24px; margin-top: 6px"
-                (click)="addMore()"
-              ></ion-icon>
-            </ion-col>
+            <ion-row>
+              <ion-col size="1" class="ion-text-center">
+                <ion-icon
+                  name="add-outline"
+                  color="primary"
+                  style="cursor: pointer; font-size: 24px; margin-top: 6px"
+                  (click)="addMore()"
+                ></ion-icon>
+              </ion-col>
 
-            <ion-col size="1" class="ion-text-center" *ngIf="weeklyUpdates.length > 1">
-              <ion-icon
-                name="trash-outline"
-                color="danger"
-                style="cursor: pointer; font-size: 24px; margin-top: 6px"
-                (click)="removeUpdate(i)"
-              ></ion-icon>
-            </ion-col>
-          </ion-row>
+              <ion-col
+                size="1"
+                class="ion-text-center"
+                *ngIf="weeklyUpdates.length > 1"
+              >
+                <ion-icon
+                  name="trash-outline"
+                  color="danger"
+                  style="cursor: pointer; font-size: 24px; margin-top: 6px"
+                  (click)="removeUpdate(i)"
+                ></ion-icon>
+              </ion-col>
+            </ion-row>
 
-          <hr style="margin-bottom: 8px" *ngIf="i > 0" />
+            <hr style="margin-bottom: 8px" *ngIf="i > 0" />
+          </div>
         </div>
-      </div>
-    </ion-grid>
-  </form>
-</ion-content>
+      </ion-grid>
+    </form>
+  </ion-content>
 
-  
   <ion-footer>
     <ion-toolbar>
       <ion-buttons slot="end">

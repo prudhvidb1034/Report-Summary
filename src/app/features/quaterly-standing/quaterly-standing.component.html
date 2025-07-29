@@ -1,5 +1,7 @@
 
-<div >
-<app-reusable-table [columns]="columns" [data]="quaterlyList$" [label]="label"
+<div>
+<app-reusable-table [columns]="columns" [data]="quaterlyReport$" [label]="label"
 (rowAction)="handleRowAction($event)"></app-reusable-table>
 </div>
+
+<!-- {{quaterlyReport$  | async | json}} -->

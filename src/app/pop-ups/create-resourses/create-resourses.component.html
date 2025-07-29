@@ -1,91 +1,105 @@
 <div class="modal-wrapper">
   <ion-header>
     <ion-toolbar color="light">
-      <ion-title><b>{{ isEditMode ? 'Update' : 'Create' }} Resource</b></ion-title>
+      <ion-buttons slot="start">
+        <ion-title>
+          <b> {{ isEditMode ? 'Update' : 'Create' }} Resource</b>
+        </ion-title>
+      </ion-buttons>
       <ion-buttons slot="end">
-        <ion-button fill="clear" (click)="dismiss()">
+        <ion-button fill="clear" (click)="setOpen(false)">
           <ion-icon name="close-outline" class="icon-medium"></ion-icon>
         </ion-button>
       </ion-buttons>
     </ion-toolbar>
   </ion-header>
 
-  <div>
-    <form [formGroup]="form">
+  <ion-content>
+    <form [formGroup]="resourceForm">
       <ion-grid>
-        <ion-row>
-          <ion-col size="6">
-            <ion-item [class.invalid]="isInvalid('type')" lines="none">
-              <ion-label position="stacked">Type</ion-label>
-              <ion-select formControlName="type" (ionChange)="onTypeChange()">
-                <ion-select-option *ngFor="let t of types" [value]="t.id">{{ t.name }}</ion-select-option>
-              </ion-select>
-            </ion-item>
-            <ion-text color="danger" *ngIf="isInvalid('type')">
-              <p>Type is required.</p>
-            </ion-text>
-          </ion-col>
+       <ion-row>
+    <!-- Type Dropdown -->
+    <ion-col size="6">
+      <ion-item class="custom-item" [class.invalid]="isInvalid('type')"
+                [class.valid]="isValid('type')" lines="none">
+        <ion-select formControlName="type" label="Type"
+                    labelPlacement="floating" class="label-texts"
+                    interface="popover" placeholder="Select Type"
+                    (ionChange)="onTypeChange($event)">
+          <ion-select-option value="techstack">Tech Stack</ion-select-option>
+          <ion-select-option value="projects">Projects</ion-select-option>
+        </ion-select>
+      </ion-item>
+    </ion-col>
 
-          <ion-col size="6">
-            <ion-item class="autocomplete" [class.invalid]="isInvalid('name')" lines="none">
-              <ion-label position="stacked">Name</ion-label>
-              <ion-searchbar formControlName="name" [debounce]="300"
-                (ionInput)="onSearchInput()" [disabled]="!form.get('type')?.value"
-                placeholder="Search name">
-              </ion-searchbar>
-              <ion-list *ngIf="suggestions.length > 0">
-                <ion-item *ngFor="let s of suggestions" (click)="selectName(s)">
-                  {{ s }}
-                </ion-item>
-              </ion-list>
-            </ion-item>
-            <ion-text color="danger" *ngIf="isInvalid('name')">
-              <p>Name is required.</p>
-            </ion-text>
-          </ion-col>
-        </ion-row>
+    <!-- Name Auto-Select -->
+    <ion-col size="6">
+      <ion-item class="custom-item" [class.invalid]="isInvalid('name')"
+                [class.valid]="isValid('name')" lines="none">
+        <ion-select formControlName="name" label="Name"
+                    labelPlacement="floating" class="label-texts"
+                    interface="popover" placeholder="Search & Select">
+          <ion-select-option *ngFor="let item of filteredNames" [value]="item.id">
+            {{ item.name }}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+    </ion-col>
+  </ion-row>
 
         <ion-row>
+          <!-- Onsite -->
           <ion-col size="6">
-            <ion-item [class.invalid]="isInvalid('onsite')" lines="none">
-              <ion-label position="stacked">Onsite</ion-label>
-              <ion-input formControlName="onsite" type="text" inputmode="numeric"
-              >
+            <ion-item class="custom-item" [class.invalid]="isInvalid('onsite')" [class.valid]="isValid('onsite')"
+              lines="none">
+              <ion-input formControlName="onsite" label="Onsite" labelPlacement="floating" class="label-texts"
+                placeholder="Enter onsite count" [clearOnEdit]="true" type="number">
               </ion-input>
             </ion-item>
-            <ion-text color="danger" *ngIf="isInvalid('onsite')">
-              <p>Enter valid number.</p>
+
+            @if (isInvalid('onsite')) {
+            <ion-text color="danger" class="error-message">
+              <p>Onsite value is required.</p>
             </ion-text>
+            }
           </ion-col>
 
+          <!-- Offsite -->
           <ion-col size="6">
-            <ion-item [class.invalid]="isInvalid('offshore')" lines="none">
-              <ion-label position="stacked">Offshore</ion-label>
-              <ion-input formControlName="offshore" type="text" inputmode="numeric"
-               >
+            <ion-item class="custom-item" [class.invalid]="isInvalid('offsite')" [class.valid]="isValid('offsite')"
+              lines="none">
+              <ion-input formControlName="offsite" label="Offsite" labelPlacement="floating" class="label-texts"
+                placeholder="Enter offsite count" [clearOnEdit]="true" type="number">
               </ion-input>
             </ion-item>
-            <ion-text color="danger" *ngIf="isInvalid('offshore')">
-              <p>Enter valid number.</p>
+
+            @if (isInvalid('offsite')) {
+            <ion-text color="danger" class="error-message">
+              <p>Offsite value is required.</p>
             </ion-text>
+            }
           </ion-col>
         </ion-row>
       </ion-grid>
+
     </form>
-  </div>
+
+  </ion-content>
 
   <ion-footer>
     <ion-toolbar>
       <ion-buttons slot="end">
-        <ion-button class="close" (click)="dismiss()">Close</ion-button>
-        <ion-button class="save" (click)="submit()" [disabled]="form.invalid">
+
+        <ion-button class="close" (click)="setOpen(false)">Close</ion-button>
+
+        <ion-button class="save" (click)="SubmitForm()">
+
           {{ isEditMode ? 'Update' : 'Save' }}
         </ion-button>
       </ion-buttons>
     </ion-toolbar>
   </ion-footer>
 </div>
-
-<div class="loader-overlay" *ngIf="loading">
-  <ion-spinner name="crescent"></ion-spinner>
-</div>
+<!-- <div class="loader-overlay" *ngIf="(isLoading$ | async)">
+    <ion-spinner name="crescent"></ion-spinner>
+</div> -->

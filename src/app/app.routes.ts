@@ -98,22 +98,22 @@ export const routes: Routes = [
     loadComponent: () => import('../app/features/ai-chatbot/ai-chatbot.component').then((m) => m.AiChatbotComponent),
     canActivate: [RoleGuard],
   },
-   {
+  {
     path: 'sprint-report/:id',
     loadComponent: () => import('../app/features/sprint-report/sprint-report.component').then((m) => m.SprintReportComponent),
     canActivate: [RoleGuard],
   },
-   {
+  {
     path: 'sprints',
     loadComponent: () => import('./features/sprints/sprints.component').then((m) => m.SprintsComponent),
     canActivate: [RoleGuard],
   },
-   {
+  {
     path: 'sprints/create-weekly-sprint/:id',
     loadComponent: () => import('./features/weekly-report/weekly-report.component').then((m) => m.WeeklyReportComponent),
     canActivate: [RoleGuard],
   },
-    {
+  {
     path: 'sprints/create-weekly-sprint/create-weekly-report-sprint/:id',
     loadComponent: () => import('./features/weekly-sprint-update/weekly-sprint-update.component').then((m) => m.WeeklySprintUpdateComponent),
     canActivate: [RoleGuard],
@@ -121,6 +121,11 @@ export const routes: Routes = [
   {
     path: 'quaterly-standing',
     loadComponent: () => import('./features/quaterly-standing/quaterly-standing.component').then((m) => m.QuaterlyStandingComponent),
+    canActivate: [RoleGuard],
+  },
+  {
+    path: 'sprints/view-resource/:id',
+    loadComponent: () => import('./features/project-resources/project-resources.component').then((m) => m.ProjectResourcesComponent),
     canActivate: [RoleGuard],
   },
 
@@ -138,5 +143,5 @@ export const routes: Routes = [
   //   redirectTo: 'login',
   //   pathMatch: 'full',
   // },
- 
+
 ];

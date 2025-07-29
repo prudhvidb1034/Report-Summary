@@ -40,6 +40,9 @@ export class SprintsComponent {
     } else if (event.columnName === 'Pi3 Standing') {
       this.router.navigateByUrl('quaterly-standing');
     }
+    else if (event.columnName === 'View Resource') {
+      this.router.navigateByUrl('sprints/view-resource' + '/' + event.item.sprintId, { state: { sprintName: event.item.sprintName } });
+    }
     else {
       this.router.navigateByUrl('sprint-report' + '/' + event.item.sprintId)
     }
@@ -57,6 +60,11 @@ export class SprintsComponent {
     { header: 'Dependecy & Blocker', field: 'View', linkEnable: true, link: '/create-weekly-sprint' },
     { header: 'Status', field: 'status' },
     { header: 'Pi3 Standing', field: 'View', linkEnable: true, link: '/quaterly-standing' },
+    { header: 'View Resource', field: 'View', linkEnable: true, link: '/view-resource' },
+    { header: 'Weekly Report', field: 'View', linkEnable: true, link: '/create-weekly-sprint' },
+    { header: 'Dependecies', field: 'View', linkEnable: true, link: '/create-weekly-sprint' },
+    { header: 'Status', field: 'status' },
+    // { header: 'Pi3 Standing', field: 'View', linkEnable: true, link: '/create-weekly-sprint' },
     { header: 'Action', field: 'action', type: ['edit', 'delete'] },
     { header: 'OverAll Report', field: 'View', linkEnable: true, link: '/sprint-report' }
   ];
@@ -156,13 +164,6 @@ export class SprintsComponent {
       });
     });
   }
-
-
-
-
-
-
-
 
 }
 

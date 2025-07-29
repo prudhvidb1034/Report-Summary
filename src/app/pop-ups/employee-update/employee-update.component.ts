@@ -26,15 +26,17 @@ export class EmployeeUpdateComponent {
   private loginStore = inject(LoginStore);
   private loginService = inject(LoginService)
   private router = inject(Router);
+  week:any=[];
   userInfo: any;
   projectInfo = '';
   weekValue = 'WEEK:16-June-2025 To 20-June-2025';
   private modalCtrl = inject(ModalController);
-  weekOptions = [
-    'WEEK:16-June-2025 To 20-June-2025',
-    'WEEK:08-June-2025 To 14-June-2025',
-    'WEEK:01-June-2025 To 07-June-2025',
-  ];
+  // weekOptions = [
+  //   'WEEK:16-June-2025 To 20-June-2025',
+  //   'WEEK:08-June-2025 To 14-June-2025',
+  //   'WEEK:01-June-2025 To 07-June-2025',
+  // ];
+   weekOptions:any=[];
   private commonStore = inject(CommonStore);
   allProjects$ = this.commonStore.allProjects$;
   allEmployees$ = this.commonStore.employeeList$
@@ -44,7 +46,7 @@ export class EmployeeUpdateComponent {
   ngOnInit() {
     this.commonStore.getAllProjects();
     this.commonStore.getWeeklyRange();
-    this.summary.getDetails({ page: 1,size: 1 })
+    this.summary.getDetails({ page: 0,size: 5 })
     this.allProjects$.subscribe((val: any) => {
       this.allProjects = val
       console.log('projects', this.allProjects);
@@ -53,9 +55,14 @@ export class EmployeeUpdateComponent {
       this.allEmployees = val
       console.log('employees', this.allEmployees);
     })
-    this.commonStore.weeklyRangeList$.subscribe((val:any)=>{
+    this.summary.weeklyRange$.subscribe((val:any)=>{
       console.log('weekrange',val);
-      
+      val.content.map((res:any)=>{
+
+        console.log(res.weekRange)
+        this.week = res.weekRange;
+        this.weekOptions = [res.weekRange.weekFromDate+''+'To'+''+res.weekRange.weekToDate]
+      })
     })
     this.loginStore.user$.pipe(
       tap(res => {
@@ -87,11 +94,12 @@ export class EmployeeUpdateComponent {
   initializeForm(): void {
     this.employeeUpdateForm = this.fb.group({
       taskName: [''],
-      taskStatus: [''],
-      taskStartDate: [''],
+      taskStatus: [this.week?.['weekFromDate']],
+      taskStartDate: [this.week?.['weekToDate']],
       taskEndDate: [''],
       projectName: [''],
       firstName: [''],
+      weekRange:[''],
       weeklyUpdates: this.fb.array([this.createWeeklyUpdateGroup()])
     });
 
@@ -260,13 +268,13 @@ export class EmployeeUpdateComponent {
   const formValue = this.employeeUpdateForm.value;
 
   const output = {
-    weekId: 8,
+    weekId: this.week?.weekId,
     projectId: formValue.projectName,
     personId: formValue.firstName,
     taskName: formValue.taskName,
     taskStatus: formValue.taskStatus,
-    taskStartDate: '2025-06-30',
-    taskEndDate: '2025-07-04',
+    taskStartDate: this.week.weekFromDate,
+    taskEndDate: this.week.weekToDate,
     summary: [] as string[],
     keyAccomplishment: [] as string[],
     upcomingTasks: [] as string[],

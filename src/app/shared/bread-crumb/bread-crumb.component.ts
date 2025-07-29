@@ -125,7 +125,9 @@ projects: { projects: ProjectsMap } = {
      { label: 'Sprints', url: '/sprints' },
      {label:'Weekly Sprint',url:'/sprints/create-weekly-sprint/:id'},
      {label:'Week Wise List',url:'sprints/create-weekly-sprint/create-weekly-report-sprint/:id'},
-          {label:'Sprint Report',url:'/sprint-report'}
+    {label:'Sprint Report',url:'/sprint-report'},
+   {label:'View Resource',url:'/sprints/view-resource/:id'},
+
 
   ];
      breadcrumbLabel():any {
@@ -172,13 +174,24 @@ projects: { projects: ProjectsMap } = {
       });
     }
     else if(segment.startsWith('create-weekly-sprint')){
-      const id = urlSegments[urlSegments.length - 1]; // Get the last segment as ID
+  const id = urlSegments[urlSegments.length - 1]; // Get the last segment as ID
    this.sprintName=localStorage.getItem('sprintName');
    console.log("this.sprintName",this.sprintName)
       breadcrumbs.push({
         label:this.sprintName +' '+'/'+' '+'Weekly Report', // Customize the label as needed
         url: currentUrl+'/'+this.sprintId
       });
+
+    }
+    else if(segment.startsWith('view-resource')){
+        const id = urlSegments[urlSegments.length - 1]; // Get the last segment as ID
+   this.sprintName=localStorage.getItem('sprintName');
+   console.log("this.sprintName",this.sprintName)
+      breadcrumbs.push({
+        label:this.sprintName +' '+'/'+' '+'View Resource', // Customize the label as needed
+        url: currentUrl+'/'+this.sprintId
+      });
+
 
     }
     // else if(segment.startsWith('create-weekly-report-sprint')){

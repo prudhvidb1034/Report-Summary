@@ -118,6 +118,11 @@ export const routes: Routes = [
     loadComponent: () => import('./features/weekly-sprint-update/weekly-sprint-update.component').then((m) => m.WeeklySprintUpdateComponent),
     canActivate: [RoleGuard],
   },
+  {
+    path: 'sprints/view-resource/:id',
+    loadComponent: () => import('./features/project-resources/project-resources.component').then((m) => m.ProjectResourcesComponent),
+    canActivate: [RoleGuard],
+  },
 
   {
     path: '',

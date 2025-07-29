@@ -37,6 +37,8 @@ export class SprintsComponent {
     navigate(event:any){
     if(event.columnName==='Weekly Report'){
       this.router.navigateByUrl('sprints/create-weekly-sprint'+'/'+event.item.sprintId,{state:{sprintName:event.item.sprintName}});
+    }else if(event.columnName==='View Resource'){
+    this.router.navigateByUrl('sprints/view-resource'+'/'+event.item.sprintId,{state:{sprintName:event.item.sprintName}});
     }else{
       this.router.navigateByUrl('sprint-report'+'/'+event.item.sprintId)
     }
@@ -49,13 +51,13 @@ export class SprintsComponent {
     { header: 'Sprint Name', field: 'sprintName' },
     { header: 'From Date', field: 'fromDate' },
     { header: 'To Date', field: 'toDate' },
-     { header: 'View Resource', field: 'View', linkEnable: true, link: '/create-weekly-sprint' },
+    { header: 'View Resource', field: 'View', linkEnable: true, link: '/view-resource' },
     { header: 'Weekly Report', field: 'View', linkEnable: true, link: '/create-weekly-sprint' },
-     { header: 'Dependecy & Blocker', field: 'View', linkEnable: true, link: '/create-weekly-sprint' },
-            { header: 'Status', field: 'status' },
-             { header: 'Pi3 Standing', field: 'View', linkEnable: true, link: '/create-weekly-sprint' },
+    { header: 'Dependecies', field: 'View', linkEnable: true, link: '/create-weekly-sprint' },
+    { header: 'Status', field: 'status' },
+    { header: 'Pi3 Standing', field: 'View', linkEnable: true, link: '/create-weekly-sprint' },
     { header: 'Action', field: 'action', type: ['edit', 'delete'] },
-     { header: 'OverAll Report', field: 'View', linkEnable: true, link: '/sprint-report' }
+    { header: 'OverAll Report', field: 'View', linkEnable: true, link: '/sprint-report' }
   ];
   handleRowAction(event: any) {
     switch (event.type) {

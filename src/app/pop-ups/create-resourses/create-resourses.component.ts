@@ -1,19 +1,21 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+
 import { IonicModule, ModalController } from '@ionic/angular';
 
 @Component({
   selector: 'app-create-resourses',
   standalone: true,
-  imports: [IonicModule,CommonModule,FormsModule,ReactiveFormsModule],
+  imports: [IonicModule, CommonModule, ReactiveFormsModule, ],
   templateUrl: './create-resourses.component.html',
   styleUrl: './create-resourses.component.scss'
 })
 export class CreateResoursesComponent {
   @Input() isEditMode = false;
   loading = false;
-
+  resourceForm!: FormGroup;
+   filteredNames: any[] = [];
   types = [
     { id: 'technologies', name: 'Technologies' },
     { id: 'projects', name: 'Projects' }
@@ -23,55 +25,64 @@ export class CreateResoursesComponent {
 
   suggestions: string[] = [];
 
-  form = this.fb.group({
-    type: ['', Validators.required],
-    name: ['', Validators.required],
-    onsite: ['', [Validators.required, Validators.pattern('^[0-9]*$')]],
-    offshore: ['', [Validators.required, Validators.pattern('^[0-9]*$')]],
 
-  });
+  constructor(private fb: FormBuilder, private modalCtrl: ModalController) { }
 
-  constructor(private fb: FormBuilder, private modalCtrl: ModalController) {}
 
-  onTypeChange() {
-    this.form.patchValue({ name: '' });
-    this.suggestions = [];
+  ngOnInit() {
+    this.resourceForm = this.fb.group({
+
+      type: ['', Validators.required],
+      name: ['', Validators.required],
+      onsite:['', Validators.required],
+      offsite:['', Validators.required],
+
+    });
   }
 
-  onSearchInput() {
-    const val = this.form.get('name')?.value?.toLowerCase() || '';
-    const list = this.form.get('type')?.value === 'technologies'
-      ? this.technologies
-      : this.projects;
-    this.suggestions = list.filter(i => i.toLowerCase().includes(val));
-  }
 
-  selectName(s: string) {
-    this.form.patchValue({ name: s });
-    this.suggestions = [];
-  }
+onTypeChange(event: any) {
+  const selectedType = event.detail.value;
 
-  dismiss() {
-    this.modalCtrl.dismiss();
+  if (selectedType === 'techstack') {
+    this.filteredNames = [
+      { id: 1, name: 'Angular' },
+      { id: 2, name: 'React' },
+      { id: 3, name: 'Node.js' },
+    ];
+  } else if (selectedType === 'projects') {
+    this.filteredNames = [
+      { id: 10, name: 'Project Alpha' },
+      { id: 11, name: 'Project Beta' },
+    ];
   }
+}
 
-  async submit() {
-    if (this.form.invalid) return;
-    this.loading = true;
-    const data = this.form.value;
-    console.log('Submit', data);
-    // your save/update logic here
-    await this.modalCtrl.dismiss(data);
+
+
+
+SubmitForm(){
+
+}
+
+
+  setOpen(isOpen: boolean) {
+    // this.isModalOpen = isOpen;
+
+    // if (!isOpen) {
+    //   this.isEditMode = false; // Only reset on close
+    //   this.sprintresourceForm.reset();
+    // }
+    this.modalCtrl.dismiss(isOpen);
+
   }
-
-  
   isInvalid(controlName: string): boolean {
-    const control = this.form.get(controlName);
+    const control = this.resourceForm.get(controlName);
     return !!(control && control.invalid && control.touched);
   }
 
   isValid(controlName: string): boolean {
-    const control = this.form.get(controlName);
+    const control = this.resourceForm.get(controlName);
     return !!(control && control.valid && control.touched);
   }
 }

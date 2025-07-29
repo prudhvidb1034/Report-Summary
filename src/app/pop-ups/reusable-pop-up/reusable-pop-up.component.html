@@ -65,7 +65,7 @@
           </ion-searchbar>
 
           <!-- <ion-list>
-            <ion-item *ngFor="let project of projectList$ | async">
+            <ion-item *ngFor="let project of projectList">
               {{ project.projectName }}
             </ion-item>
           </ion-list> -->
@@ -74,11 +74,11 @@
 
       <ion-row *ngIf="projectSearch && !projectSelected">
         <ion-col size="8">
-          <ion-list class="scroll-list" *ngIf="teamsList$ | async as projects">
+          <ion-list class="scroll-list" *ngIf="projectList">
             <ion-item
               *ngFor="
                 let project of filterItems(
-                  projects,
+                  projectList,
                   projectSearch,
                   'projectName',
                   projectSelected
@@ -111,12 +111,12 @@
         <ion-col size="8">
           <ion-list
             class="scroll-list"
-            *ngIf="registerList$ | async as employees"
+            *ngIf="employeeList"
           >
             <ion-item
               *ngFor="
                 let emp of filterItems(
-                  employees,
+                  employeeList,
                   employeeSearch,
                   'firstName',
                   employeeSelected

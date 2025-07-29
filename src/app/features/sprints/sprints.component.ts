@@ -12,7 +12,7 @@ import { ConfirmDeleteComponent } from '../../pop-ups/confirm-delete/confirm-del
 @Component({
   selector: 'app-sprints',
   standalone: true,
-  imports: [ReusableTableComponent,IonicModule,FormsModule,CommonModule],
+  imports: [ReusableTableComponent, IonicModule, FormsModule, CommonModule],
   providers: [SprintStore],
   templateUrl: './sprints.component.html',
   styleUrl: './sprints.component.scss'
@@ -27,20 +27,24 @@ export class SprintsComponent {
   pageSize = 5;
   sprintList$: any;
   private router = inject(Router);
-  
+
 
 
   constructor() {
     this.loadSprint(this.page, this.pageSize)
   }
 
-    navigate(event:any){
-    if(event.columnName==='Weekly Report'){
-      this.router.navigateByUrl('sprints/create-weekly-sprint'+'/'+event.item.sprintId,{state:{sprintName:event.item.sprintName}});
-    }else if(event.columnName==='View Resource'){
-    this.router.navigateByUrl('sprints/view-resource'+'/'+event.item.sprintId,{state:{sprintName:event.item.sprintName}});
-    }else{
-      this.router.navigateByUrl('sprint-report'+'/'+event.item.sprintId)
+  navigate(event: any) {
+    if (event.columnName === 'Weekly Report') {
+      this.router.navigateByUrl('sprints/create-weekly-sprint' + '/' + event.item.sprintId, { state: { sprintName: event.item.sprintName } });
+    } else if (event.columnName === 'Pi3 Standing') {
+      this.router.navigateByUrl('quaterly-standing');
+    }
+    else if (event.columnName === 'View Resource') {
+      this.router.navigateByUrl('sprints/view-resource' + '/' + event.item.sprintId, { state: { sprintName: event.item.sprintName } });
+    }
+    else {
+      this.router.navigateByUrl('sprint-report' + '/' + event.item.sprintId)
     }
   }
 
@@ -51,11 +55,16 @@ export class SprintsComponent {
     { header: 'Sprint Name', field: 'sprintName' },
     { header: 'From Date', field: 'fromDate' },
     { header: 'To Date', field: 'toDate' },
+    { header: 'View Resource', field: 'View', linkEnable: true, link: '/create-weekly-sprint' },
+    { header: 'Weekly Report', field: 'View', linkEnable: true, link: '/create-weekly-sprint' },
+    { header: 'Dependecy & Blocker', field: 'View', linkEnable: true, link: '/create-weekly-sprint' },
+    { header: 'Status', field: 'status' },
+    { header: 'Pi3 Standing', field: 'View', linkEnable: true, link: '/quaterly-standing' },
     { header: 'View Resource', field: 'View', linkEnable: true, link: '/view-resource' },
     { header: 'Weekly Report', field: 'View', linkEnable: true, link: '/create-weekly-sprint' },
     { header: 'Dependecies', field: 'View', linkEnable: true, link: '/create-weekly-sprint' },
     { header: 'Status', field: 'status' },
-    { header: 'Pi3 Standing', field: 'View', linkEnable: true, link: '/create-weekly-sprint' },
+    // { header: 'Pi3 Standing', field: 'View', linkEnable: true, link: '/create-weekly-sprint' },
     { header: 'Action', field: 'action', type: ['edit', 'delete'] },
     { header: 'OverAll Report', field: 'View', linkEnable: true, link: '/sprint-report' }
   ];
@@ -65,7 +74,7 @@ export class SprintsComponent {
         this.loadCreateEmployeeModal();
         break;
       case 'delete':
-          this.deleteModal(event.item);
+        this.deleteModal(event.item);
         break;
       case 'nextPage':
         this.page = event.item;
@@ -74,21 +83,21 @@ export class SprintsComponent {
       case 'pageSize':
         this.pageSize = event.item;
         this.loadSprint(this.page, this.pageSize);
-        break;   
+        break;
       case 'edit':
         this.updateCreateEmployeeModal(event.item);
         break;
       case 'navigate':
         this.navigate(event);
-        break;  
+        break;
       default:
         console.log('Unknown action type:', event.type);
     }
   }
 
   loadSprint(pageNum: number, pageSize: number) {
-    this.sprintSore.getSprintDetails({page:pageNum,size:pageSize});
-    this.sprintList$=this.sprintSore.sprint$;
+    this.sprintSore.getSprintDetails({ page: pageNum, size: pageSize });
+    this.sprintList$ = this.sprintSore.sprint$;
   }
 
   loadCreateEmployeeModal() {
@@ -101,7 +110,7 @@ export class SprintsComponent {
     }).then((modal) => {
       modal.present();
       modal.onDidDismiss().then((val) => {
-        if(val.data){
+        if (val.data) {
           this.loadSprint(this.page, this.pageSize);
         }
         console.log('Modal dismissed with data:', val.data);
@@ -109,25 +118,29 @@ export class SprintsComponent {
     });
   }
 
+  // navigateToQuaterlyStandingReport{
+
+  // }
+
   updateCreateEmployeeModal(item: any) {
-      this.modalController.create({
-        component: CreateSprintComponent,
-        cssClass: 'create-account-modal',
-        componentProps: {
-          editData: item
+    this.modalController.create({
+      component: CreateSprintComponent,
+      cssClass: 'create-account-modal',
+      componentProps: {
+        editData: item
+      }
+    }).then((modal) => {
+      modal.present();
+      modal.onDidDismiss().then((val) => {
+        if (val.data) {
+          this.loadSprint(this.page, this.pageSize);
         }
-      }).then((modal) => {
-        modal.present();
-        modal.onDidDismiss().then((val) => {
-          if(val.data){
-        this.loadSprint(this.page, this.pageSize);
-          }
-          console.log("Model",val.data)
-         // this.accountStore.getAccounts();
-          console.log('Modal dismissed with data:', val.data);
-        });
+        console.log("Model", val.data)
+        // this.accountStore.getAccounts();
+        console.log('Modal dismissed with data:', val.data);
       });
-    }
+    });
+  }
 
 
   deleteModal(item: any) {
@@ -151,13 +164,6 @@ export class SprintsComponent {
       });
     });
   }
-
-
-
-
-
-
-
 
 }
 

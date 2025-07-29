@@ -261,9 +261,6 @@ private sharedservice = inject(SharedService);
 
 
 
-  // https://employeetracking-main.onrender.com/api/releases/sprint/1
-
-
      readonly getIndicentById = this.effect((sprintId$: Observable<string>) =>
     sprintId$.pipe(
         tap(() => this.patchState({ loading: true, error: null })),
@@ -282,7 +279,31 @@ private sharedservice = inject(SharedService);
       )
     )
   );
-      
+ 
+  
+
+   readonly disableWeekId= this.effect(
+          (account$: Observable<{ id: string; data: any }>) =>
+              account$.pipe(
+                  exhaustMap(({ id, data }) => {
+                      this.patchState({ loading: true, error: null });
+                      return this.sharedservice.patchData(`api/week-ranges/inActive/${id}`, data).pipe(
+                          tap({
+                              next: (updatedAccount: any) => {
+                                  this._sprintCreateStatus.set('update');
+                                  this.patchState({ loading: false });
+                              },
+                              error: () => {
+                                  this._sprintCreateStatus.set('error');
+                                  this.patchState({ loading: false, error: 'Failed to update account' });
+                                  this.toast.show('error', 'Update failed!');
+                              }
+                          })
+                      );
+                  })
+              )
+      );
+
   
 }
 

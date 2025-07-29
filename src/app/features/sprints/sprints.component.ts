@@ -49,12 +49,14 @@ export class SprintsComponent {
     { header: 'Sprint Name', field: 'sprintName' },
     { header: 'From Date', field: 'fromDate' },
     { header: 'To Date', field: 'toDate' },
+     { header: 'View Resource', field: 'View', linkEnable: true, link: '/create-weekly-sprint' },
     { header: 'Weekly Report', field: 'View', linkEnable: true, link: '/create-weekly-sprint' },
-    { header: 'Viewall Report', field: 'View', linkEnable: true, link: '/sprint-report' },
-    { header: 'Status', field: 'status' },
-    { header: 'Action', field: 'action', type: ['edit', 'delete'] }
+     { header: 'Dependecy & Blocker', field: 'View', linkEnable: true, link: '/create-weekly-sprint' },
+            { header: 'Status', field: 'status' },
+             { header: 'Pi3 Standing', field: 'View', linkEnable: true, link: '/create-weekly-sprint' },
+    { header: 'Action', field: 'action', type: ['edit', 'delete'] },
+     { header: 'OverAll Report', field: 'View', linkEnable: true, link: '/sprint-report' }
   ];
-
   handleRowAction(event: any) {
     switch (event.type) {
       case 'create':

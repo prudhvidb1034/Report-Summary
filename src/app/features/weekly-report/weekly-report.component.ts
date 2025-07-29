@@ -61,6 +61,9 @@ private datePipe=inject(WeekRangePipe);
       case 'navigate':
         this.navigate(event);
         break;
+      case 'toggle-status'  :
+        // this.sprintStore.disableWeekId()
+        break;
 
       default:
         console.log('Unknown action type:', event.type);

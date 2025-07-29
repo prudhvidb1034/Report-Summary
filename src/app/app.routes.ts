@@ -118,6 +118,11 @@ export const routes: Routes = [
     loadComponent: () => import('./features/weekly-sprint-update/weekly-sprint-update.component').then((m) => m.WeeklySprintUpdateComponent),
     canActivate: [RoleGuard],
   },
+  {
+    path: 'quaterly-standing',
+    loadComponent: () => import('./features/quaterly-standing/quaterly-standing.component').then((m) => m.QuaterlyStandingComponent),
+    canActivate: [RoleGuard],
+  },
 
   {
     path: '',

@@ -1,0 +1,43 @@
+.modal-wrapper {
+  :host { display: block; }
+
+  .autocomplete {
+    position: relative;
+    width: 100%;
+  }
+  .autocomplete ion-list {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: #fff;
+    max-height: 150px;
+    overflow-y: auto;
+    z-index: 1000;
+    border: 1px solid #ccc;
+  }
+  .autocomplete ion-item {
+    cursor: pointer;
+  }
+  .autocomplete ion-item:hover {
+    background: #f1f1f1;
+  }
+
+  .close {
+    margin-right: 8px;
+    --background: #ccc;
+  }
+  .save {
+    --background: #000033;
+    --color: #fff;
+  }
+}
+
+.loader-overlay {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  display: flex;
+  align-items: center; justify-content: center;
+  background: rgba(255,255,255,0.7);
+  z-index: 2000;
+}

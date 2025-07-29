@@ -1,0 +1,91 @@
+<div class="modal-wrapper">
+  <ion-header>
+    <ion-toolbar color="light">
+      <ion-title><b>{{ isEditMode ? 'Update' : 'Create' }} Resource</b></ion-title>
+      <ion-buttons slot="end">
+        <ion-button fill="clear" (click)="dismiss()">
+          <ion-icon name="close-outline" class="icon-medium"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+
+  <div>
+    <form [formGroup]="form">
+      <ion-grid>
+        <ion-row>
+          <ion-col size="6">
+            <ion-item [class.invalid]="isInvalid('type')" lines="none">
+              <ion-label position="stacked">Type</ion-label>
+              <ion-select formControlName="type" (ionChange)="onTypeChange()">
+                <ion-select-option *ngFor="let t of types" [value]="t.id">{{ t.name }}</ion-select-option>
+              </ion-select>
+            </ion-item>
+            <ion-text color="danger" *ngIf="isInvalid('type')">
+              <p>Type is required.</p>
+            </ion-text>
+          </ion-col>
+
+          <ion-col size="6">
+            <ion-item class="autocomplete" [class.invalid]="isInvalid('name')" lines="none">
+              <ion-label position="stacked">Name</ion-label>
+              <ion-searchbar formControlName="name" [debounce]="300"
+                (ionInput)="onSearchInput()" [disabled]="!form.get('type')?.value"
+                placeholder="Search name">
+              </ion-searchbar>
+              <ion-list *ngIf="suggestions.length > 0">
+                <ion-item *ngFor="let s of suggestions" (click)="selectName(s)">
+                  {{ s }}
+                </ion-item>
+              </ion-list>
+            </ion-item>
+            <ion-text color="danger" *ngIf="isInvalid('name')">
+              <p>Name is required.</p>
+            </ion-text>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col size="6">
+            <ion-item [class.invalid]="isInvalid('onsite')" lines="none">
+              <ion-label position="stacked">Onsite</ion-label>
+              <ion-input formControlName="onsite" type="text" inputmode="numeric"
+              >
+              </ion-input>
+            </ion-item>
+            <ion-text color="danger" *ngIf="isInvalid('onsite')">
+              <p>Enter valid number.</p>
+            </ion-text>
+          </ion-col>
+
+          <ion-col size="6">
+            <ion-item [class.invalid]="isInvalid('offshore')" lines="none">
+              <ion-label position="stacked">Offshore</ion-label>
+              <ion-input formControlName="offshore" type="text" inputmode="numeric"
+               >
+              </ion-input>
+            </ion-item>
+            <ion-text color="danger" *ngIf="isInvalid('offshore')">
+              <p>Enter valid number.</p>
+            </ion-text>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </form>
+  </div>
+
+  <ion-footer>
+    <ion-toolbar>
+      <ion-buttons slot="end">
+        <ion-button class="close" (click)="dismiss()">Close</ion-button>
+        <ion-button class="save" (click)="submit()" [disabled]="form.invalid">
+          {{ isEditMode ? 'Update' : 'Save' }}
+        </ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-footer>
+</div>
+
+<div class="loader-overlay" *ngIf="loading">
+  <ion-spinner name="crescent"></ion-spinner>
+</div>

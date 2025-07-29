@@ -181,12 +181,16 @@ app-project-status {
 //   }
 //  }
 
+
 ion-modal.register-modal {
   --height: calc(100vh - 28vh);
 }
 
 ion-modal.create-account-modal {
   --height: calc(100vh - 50vh);
+}
+ion-modal.create-dependency-modal {
+  --height: calc(100vh - 40vh);
 }
 
 ion-modal.create-project-modal {
@@ -226,6 +230,9 @@ ion-content {
   --padding-bottom: 16px;
 }
 
+.height-40{
+  height: 40px;
+}
 // .custom-modal {
 //   // Width rules
 //   width: 90%;

@@ -128,6 +128,11 @@ export const routes: Routes = [
     loadComponent: () => import('./features/project-resources/project-resources.component').then((m) => m.ProjectResourcesComponent),
     canActivate: [RoleGuard],
   },
+  {
+    path: 'sprints/dependencies/:id',
+    loadComponent: () => import('./features/dependencies-list/dependencies-list.component').then((m) => m.DependenciesListComponent),
+    canActivate: [RoleGuard],
+  },
 
   {
     path: '',

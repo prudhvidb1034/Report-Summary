@@ -72,4 +72,17 @@ ion-item:hover {
         align-items: center;
     margin-top: 3vh;
 }
+.copy-row {
+  display: flex;
+  align-items: center;    /* vertically center icon + text */
+  justify-content: flex-end;  /* push content to right */
+  gap: 0.5rem;            /* space between icon and text */
+  margin-bottom: 1rem;
+  cursor: pointer;
+}
+
+.copy-row ion-icon {
+  font-size: 1.2rem;
+}
+
 

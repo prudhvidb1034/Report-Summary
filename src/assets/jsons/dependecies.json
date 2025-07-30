@@ -1,0 +1,65 @@
+{
+    "code": "200",
+    "statusType": "SUCCESS",
+    "message": "Paginated active items fetched successfully",
+    "data": {
+        "content": [
+            {
+                "team": "Team A",
+                "dependency": "Dependency X",
+                "description": "Initial data load integration",
+                "owner": "Alice",
+                "date": "2025-07-25",
+                "status": "In Progress",
+                "impact": "Medium",
+                "actionTaken": "Setup staging pipeline"
+            },
+            {
+                "team": "Team B",
+                "dependency": "Dependency Y",
+                "description": "Authentication upgrade",
+                "owner": "Bob",
+                "date": "2025-07-26",
+                "status": "Completed",
+                "impact": "High",
+                "actionTaken": "Migrated to OAuth2"
+            },
+            {
+                "team": "Team C",
+                "dependency": "Dependency Z",
+                "description": "UI redesign testing",
+                "owner": "Carol",
+                "date": "2025-07-27",
+                "status": "Pending",
+                "impact": "Low",
+                "actionTaken": ""
+            },
+            {
+                "team": "Team A",
+                "dependency": "Dependency W",
+                "description": "Data refresh orchestration",
+                "owner": "Dave",
+                "date": "2025-07-28",
+                "status": "In Queue",
+                "impact": "Medium",
+                "actionTaken": ""
+            },
+            {
+                "team": "Team B",
+                "dependency": "Dependency Q",
+                "description": "Service endpoint refactoring",
+                "owner": "Eve",
+                "date": "2025-07-29",
+                "status": "Completed",
+                "impact": "High",
+                "actionTaken": "Deployed v2 endpoints"
+            }
+        ],
+        "pageNumber": 0,
+        "pageSize": 5,
+        "totalElements": 5,
+        "totalPages": 1,
+        "last": true
+    },
+    "timestamp": "2025-07-30T11:20:00.000Z"
+}

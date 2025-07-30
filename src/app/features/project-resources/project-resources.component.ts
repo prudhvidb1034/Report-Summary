@@ -4,22 +4,28 @@ import { CommonModule } from '@angular/common';
 import { IonicModule, ModalController } from '@ionic/angular';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CreateResoursesComponent } from '../../pop-ups/create-resourses/create-resourses.component';
+import { SprintStore } from '../../state/sprint.store';
+import { ResourcesStore } from '../../state/resources.store';
 
 @Component({
   selector: 'app-project-resources',
   standalone: true,
   imports: [ReusableTableComponent,IonicModule,CommonModule,FormsModule,ReactiveFormsModule],
+  providers:[ResourcesStore],
   templateUrl: './project-resources.component.html',
   styleUrl: './project-resources.component.scss'
 })
 export class ProjectResourcesComponent {
   label='Resources'
     private modalController = inject(ModalController);
-  
+  private resourceStore=inject(ResourcesStore);
    types = [
     { id: 'technologies', name: 'Technologies' },
     { id: 'projects', name: 'Projects' }
   ];
+    page = 0;
+  pageSize = 5;
+  resourcesList$:any;
 
   // sample arrays
   technologies = ['Angular', 'React', 'Vue', 'Ionic', 'Node.js'];
@@ -32,6 +38,12 @@ export class ProjectResourcesComponent {
   ionSelectChange() {
     this.searchTerm = '';
     this.updateSuggestions();
+  }
+
+  ngOnInit(){
+console.log("preojectr REsoirs")
+this.resourceStore.getResources({ page: this.page, size: this.pageSize });
+    this.resourcesList$=this.resourceStore.resources$;
   }
 
   updateSuggestions() {

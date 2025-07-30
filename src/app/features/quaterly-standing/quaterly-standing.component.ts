@@ -6,27 +6,28 @@ import { Observable, of } from 'rxjs';
 import { CommonStore } from '../../state/common.store';
 import { QuaterlyReportStore } from '../../state/quaterlyStanding.store';
 import { CommonModule } from '@angular/common';
+import { ConfirmDeleteComponent } from '../../pop-ups/confirm-delete/confirm-delete.component';
 
 @Component({
   selector: 'app-quaterly-standing',
   standalone: true,
-  providers:[QuaterlyReportStore,CommonStore],
-  imports: [ReusableTableComponent,CommonModule],
+  providers: [QuaterlyReportStore, CommonStore],
+  imports: [ReusableTableComponent, CommonModule],
   templateUrl: './quaterly-standing.component.html',
   styleUrl: './quaterly-standing.component.scss'
 })
 export class QuaterlyStandingComponent {
-accountList$: any;
-label='Pi3 Standing'
-quaterlyReport = inject(QuaterlyReportStore);
-commonStore=inject(CommonStore);
-quaterlyReport$:any;
- private modalController = inject(ModalController);
+  accountList$: any;
+  label = 'PI Standing'
+  quaterlyReport = inject(QuaterlyReportStore);
+  commonStore = inject(CommonStore);
+  quaterlyReport$: any;
+  private modalController = inject(ModalController);
   ngOnInit() {
-  this.quaterlyReport.getQuaterlyReports()
-  this.quaterlyReport$ = this.quaterlyReport.quaterlyReport$
+    this.quaterlyReport.getQuaterlyReports()
+    this.quaterlyReport$ = this.quaterlyReport.quaterlyReport$
   }
- columns = [
+  columns = [
     { header: 'Team', field: 'team' },
     { header: 'Feature', field: 'feature' },
     { header: 'Sprint 0', field: 'sprint0' },
@@ -38,90 +39,119 @@ quaterlyReport$:any;
     { header: 'Action', field: 'action', type: ['edit', 'delete'] }
   ];
 
-//  quaterlyList$: Observable<any[]> = of([
-//     {
-//       accountName: 'Team Alpha',
-//       feature: 'User Authentication',
-//       sprint0: 'Completed setup',
-//       sprint1: 'Login/Logout done',
-//       sprint2: 'OAuth integration',
-//       sprint4: 'MFA & testing',
-//       percentage: '90%',
-//       status: 'In Progress',
-//       action: null
-//     },
-//     {
-//       accountName: 'Team Beta',
-//       feature: 'Dashboard Analytics',
-//       sprint0: 'Wireframes ready',
-//       sprint1: 'Chart components done',
-//       sprint2: 'API integration',
-//       sprint4: 'Bug fixes',
-//       percentage: '100%',
-//       status: 'Completed',
-//       action: null
-//     },
-//     {
-//       accountName: 'Team Gamma',
-//       feature: 'Notification System',
-//       sprint0: 'Requirements gathering',
-//       sprint1: 'Basic alerts',
-//       sprint2: 'Push notifications',
-//       sprint4: 'Email + SMS integration',
-//       percentage: '75%',
-//       status: 'In Progress',
-//       action: null
-//     }
-//   ]);
+  //  quaterlyList$: Observable<any[]> = of([
+  //     {
+  //       accountName: 'Team Alpha',
+  //       feature: 'User Authentication',
+  //       sprint0: 'Completed setup',
+  //       sprint1: 'Login/Logout done',
+  //       sprint2: 'OAuth integration',
+  //       sprint4: 'MFA & testing',
+  //       percentage: '90%',
+  //       status: 'In Progress',
+  //       action: null
+  //     },
+  //     {
+  //       accountName: 'Team Beta',
+  //       feature: 'Dashboard Analytics',
+  //       sprint0: 'Wireframes ready',
+  //       sprint1: 'Chart components done',
+  //       sprint2: 'API integration',
+  //       sprint4: 'Bug fixes',
+  //       percentage: '100%',
+  //       status: 'Completed',
+  //       action: null
+  //     },
+  //     {
+  //       accountName: 'Team Gamma',
+  //       feature: 'Notification System',
+  //       sprint0: 'Requirements gathering',
+  //       sprint1: 'Basic alerts',
+  //       sprint2: 'Push notifications',
+  //       sprint4: 'Email + SMS integration',
+  //       percentage: '75%',
+  //       status: 'In Progress',
+  //       action: null
+  //     }
+  //   ]);
 
-    handleRowAction(event: any) {
-       switch (event.type) {
+  handleRowAction(event: any) {
+    switch (event.type) {
       case 'create':
         this.loadCreateQuaterlyReport();
         break;
-        case 'edit':
+      case 'edit':
         this.UpdateQuaterlyReport(event.item);
         break;
-        default:
+      case 'delete':
+        this.deleteModal(event.item);
+        break;
+      default:
         console.log('failing')
     }
   }
-  
 
-  loadCreateQuaterlyReport(){
-    this.modalController.create({
-          component: CreateQuaterlyStandingComponent,
-          cssClass: 'create-account-modal',
-          componentProps: {
-    
-          }
-        }).then((modal) => {
-          modal.present();
-          modal.onDidDismiss().then((data) => {
-          // this.loadProjects(this.page,this.pageSize);
-    
-            console.log('Modal dismissed with data:', data);
-            // Handle any data returned from the modal if needed
-          });
-        });
-   }
 
-    UpdateQuaterlyReport(item:any){
-      console.log('Selected row data:', item);
+  loadCreateQuaterlyReport() {
     this.modalController.create({
-          component: CreateQuaterlyStandingComponent,
-          cssClass: 'create-account-modal',
-          componentProps: {
-     editData: item
-          }
-        }).then((modal) => {
-          modal.present();
-          modal.onDidDismiss().then((data) => {
-          // this.loadProjects(this.page,this.pageSize);
+      component: CreateQuaterlyStandingComponent,
+      cssClass: 'create-account-modal',
+      componentProps: {
+
+      }
+    }).then((modal) => {
+      modal.present();
+      modal.onDidDismiss().then((data) => {
+        // this.loadProjects(this.page,this.pageSize);
+
+        console.log('Modal dismissed with data:', data);
+        // Handle any data returned from the modal if needed
+      });
+    });
+  }
+
+  UpdateQuaterlyReport(item: any) {
+    console.log('Selected row data:', item);
+    this.modalController.create({
+      component: CreateQuaterlyStandingComponent,
+      cssClass: 'create-account-modal',
+      componentProps: {
+        editData: item
+      }
+    }).then((modal) => {
+      modal.present();
+      modal.onDidDismiss().then((data) => {
+        // this.loadProjects(this.page,this.pageSize);
+
+        console.log('Modal dismissed with data:', data);
+        // Handle any data returned from the modal if needed
+      });
+    });
+  }
+
+  deleteModal(item: any) {
+    console.log(item);
     
-            console.log('Modal dismissed with data:', data);
-            // Handle any data returned from the modal if needed
-          });
-        });
-   }
+    this.modalController.create({
+      component: ConfirmDeleteComponent,
+      cssClass: 'custom-delete-modal',
+      componentProps: {
+        role: 'delete',
+        data: {
+          id: item.id,
+          name: item.team,
+
+        }
+      }
+    }).then((modal) => {
+      modal.present();
+      modal.onDidDismiss().then((result) => {
+        console.log(result);
+        
+        if (result?.data?.confirmed) {
+          this.quaterlyReport.deleteQuaterlyReport(result.data.id);
+        }
+      });
+    });
+  }
 }

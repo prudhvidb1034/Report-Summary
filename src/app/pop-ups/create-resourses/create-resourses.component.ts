@@ -15,6 +15,12 @@ export class CreateResoursesComponent {
   @Input() isEditMode = false;
   loading = false;
   resourceForm!: FormGroup;
+  //  projectSearch = '';
+  // employeeSearch = '';
+  // projectId = [];
+  // filteredProjects: any = [];
+  // projectSelected: boolean = false;
+  // personId = '';
    filteredNames: any[] = [];
   types = [
     { id: 'technologies', name: 'Technologies' },
@@ -58,8 +64,34 @@ onTypeChange(event: any) {
   }
 }
 
+  // selectProject(name: any) {
+  //   console.log(name)
+  //   this.projectSearch = name.projectName;
+  //   this.projectId = name.projectId;
+  //   this.projectSelected = true;
+  // }
 
+  // clearProjectSearch() {
+  //   this.projectSearch = '';
+  //   this.projectSelected = false;
+  //   this.filteredProjects = this.projectList;
+  // }
 
+  //   onProjectTyping() {
+  //   this.projectSelected = false;
+  //   const search = this.projectSearch.toLowerCase();
+  //   this.filteredProjects = this.projectList.filter((project: any) =>
+  //     project.projectName.toLowerCase().includes(search)
+  //   );
+  // }
+
+  //   filterItems<T>(items: T[], search: string, key: keyof T, selected: boolean): T[] {
+  //   console.log(items, search, key);
+  //   if (!search || selected) return [];
+  //   return items.filter(item =>
+  //     item[key]?.toString().toLowerCase().includes(search.toLowerCase())
+  //   );
+  // }
 
 SubmitForm(){
 

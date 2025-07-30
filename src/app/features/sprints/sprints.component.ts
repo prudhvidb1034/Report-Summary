@@ -46,7 +46,7 @@ export class SprintsComponent {
       this.router.navigateByUrl('sprints/dependencies' + '/' + event.item.sprintId, { state: { sprintName: event.item.sprintName } });
     }
     else {
-      this.router.navigateByUrl('sprint-report' + '/' + event.item.sprintId)
+      this.router.navigateByUrl('sprint-report' + '/' + event.item.sprintId,{ state: { sprintName: event.item.sprintName } })
     }
   }
 

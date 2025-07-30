@@ -2,25 +2,43 @@
   <ion-header translucent>
     <ion-toolbar color="primary">
       <ion-title class="ion-text-center">Resource Summary</ion-title>
-      <ion-buttons slot="end">
+      <!-- <ion-buttons slot="end">
         <ion-icon name="star" size="large"></ion-icon>
+      </ion-buttons> -->
+
+      <!-- <ion-item lines="none"> -->
+      <ion-buttons slot="end">
+        <!-- <ion-icon name="arrow-down-circle" class="cursor" slot="end" size="large" title="Download the Report"
+        (click)="downloadAsPptx()"></ion-icon> -->
+        <ion-icon
+          name="download-outline"
+          class="cursor"
+          slot="end"
+          size="large"
+          title="Download the Report"
+          (click)="downloadAsPptx()"
+        >
+        </ion-icon>
       </ion-buttons>
+      <!-- </ion-item> -->
     </ion-toolbar>
   </ion-header>
 
   <div class="container">
-    <ion-item lines="none">
+    <!-- <ion-item lines="none">
       <ion-icon name="arrow-down-circle" class="cursor" slot="end" size="large" title="Download the Report"
         (click)="downloadAsPptx()"></ion-icon>
-    </ion-item>
+    </ion-item> -->
 
     <h2 class="subtitle">Project Wise Resources UI-UX-JAVA-RPA</h2>
 
-
     <!-- {{SprintList$ | async | json}} -->
     <div class="grid-layout">
-      <div class="chart-section" style="height: 360px;">
-        <canvas id="barChart" style="width: 100%;"></canvas>
+      <div class="row">
+       
+      <div class="chart-section">
+         <h3>Technology Wise Resources</h3>
+        <canvas id="barChart" style="width: 100%"></canvas>
       </div>
 
       <div class="table-section">
@@ -46,7 +64,17 @@
             </tr>
           </tbody>
         </table>
+        </div>
+        </div>
 
+
+        <div class="row">
+          
+        <div class="chart-section">
+          <h3>Project Wise Resources</h3>
+          <canvas id="barChart2" style="width: 100%"></canvas>
+        </div>
+        <div class="table-section">
         <h3 class="pt-2">Project Wise Summary</h3>
         <table class="styled-table">
           <thead>
@@ -69,15 +97,17 @@
             </tr>
           </tbody>
         </table>
+        </div>
+        </div>
       </div>
     </div>
-  </div>
 
   <div class="container">
-    <ng-container *ngIf="(SprintList$ | async) as sprintList">
+    <ng-container *ngIf="SprintList$ | async as sprintList">
       <ion-toolbar color="dark" *ngIf="sprintList?.content?.length > 0">
         <ion-title class="heading">
-          Sprint {{ sprintList.content[0].sprintNumber }} - Sprint Health & Release
+          Sprint {{ sprintList.content[0].sprintNumber }} - Sprint Health &
+          Release
         </ion-title>
       </ion-toolbar>
     </ng-container>
@@ -103,8 +133,6 @@
         </thead>
         <tbody>
           <ng-container *ngIf="SprintList$ | async as sprintList">
-
-
             <tr *ngFor="let sprint of sprintList.content">
               <td>{{ sprint?.projectName }}</td>
               <td [ngStyle]="getBgStyle(sprint.estimationHealthStatus)">
@@ -121,24 +149,17 @@
               <td>{{ sprint.riskPoints }}</td>
             </tr>
           </ng-container>
-
-
-
         </tbody>
       </table>
-
 
       <div *ngIf="SprintList$ | async as SprintList">
         <ng-container *ngFor="let item of SprintList.content">
           <p *ngIf="item.comments" class="release-info">
-            <strong>{{item.projectName}}</strong> {{ item.comments }}
+            <strong>{{ item.projectName }}</strong> {{ item.comments }}
           </p>
         </ng-container>
       </div>
-
     </div>
-
-
 
     <div class="table-container">
       <h3 class="table-title">Release (Count)</h3>
@@ -152,9 +173,7 @@
           </tr>
         </thead>
         <tbody>
-
           <ng-container *ngIf="incidentList$ | async as incidentList">
-
             <tr *ngFor="let item of incidentList.content">
               <td>{{ item.projectName }}</td>
               <td>{{ item.major }}</td>
@@ -168,17 +187,16 @@
       <div *ngIf="incidentList$ | async as incidentList">
         <ng-container *ngFor="let item of incidentList.content">
           <p *ngIf="item.releaseInformation" class="release-info">
-            <strong>{{item.projectName}}</strong> {{ item.releaseInformation }}
+            <strong>{{ item.projectName }}</strong>
+            {{ item.releaseInformation }}
           </p>
         </ng-container>
       </div>
     </div>
   </div>
 
-
   <div class="container">
-
-    <ng-container *ngIf="(SprintList$ | async) as sprintList">
+    <ng-container *ngIf="SprintList$ | async as sprintList">
       <ion-toolbar color="dark" *ngIf="sprintList?.content?.length > 0">
         <ion-title class="heading">
           Sprint {{ sprintList.content[0].sprintNumber }} - Weekly Progess
@@ -206,36 +224,28 @@
           </tr>
         </thead>
         <tbody>
-
           <ng-container *ngIf="SprintList$ | async as sprintList">
-
             <!-- {{ sprintList.content | json }} -->
 
             <tr *ngFor="let sprint of sprintList.content">
-              <td>{{sprint.projectName}}</td>
-              <td>{{sprint.assignedPoints}}</td>
-              <td>{{sprint.completePoints}}</td>
-              <td>{{sprint.riskPoints}}</td>
+              <td>{{ sprint.projectName }}</td>
+              <td>{{ sprint.assignedPoints }}</td>
+              <td>{{ sprint.completePoints }}</td>
+              <td>{{ sprint.riskPoints }}</td>
               <td>0</td>
               <td>0</td>
               <td>0</td>
               <td>N/A</td>
             </tr>
-
-
-
           </ng-container>
         </tbody>
       </table>
     </div>
   </div>
 
-
   <!-- PAGE 4 -->
   <div class="container">
-    <div class="heading">
-      Sprint Dependencies & Blockers
-    </div>
+    <div class="heading">Sprint Dependencies & Blockers</div>
 
     <div class="table-container">
       <table class="styled-table">
@@ -260,11 +270,13 @@
             <td>04-Jun</td>
             <td>In Progress</td>
             <td>
-              Team is underutilized and increase injection in middle of the sprint.
+              Team is underutilized and increase injection in middle of the
+              sprint.
             </td>
             <td>
-              Had an in-depth discussion with the TPM of the Onboarding team, and she is ensuring that a sufficient
-              number of user stories are assigned for the upcoming sprint.
+              Had an in-depth discussion with the TPM of the Onboarding team,
+              and she is ensuring that a sufficient number of user stories are
+              assigned for the upcoming sprint.
             </td>
           </tr>
           <tr>
@@ -282,12 +294,8 @@
     </div>
   </div>
 
-
-
   <div class="container">
-    <div class="heading">
-      PI3 Standing
-    </div>
+    <div class="heading">PI3 Standing</div>
     <div class="table-container">
       <table class="styled-table">
         <thead>
@@ -364,12 +372,8 @@
     </div>
   </div>
 
-
-
   <div class="container">
-    <div class="heading">
-      PI3- progress & Status
-    </div>
+    <div class="heading">PI3- progress & Status</div>
     <div class="table-container">
       <table class="styled-table">
         <thead>
@@ -380,7 +384,6 @@
             <th>Completed SP</th>
             <th>RAG</th>
             <th>% of completion</th>
-
           </tr>
         </thead>
         <tbody>
@@ -391,7 +394,6 @@
             <td>21</td>
             <td>G</td>
             <td>77.8%</td>
-
           </tr>
           <tr>
             <td>Onboarding</td>
@@ -418,7 +420,7 @@
             <td>77.8%</td>
           </tr>
           <tr>
-             <td>RPA</td>
+            <td>RPA</td>
             <td>kanwar</td>
             <td>27</td>
             <td>21</td>
@@ -429,10 +431,8 @@
       </table>
     </div>
   </div>
-
-
 </div>
 
-<div class="loader-overlay" *ngIf="(isLoading$ | async)">
+<div class="loader-overlay" *ngIf="isLoading$ | async">
   <ion-spinner name="crescent"></ion-spinner>
 </div>

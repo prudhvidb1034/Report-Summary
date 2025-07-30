@@ -36,6 +36,8 @@ export const urls = {
     CREATE_QUATERLY_REPORT: '/assets/jsons/quaterlylist.json',
     UPDATE_QUATERLY_REPORT: '/assets/jsons/quaterlylist.json',
     REMOVE_QUATERLY_REPORT: '/assets/jsons/quaterlylist.json',
+    GET_RESOURCES_DETAILS:'/assets/jsons/resources.json',
+    GET_DEPENDECY_DETAILS:'/assets/jsons/dependecies.json',
 
 
 

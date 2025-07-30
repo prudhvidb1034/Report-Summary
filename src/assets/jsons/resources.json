@@ -1,0 +1,45 @@
+{
+  "code": "200",
+  "statusType": "SUCCESS",
+  "message": "Paginated active entries fetched successfully",
+  "data": {
+    "content": [
+      {
+        "type": "technologies",
+        "name": "Angular",
+        "onsite": 120,
+        "offshore": 80
+      },
+      {
+        "type": "technologies",
+        "name": "React",
+        "onsite": 90,
+        "offshore": 110
+      },
+      {
+        "type": "projects",
+        "name": "Apollo",
+        "onsite": 200,
+        "offshore": 50
+      },
+      {
+        "type": "projects",
+        "name": "Hermes",
+        "onsite": 75,
+        "offshore": 125
+      },
+      {
+        "type": "technologies",
+        "name": "Vue",
+        "onsite": 150,
+        "offshore": 40
+      }
+    ],
+    "pageNumber": 0,
+    "pageSize": 5,
+    "totalElements": 5,
+    "totalPages": 1,
+    "last": true
+  },
+  "timestamp": "2025-07-30T10:45:00.000Z"
+}

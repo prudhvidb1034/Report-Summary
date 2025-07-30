@@ -6,8 +6,8 @@ import { SharedService } from '../services/shared/shared.service';
 import { urls } from '../constants/string-constants';
 import { ToastService } from '../shared/toast.service';
 
-export interface dependenciesState {
-    dependencies: any;
+export interface resourcesState {
+    resources: any;
     loading: boolean;
     error: string | null;
 }
@@ -17,17 +17,17 @@ interface ApiResponse<T> {
 
 
 @Injectable()
-export class DependenciesStore extends ComponentStore<dependenciesState> {
+export class ResourcesStore extends ComponentStore<resourcesState> {
     private sharedservice = inject(SharedService);
     private _dependencyCreateStatus = signal<null | 'success' | 'deleted' | 'update' | 'error'>(null);
 
     readonly accountCreateStatus = this._dependencyCreateStatus.asReadonly();
     private toast = inject(ToastService);
     constructor() {
-        super({ dependencies: [], loading: false, error: null });
+        super({ resources: [], loading: false, error: null });
     }
 
-    readonly dependencies$ = this.select(state => state.dependencies);
+    readonly resources$ = this.select(state => state.resources);
     readonly loading$ = this.select(state => state.loading);
     readonly error$ = this.select(state => state.error);
 
@@ -39,7 +39,7 @@ export class DependenciesStore extends ComponentStore<dependenciesState> {
                 return this.sharedservice.postData(urls.CREATE_ACCOUNT, account).pipe(
                     tap({
                         next: (user: any) => {
-                            this.patchState({ dependencies: [user], loading: false });
+                            this.patchState({ resources: [user], loading: false });
                             this._dependencyCreateStatus.set('success');
                         },
                         error: () => {
@@ -52,25 +52,25 @@ export class DependenciesStore extends ComponentStore<dependenciesState> {
         )
     );
 
-    readonly getDependencies = this.effect<{ page: number; size: number; }>(
-        trigger$ =>
-            trigger$.pipe(
-                tap(() => this.patchState({ loading: true, error: null })),
-                switchMap(({ page, size }) =>
-                    this.sharedservice.getLocalData<ApiResponse<any[]>>(urls.GET_DEPENDECY_DETAILS).pipe(
-                        tapResponse(
-                            (accounts) => {
-                                this.patchState({ dependencies: accounts.data, loading: false });
-                            },
-                            (error) => {
-                                this.patchState({ loading: false, error: 'Failed to fetch accounts' });
-                                this.toast.show('error', 'Failed to load accounts!');
-                            }
-                        )
-                    )
-                )
-            )
-    );
+      readonly getResources = this.effect<{ page: number; size: number;}>(
+          trigger$ =>
+              trigger$.pipe(
+                  tap(() => this.patchState({ loading: true, error: null })),
+                  switchMap(({ page, size }) =>
+                      this.sharedservice.getLocalData<any>(urls.GET_RESOURCES_DETAILS).pipe(
+                          tapResponse(
+                              (resources) => {
+                                  this.patchState({ resources: resources.data, loading: false });
+                              },
+                              (error) => {
+                                  this.patchState({ loading: false, error: 'Failed to fetch resources' });
+                                  this.toast.show('error', 'Failed to fetch resources!');
+                              }
+                          )
+                      )
+                  )
+              )
+      );
 
 
 

@@ -1,0 +1,36 @@
+{
+  "code": "200",
+  "statusType": "SUCCESS",
+  "message": "Sprint progress data fetched successfully",
+  "data": {
+    "content": [
+      {
+        "team": "Alpha",
+        "leadName": "Priya Singh",
+        "assignedSP": 50,
+        "completedSP": 45,
+        "percentOfCompletion": 90
+      },
+      {
+        "team": "Beta",
+        "leadName": "Rohan Patel",
+        "assignedSP": 60,
+        "completedSP": 30,
+        "percentOfCompletion": 50
+      },
+      {
+        "team": "Gamma",
+        "leadName": "Deepika Mehta",
+        "assignedSP": 40,
+        "completedSP": 40,
+        "percentOfCompletion": 100
+      }
+    ],
+    "pageNumber": 0,
+    "pageSize": 3,
+    "totalElements": 3,
+    "totalPages": 1,
+    "last": true
+  },
+  "timestamp": "2025-07-30T10:30:00.000Z"
+}

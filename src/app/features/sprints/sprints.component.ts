@@ -57,15 +57,9 @@ export class SprintsComponent {
     { header: 'From Date', field: 'fromDate' },
     { header: 'To Date', field: 'toDate' },
     { header: 'View Resource', field: 'View', linkEnable: true, link: '/view-resource' },
-     { header: 'Dependencies', field: 'View', linkEnable: true, link: '/dependencies' },
-    // { header: 'Weekly Report', field: 'View', linkEnable: true, link: '/create-weekly-sprint' },
-       // { header: 'Status', field: 'status' },
-    { header: 'Pi3 Standing', field: 'View', linkEnable: true, link: '/quaterly-standing' },
-
+    { header: 'Dependencies', field: 'View', linkEnable: true, link: '/dependencies' },
     { header: 'Weekly Report', field: 'View', linkEnable: true, link: '/create-weekly-sprint' },
-
     { header: 'Status', field: 'status' },
-    // { header: 'Pi3 Standing', field: 'View', linkEnable: true, link: '/create-weekly-sprint' },
     { header: 'Action', field: 'action', type: ['edit', 'delete'] },
     { header: 'OverAll Report', field: 'View', linkEnable: true, link: '/sprint-report' }
   ];

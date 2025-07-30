@@ -7,7 +7,7 @@ import { IonicModule, ModalController } from '@ionic/angular';
 @Component({
   selector: 'app-create-resourses',
   standalone: true,
-  imports: [IonicModule, CommonModule, ReactiveFormsModule, ],
+  imports: [IonicModule, CommonModule, ReactiveFormsModule,],
   templateUrl: './create-resourses.component.html',
   styleUrl: './create-resourses.component.scss'
 })
@@ -21,7 +21,7 @@ export class CreateResoursesComponent {
   // filteredProjects: any = [];
   // projectSelected: boolean = false;
   // personId = '';
-   filteredNames: any[] = [];
+  filteredNames: any[] = [];
   types = [
     { id: 'technologies', name: 'Technologies' },
     { id: 'projects', name: 'Projects' }
@@ -40,29 +40,29 @@ export class CreateResoursesComponent {
 
       type: ['', Validators.required],
       name: ['', Validators.required],
-      onsite:['', Validators.required],
-      offsite:['', Validators.required],
+      onsite: ['', Validators.required],
+      offsite: ['', Validators.required],
 
     });
   }
 
 
-onTypeChange(event: any) {
-  const selectedType = event.detail.value;
+  onTypeChange(event: any) {
+    const selectedType = event.detail.value;
 
-  if (selectedType === 'techstack') {
-    this.filteredNames = [
-      { id: 1, name: 'Angular' },
-      { id: 2, name: 'React' },
-      { id: 3, name: 'Node.js' },
-    ];
-  } else if (selectedType === 'projects') {
-    this.filteredNames = [
-      { id: 10, name: 'Project Alpha' },
-      { id: 11, name: 'Project Beta' },
-    ];
+    if (selectedType === 'techstack') {
+      this.filteredNames = [
+        { id: 1, name: 'Angular' },
+        { id: 2, name: 'React' },
+        { id: 3, name: 'Node.js' },
+      ];
+    } else if (selectedType === 'projects') {
+      this.filteredNames = [
+        { id: 10, name: 'Project Alpha' },
+        { id: 11, name: 'Project Beta' },
+      ];
+    }
   }
-}
 
   // selectProject(name: any) {
   //   console.log(name)
@@ -93,9 +93,9 @@ onTypeChange(event: any) {
   //   );
   // }
 
-SubmitForm(){
+  SubmitForm() {
 
-}
+  }
 
 
   setOpen(isOpen: boolean) {
@@ -107,6 +107,10 @@ SubmitForm(){
     // }
     this.modalCtrl.dismiss(isOpen);
 
+  }
+
+  copyFromPreviousSprint() {
+    this.modalCtrl.dismiss();
   }
   isInvalid(controlName: string): boolean {
     const control = this.resourceForm.get(controlName);

@@ -19,15 +19,11 @@
           (click)="downloadAsPptx()"
         >
         </ion-icon> -->
-        <ion-button  (click)="downloadAsPptx()">
-          <ion-icon
-          name="download-outline"
-          class="cursor"
-          slot="end"
-          title="Download the Report"
-          size="large"
-        >
-        </ion-icon>Export as PDF </ion-button>
+    <ion-button (click)="downloadAsPptx()" expand="block" fill="solid">
+  <ion-icon name="download-outline" slot="start" size="large"></ion-icon>
+  Export as Report
+</ion-button>
+
         
        
       </ion-buttons>

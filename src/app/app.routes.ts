@@ -99,7 +99,7 @@ export const routes: Routes = [
     canActivate: [RoleGuard],
   },
   {
-    path: 'sprint-report/:id',
+    path: 'sprints/sprint-report/:id',
     loadComponent: () => import('../app/features/sprint-report/sprint-report.component').then((m) => m.SprintReportComponent),
     canActivate: [RoleGuard],
   },

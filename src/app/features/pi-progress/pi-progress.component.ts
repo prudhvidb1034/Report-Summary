@@ -15,36 +15,36 @@ import { CreatePiProgressComponent } from '../../pop-ups/create-pi-progress/crea
 })
 export class PiProgressComponent {
 
-    accountList$: any;
-    label = 'PI Progress'
-    quaterlyReport = inject(PiPgrogressStore);
-    commonStore = inject(CommonStore);
-    quaterlyReport$: any;
-    private modalController = inject(ModalController);
-    ngOnInit() {
-      // this.quaterlyReport.getQuaterlyReports()
-      // this.quaterlyReport$ = this.quaterlyReport.quaterlyReport$
-    }
+  accountList$: any;
+  label = 'PI Progress'
+  piprogressReport = inject(PiPgrogressStore);
+  commonStore = inject(CommonStore);
+  piprogressReport$: any;
+  private modalController = inject(ModalController);
+  ngOnInit() {
+    this.piprogressReport.getPipgrogressReports()
+    this.piprogressReport$ = this.piprogressReport.piprogressReport$
+  }
 
 
 
-     columns = [
+  columns = [
     { header: 'Team', field: 'team' },
-    { header: 'Lead Name', field: 'leadname' },
-    { header: 'Assigned SP', field: 'Assignedp' },
-    { header: 'Completed SP', field: 'completedsp' },
-      { header: '% of Completion', field: 'Percentage' },
-   
+    { header: 'Lead Name', field: 'leadName' },
+    { header: 'Assigned SP', field: 'assignedSP' },
+    { header: 'Completed SP', field: 'completedSP' },
+    { header: '% of Completion', field: 'percentOfCompletion' },
+
     { header: 'Action', field: 'action', type: ['edit', 'delete'] }
   ];
 
-   handleRowAction(event: any) {
+  handleRowAction(event: any) {
     switch (event.type) {
-       case 'create':
-         this.loadPiProgressReport();
-         break;
-       case 'edit':
-       this.UpdatePiProgressReport(event.item);
+      case 'create':
+        this.loadPiProgressReport();
+        break;
+      case 'edit':
+        this.UpdatePiProgressReport(event.item);
         break;
       // case 'delete':
       //   this.deleteModal(event.item);
@@ -54,40 +54,40 @@ export class PiProgressComponent {
     }
   }
 
-    loadPiProgressReport() {
-      this.modalController.create({
-        component: CreatePiProgressComponent,
-        cssClass: 'create-account-modal',
-        componentProps: {
-  
-        }
-      }).then((modal) => {
-        modal.present();
-        modal.onDidDismiss().then((data) => {
-          // this.loadProjects(this.page,this.pageSize);
-  
-          console.log('Modal dismissed with data:', data);
-          // Handle any data returned from the modal if needed
-        });
-      });
-    }
+  loadPiProgressReport() {
+    this.modalController.create({
+      component: CreatePiProgressComponent,
+      cssClass: 'create-account-modal',
+      componentProps: {
 
-     UpdatePiProgressReport(item: any) {
-        console.log('Selected row data:', item);
-        this.modalController.create({
-          component: CreatePiProgressComponent,
-          cssClass: 'create-account-modal',
-          componentProps: {
-            editData: item
-          }
-        }).then((modal) => {
-          modal.present();
-          modal.onDidDismiss().then((data) => {
-            // this.loadProjects(this.page,this.pageSize);
-    
-            console.log('Modal dismissed with data:', data);
-            // Handle any data returned from the modal if needed
-          });
-        });
       }
+    }).then((modal) => {
+      modal.present();
+      modal.onDidDismiss().then((data) => {
+        // this.loadProjects(this.page,this.pageSize);
+
+        console.log('Modal dismissed with data:', data);
+        // Handle any data returned from the modal if needed
+      });
+    });
+  }
+
+  UpdatePiProgressReport(item: any) {
+    console.log('Selected row data:', item);
+    this.modalController.create({
+      component: CreatePiProgressComponent,
+      cssClass: 'create-account-modal',
+      componentProps: {
+        editData: item
+      }
+    }).then((modal) => {
+      modal.present();
+      modal.onDidDismiss().then((data) => {
+        // this.loadProjects(this.page,this.pageSize);
+
+        console.log('Modal dismissed with data:', data);
+        // Handle any data returned from the modal if needed
+      });
+    });
+  }
 }

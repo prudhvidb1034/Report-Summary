@@ -38,7 +38,7 @@ export const urls = {
     REMOVE_QUATERLY_REPORT: '/assets/jsons/quaterlylist.json',
     GET_RESOURCES_DETAILS:'/assets/jsons/resources.json',
     GET_DEPENDECY_DETAILS:'/assets/jsons/dependecies.json',
-    GET_PIPROGRESS_URL:'/assets/jsons/dependecies.json',
+    GET_PIPROGRESS_URL:'/assets/jsons/pi-progress.json',
 
 
 

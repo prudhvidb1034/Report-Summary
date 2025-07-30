@@ -61,7 +61,7 @@ export class PiPgrogressStore extends ComponentStore<piproggressReport> {
             trigger$.pipe(
                 tap(() => this.patchState({ loading: true, error: null })),
                 switchMap((val:any) =>
-                    this.sharedservice.getLocalData<ApiResponse<any[]>>(urls.GET_QUATERLY_REPORT).pipe(
+                    this.sharedservice.getLocalData<ApiResponse<any[]>>(urls.GET_PIPROGRESS_URL).pipe(
                         tapResponse(
                             (piprogressReport) => {
                                 this.patchState({ piprogressReport: piprogressReport.data, loading: false });

@@ -60,7 +60,9 @@ export class ResourcesStore extends ComponentStore<resourcesState> {
                       this.sharedservice.getLocalData<any>(urls.GET_RESOURCES_DETAILS).pipe(
                           tapResponse(
                               (resources) => {
-                                  this.patchState({ resources: resources.data, loading: false });
+                                setTimeout(()=>{
+                                this.patchState({ resources: resources.data, loading: false });
+                                },600)
                               },
                               (error) => {
                                   this.patchState({ loading: false, error: 'Failed to fetch resources' });

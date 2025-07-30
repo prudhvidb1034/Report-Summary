@@ -68,13 +68,14 @@
 
 
 <div class="custom">
-  <div class="copy-row">
-    <!-- <ion-icon name="copy" slot="start"></ion-icon> -->
-    <!-- <span class="copy-text">copy from previous sprint</span> -->
+  <div class="copy-row" title="Resources added through earlier sprint"  [class.disabled]="copyDisabled"
+  (click)="copyDisabled ? null : copyResources()">
+    <ion-icon name="copy" slot="start" ></ion-icon>
+    <span class="copy-text">Clone</span>
   </div><app-reusable-table [columns]="columns" [data]="resourcesList$"
 ></app-reusable-table>
 
 </div>
-<!-- <div class="loader-overlay" *ngIf="(isLoading$ | async)">
+<div class="loader-overlay" *ngIf="(isLoading$ | async)">
     <ion-spinner name="crescent"></ion-spinner>
-</div> -->
+</div>

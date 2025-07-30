@@ -124,6 +124,11 @@ export const routes: Routes = [
     canActivate: [RoleGuard],
   },
   {
+    path: 'pi-progress',
+    loadComponent: () => import('./features/pi-progress/pi-progress.component').then((m) => m.PiProgressComponent),
+    canActivate: [RoleGuard],
+  },
+  {
     path: 'sprints/view-resource/:id',
     loadComponent: () => import('./features/project-resources/project-resources.component').then((m) => m.ProjectResourcesComponent),
     canActivate: [RoleGuard],

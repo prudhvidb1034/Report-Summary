@@ -130,6 +130,8 @@ export class BreadcrumbComponent implements OnInit {
     { label: 'Dependency ', url: '/sprints/dependencies/:id' },
       { label: 'Sprint Report ', url: '/sprint-report/:id' },
        { label: 'PI Outline ', url: '/quaterly-standing' },
+           {label:'Pi-Progress',url:'/pi-progress'},
+
 
 
   ];

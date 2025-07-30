@@ -64,6 +64,7 @@ export class SideMenuComponent {
       children: [
         { label: 'Sprint', path: '/sprints' },
         { label: 'PI Outline', path: '/quaterly-standing' },
+         { label: 'PI Progress', path: '/pi-progress' },
       ]
     },
     {

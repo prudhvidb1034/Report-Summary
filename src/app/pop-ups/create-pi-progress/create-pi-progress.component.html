@@ -1,0 +1,119 @@
+<div class="modal-wrapper">
+  <ion-header>
+    <ion-toolbar color="light">
+      <ion-buttons slot="start">
+        <ion-title>
+          <b>{{ isEditMode ? 'Update' : 'Create' }} PI Progress</b>
+        </ion-title>
+      </ion-buttons>
+      <ion-buttons slot="end">
+        <ion-button fill="clear" (click)="setOpen(false)">
+          <ion-icon name="close-outline" class="icon-medium"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content>
+    <form [formGroup]="piProgressForm">
+      <ion-grid>
+        <ion-row>
+          <!-- Team -->
+          <ion-col size="6">
+            <ion-item class="custom-item" lines="none"
+              [class.invalid]="validationService.isInvalid('team', piProgressForm)"
+              [class.valid]="validationService.isValid('team', piProgressForm)">
+              <ion-input formControlName="team" label="Team" labelPlacement="floating"
+                class="label-texts" placeholder="Enter team name">
+              </ion-input>
+            </ion-item>
+            @if (validationService.isInvalid('team', piProgressForm)) {
+              <ion-text color="danger" class="error-message">
+                <p>Team name is required.</p>
+              </ion-text>
+            }
+          </ion-col>
+
+          <!-- Lead Name -->
+          <ion-col size="6">
+            <ion-item class="custom-item" lines="none"
+              [class.invalid]="validationService.isInvalid('leadname', piProgressForm)"
+              [class.valid]="validationService.isValid('leadname', piProgressForm)">
+              <ion-input formControlName="leadname" label="Lead Name" labelPlacement="floating"
+                class="label-texts" placeholder="Enter lead name">
+              </ion-input>
+            </ion-item>
+            @if (validationService.isInvalid('leadname', piProgressForm)) {
+              <ion-text color="danger" class="error-message">
+                <p>Lead name is required.</p>
+              </ion-text>
+            }
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <!-- Assigned Points -->
+          <ion-col size="6">
+            <ion-item class="custom-item" lines="none"
+              [class.invalid]="validationService.isInvalid('Assignedp', piProgressForm)"
+              [class.valid]="validationService.isValid('Assignedp', piProgressForm)">
+              <ion-input formControlName="Assignedp" label="Assigned Points" labelPlacement="floating"
+                class="label-texts" placeholder="Enter assigned points" type="number">
+              </ion-input>
+            </ion-item>
+            @if (validationService.isInvalid('Assignedp', piProgressForm)) {
+              <ion-text color="danger" class="error-message">
+                <p>Assigned points are required.</p>
+              </ion-text>
+            }
+          </ion-col>
+
+          <!-- Completed SP -->
+          <ion-col size="6">
+            <ion-item class="custom-item" lines="none"
+              [class.invalid]="validationService.isInvalid('completedsp', piProgressForm)"
+              [class.valid]="validationService.isValid('completedsp', piProgressForm)">
+              <ion-input formControlName="completedsp" label="Completed SP" labelPlacement="floating"
+                class="label-texts" placeholder="Enter completed SP" type="number">
+              </ion-input>
+            </ion-item>
+            @if (validationService.isInvalid('completedsp', piProgressForm)) {
+              <ion-text color="danger" class="error-message">
+                <p>Completed SP is required.</p>
+              </ion-text>
+            }
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <!-- Percentage -->
+          <ion-col size="6">
+            <ion-item class="custom-item" lines="none"
+              [class.invalid]="validationService.isInvalid('Percentage', piProgressForm)"
+              [class.valid]="validationService.isValid('Percentage', piProgressForm)">
+              <ion-input formControlName="Percentage" label="Percentage" labelPlacement="floating"
+                class="label-texts" placeholder="Enter percentage" type="number">
+              </ion-input>
+            </ion-item>
+            @if (validationService.isInvalid('Percentage', piProgressForm)) {
+              <ion-text color="danger" class="error-message">
+                <p>Percentage is required.</p>
+              </ion-text>
+            }
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </form>
+  </ion-content>
+
+  <ion-footer>
+    <ion-toolbar>
+      <ion-buttons slot="end">
+        <ion-button class="close" (click)="setOpen(false)">Close</ion-button>
+        <ion-button class="save" (click)="SubmitForm()">
+          {{ isEditMode ? 'Update' : 'Save' }}
+        </ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-footer>
+</div>

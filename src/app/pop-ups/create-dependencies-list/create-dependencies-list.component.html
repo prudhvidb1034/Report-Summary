@@ -12,145 +12,155 @@
 
     <ion-content>
         <form [formGroup]="dependenciesform" (ngSubmit)="onSubmit()" class="register-form">
-        <ion-grid>
-  <ion-row>
-    <!-- Project Select -->
-    <ion-col size="6">
-      <ion-item class="custom-item" lines="none"
-          [class.invalid]="validationService.isInvalid('projectId', dependenciesform)"
-          [class.valid]="validationService.isValid('projectId', dependenciesform)">
-          <ion-select class="label-texts" formControlName="projectId" label="Projects"
-              labelPlacement="floating" interface="popover" placeholder="Select Project">
-              <ng-container *ngIf="allProjects$ | async as projectList">
-                  <ion-select-option *ngFor="let p of projectList" [value]="p.projectId">
-                      {{ p.projectName }}
-                  </ion-select-option>
-              </ng-container>
-          </ion-select>
-      </ion-item>
-      @if (validationService.isInvalid('projectId', dependenciesform)) {
-      <ion-text color="danger" class="error-message">
-          <p>At least one project must be selected.</p>
-      </ion-text>
-      }
-    </ion-col>
+            <ion-grid>
+                <ion-row>
+                    <!-- Project Select -->
+                    <ion-col size="6">
+                        <ion-item class="custom-item" lines="none"
+                            [class.invalid]="validationService.isInvalid('projectId', dependenciesform)"
+                            [class.valid]="validationService.isValid('projectId', dependenciesform)">
+                            <ion-select class="label-texts" formControlName="projectId" label="Projects"
+                                labelPlacement="floating" interface="popover" placeholder="Select Project">
+                                <ng-container *ngIf="allProjects$ | async as projectList">
+                                    <ion-select-option *ngFor="let p of projectList" [value]="p.projectId">
+                                        {{ p.projectName }}
+                                    </ion-select-option>
+                                </ng-container>
+                            </ion-select>
+                        </ion-item>
+                        @if (validationService.isInvalid('projectId', dependenciesform)) {
+                        <ion-text color="danger" class="error-message">
+                            <p>At least one project must be selected.</p>
+                        </ion-text>
+                        }
+                    </ion-col>
 
-    <!-- Dependency Name -->
-    <ion-col size="6">
-      <ion-item class="custom-item" lines="none"
-          [class.invalid]="validationService.isInvalid('dependencyName', dependenciesform)"
-          [class.valid]="validationService.isValid('dependencyName', dependenciesform)">
-          <ion-input formControlName="dependencyName" label="Dependency Name"
-              labelPlacement="floating" class="label-texts" type="text">
-          </ion-input>
-      </ion-item>
-      @if (validationService.isInvalid('dependencyName', dependenciesform)) {
-      <ion-text color="danger" class="error-message">
-          <p>Dependency name is required.</p>
-      </ion-text>
-      }
-    </ion-col>
+                    <!-- Dependency Name -->
+                    <ion-col size="6">
+                        <ion-item class="custom-item" lines="none"
+                            [class.invalid]="validationService.isInvalid('dependencyName', dependenciesform)"
+                            [class.valid]="validationService.isValid('dependencyName', dependenciesform)">
 
-    <!-- Description -->
-    <ion-col size="6">
-      <ion-item class="custom-item" lines="none"
-          [class.invalid]="validationService.isInvalid('description', dependenciesform)"
-          [class.valid]="validationService.isValid('description', dependenciesform)">
-          <ion-textarea formControlName="description" label="Description"
-              labelPlacement="floating" class="label-texts height-40">
-          </ion-textarea>
-      </ion-item>
-      @if (validationService.isInvalid('description', dependenciesform)) {
-      <ion-text color="danger" class="error-message">
-          <p>Description is required.</p>
-      </ion-text>
-      }
-    </ion-col>
+                            <ion-select formControlName="dependencyName" label="Dependency Type"
+                                labelPlacement="floating" class="label-texts" interface="popover"
+                                placeholder="Select Option">
+                                <ion-select-option value="dependency">Dependency</ion-select-option>
+                                <ion-select-option value="blocked">Blocked</ion-select-option>
+                            </ion-select>
+                        </ion-item>
 
-    <!-- Status -->
-    <ion-col size="6">
-      <ion-item class="custom-item" lines="none"
-          [class.invalid]="validationService.isInvalid('status', dependenciesform)"
-          [class.valid]="validationService.isValid('status', dependenciesform)">
-          <ion-select formControlName="status" label="Status" labelPlacement="floating"
-              class="label-texts" interface="popover">
-              <ion-select-option value="Open">Open</ion-select-option>
-              <ion-select-option value="In Progress">In Progress</ion-select-option>
-              <ion-select-option value="Closed">Closed</ion-select-option>
-          </ion-select>
-      </ion-item>
-      @if (validationService.isInvalid('status', dependenciesform)) {
-      <ion-text color="danger" class="error-message">
-          <p>Status is required.</p>
-      </ion-text>
-      }
-    </ion-col>
+                        @if (validationService.isInvalid('dependencyName', dependenciesform)) {
+                        <ion-text color="danger" class="error-message">
+                            <p>Dependency name is required.</p>
+                        </ion-text>
+                        }
+                    </ion-col>
 
-    <!-- Owner -->
-    <ion-col size="6">
-      <ion-item class="custom-item" lines="none"
-          [class.invalid]="validationService.isInvalid('owner', dependenciesform)"
-          [class.valid]="validationService.isValid('owner', dependenciesform)">
-          <ion-input formControlName="owner" label="Owner" labelPlacement="floating"
-              class="label-texts" type="text">
-          </ion-input>
-      </ion-item>
-      @if (validationService.isInvalid('owner', dependenciesform)) {
-      <ion-text color="danger" class="error-message">
-          <p>Owner is required.</p>
-      </ion-text>
-      }
-    </ion-col>
+                      <ion-col size="6">
+                        <ion-item class="custom-item" lines="none"
+                            [class.invalid]="validationService.isInvalid('status', dependenciesform)"
+                            [class.valid]="validationService.isValid('status', dependenciesform)">
+                            <ion-select formControlName="status" label="Status" labelPlacement="floating"
+                                class="label-texts" interface="popover">
+                                <ion-select-option value="Open">Open</ion-select-option>
+                                <ion-select-option value="In Progress">In Progress</ion-select-option>
+                                <ion-select-option value="Closed">Closed</ion-select-option>
+                            </ion-select>
+                        </ion-item>
+                        @if (validationService.isInvalid('status', dependenciesform)) {
+                        <ion-text color="danger" class="error-message">
+                            <p>Status is required.</p>
+                        </ion-text>
+                        }
+                    </ion-col>
 
-    <!-- Impact -->
-    <ion-col size="6">
-      <ion-item class="custom-item" lines="none"
-          [class.invalid]="validationService.isInvalid('impact', dependenciesform)"
-          [class.valid]="validationService.isValid('impact', dependenciesform)">
-          <ion-textarea formControlName="impact" label="Impact" labelPlacement="floating"
-              class="label-texts height-40">
-          </ion-textarea>
-      </ion-item>
-      @if (validationService.isInvalid('impact', dependenciesform)) {
-      <ion-text color="danger" class="error-message">
-          <p>Impact is required.</p>
-      </ion-text>
-      }
-    </ion-col>
+                       <!-- Owner -->
+                    <ion-col size="6">
+                        <ion-item class="custom-item" lines="none"
+                            [class.invalid]="validationService.isInvalid('owner', dependenciesform)"
+                            [class.valid]="validationService.isValid('owner', dependenciesform)">
+                            <ion-input formControlName="owner" label="Owner" labelPlacement="floating"
+                                class="label-texts" type="text">
+                            </ion-input>
+                        </ion-item>
+                        @if (validationService.isInvalid('owner', dependenciesform)) {
+                        <ion-text color="danger" class="error-message">
+                            <p>Owner is required.</p>
+                        </ion-text>
+                        }
+                    </ion-col>
+                      <!-- Date Status -->
+                    <ion-col size="6">
+                        <ion-item class="custom-item" lines="none"
+                            [class.invalid]="validationService.isInvalid('dateStatus', dependenciesform)"
+                            [class.valid]="validationService.isValid('dateStatus', dependenciesform)">
+                            <ion-input formControlName="dateStatus" label="Date " labelPlacement="floating"
+                                class="label-texts" type="date">
+                            </ion-input>
+                        </ion-item>
+                        @if (validationService.isInvalid('dateStatus', dependenciesform)) {
+                        <ion-text color="danger" class="error-message">
+                            <p>Date is required.</p>
+                        </ion-text>
+                        }
+                    </ion-col>
 
-    <!-- Action Taken -->
-    <ion-col size="6">
-      <ion-item class="custom-item" lines="none"
-          [class.invalid]="validationService.isInvalid('actionTaken', dependenciesform)"
-          [class.valid]="validationService.isValid('actionTaken', dependenciesform)">
-          <ion-textarea formControlName="actionTaken" label="Action Taken" labelPlacement="floating"
-              class="label-texts height-40">
-          </ion-textarea>
-      </ion-item>
-      @if (validationService.isInvalid('actionTaken', dependenciesform)) {
-      <ion-text color="danger" class="error-message">
-          <p>Action taken is required.</p>
-      </ion-text>
-      }
-    </ion-col>
+                    
+                    <!-- Action Taken -->
+                    <ion-col size="6">
+                        <ion-item class="custom-item" lines="none"
+                            [class.invalid]="validationService.isInvalid('actionTaken', dependenciesform)"
+                            [class.valid]="validationService.isValid('actionTaken', dependenciesform)">
+                            <ion-textarea formControlName="actionTaken" label="Action Taken" labelPlacement="floating"
+                                class="label-texts height-40">
+                            </ion-textarea>
+                        </ion-item>
+                        @if (validationService.isInvalid('actionTaken', dependenciesform)) {
+                        <ion-text color="danger" class="error-message">
+                            <p>Action taken is required.</p>
+                        </ion-text>
+                        }
+                    </ion-col>
 
-    <!-- Date Status -->
-    <ion-col size="6">
-      <ion-item class="custom-item" lines="none"
-          [class.invalid]="validationService.isInvalid('dateStatus', dependenciesform)"
-          [class.valid]="validationService.isValid('dateStatus', dependenciesform)">
-          <ion-input formControlName="dateStatus" label="Date " labelPlacement="floating"
-              class="label-texts" type="date">
-          </ion-input>
-      </ion-item>
-      @if (validationService.isInvalid('dateStatus', dependenciesform)) {
-      <ion-text color="danger" class="error-message">
-          <p>Date  is required.</p>
-      </ion-text>
-      }
-    </ion-col>
-  </ion-row>
-</ion-grid>
+                    <!-- Description -->
+                    <ion-col size="12">
+                        <ion-item class="custom-item" lines="none"
+                            [class.invalid]="validationService.isInvalid('description', dependenciesform)"
+                            [class.valid]="validationService.isValid('description', dependenciesform)">
+                            <ion-textarea formControlName="description" label="Description" labelPlacement="floating"
+                                class="label-texts ">
+                            </ion-textarea>
+                        </ion-item>
+                        @if (validationService.isInvalid('description', dependenciesform)) {
+                        <ion-text color="danger" class="error-message">
+                            <p>Description is required.</p>
+                        </ion-text>
+                        }
+                    </ion-col>
+
+                  
+
+                 
+
+                    <!-- Impact -->
+                    <ion-col size="12">
+                        <ion-item class="custom-item" lines="none"
+                            [class.invalid]="validationService.isInvalid('impact', dependenciesform)"
+                            [class.valid]="validationService.isValid('impact', dependenciesform)">
+                            <ion-textarea formControlName="impact" label="Impact" labelPlacement="floating"
+                                class="label-texts ">
+                            </ion-textarea>
+                        </ion-item>
+                        @if (validationService.isInvalid('impact', dependenciesform)) {
+                        <ion-text color="danger" class="error-message">
+                            <p>Impact is required.</p>
+                        </ion-text>
+                        }
+                    </ion-col>
+
+                  
+                </ion-row>
+            </ion-grid>
 
         </form>
     </ion-content>

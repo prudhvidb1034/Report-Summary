@@ -63,7 +63,7 @@ export class SideMenuComponent {
       isExpanded: false,
       children: [
         { label: 'Sprint', path: '/sprints' },
-        { label: 'Quaterly Standing', path: '/quaterly-standing' },
+        { label: 'PI Outline', path: '/quaterly-standing' },
       ]
     },
     {

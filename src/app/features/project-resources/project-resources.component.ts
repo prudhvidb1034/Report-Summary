@@ -19,13 +19,15 @@ export class ProjectResourcesComponent {
   label='Resources'
     private modalController = inject(ModalController);
   private resourceStore=inject(ResourcesStore);
+  isLoading$ = this.resourceStore.select(state => state.loading);
    types = [
     { id: 'technologies', name: 'Technologies' },
     { id: 'projects', name: 'Projects' }
   ];
-    page = 0;
+  page = 0;
   pageSize = 5;
   resourcesList$:any;
+  copyDisabled = false;
 
   // sample arrays
   technologies = ['Angular', 'React', 'Vue', 'Ionic', 'Node.js'];
@@ -44,6 +46,15 @@ export class ProjectResourcesComponent {
 console.log("preojectr REsoirs")
 this.resourceStore.getResources({ page: this.page, size: this.pageSize });
     this.resourcesList$=this.resourceStore.resources$;
+  }
+
+  copyResources(){
+      if (this.copyDisabled) return;
+
+    this.copyDisabled = true;
+    this.resourceStore.getResources({ page: this.page, size: this.pageSize });
+    this.resourcesList$=this.resourceStore.resources$;
+
   }
 
   updateSuggestions() {

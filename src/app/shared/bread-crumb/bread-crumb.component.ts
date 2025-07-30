@@ -128,6 +128,7 @@ projects: { projects: ProjectsMap } = {
     {label:'Sprint Report',url:'/sprint-report'},
    {label:'View Resource',url:'/sprints/view-resource/:id'},
    {label:'Dependency ',url:'/sprints/dependencies/:id'},
+    {label:'Pi-Progress',url:'/pi-progress'},
 
 
   ];

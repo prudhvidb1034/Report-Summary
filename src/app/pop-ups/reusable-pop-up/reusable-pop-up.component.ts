@@ -56,7 +56,6 @@ export class ReusablePopUpComponent {
 
   ngOnInit() {
     this.commonStore.getAllProjects();
-    this.commonStore.getAllProjects();
     this.allProjects$.subscribe(list => {
       this.projectList = list;
       console.log(this.projectList) 

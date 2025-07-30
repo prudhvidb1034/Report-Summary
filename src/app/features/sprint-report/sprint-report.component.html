@@ -10,7 +10,7 @@
       <ion-buttons slot="end">
         <!-- <ion-icon name="arrow-down-circle" class="cursor" slot="end" size="large" title="Download the Report"
         (click)="downloadAsPptx()"></ion-icon> -->
-        <ion-icon
+        <!-- <ion-icon
           name="download-outline"
           class="cursor"
           slot="end"
@@ -18,7 +18,18 @@
           title="Download the Report"
           (click)="downloadAsPptx()"
         >
-        </ion-icon>
+        </ion-icon> -->
+        <ion-button  (click)="downloadAsPptx()">
+          <ion-icon
+          name="download-outline"
+          class="cursor"
+          slot="end"
+          title="Download the Report"
+          size="large"
+        >
+        </ion-icon>Export as PDF </ion-button>
+        
+       
       </ion-buttons>
       <!-- </ion-item> -->
     </ion-toolbar>
@@ -30,19 +41,19 @@
         (click)="downloadAsPptx()"></ion-icon>
     </ion-item> -->
 
-    <h2 class="subtitle">Project Wise Resources UI-UX-JAVA-RPA</h2>
+    <h2 class="subtitle" style="margin-bottom: 10px;">Project Wise Resources UI-UX-JAVA-RPA</h2>
 
     <!-- {{SprintList$ | async | json}} -->
     <div class="grid-layout">
       <div class="row">
        
       <div class="chart-section">
-         <h3>Technology Wise Resources</h3>
+         <h4>Technology Wise Resources</h4>
         <canvas id="barChart" style="width: 100%"></canvas>
       </div>
 
       <div class="table-section">
-        <h3>Technology Wise Summary</h3>
+        <h4 style="margin-bottom: 10px;">Technology Wise Summary</h4>
         <table class="styled-table">
           <thead>
             <tr>
@@ -71,11 +82,11 @@
         <div class="row">
           
         <div class="chart-section">
-          <h3>Project Wise Resources</h3>
+          <h4 style="margin-bottom: 10px;">Project Wise Resources</h4>
           <canvas id="barChart2" style="width: 100%"></canvas>
         </div>
         <div class="table-section">
-        <h3 class="pt-2">Project Wise Summary</h3>
+        <h4 class="pt-2" style="margin-bottom: 10px;">Project Wise Summary</h4>
         <table class="styled-table">
           <thead>
             <tr>
@@ -105,7 +116,7 @@
   <div class="container">
     <ng-container *ngIf="SprintList$ | async as sprintList">
       <ion-toolbar color="dark" *ngIf="sprintList?.content?.length > 0">
-        <ion-title class="heading">
+        <ion-title class="heading" style="margin-bottom: 10px;">
           Sprint {{ sprintList.content[0].sprintNumber }} - Sprint Health &
           Release
         </ion-title>
@@ -113,7 +124,7 @@
     </ng-container>
 
     <div class="table-container">
-      <h3 class="table-title">Sprint Health</h3>
+      <h4 class="table-title" style="margin-bottom: 10px;">Sprint Health</h4>
       <table class="styled-table">
         <thead>
           <tr>
@@ -162,7 +173,7 @@
     </div>
 
     <div class="table-container">
-      <h3 class="table-title">Release (Count)</h3>
+      <h4 class="table-title" style="margin-bottom: 10px;">Release (Count)</h4>
       <table class="styled-table">
         <thead>
           <tr>

@@ -19,7 +19,8 @@ export class DependenciesListComponent {
 
   label = 'Dependencies';
 private dependenciesStore = inject(DependenciesStore);
-
+    page = 0;
+  pageSize = 5;
 
 private  modalController = inject(ModalController);
 isLoading$ = this.dependenciesStore.select(state => state.loading);
@@ -68,6 +69,11 @@ isLoading$ = this.dependenciesStore.select(state => state.loading);
       actionTaken: "DevOps team is fixing environment; estimated completion today."
     }
   ]);
+
+  ngOnInit(){
+    this.dependenciesStore.getDependencies({page:this.page,size:this.pageSize});
+    this.sprintDependencies$=this.dependenciesStore.dependencies$
+  }
 
 
  handleRowAction(event: any) {

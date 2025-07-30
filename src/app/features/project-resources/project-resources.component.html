@@ -19,7 +19,7 @@
         <div>
       <ion-row class="ion-align-items-center" style="width: 100%;">
         <ion-col >
-          <label style="font-size: 14px; font-weight: bold;margin-left: 3px;">Type</label>
+          <label style="font-size: 14px; font-weight: bold;margin-left: 3px;">Name</label>
           <ion-searchbar class="search-bar"
           [debounce]="300"
             animated="true"
@@ -61,13 +61,17 @@
         </ion-button>
       </div>
     </ion-col>
+    
   </ion-row>
 </ion-grid>
 
 
 
 <div class="custom">
-<app-reusable-table [columns]="columns"
+  <div class="copy-row">
+    <ion-icon name="copy" slot="start"></ion-icon>
+    <span class="copy-text">copy from previous sprint</span>
+  </div><app-reusable-table [columns]="columns" [data]="resourcesList$"
 ></app-reusable-table>
 
 </div>

@@ -127,6 +127,7 @@ projects: { projects: ProjectsMap } = {
      {label:'Week Wise List',url:'sprints/create-weekly-sprint/create-weekly-report-sprint/:id'},
     {label:'Sprint Report',url:'/sprint-report'},
    {label:'View Resource',url:'/sprints/view-resource/:id'},
+   {label:'Dependency ',url:'/sprints/dependencies/:id'},
 
 
   ];

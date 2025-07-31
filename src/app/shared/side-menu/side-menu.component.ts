@@ -58,13 +58,13 @@ export class SideMenuComponent {
     },
     {
       label: 'Sprints',
-      icon: 'bookmark-outline',
+      icon: 'bookmark',
       roles: ['superadmin', 'manager', 'employee'],
       isExpanded: false,
       children: [
-        { label: 'Sprint', path: '/sprints' },
-        { label: 'PI Outline', path: '/quaterly-standing' },
-         { label: 'PI Progress', path: '/pi-progress' },
+        { label: 'Sprint', icons:'tv', path: '/sprints' },
+        { label: 'PI Outline',icons:'stopwatch', path: '/quaterly-standing' },
+         { label: 'PI Progress',icons:'timer',  path: '/pi-progress' },
       ]
     },
     {

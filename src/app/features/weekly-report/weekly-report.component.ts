@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, Inject, inject } from '@angular/core';
 import { ReusableTableComponent } from "../../shared/reusable-table/reusable-table.component";
 import { map, of, pluck } from 'rxjs';
 import { CreateWeeklyReportComponent } from '../../pop-ups/create-weekly-report/create-weekly-report.component';
@@ -7,6 +7,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { SprintStore } from '../../state/sprint.store';
 import { CommonModule } from '@angular/common';
 import { WeekRangePipe } from '../../shared/pipes/week-range.pipe';
+import { SharedService } from '../../services/shared/shared.service';
 
 @Component({
   selector: 'app-weekly-report',
@@ -25,8 +26,7 @@ export class WeeklyReportComponent {
     { header: 'Week Start Date', field: 'weekFromDate' },
     { header: 'Week End Date', field: 'weekToDate' },
     { header: 'Weekly Update', field: 'View', linkEnable: true, },
-        { header: 'Status', field: 'status' },
-
+    { header: 'Status', field: 'status' },
   ];
   sprintId: any;
 
@@ -37,8 +37,9 @@ export class WeeklyReportComponent {
   private router = inject(Router);
 private datePipe=inject(WeekRangePipe);
   
-  constructor(private route: ActivatedRoute) {
+  constructor(private route: ActivatedRoute,private commonServive:SharedService) {
     this.sprintId = this.route.snapshot.paramMap.get('id');
+    this.commonServive.sprintId=this.sprintId;
     this.sprintStore.getSprintById(this.sprintId);
   }
 
@@ -58,6 +59,9 @@ private datePipe=inject(WeekRangePipe);
         break;
       case 'navigate':
         this.navigate(event);
+        break;
+      case 'toggle-status'  :
+        // this.sprintStore.disableWeekId()
         break;
 
       default:

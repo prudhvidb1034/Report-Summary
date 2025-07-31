@@ -62,7 +62,7 @@ export class CreateProjectComponent {
   }
   CreateForm() {
     this.teamForm = this.fb.group({
-      projectName: ['', [Validators.required, Validators.minLength(3)]],
+      projectName: ['', [Validators.required, Validators.minLength(2)]],
       accountId: ['', Validators.required],
 
 

@@ -5,7 +5,7 @@
       <span *ngIf="weekLabel" class="week-label">{{weekLabel}}</span>
     </ion-col>
 
-    <ion-col class="ion-text-end" size="auto"
+    <ion-col class="ion-text-end" size="auto" *ngIf="!showSearchandButton"
       style="display: flex; align-items: center; gap: 8px; width: 100%; flex-wrap: nowrap;">
       <ion-searchbar class="search-bar-input" [(ngModel)]="searchTerm" (ngModelChange)="onSearchTermChange()"
         style="flex-grow: 4;"></ion-searchbar>

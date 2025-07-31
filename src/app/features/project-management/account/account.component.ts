@@ -6,6 +6,7 @@ import { ReusablePopUpComponent } from '../../../pop-ups/reusable-pop-up/reusabl
 import { CreateAccountComponent } from '../../../pop-ups/create-account/create-account.component';
 import { AccountStore } from '../../../state/account.store';
 import { CommonModule } from '@angular/common';
+import { CommonStore } from '../../../state/common.store';
 
 @Component({
   selector: 'app-account-create',
@@ -19,8 +20,10 @@ export class AccountCreateComponent {
   private modalController = inject(ModalController);
   label = 'Account';
   accountStore = inject(AccountStore);
+  commonStore=inject(CommonStore);
   accountList$: any;
   isLoading$ = this.accountStore.select(state => state.loading);
+  isLoadingCommon$=this.commonStore.select(state=>state.loading);
   page = 0;
   pageSize = 5;
 
@@ -47,6 +50,10 @@ constructor() {
 
   handleRowAction(event: any) {
     switch (event.type) {
+      case 'search':
+        this.commonStore.getSearch({type:'Account',searchName:event.item, page: this.page, size: this.pageSize, sortBy: 'accountName'});
+         this.accountList$ = this.commonStore.list$;
+        break;
       case 'create':
         this.loadCreateEmployeeModal();
         break;

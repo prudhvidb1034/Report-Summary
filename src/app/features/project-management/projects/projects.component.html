@@ -2,6 +2,11 @@
     [label]="label" [searchTerm]="searchProject"
   (searchTermChanged)="onSearchTermChanged($event)"></app-reusable-table>
 
-<div class="loader-overlay" *ngIf="(isLoading$ | async)">
+<ng-container *ngIf="{ 
+    a: isLoading$ | async, 
+    b: isLoadingCommon$ | async 
+  } as flags">
+  <div *ngIf="flags.a || flags.b" class="loader-overlay">
     <ion-spinner name="crescent"></ion-spinner>
-</div>
+  </div>
+</ng-container>

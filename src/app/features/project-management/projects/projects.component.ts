@@ -10,6 +10,7 @@ import { ProjectStore } from '../../../state/project.store';
 import { ReusableTableComponent } from '../../../shared/reusable-table/reusable-table.component';
 import { CreateProjectComponent } from '../../../pop-ups/create-project/create-project.component';
 import { ConfirmDeleteComponent } from '../../../pop-ups/confirm-delete/confirm-delete.component';
+import { CommonStore } from '../../../state/common.store';
 
 @Component({
   selector: 'app-projects',
@@ -38,8 +39,11 @@ export class ProjectListComponent {
   private projectStore = inject(ProjectStore);
   private modalController = inject(ModalController);
   private loginStore = inject(LoginStore);
+  private commonStore=inject(CommonStore);
   // projectStore = inject(TeamStore);
 isLoading$ = this.projectStore.select(state => state.loading);
+  isLoadingCommon$=this.commonStore.select(state=>state.loading);
+
   projectList$: any;
   page=0
 pageSize=5
@@ -132,6 +136,10 @@ onSearchTermChanged(term: string) {
         this.pageSize=action.item;
         this.loadProjects(this.page,this.pageSize)
        break;  
+        case 'search':
+        this.commonStore.getSearch({type:'projects',searchName:action.item, page: this.page, size: this.pageSize, sortBy: 'projectName'});
+         this.projectList$ = this.commonStore.list$;
+        break;
       default:
         console.log('failing')
     }

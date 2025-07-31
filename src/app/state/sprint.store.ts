@@ -13,7 +13,8 @@ import { ToastService } from "../shared/toast.service";
 export interface CreateSprint {
 
     sprint: Sprint[];
-    weeklySprint: any[];
+    resources:any;
+    weeklySprint: any;
      sprintReport: any; 
      incidentReport:any; 
     loading: boolean;
@@ -30,7 +31,7 @@ export class SprintStore extends ComponentStore<CreateSprint> {
 
 private sharedservice = inject(SharedService);
     constructor() {
-        super({ sprint: [],weeklySprint:[],sprintReport:[],incidentReport:[],createweekSprint:[], loading: false, error: null });
+        super({ sprint: [],resources:[] ,weeklySprint:[],sprintReport:[],incidentReport:[],createweekSprint:[], loading: false, error: null });
     }
     private _sprintCreateStatus = signal<null | 'success' | 'deleted' | 'update' | 'error'>(null);
 
@@ -39,7 +40,9 @@ private sharedservice = inject(SharedService);
     readonly sprint$ = this.select(state => state.sprint);
     readonly weeklySprint$=this.select(state=>state.weeklySprint);
     readonly sprintReport$ = this.select(state => state.sprintReport);
- readonly incidentReport$ = this.select(state => state.incidentReport);
+        readonly resourcesList$ = this.select(state => state.resources);
+
+     readonly incidentReport$ = this.select(state => state.incidentReport);
     readonly loading$ = this.select(state => state.loading);
     readonly error$ = this.select(state => state.error);
     private toast = inject(ToastService);
@@ -180,7 +183,7 @@ private sharedservice = inject(SharedService);
             },
             (error) => {
               this.patchState({ loading: false, error: 'Failed to fetch sprint by ID' });
-              this.toast.show('error', 'Failed to load sprint!');
+              this.toast.show('error', 'Failed to fetch sprint by ID');
             }
           )
         )
@@ -211,7 +214,7 @@ private sharedservice = inject(SharedService);
               )
       );
 
-         readonly deleteWeeklySprintById = this.effect((accountId$: Observable<string>) =>
+        readonly deleteWeeklySprintById = this.effect((accountId$: Observable<string>) =>
         accountId$.pipe(
             exhaustMap(id =>
                 this.sharedservice.deleteData(`weekly-sprint-update/${id}`).pipe(
@@ -239,7 +242,7 @@ private sharedservice = inject(SharedService);
 
 
 
-        readonly getReportById = this.effect((sprintId$: Observable<string>) =>
+    readonly getReportById = this.effect((sprintId$: Observable<string>) =>
     sprintId$.pipe(
         tap(() => this.patchState({ loading: true, error: null })),
       exhaustMap(sprintId =>
@@ -261,9 +264,6 @@ private sharedservice = inject(SharedService);
 
 
 
-  // https://employeetracking-main.onrender.com/api/releases/sprint/1
-
-
      readonly getIndicentById = this.effect((sprintId$: Observable<string>) =>
     sprintId$.pipe(
         tap(() => this.patchState({ loading: true, error: null })),
@@ -282,7 +282,52 @@ private sharedservice = inject(SharedService);
       )
     )
   );
-      
+ 
+  
+
+   readonly disableWeekId= this.effect(
+          (account$: Observable<{ id: string; data: any }>) =>
+              account$.pipe(
+                  exhaustMap(({ id, data }) => {
+                      this.patchState({ loading: true, error: null });
+                      return this.sharedservice.patchData(`api/week-ranges/inActive/${id}`, data).pipe(
+                          tap({
+                              next: (updatedAccount: any) => {
+                                  this._sprintCreateStatus.set('update');
+                                  this.patchState({ loading: false });
+                              },
+                              error: () => {
+                                  this._sprintCreateStatus.set('error');
+                                  this.patchState({ loading: false, error: 'Failed to update account' });
+                                  this.toast.show('error', 'Update failed!');
+                              }
+                          })
+                      );
+                  })
+              )
+      );
+
+
+      readonly getResources = this.effect<{ page: number; size: number;}>(
+          trigger$ =>
+              trigger$.pipe(
+                  tap(() => this.patchState({ loading: true, error: null })),
+                  switchMap(({ page, size }) =>
+                      this.sharedservice.getLocalData<any>(urls.GET_RESOURCES_DETAILS).pipe(
+                          tapResponse(
+                              (resources) => {
+                                  this.patchState({ resources: resources.data, loading: false });
+                              },
+                              (error) => {
+                                  this.patchState({ loading: false, error: 'Failed to fetch resources' });
+                                  this.toast.show('error', 'Failed to fetch resources!');
+                              }
+                          )
+                      )
+                  )
+              )
+      );
+
   
 }
 

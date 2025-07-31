@@ -104,30 +104,37 @@ ion-header {
   box-shadow: none !important;
 }
 
-ion-footer {
-  padding-right: 16px;
-  padding-left: 16px;
-  padding-top: 8px;
-  padding-bottom: 8px;
+/* Keep styles for pages */
+ion-app ion-footer {
+ padding: 0px 26px 0px 16px;
   box-shadow: none !important;
-  position: relative;
   border-top: 1px solid #efefef;
   ion-toolbar ion-buttons {
     gap: 16px !important;
     ion-button {
       color: #000033;
       @include base-ion-button;
+
       &:first-child {
         color: #191947;
       }
 
       &:last-child {
-        --background: #191947 !important; /* !important may be needed to override Ionic's styles */
+        --background: #191947 !important;
         color: white;
       }
     }
   }
 }
+
+/* Restore footer stickiness for modals */
+ion-modal ion-footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
 
 ion-menu-button {
   display: block !important;
@@ -181,12 +188,16 @@ app-project-status {
 //   }
 //  }
 
+
 ion-modal.register-modal {
   --height: calc(100vh - 28vh);
 }
 
 ion-modal.create-account-modal {
   --height: calc(100vh - 50vh);
+}
+ion-modal.create-dependency-modal {
+  --height: calc(100vh - 25vh);
 }
 
 ion-modal.create-project-modal {
@@ -226,6 +237,9 @@ ion-content {
   --padding-bottom: 16px;
 }
 
+.height-40{
+  height: 40px;
+}
 // .custom-modal {
 //   // Width rules
 //   width: 90%;

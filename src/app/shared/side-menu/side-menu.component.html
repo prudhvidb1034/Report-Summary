@@ -1,22 +1,59 @@
- <ion-menu side="start" menuId="main-menu" contentId="main-content">
-    <ion-header>
-      <ion-toolbar>
-        <ion-title>Menu</ion-title>
-      </ion-toolbar>
-    </ion-header>
-    <ion-content>
-      <ng-container *ngFor="let item of menuItems;let i=index;">
-        <ion-menu-toggle *ngIf="userRole && item.roles.includes(userRole)" style="display: flex; flex-direction: column;">
-          <ion-list lines="none">
-            <!-- Single clean ion-item per menu item -->
-            <ion-item  menuClose class="cursor hover-item"
-               (click)="navigate(item.path)">
-              <ion-icon size="small" [name]="item.icon" slot="start"></ion-icon>
-              <p style="margin-left: 12px;font-size: 14px;">{{ item.label }}</p>
-            </ion-item>
-          </ion-list>
+<ion-menu side="start" menuId="main-menu" contentId="main-content">
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>Menu</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content>
+    <ng-container *ngFor="let item of menuItems; let i = index">
+      <ion-list *ngIf="userRole && item.roles.includes(userRole)" lines="none">
+
+        <ion-menu-toggle *ngIf="!item.children" autoHide="true">
+          <ion-item
+            class="cursor hover-item"
+            (click)="onItemClick(item)"
+            detail="false"
+          >
+            <ion-icon size="small" [name]="item.icon" slot="start"></ion-icon>
+            <p style="margin-left: 12px; font-size: 14px;">{{ item.label }}</p>
+          </ion-item>
         </ion-menu-toggle>
-      </ng-container>
-    </ion-content>
-  </ion-menu>
-  <ion-router-outlet id="main-content"></ion-router-outlet>
+
+               <ion-item
+          *ngIf="item.children"
+          class="cursor hover-item"
+          (click)="onItemClick(item)"
+          detail="false"
+        >
+          <ion-icon size="small" [name]="item.icon" slot="start"></ion-icon>
+          <p style="margin-left: 12px; font-size: 14px;">{{ item.label }}</p>
+          <ion-icon
+            slot="end"
+            [name]="item.isExpanded ? 'chevron-up' : 'chevron-down'"
+            (click)="toggleSubMenu(item); $event.stopPropagation()"
+          ></ion-icon>
+        </ion-item>
+
+       
+        <div *ngIf="item.children && item.isExpanded" style="padding-left: 24px;">
+          <ion-menu-toggle autoHide="true" *ngFor="let child of item.children">
+            <ion-item
+              (click)="onChildItemClick(child.path)"
+              lines="none"
+              class="cursor hover-item"
+            >
+             <ion-icon size="small" [name]="child.icons" slot="start"></ion-icon>
+              <p style="margin-left: 12px; font-size: 12px;">{{ child.label }}</p>
+            </ion-item>
+          </ion-menu-toggle>
+        </div>
+
+      </ion-list>
+    </ng-container>
+  </ion-content>
+</ion-menu>
+
+
+<!-- Main router outlet -->
+<ion-router-outlet id="main-content"></ion-router-outlet>

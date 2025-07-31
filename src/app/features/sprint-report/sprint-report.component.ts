@@ -69,10 +69,54 @@ export class SprintReportComponent {
 
   ngAfterViewInit() {
     this.renderBarChart();
+    this.renderBarChart2()
   }
 
-  renderBarChart() {
-    const ctx = document.getElementById('barChart') as HTMLCanvasElement;
+ renderBarChart() {
+  const ctx = document.getElementById('barChart') as HTMLCanvasElement;
+
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['C360', 'Innovation', 'Onboarding', 'Core Tex', 'RPA', 'UX', 'Total'],
+      datasets: [
+        {
+          label: 'UI',
+          data: [5, 2, 1, 0, 2, 4, 14],
+          backgroundColor: '#007bff'
+        },
+        {
+          label: 'Backend',
+          data: [3, 1, 4, 1, 0, 0, 9],
+          backgroundColor: '#fd7e14'
+        },
+        {
+          label: 'Total',
+          data: [8, 3, 5, 1, 2, 4, 23],
+          backgroundColor: '#adb5bd'
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: {
+          position: 'bottom' 
+        },
+        title: {
+          display: false
+        }
+      },
+      scales: {
+        x: { stacked: true },
+        y: { stacked: true }
+      }
+    }
+  });
+}
+
+    renderBarChart2() {
+    const ctx = document.getElementById('barChart2') as HTMLCanvasElement;
     new Chart(ctx, {
       type: 'bar',
       data: {
@@ -98,7 +142,7 @@ export class SprintReportComponent {
       options: {
         responsive: true,
         plugins: {
-          legend: { position: 'top' },
+          legend: { position: 'bottom' },
           title: { display: false }
         },
         scales: {

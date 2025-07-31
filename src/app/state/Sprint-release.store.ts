@@ -103,7 +103,7 @@ private sharedservice = inject(SharedService);
                 },
                 (error) => {
                   this.patchState({ loading: false, error: 'Failed to fetch sprint by ID' });
-                  this.toast.show('error', 'Failed to load sprint!');
+                  this.toast.show('error', 'Failed to fetch Release Info!');
                 }
               )
             )

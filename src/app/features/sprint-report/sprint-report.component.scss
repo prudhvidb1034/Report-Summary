@@ -8,40 +8,33 @@
   margin-bottom: 20px;
 }
 
-// .grid-layout {
-//   display: flex;
-//   flex-direction: row;
-//   flex-wrap: wrap;
-//   justify-content: space-between;
-//   background: white;
-//   padding: 16px;
-//   border-radius: 8px;
-// }
-
-// .chart-section {
-//   flex: 1 1 30%;
-//   padding: 10px;
-// }
-
-// .table-section {
-//   flex: 1 1 35%;
-//   padding: 10px;
-// }
-
 
 .grid-layout {
   display: flex;
   flex-direction: column;
-  gap: 40px; // space between the two rows
+  gap: 40px;
   padding: 20px;
 
   .row {
     display: flex;
     gap: 20px;
-    flex-wrap: wrap; // allows wrapping on smaller screens
+    flex-wrap: wrap; 
     justify-content: space-between;
-    align-items: flex-start;
+    align-items: stretch;
 
+     .chart-section,
+    .table-section {
+      flex: 1;
+      min-width: 300px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+
+      h4 {
+        margin: 0 0 10px 0; // 🔑 ensures headings have same spacing
+        padding: 0;
+      }
+    }
     .chart-section {
       flex: 1;
       min-width: 300px;
@@ -61,20 +54,20 @@
         margin-top: 0;
       }
 
-      .styled-table {
-        width: 100%;
-        border-collapse: collapse;
+      // .styled-table {
+      //   width: 100%;
+      //   border-collapse: collapse;
 
-        th, td {
-          padding: 10px;
-          text-align: left;
-          border: 1px solid #ccc;
-        }
+      //   th, td {
+      //     padding: 6px;
+      //     text-align: left;
+      //     border: 1px solid black;
+      //   }
 
-        thead {
-          background-color: #f9f9f9;
-        }
-      }
+      //   thead {
+      //     background-color: #CFE2F0;
+      //   }
+      // }
     }
   }
 }
@@ -85,11 +78,11 @@
   font-family: Arial, sans-serif;
   font-size: 14px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  margin-top: 32px;
+  margin-top: 10px;
 
   th,
   td {
-    padding: 8px 4px;
+    padding: 6px 4px;
     text-align: center;
     border: 1px solid #000;
   }

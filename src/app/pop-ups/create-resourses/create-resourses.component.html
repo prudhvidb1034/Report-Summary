@@ -3,7 +3,7 @@
     <ion-toolbar color="light">
       <ion-buttons slot="start">
         <ion-title>
-          <b> {{ isEditMode ? 'Update' : 'Create' }} Resource</b>
+          <b> {{ isEditMode ? "Update" : "Create" }} Resource</b>
         </ion-title>
       </ion-buttons>
       <ion-buttons slot="end">
@@ -20,11 +20,24 @@
         <ion-row>
           <!-- Type Dropdown -->
           <ion-col size="6">
-            <ion-item class="custom-item" [class.invalid]="isInvalid('type')" [class.valid]="isValid('type')"
-              lines="none">
-              <ion-select formControlName="type" label="Type" labelPlacement="floating" class="label-texts"
-                interface="popover" placeholder="Select Type" (ionChange)="onTypeChange($event)">
-                <ion-select-option value="techstack">Technologies</ion-select-option>
+            <ion-item
+              class="custom-item"
+              [class.invalid]="isInvalid('type')"
+              [class.valid]="isValid('type')"
+              lines="none"
+            >
+              <ion-select
+                formControlName="type"
+                label="Type"
+                labelPlacement="floating"
+                class="label-texts"
+                interface="popover"
+                placeholder="Select Type"
+                (ionChange)="onTypeChange($event)"
+              >
+                <ion-select-option value="techstack"
+                  >Technologies</ion-select-option
+                >
                 <ion-select-option value="projects">Projects</ion-select-option>
               </ion-select>
             </ion-item>
@@ -32,15 +45,72 @@
 
           <!-- Name Auto-Select -->
           <ion-col size="6">
-            <ion-item class="custom-item" [class.invalid]="isInvalid('name')" [class.valid]="isValid('name')"
-              lines="none">
-              <ion-select formControlName="name" label="Name" labelPlacement="floating" class="label-texts"
-                interface="popover" placeholder="Search & Select">
-                <ion-select-option *ngFor="let item of filteredNames" [value]="item.id">
+            <!-- <ion-item
+              class="custom-item"
+              [class.invalid]="isInvalid('name')"
+              [class.valid]="isValid('name')"
+              lines="none"
+            >
+              <ion-select
+                formControlName="name"
+                label="Name"
+                labelPlacement="floating"
+                class="label-texts"
+                interface="popover"
+                placeholder="Search & Select"
+              >
+                <ion-select-option
+                  *ngFor="let item of filteredNames"
+                  [value]="item.id"
+                >
                   {{ item.name }}
                 </ion-select-option>
               </ion-select>
+            </ion-item> -->
+            <ion-row>
+ <!-- <ion-item> -->
+          <!-- <ion-label class="ion-margin">Project Name</ion-label> -->
+          <ion-searchbar
+            [(ngModel)]="projectSearch"
+            [debounce]="300"
+             formControlName="name"
+            (ionClear)="clearProjectSearch()"
+            (ionInput)="onProjectTyping()"
+            placeholder="Select"
+          >
+          </ion-searchbar>
+
+          <!-- <ion-list>
+            <ion-item *ngFor="let project of projectList">
+              {{ project.projectName }}
             </ion-item>
+          </ion-list> -->
+ <!-- </ion-item> -->
+ </ion-row>
+
+   <ion-row *ngIf="projectSearch && !projectSelected">
+        <ion-col size="8">
+          <ion-list class="scroll-list" *ngIf="filteredNames">
+            <ion-item
+              *ngFor="
+                let project of filterItems(
+                  filteredNames,
+                  projectSearch,
+                  'name',
+                  projectSelected
+                )
+              "
+              button
+              lines="none"
+              (click)="selectProject(project)"
+            >
+              <ion-label>{{ project.name }}</ion-label>
+            </ion-item>
+          </ion-list>
+        </ion-col>
+      </ion-row>
+          
+
           </ion-col>
         </ion-row>
 
@@ -60,10 +130,21 @@
         <ion-row>
           <!-- Onsite -->
           <ion-col size="6">
-            <ion-item class="custom-item" [class.invalid]="isInvalid('onsite')" [class.valid]="isValid('onsite')"
-              lines="none">
-              <ion-input formControlName="onsite" label="Onsite" labelPlacement="floating" class="label-texts"
-                placeholder="Enter onsite count" [clearOnEdit]="true" type="number">
+            <ion-item
+              class="custom-item"
+              [class.invalid]="isInvalid('onsite')"
+              [class.valid]="isValid('onsite')"
+              lines="none"
+            >
+              <ion-input
+                formControlName="onsite"
+                label="Onsite"
+                labelPlacement="floating"
+                class="label-texts"
+                placeholder="Enter onsite count"
+                [clearOnEdit]="true"
+                type="number"
+              >
               </ion-input>
             </ion-item>
 
@@ -76,10 +157,21 @@
 
           <!-- Offsite -->
           <ion-col size="6">
-            <ion-item class="custom-item" [class.invalid]="isInvalid('offsite')" [class.valid]="isValid('offsite')"
-              lines="none">
-              <ion-input formControlName="offsite" label="Offsite" labelPlacement="floating" class="label-texts"
-                placeholder="Enter offsite count" [clearOnEdit]="true" type="number">
+            <ion-item
+              class="custom-item"
+              [class.invalid]="isInvalid('offsite')"
+              [class.valid]="isValid('offsite')"
+              lines="none"
+            >
+              <ion-input
+                formControlName="offsite"
+                label="Offsite"
+                labelPlacement="floating"
+                class="label-texts"
+                placeholder="Enter offsite count"
+                [clearOnEdit]="true"
+                type="number"
+              >
               </ion-input>
             </ion-item>
 
@@ -91,9 +183,7 @@
           </ion-col>
         </ion-row>
       </ion-grid>
-
     </form>
-
   </ion-content>
 
   <ion-footer>
@@ -103,12 +193,10 @@
       </ion-icon>
       <span>Copy</span> -->
       <ion-buttons slot="end">
-
         <ion-button class="close" (click)="setOpen(false)">Close</ion-button>
 
         <ion-button class="save" (click)="SubmitForm()">
-
-          {{ isEditMode ? 'Update' : 'Save' }}
+          {{ isEditMode ? "Update" : "Save" }}
         </ion-button>
       </ion-buttons>
     </ion-toolbar>

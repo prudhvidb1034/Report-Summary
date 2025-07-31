@@ -1,14 +1,25 @@
 <ion-grid>
-  <ion-row class="ion-align-items-center" style="width: 100%;">
+  <ion-row class="ion-align-items-center" style="width: 100%">
     <ion-col>
-      <div style="display: flex; gap: 16px; align-items: center; flex-wrap: wrap;">
+      <div
+        style="display: flex; gap: 16px; align-items: center; flex-wrap: wrap; justify-content: space-between;"
+      >
         <!-- Project Dropdown -->
+         <div style="display: flex; gap: 16px; align-items: center; flex-wrap: wrap">
         <div>
-          <label style="font-size: 14px; font-weight: bold;margin-left: 3px;">Type</label>
+          <label style="font-size: 14px; font-weight: bold; margin-left: 3px"
+            >Type</label
+          >
           <ion-item lines="none" class="custom-item">
-            <ion-select interface="popover"
-              style="font-size: 13px;" placeholder="Select Type" [(ngModel)]="selectedType" placeholder="Select Type" (ionChange)="ionSelectChange()">
-              <ion-select-option  *ngFor="let type of types" [value]="type.id">
+            <ion-select
+              interface="popover"
+              style="font-size: 13px"
+              placeholder="Select Type"
+              [(ngModel)]="selectedType"
+              placeholder="Select Type"
+              (ionChange)="ionSelectChange()"
+            >
+              <ion-select-option *ngFor="let type of types" [value]="type.id">
                 {{ type.name }}
               </ion-select-option>
             </ion-select>
@@ -17,65 +28,86 @@
 
         <!-- Employee Dropdown -->
         <div>
-      <ion-row class="ion-align-items-center" style="width: 100%;">
-        <ion-col >
-          <label style="font-size: 14px; font-weight: bold;margin-left: 3px;">Name</label>
-          <ion-searchbar class="search-bar"
-          [debounce]="300"
-            animated="true"
-            [(ngModel)]="searchTerm"
-            (ionInput)="onInput($event)"
-            [disabled]="!selectedType"
-            placeholder="Search name"
-      
-          >
-          </ion-searchbar>
-            <ion-list *ngIf="suggestions.length > 0">
-            <ion-item *ngFor="let s of suggestions" (click)="choose(s)">
-              {{ s }}
-            </ion-item>
-          </ion-list>
-        </ion-col>
-      </ion-row>
+          <ion-row class="ion-align-items-center" style="width: 100%">
+            <ion-col>
+              <label
+                style="font-size: 14px; font-weight: bold; margin-left: 3px"
+                >Name</label
+              >
+              <ion-searchbar
+                class="search-bar"
+                [debounce]="300"
+                animated="true"
+                [(ngModel)]="searchTerm"
+                (ionInput)="onInput($event)"
+                [disabled]="!selectedType"
+                placeholder="Search name"
+              >
+              </ion-searchbar>
+              <ion-list *ngIf="suggestions.length > 0">
+                <ion-item *ngFor="let s of suggestions" (click)="choose(s)">
+                  {{ s }}
+                </ion-item>
+              </ion-list>
+            </ion-col>
+          </ion-row>
         </div>
 
         <div>
-
-          
-        </div>
         <!-- Search Button -->
-        <div style="display: flex; flex-direction: column;">
-          <label style="opacity: 0;">Search</label>
-          <ion-button class="button-cls">
-            SEARCH
-          </ion-button>
+        <!-- <div style="display: flex; flex-direction: column"> -->
+          <!-- <label style="opacity: 0">Search</label> -->
+          <ion-button style="margin-top: 20px;" class="button-cls"> SEARCH </ion-button>
         </div>
-      </div>
-    </ion-col>
+        </div>
 
     <!-- Create Button -->
-    <ion-col size="auto" class="display-flex btn-properties">
-      <div style="display: flex; flex-direction: column; align-items: flex-end;">
-        <ion-button class="button-cls" (click)="openModal()"  >
+<div style="    display: flex
+;
+    flex-direction: row;
+    gap: 16px;">
+   <div
+    class="display-flex btn-properties"
+      title="Resources added through earlier sprint"
+      [class.disabled]="copyDisabled"
+      (click)="copyDisabled ? null : copyResources()"
+    >
+     <div style="display: flex; flex-direction: row; align-items: flex-end">
+      <ion-button style="margin-top: 20px;">
+      <ion-icon name="copy" slot="start"></ion-icon>&nbsp;
+      <span>Clone</span>
+      </ion-button>
+     </div>
+    </div>
+
+    <div size="auto" class="display-flex btn-properties">
+        <ion-button style="margin-top: 20px;" class="button-cls" (click)="openModal()">
           Create Resource
         </ion-button>
-      </div>
+
+    </div>
+    </div>
+</div>
+   
     </ion-col>
-    
   </ion-row>
 </ion-grid>
 
-
-
 <div class="custom">
-  <div class="copy-row" title="Resources added through earlier sprint"  [class.disabled]="copyDisabled"
-  (click)="copyDisabled ? null : copyResources()">
-    <ion-icon name="copy" slot="start" ></ion-icon>
+  <!-- <div
+    class="copy-row"
+    title="Resources added through earlier sprint"
+    [class.disabled]="copyDisabled"
+    (click)="copyDisabled ? null : copyResources()"
+  >
+    <ion-icon name="copy" slot="start"></ion-icon>
     <span class="copy-text">Clone</span>
-  </div><app-reusable-table [columns]="columns" [data]="resourcesList$"
-></app-reusable-table>
-
+  </div> -->
+  <app-reusable-table
+    [columns]="columns"
+    [data]="resourcesList$"
+  ></app-reusable-table>
 </div>
-<div class="loader-overlay" *ngIf="(isLoading$ | async)">
-    <ion-spinner name="crescent"></ion-spinner>
+<div class="loader-overlay" *ngIf="isLoading$ | async">
+  <ion-spinner name="crescent"></ion-spinner>
 </div>

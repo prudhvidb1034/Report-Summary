@@ -20,8 +20,7 @@
           </ion-item>
         </ion-menu-toggle>
 
-        <!-- Parent items with children -->
-        <ion-item
+               <ion-item
           *ngIf="item.children"
           class="cursor hover-item"
           (click)="onItemClick(item)"
@@ -36,7 +35,7 @@
           ></ion-icon>
         </ion-item>
 
-        <!-- Child Items (inside ion-menu-toggle to auto close) -->
+       
         <div *ngIf="item.children && item.isExpanded" style="padding-left: 24px;">
           <ion-menu-toggle autoHide="true" *ngFor="let child of item.children">
             <ion-item
@@ -44,7 +43,8 @@
               lines="none"
               class="cursor hover-item"
             >
-              <p style="font-size: 13px;">{{ child.label }}</p>
+             <ion-icon size="small" [name]="child.icons" slot="start"></ion-icon>
+              <p style="margin-left: 12px; font-size: 12px;">{{ child.label }}</p>
             </ion-item>
           </ion-menu-toggle>
         </div>

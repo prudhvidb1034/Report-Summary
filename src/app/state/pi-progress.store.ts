@@ -32,13 +32,13 @@ export class PiPgrogressStore extends ComponentStore<piproggressReport> {
     readonly error$ = this.select(state => state.error);
 
 
-    readonly createPipgrogressReports = this.effect((piprogressReport$: Observable<createAccountForm>) =>
+    readonly createPipgrogressReports = this.effect((piprogressReport$: Observable<piproggressReport>) =>
         piprogressReport$.pipe(
             exhaustMap(account => {
                 console.log(account);
                 
                 this.patchState({ loading: true, error: null });
-                return this.sharedservice.postLocalData(urls.CREATE_QUATERLY_REPORT, account).pipe(
+                return this.sharedservice.postLocalData(urls.CREATE_PI_PROGRESS, account).pipe(
                     tap({
                         next: (user: any) => {
                             console.log(user);

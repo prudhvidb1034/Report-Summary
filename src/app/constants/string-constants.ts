@@ -31,6 +31,9 @@ export const urls = {
     PROJECT_SEARCH: 'projects/search',
     CREATE_SPRINT: 'api/sprints/createSprint',
     CREATE_INCIENT: 'api/releases/save',
+    CREATE_PI_PROGRESS: 'progress-report',
+  
+    
 
     GET_QUATERLY_REPORT: '/assets/jsons/quaterlylist.json',
     CREATE_QUATERLY_REPORT: '/assets/jsons/quaterlylist.json',

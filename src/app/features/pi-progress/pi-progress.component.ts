@@ -2,13 +2,15 @@ import { Component, inject } from '@angular/core';
 import { ReusableTableComponent } from "../../shared/reusable-table/reusable-table.component";
 import { CommonStore } from '../../state/common.store';
 import { PiPgrogressStore } from '../../state/pi-progress.store';
-import { ModalController } from '@ionic/angular';
+import { IonicModule, ModalController } from '@ionic/angular';
 import { CreatePiProgressComponent } from '../../pop-ups/create-pi-progress/create-pi-progress.component';
+import { CommonModule } from '@angular/common';
+import { ConfirmDeleteComponent } from '../../pop-ups/confirm-delete/confirm-delete.component';
 
 @Component({
   selector: 'app-pi-progress',
   standalone: true,
-  imports: [ReusableTableComponent],
+  imports: [ReusableTableComponent,CommonModule,IonicModule],
   providers: [PiPgrogressStore, CommonStore],
   templateUrl: './pi-progress.component.html',
   styleUrl: './pi-progress.component.scss'
@@ -21,6 +23,7 @@ export class PiProgressComponent {
   commonStore = inject(CommonStore);
   piprogressReport$: any;
   private modalController = inject(ModalController);
+   isLoading$ = this.piprogressReport.select(state => state.loading);
   ngOnInit() {
     this.piprogressReport.getPipgrogressReports()
     this.piprogressReport$ = this.piprogressReport.piprogressReport$
@@ -30,10 +33,10 @@ export class PiProgressComponent {
 
   columns = [
     { header: 'Team', field: 'team' },
-    { header: 'Lead Name', field: 'leadName' },
+    { header: 'Lead Name', field: 'tcbLead' },
     { header: 'Assigned SP', field: 'assignedSP' },
     { header: 'Completed SP', field: 'completedSP' },
-    { header: '% of Completion', field: 'percentOfCompletion' },
+    { header: '% of Completion', field: 'completionPercentage' },
 
     { header: 'Action', field: 'action', type: ['edit', 'delete'] }
   ];
@@ -46,9 +49,9 @@ export class PiProgressComponent {
       case 'edit':
         this.UpdatePiProgressReport(event.item);
         break;
-      // case 'delete':
-      //   this.deleteModal(event.item);
-      //   break;
+      case 'delete':
+        this.deleteModal(event.item);
+        break;
       default:
         console.log('failing')
     }
@@ -90,4 +93,25 @@ export class PiProgressComponent {
       });
     });
   }
+
+    deleteModal(item: any) {
+      this.modalController.create({
+        component: ConfirmDeleteComponent,
+        cssClass: 'custom-delete-modal',
+        componentProps: {
+          role: 'delete',
+          data: {
+            id: item.progressid,
+            name: item.team
+          }
+        }
+      }).then((modal) => {
+        modal.present();
+        modal.onDidDismiss().then((data) => {
+          console.log('Modal dismissed with data:', data);
+          this.piprogressReport.deletepiprogressReport(item.progressid);
+          // Handle any data returned from the modal if needed
+        });
+      });
+    }
 }

@@ -32,6 +32,7 @@ export const urls = {
     CREATE_SPRINT: 'api/sprints/createSprint',
     CREATE_INCIENT: 'api/releases/save',
     CREATE_RESOURCES:'resources',
+    CREATE_PI_PROGRESS: 'progress-report',
     API_RESOURCES:'api/resources',
     GET_RESOURCES_FILTER_TYPE:'resources/filter-by-type?type=',
     GET_QUATERLY_REPORT: '/assets/jsons/quaterlylist.json',

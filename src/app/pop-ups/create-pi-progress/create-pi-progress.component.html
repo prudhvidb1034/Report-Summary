@@ -38,13 +38,13 @@
             <!-- Lead Name -->
             <ion-col size="6">
               <ion-item class="custom-item" lines="none"
-                [class.invalid]="validationService.isInvalid('leadname', piProgressForm)"
-                [class.valid]="validationService.isValid('leadname', piProgressForm)">
-                <ion-input formControlName="leadname" label="Lead Name" labelPlacement="floating" class="label-texts"
+                [class.invalid]="validationService.isInvalid('tcbLead', piProgressForm)"
+                [class.valid]="validationService.isValid('tcbLead', piProgressForm)">
+                <ion-input formControlName="tcbLead" label="Lead Name" labelPlacement="floating" class="label-texts"
                   placeholder="Enter lead name">
                 </ion-input>
               </ion-item>
-              @if (validationService.isInvalid('leadname', piProgressForm)) {
+              @if (validationService.isInvalid('tcbLead', piProgressForm)) {
               <ion-text color="danger" class="error-message">
                 <p>Lead name is required.</p>
               </ion-text>
@@ -56,13 +56,13 @@
             <!-- Assigned Points -->
             <ion-col size="6">
               <ion-item class="custom-item" lines="none"
-                [class.invalid]="validationService.isInvalid('Assignedp', piProgressForm)"
-                [class.valid]="validationService.isValid('Assignedp', piProgressForm)">
-                <ion-input formControlName="Assignedp" label="Assigned Points" labelPlacement="floating"
+                [class.invalid]="validationService.isInvalid('assignedSP', piProgressForm)"
+                [class.valid]="validationService.isValid('assignedSP', piProgressForm)">
+                <ion-input formControlName="assignedSP" label="Assigned Points" labelPlacement="floating"
                   class="label-texts" placeholder="Enter assigned points" type="number">
                 </ion-input>
               </ion-item>
-              @if (validationService.isInvalid('Assignedp', piProgressForm)) {
+              @if (validationService.isInvalid('assignedSP', piProgressForm)) {
               <ion-text color="danger" class="error-message">
                 <p>Assigned points are required.</p>
               </ion-text>
@@ -72,13 +72,13 @@
             <!-- Completed SP -->
             <ion-col size="6">
               <ion-item class="custom-item" lines="none"
-                [class.invalid]="validationService.isInvalid('completedsp', piProgressForm)"
-                [class.valid]="validationService.isValid('completedsp', piProgressForm)">
-                <ion-input formControlName="completedsp" label="Completed SP" labelPlacement="floating"
+                [class.invalid]="validationService.isInvalid('completedSP', piProgressForm)"
+                [class.valid]="validationService.isValid('completedSP', piProgressForm)">
+                <ion-input formControlName="completedSP" label="Completed SP" labelPlacement="floating"
                   class="label-texts" placeholder="Enter completed SP" type="number">
                 </ion-input>
               </ion-item>
-              @if (validationService.isInvalid('completedsp', piProgressForm)) {
+              @if (validationService.isInvalid('completedSP', piProgressForm)) {
               <ion-text color="danger" class="error-message">
                 <p>Completed SP is required.</p>
               </ion-text>
@@ -87,8 +87,8 @@
           </ion-row>
 
           <ion-row>
-            <!-- Percentage -->
-            <ion-col size="6">
+          
+            <!-- <ion-col size="6">
               <ion-item class="custom-item" lines="none"
                 [class.invalid]="validationService.isInvalid('Percentage', piProgressForm)"
                 [class.valid]="validationService.isValid('Percentage', piProgressForm)">
@@ -101,7 +101,7 @@
                 <p>Percentage is required.</p>
               </ion-text>
               }
-            </ion-col>
+            </ion-col> -->
           </ion-row>
         </ion-grid>
       </form>
@@ -118,3 +118,6 @@
       </ion-toolbar>
     </ion-footer>
  
+<div class="loader-overlay" *ngIf="isLoading$ | async">
+  <ion-spinner name="crescent"></ion-spinner>
+</div>

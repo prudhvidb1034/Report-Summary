@@ -32,11 +32,11 @@ export class DependenciesStore extends ComponentStore<dependenciesState> {
     readonly error$ = this.select(state => state.error);
 
 
-    readonly createDepencency = this.effect((account$: Observable<any>) =>
-        account$.pipe(
-            exhaustMap(account => {
+    readonly createDepencency = this.effect((dependecies$: Observable<any>) =>
+        dependecies$.pipe(
+            exhaustMap(dependency => {
                 this.patchState({ loading: true, error: null });
-                return this.sharedservice.postData(urls.CREATE_ACCOUNT, account).pipe(
+                return this.sharedservice.postData(urls.CREATE_DEPENDENCY, dependency).pipe(
                     tap({
                         next: (user: any) => {
                             this.patchState({ dependencies: [user], loading: false });
@@ -57,7 +57,7 @@ export class DependenciesStore extends ComponentStore<dependenciesState> {
             trigger$.pipe(
                 tap(() => this.patchState({ loading: true, error: null })),
                 switchMap(({ page, size }) =>
-                    this.sharedservice.getLocalData<ApiResponse<any[]>>(urls.GET_DEPENDECY_DETAILS).pipe(
+                    this.sharedservice.getData<ApiResponse<any[]>>(urls.GET_DEPENDENCY).pipe(
                         tapResponse(
                             (accounts) => {
                                 this.patchState({ dependencies: accounts.data, loading: false });
@@ -81,7 +81,7 @@ export class DependenciesStore extends ComponentStore<dependenciesState> {
             account$.pipe(
                 exhaustMap(({ id, data }) => {
                     this.patchState({ loading: true, error: null });
-                    return this.sharedservice.patchData(`${urls.CREATE_ACCOUNT}/${id}`, data).pipe(
+                    return this.sharedservice.patchData(`${urls.UPDATE_DELETE_DEPENDENCY}/${id}`, data).pipe(
                         tap({
                             next: (updatedAccount: any) => {
                                 this._dependencyCreateStatus.set('update');
@@ -102,7 +102,7 @@ export class DependenciesStore extends ComponentStore<dependenciesState> {
     readonly deleteDepedency = this.effect((accountId$: Observable<string>) =>
         accountId$.pipe(
             exhaustMap(id =>
-                this.sharedservice.deleteData(`${urls.CREATE_ACCOUNT}/${id}`).pipe(
+                this.sharedservice.deleteData(`${urls.UPDATE_DELETE_DEPENDENCY}/${id}`).pipe(
                     tapResponse(
                         () => {
                             this._dependencyCreateStatus.set('deleted');

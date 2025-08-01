@@ -25,29 +25,33 @@ export class CreatePiProgressComponent {
 
   public validationService = inject(ValidationsService);
 
-   isLoading$ = this.piprogressStore.select(state => state.loading);
-    readonly accountStatusEffect = effect(() => {
-      const status = this.piprogressStore.accountCreateStatus();
-  
-      if (status === 'success') {
-        this.setOpen(false);
-        this.toast.show('success', 'Account created successfully!');
-      } else if (status === 'update') {
-        this.setOpen(false);
-        this.toast.show('success', 'Account updated successfully!');
-      } else if (status === 'deleted') {
-        this.toast.show('success', 'Account deleted successfully!');
-      } else if (status === 'error') {
-        this.toast.show('error', 'Something went wrong!');
-      }
-  
-  
-      if (status) {
-        this.piprogressStore['_accountCreateStatus'].set(null);
-      }
-    });
+  isLoading$ = this.piprogressStore.select(state => state.loading);
+  readonly accountStatusEffect = effect(() => {
+    const status = this.piprogressStore.accountCreateStatus();
+
+    if (status === 'success') {
+      this.setOpen(false);
+      this.toast.show('success', 'PiProgress created successfully!');
+    } else if (status === 'update') {
+      this.setOpen(false);
+      this.toast.show('success', 'PiProgress updated successfully!');
+    } else if (status === 'deleted') {
+      this.toast.show('success', 'PiProgress deleted successfully!');
+    } else if (status === 'error') {
+      this.toast.show('error', 'Something went wrong!');
+    }
+
+
+    if (status) {
+      this.piprogressStore['_accountCreateStatus'].set(null);
+    }
+  });
   ngOnInit() {
     this.creteForm();
+    if (this.editData) {
+      this.piProgressForm.patchValue(this.editData);
+      this.isEditMode = true;
+    }
   }
 
   creteForm() {
@@ -61,7 +65,7 @@ export class CreatePiProgressComponent {
 
     })
   }
- 
+
 
   setOpen(isOpen: boolean) {
     // this.isModalOpen = isOpen;
@@ -75,10 +79,10 @@ export class CreatePiProgressComponent {
   }
 
   SubmitForm() {
-    
 
 
-      const response = this.piProgressForm.value;
+
+    const response = this.piProgressForm.value;
     if (this.piProgressForm.valid) {
 
       const formValue = this.piProgressForm.value;

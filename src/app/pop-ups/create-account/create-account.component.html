@@ -1,103 +1,101 @@
-<div class="modal-wrapper">
-    <ion-header>
-        <ion-toolbar color="light">
-            <ion-buttons slot="start">
-                <ion-title>
-                    <b> {{ isEditMode ? 'Update' : 'Create' }} Account</b>
-                </ion-title>
-            </ion-buttons>
-            <ion-buttons slot="end">
-                <ion-button fill="clear" (click)="setOpen(false)">
-                    <ion-icon name="close-outline" class="icon-medium"></ion-icon>
-                </ion-button>
-            </ion-buttons>
-        </ion-toolbar>
-    </ion-header>
+<ion-header>
+    <ion-toolbar color="light">
+        <ion-buttons slot="start">
+            <ion-title>
+                <b> {{ isEditMode ? 'Update' : 'Create' }} Account</b>
+            </ion-title>
+        </ion-buttons>
+        <ion-buttons slot="end">
+            <ion-button fill="clear" (click)="setOpen(false)">
+                <ion-icon name="close-outline" class="icon-medium"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
 
-    <ion-content>
+<ion-content>
 
-        <form [formGroup]="accountForm">
-            <ion-grid>
-                <!-- Row 1: Account Name and Start Date -->
-                <ion-row>
-                    <!-- Account Name -->
-                    <ion-col size="6">
-                        <ion-item class="custom-item" [class.invalid]="isInvalid('accountName')"
-                            [class.valid]="isValid('accountName')" lines="none">
-                            <ion-input formControlName="accountName" label="Account Name" labelPlacement="floating"
-                                class="label-texts" placeholder="Enter account name" [clearOnEdit]="true"></ion-input>
-                        </ion-item>
+    <form [formGroup]="accountForm">
+        <ion-grid>
+            <!-- Row 1: Account Name and Start Date -->
+            <ion-row>
+                <!-- Account Name -->
+                <ion-col size="6">
+                    <ion-item class="custom-item" [class.invalid]="isInvalid('accountName')"
+                        [class.valid]="isValid('accountName')" lines="none">
+                        <ion-input formControlName="accountName" label="Account Name" labelPlacement="floating"
+                            class="label-texts" placeholder="Enter account name" [clearOnEdit]="true"></ion-input>
+                    </ion-item>
 
-                        @if (accountForm.get('accountName')?.invalid &&
-                        (accountForm.get('accountName')?.dirty || accountForm.get('accountName')?.touched)) {
-                        <ion-text color="danger" class="error-message">
-                            @if (accountForm.get('accountName')?.errors?.['required']) {
-                            <p>Account Name is required.</p>
-                            }
-                            @if (accountForm.get('accountName')?.errors?.['minlength']) {
-                            <p>Minimum 3 characters required.</p>
-                            }
-                        </ion-text>
+                    @if (accountForm.get('accountName')?.invalid &&
+                    (accountForm.get('accountName')?.dirty || accountForm.get('accountName')?.touched)) {
+                    <ion-text color="danger" class="error-message">
+                        @if (accountForm.get('accountName')?.errors?.['required']) {
+                        <p>Account Name is required.</p>
                         }
-                    </ion-col>
-
-                    <!-- Start Date -->
-                    <ion-col size="6">
-                        <ion-item class="custom-item" [class.invalid]="isInvalid('accountStartDate')"
-                            [class.valid]="isValid('accountStartDate')" lines="none">
-                            <ion-input formControlName="accountStartDate" label="Start Date" labelPlacement="floating"
-                                class="label-texts" type="date" [clearOnEdit]="true"></ion-input>
-                        </ion-item>
-
-                        @if (accountForm.get('accountStartDate')?.invalid &&
-                        (accountForm.get('accountStartDate')?.dirty || accountForm.get('accountStartDate')?.touched)) {
-                        <ion-text color="danger" class="error-message">
-                            @if (accountForm.get('accountStartDate')?.errors?.['required']) {
-                            <p>Start Date is required.</p>
-                            }
-                        </ion-text>
+                        @if (accountForm.get('accountName')?.errors?.['minlength']) {
+                        <p>Minimum 3 characters required.</p>
                         }
-                    </ion-col>
-                </ion-row>
+                    </ion-text>
+                    }
+                </ion-col>
 
-                <!-- Row 2: End Date -->
-                <ion-row>
-                    <ion-col size="6">
-                        <ion-item class="custom-item" [class.invalid]="isInvalid('accountEndDate')"
-                            [class.valid]="isValid('accountEndDate')" lines="none">
-                            <ion-input formControlName="accountEndDate" label="End Date" labelPlacement="floating"
-                                class="label-texts" type="date" [clearOnEdit]="true"></ion-input>
-                        </ion-item>
+                <!-- Start Date -->
+                <ion-col size="6">
+                    <ion-item class="custom-item" [class.invalid]="isInvalid('accountStartDate')"
+                        [class.valid]="isValid('accountStartDate')" lines="none">
+                        <ion-input formControlName="accountStartDate" label="Start Date" labelPlacement="floating"
+                            class="label-texts" type="date" [clearOnEdit]="true"></ion-input>
+                    </ion-item>
 
-                        @if (accountForm.get('accountEndDate')?.invalid &&
-                        (accountForm.get('accountEndDate')?.dirty || accountForm.get('accountEndDate')?.touched)) {
-                        <ion-text color="danger" class="error-message">
-                            @if (accountForm.get('accountEndDate')?.errors?.['required']) {
-                            <p>End Date is required.</p>
-                            }
-                        </ion-text>
+                    @if (accountForm.get('accountStartDate')?.invalid &&
+                    (accountForm.get('accountStartDate')?.dirty || accountForm.get('accountStartDate')?.touched)) {
+                    <ion-text color="danger" class="error-message">
+                        @if (accountForm.get('accountStartDate')?.errors?.['required']) {
+                        <p>Start Date is required.</p>
                         }
-                    </ion-col>
-                </ion-row>
-            </ion-grid>
-        </form>
+                    </ion-text>
+                    }
+                </ion-col>
+            </ion-row>
 
-    </ion-content>
+            <!-- Row 2: End Date -->
+            <ion-row>
+                <ion-col size="6">
+                    <ion-item class="custom-item" [class.invalid]="isInvalid('accountEndDate')"
+                        [class.valid]="isValid('accountEndDate')" lines="none">
+                        <ion-input formControlName="accountEndDate" label="End Date" labelPlacement="floating"
+                            class="label-texts" type="date" [clearOnEdit]="true"></ion-input>
+                    </ion-item>
 
-    <ion-footer>
-        <ion-toolbar>
-            <ion-buttons slot="end">
+                    @if (accountForm.get('accountEndDate')?.invalid &&
+                    (accountForm.get('accountEndDate')?.dirty || accountForm.get('accountEndDate')?.touched)) {
+                    <ion-text color="danger" class="error-message">
+                        @if (accountForm.get('accountEndDate')?.errors?.['required']) {
+                        <p>End Date is required.</p>
+                        }
+                    </ion-text>
+                    }
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </form>
 
-                <ion-button class="close" (click)="setOpen(false)">Close</ion-button>
+</ion-content>
 
-                <ion-button class="save" (click)="SubmitForm()">
+<ion-footer>
+    <ion-toolbar>
+        <ion-buttons slot="end">
 
-                    {{ isEditMode ? 'Update' : 'Save' }}
-                </ion-button>
-            </ion-buttons>
-        </ion-toolbar>
-    </ion-footer>
-</div>
+            <ion-button class="close" (click)="setOpen(false)">Close</ion-button>
+
+            <ion-button class="save" (click)="SubmitForm()">
+
+                {{ isEditMode ? 'Update' : 'Save' }}
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-footer>
 <div class="loader-overlay" *ngIf="(isLoading$ | async)">
-  <ion-spinner name="crescent"></ion-spinner>
+    <ion-spinner name="crescent"></ion-spinner>
 </div>

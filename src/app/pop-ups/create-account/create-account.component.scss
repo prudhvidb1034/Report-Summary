@@ -1,27 +1,3 @@
-// :host {
-//   display: flex;
-//   flex-direction: column;
-//   height:70%;
-// }
-// .ion-paddingss{
-//   margin-bottom: 16px;
-// }
-// ion-content {
-//   flex: 1;
-//   --padding-bottom: 0;
-//   --margin-bottom: 0;
-// }
-
-.modal-wrapper {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  width: 100%;
-  background: var(--ion-background-color, #fff);
-  overflow: hidden;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
-}
-
 ion-grid {
   margin-top: 10px;
 }

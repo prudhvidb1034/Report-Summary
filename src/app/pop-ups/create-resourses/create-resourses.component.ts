@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 import { IonicModule, ModalController } from '@ionic/angular';
+import { ResourcesStore } from '../../state/resources.store';
 
 @Component({
   selector: 'app-create-resourses',
@@ -30,33 +31,56 @@ export class CreateResoursesComponent {
   projects = ['Apollo', 'Zeus', 'Hermes', 'Athena', 'Poseidon'];
 
   suggestions: string[] = [];
-
-
+ @Input() editData: any;
+   resourceStore = inject(ResourcesStore)
+ 
   constructor(private fb: FormBuilder, private modalCtrl: ModalController) { }
 
+ngOnInit() {
+  this.resourceForm = this.fb.group({
+    resourceType: ['', Validators.required],
+    techStack: ['', Validators.required],
+    projectId: ['', Validators.required],
+    onsite: ['', Validators.required],
+    offsite: ['', Validators.required],
+  });
 
-  ngOnInit() {
-    this.resourceForm = this.fb.group({
+  this.resourceForm.get('resourceType')!.valueChanges.subscribe(type => {
+    const tech = this.resourceForm.get('techStack')!;
+    const proj = this.resourceForm.get('projectId')!;
 
-      type: ['', Validators.required],
-      name: ['', Validators.required],
-      onsite: ['', Validators.required],
-      offsite: ['', Validators.required],
+    if (type === 'TECH_STACK') {
+      tech.setValidators([Validators.required]);
+      proj.clearValidators();
+      proj.reset();
+    } else if (type === 'PROJECT') {
+      proj.setValidators([Validators.required]);
+      tech.clearValidators();
+      tech.reset();
+    } else {
+      tech.clearValidators();
+      proj.clearValidators();
+      tech.reset();
+      proj.reset();
+    }
 
-    });
-  }
+    tech.updateValueAndValidity();
+    proj.updateValueAndValidity();
+  });
+}
+
 
 
   onTypeChange(event: any) {
     const selectedType = event.detail.value;
 
-    if (selectedType === 'techstack') {
+    if (selectedType === 'TECH_STACK') {
       this.filteredNames = [
-        { id: 1, name: 'Angular' },
-        { id: 2, name: 'React' },
+        { id: 'TESTING', name: 'Angular' },
+        { id: 'React', name: 'React' },
         { id: 3, name: 'Node.js' },
       ];
-    } else if (selectedType === 'projects') {
+    } else if (selectedType === 'PROJECT') {
       this.filteredNames = [
         { id: 10, name: 'Project Alpha' },
         { id: 11, name: 'Project Beta' },
@@ -94,7 +118,18 @@ export class CreateResoursesComponent {
   }
 
   SubmitForm() {
-
+    console.log(this.resourceForm.valid,this.resourceForm.value)
+    if (this.resourceForm.valid) {
+      const formValue = this.resourceForm.value;
+      console.log(formValue);
+      if (this.isEditMode && this.editData?.accountId) {
+        this.resourceStore.updateDependencies({ id: this.editData.accountId, data: formValue });
+      } else {
+        this.resourceStore.createResource(formValue);
+      }
+    } else {
+      this.resourceForm.markAllAsTouched();
+    }
   }
 
 

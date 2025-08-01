@@ -26,7 +26,7 @@
               lines="none"
             >
               <ion-input
-                formControlName="team"
+                formControlName="projectName"
                 label="Team"
                 labelPlacement="floating"
                 class="label-texts"
@@ -61,15 +61,53 @@
               [class.valid]="isValid('sprint0')"
               lines="none"
             >
-              <ion-input
+              <ion-select
                 formControlName="sprint0"
                 label="Sprint0"
                 labelPlacement="floating"
                 class="label-texts"
-                placeholder="feature"
-                [clearOnEdit]="true"
-              ></ion-input>
+                placeholder="Sprint0"
+                interface="popover"
+              >
+                <ion-select-option value="true">true</ion-select-option>
+                <ion-select-option value="false">false</ion-select-option>
+                <!-- <ion-select-option value="sprint2">sprint2</ion-select-option>
+                <ion-select-option value="sprint3">sprint3</ion-select-option>
+                <ion-select-option value="sprint4">sprint4</ion-select-option> -->
+              </ion-select>
             </ion-item>
+
+            
+   <!-- <ion-item
+    class="custom-item"
+    [class.invalid]="isInvalid('selectedSprint')"
+    [class.valid]="isValid('selectedSprint')"
+    lines="none"
+  >
+    <ion-select
+      formControlName="selectedSprint"
+      label="Sprint"
+      labelPlacement="floating"
+      class="label-texts"
+      placeholder="Select Sprint"
+      interface="popover"
+    >
+      <ion-select-option
+        *ngFor="let sprint of sprints"
+        [value]="sprint"
+      >
+        <ion-label class="checkbox-option">
+          <ion-checkbox
+            slot="start"
+            [checked]="quaterlyStandingForm.get('selectedSprint')?.value === sprint"
+            disabled
+          ></ion-checkbox>
+          {{ sprint }}
+        </ion-label>
+      </ion-select-option>
+    </ion-select>
+  </ion-item> -->
+
           </ion-col>
         </ion-row>
 
@@ -81,14 +119,17 @@
               [class.valid]="isValid('sprint1')"
               lines="none"
             >
-              <ion-input
+              <ion-select
                 formControlName="sprint1"
                 label="Sprint1"
                 labelPlacement="floating"
                 class="label-texts"
                 placeholder="floating"
-                [clearOnEdit]="true"
-              ></ion-input>
+                interface="popover"
+              >
+                <ion-select-option value="true">true</ion-select-option>
+                <ion-select-option value="false">false</ion-select-option>
+              </ion-select>
             </ion-item>
           </ion-col>
 
@@ -99,14 +140,19 @@
               [class.valid]="isValid('sprint2')"
               lines="none"
             >
-              <ion-input
+              <ion-select
                 formControlName="sprint2"
                 label="Sprint2"
                 labelPlacement="floating"
                 class="label-texts"
                 placeholder="sprint2"
-                [clearOnEdit]="true"
-              ></ion-input>
+                interface="popover"
+              >
+                <ion-select-option value="true">true</ion-select-option>
+                <ion-select-option value="false"
+                  >false</ion-select-option
+                ></ion-select
+              >
             </ion-item>
           </ion-col>
           <ion-col size="4">
@@ -116,39 +162,65 @@
               [class.valid]="isValid('sprint3')"
               lines="none"
             >
-              <ion-input
+              <ion-select
                 formControlName="sprint3"
                 label="Sprint3"
                 labelPlacement="floating"
                 class="label-texts"
                 placeholder="sprint3"
-                [clearOnEdit]="true"
-              ></ion-input>
+                interface="popover"
+              >
+                <ion-select-option value="true">true</ion-select-option>
+                <ion-select-option value="false"
+                  >false</ion-select-option
+                ></ion-select
+              >
             </ion-item>
           </ion-col>
         </ion-row>
 
         <ion-row>
-        
-         
           <ion-col size="4">
             <ion-item
               class="custom-item"
-              [class.invalid]="isInvalid('completion')"
-              [class.valid]="isValid('completion')"
+              [class.invalid]="isInvalid('sprint4')"
+              [class.valid]="isValid('sprint4')"
+              lines="none"
+            >
+              <ion-select
+                formControlName="sprint4"
+                label="Sprint4"
+                labelPlacement="floating"
+                class="label-texts"
+                placeholder="sprint4"
+                interface="popover"
+              >
+                <ion-select-option value="true">true</ion-select-option>
+                <ion-select-option value="false"
+                  >false</ion-select-option
+                ></ion-select
+              >
+            </ion-item>
+          </ion-col> 
+          <ion-col size="4">
+            <ion-item
+              class="custom-item"
+              [class.invalid]="isInvalid('completionPercentage')"
+              [class.valid]="isValid('completionPercentage')"
               lines="none"
             >
               <ion-input
-                formControlName="completion"
+                formControlName="completionPercentage"
                 label="Completion"
                 labelPlacement="floating"
                 class="label-texts"
                 placeholder="completion"
                 [clearOnEdit]="true"
+                type="number"
               ></ion-input>
             </ion-item>
           </ion-col>
-           <ion-col size="4">
+          <ion-col size="4">
             <ion-item
               class="custom-item"
               [class.invalid]="isInvalid('status')"
@@ -156,7 +228,7 @@
               lines="none"
             >
               <ion-input
-                formControlName="statusReport"
+                formControlName="status"
                 label="Status"
                 labelPlacement="floating"
                 class="label-texts"
@@ -164,9 +236,10 @@
                 [clearOnEdit]="true"
               ></ion-input>
             </ion-item>
+
+
           </ion-col>
         </ion-row>
-    
       </ion-grid>
     </form>
   </ion-content>

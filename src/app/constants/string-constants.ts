@@ -35,6 +35,9 @@ export const urls = {
   
     
 
+    CREATE_RESOURCES:'api/resources/save',
+    API_RESOURCES:'api/resources',
+    GET_RESOURCES_FILTER_TYPE:'resources/filter-by-type?type=',
     GET_QUATERLY_REPORT: '/assets/jsons/quaterlylist.json',
     CREATE_QUATERLY_REPORT: '/assets/jsons/quaterlylist.json',
     UPDATE_QUATERLY_REPORT: '/assets/jsons/quaterlylist.json',

@@ -19,9 +19,9 @@ interface ApiResponse<T> {
 @Injectable()
 export class ResourcesStore extends ComponentStore<resourcesState> {
     private sharedservice = inject(SharedService);
-    private _dependencyCreateStatus = signal<null | 'success' | 'deleted' | 'update' | 'error'>(null);
+    private _resourcesCreateStatus = signal<null | 'success' | 'deleted' | 'update' | 'error'>(null);
 
-    readonly accountCreateStatus = this._dependencyCreateStatus.asReadonly();
+    readonly accountCreateStatus = this._resourcesCreateStatus.asReadonly();
     private toast = inject(ToastService);
     constructor() {
         super({ resources: [], loading: false, error: null });
@@ -32,19 +32,19 @@ export class ResourcesStore extends ComponentStore<resourcesState> {
     readonly error$ = this.select(state => state.error);
 
 
-    readonly createDepencency = this.effect((account$: Observable<any>) =>
+    readonly createResource = this.effect((account$: Observable<any>) =>
         account$.pipe(
-            exhaustMap(account => {
+            exhaustMap(resources => {
                 this.patchState({ loading: true, error: null });
-                return this.sharedservice.postData(urls.CREATE_ACCOUNT, account).pipe(
+                return this.sharedservice.postData(urls.CREATE_RESOURCES, resources).pipe(
                     tap({
                         next: (user: any) => {
                             this.patchState({ resources: [user], loading: false });
-                            this._dependencyCreateStatus.set('success');
+                            this._resourcesCreateStatus.set('success');
                         },
                         error: () => {
                             this.patchState({ loading: false, error: '' });
-                            this._dependencyCreateStatus.set('error');
+                            this._resourcesCreateStatus.set('error');
                         }
                     })
                 );
@@ -52,12 +52,12 @@ export class ResourcesStore extends ComponentStore<resourcesState> {
         )
     );
 
-      readonly getResources = this.effect<{ page: number; size: number;}>(
+      readonly getResources = this.effect<{ page: number; size: number; sortBy:string; apiPath:string}>(
           trigger$ =>
               trigger$.pipe(
                   tap(() => this.patchState({ loading: true, error: null })),
-                  switchMap(({ page, size }) =>
-                      this.sharedservice.getLocalData<any>(urls.GET_RESOURCES_DETAILS).pipe(
+                  switchMap(({ page, size,sortBy,apiPath }) =>
+                      this.sharedservice.getData<any>(`${apiPath}&page=${page}&size=${size}`).pipe(
                           tapResponse(
                               (resources) => {
                                 setTimeout(()=>{
@@ -86,11 +86,11 @@ export class ResourcesStore extends ComponentStore<resourcesState> {
                     return this.sharedservice.patchData(`${urls.CREATE_ACCOUNT}/${id}`, data).pipe(
                         tap({
                             next: (updatedAccount: any) => {
-                                this._dependencyCreateStatus.set('update');
+                                this._resourcesCreateStatus.set('update');
                                 this.patchState({ loading: false });
                             },
                             error: () => {
-                                this._dependencyCreateStatus.set('error');
+                                this._resourcesCreateStatus.set('error');
                                 this.patchState({ loading: false, error: 'Failed to update account' });
                                 this.toast.show('error', 'Update failed!');
                             }
@@ -107,7 +107,7 @@ export class ResourcesStore extends ComponentStore<resourcesState> {
                 this.sharedservice.deleteData(`${urls.CREATE_ACCOUNT}/${id}`).pipe(
                     tapResponse(
                         () => {
-                            this._dependencyCreateStatus.set('deleted');
+                            this._resourcesCreateStatus.set('deleted');
                             // this.getDependencies({ page: 0, size: 5, sortBy: 'accountName' });
                             this.toast.show('success', 'Account deleted successfully!');
                         },

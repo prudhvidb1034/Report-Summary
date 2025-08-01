@@ -11,10 +11,10 @@
     </ion-header>
 
     <ion-content>
-        <form [formGroup]="dependenciesform" (ngSubmit)="onSubmit()" class="register-form">
+        <form [formGroup]="dependenciesform" class="register-form">
             <ion-grid>
                 <ion-row>
-                    <!-- Project Select -->
+
                     <ion-col size="6">
                         <ion-item class="custom-item" lines="none"
                             [class.invalid]="validationService.isInvalid('projectId', dependenciesform)"
@@ -38,43 +38,44 @@
                     <!-- Dependency Name -->
                     <ion-col size="6">
                         <ion-item class="custom-item" lines="none"
-                            [class.invalid]="validationService.isInvalid('dependencyName', dependenciesform)"
-                            [class.valid]="validationService.isValid('dependencyName', dependenciesform)">
+                            [class.invalid]="validationService.isInvalid('type', dependenciesform)"
+                            [class.valid]="validationService.isValid('type', dependenciesform)">
 
-                            <ion-select formControlName="dependencyName" label="Dependency Type"
-                                labelPlacement="floating" class="label-texts" interface="popover"
-                                placeholder="Select Option">
+                            <ion-select formControlName="type" label="Dependency Type" labelPlacement="floating"
+                                class="label-texts" interface="popover" placeholder="Select Option">
                                 <ion-select-option value="dependency">Dependency</ion-select-option>
                                 <ion-select-option value="blocked">Blocked</ion-select-option>
                             </ion-select>
                         </ion-item>
 
-                        @if (validationService.isInvalid('dependencyName', dependenciesform)) {
+                        @if (validationService.isInvalid('type', dependenciesform)) {
                         <ion-text color="danger" class="error-message">
                             <p>Dependency name is required.</p>
                         </ion-text>
                         }
                     </ion-col>
 
-                      <ion-col size="6">
+                    <ion-col size="6">
                         <ion-item class="custom-item" lines="none"
-                            [class.invalid]="validationService.isInvalid('status', dependenciesform)"
-                            [class.valid]="validationService.isValid('status', dependenciesform)">
-                            <ion-select formControlName="status" label="Status" labelPlacement="floating"
+                            [class.invalid]="validationService.isInvalid('status_in', dependenciesform)"
+                            [class.valid]="validationService.isValid('status_in', dependenciesform)">
+                            <ion-select formControlName="status_in" label="Status" labelPlacement="floating"
                                 class="label-texts" interface="popover">
-                                <ion-select-option value="Open">Open</ion-select-option>
-                                <ion-select-option value="In Progress">In Progress</ion-select-option>
-                                <ion-select-option value="Closed">Closed</ion-select-option>
+
+                                <ion-select-option value="TODO">To do</ion-select-option>
+                                <ion-select-option value="IN_PROGRESS">In Progress</ion-select-option>
+                                <ion-select-option value="COMPLETED">Completed</ion-select-option>
+                                <ion-select-option value="BLOCKED">Blocked</ion-select-option>
                             </ion-select>
                         </ion-item>
-                        @if (validationService.isInvalid('status', dependenciesform)) {
+                        @if (validationService.isInvalid('status_in', dependenciesform)) {
                         <ion-text color="danger" class="error-message">
-                            <p>Status is required.</p>
+                            <p>status_in is required.</p>
                         </ion-text>
                         }
                     </ion-col>
 
-                       <!-- Owner -->
+                    <!-- Owner -->
                     <ion-col size="6">
                         <ion-item class="custom-item" lines="none"
                             [class.invalid]="validationService.isInvalid('owner', dependenciesform)"
@@ -89,23 +90,23 @@
                         </ion-text>
                         }
                     </ion-col>
-                      <!-- Date Status -->
+                    <!-- Date status_in -->
                     <ion-col size="6">
                         <ion-item class="custom-item" lines="none"
-                            [class.invalid]="validationService.isInvalid('dateStatus', dependenciesform)"
-                            [class.valid]="validationService.isValid('dateStatus', dependenciesform)">
-                            <ion-input formControlName="dateStatus" label="Date " labelPlacement="floating"
+                            [class.invalid]="validationService.isInvalid('date', dependenciesform)"
+                            [class.valid]="validationService.isValid('date', dependenciesform)">
+                            <ion-input formControlName="date" label="Date " labelPlacement="floating"
                                 class="label-texts" type="date">
                             </ion-input>
                         </ion-item>
-                        @if (validationService.isInvalid('dateStatus', dependenciesform)) {
+                        @if (validationService.isInvalid('date', dependenciesform)) {
                         <ion-text color="danger" class="error-message">
                             <p>Date is required.</p>
                         </ion-text>
                         }
                     </ion-col>
 
-                    
+
                     <!-- Action Taken -->
                     <ion-col size="6">
                         <ion-item class="custom-item" lines="none"
@@ -138,9 +139,9 @@
                         }
                     </ion-col>
 
-                  
 
-                 
+
+
 
                     <!-- Impact -->
                     <ion-col size="12">
@@ -158,7 +159,7 @@
                         }
                     </ion-col>
 
-                  
+
                 </ion-row>
             </ion-grid>
 

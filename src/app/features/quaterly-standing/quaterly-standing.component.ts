@@ -7,18 +7,20 @@ import { CommonStore } from '../../state/common.store';
 import { QuaterlyReportStore } from '../../state/quaterlyStanding.store';
 import { CommonModule } from '@angular/common';
 import { ConfirmDeleteComponent } from '../../pop-ups/confirm-delete/confirm-delete.component';
+import { map } from 'rxjs/operators';
+
 
 @Component({
   selector: 'app-quaterly-standing',
   standalone: true,
-  providers: [QuaterlyReportStore, CommonStore],
-  imports: [ReusableTableComponent, CommonModule],
+  providers: [QuaterlyReportStore],
+  imports: [ReusableTableComponent, CommonModule,CommonModule,IonicModule],
   templateUrl: './quaterly-standing.component.html',
   styleUrl: './quaterly-standing.component.scss'
 })
 export class QuaterlyStandingComponent {
   accountList$: any;
-  label = '';
+  label = 'PI Standing List';
   quaterlyReport = inject(QuaterlyReportStore);
   commonStore = inject(CommonStore);
   quaterlyReports$: any;
@@ -26,6 +28,8 @@ export class QuaterlyStandingComponent {
   pageSize = 5;
   content: any = [];
   private modalController = inject(ModalController);
+  isLoading$ = this.quaterlyReport.select(state => state.loading);
+  isLoadingCommon$=this.commonStore.select(state=>state.loading);
   // ngOnInit() {
   //   this.quaterlyReport.getQuaterlyReports({ page: this.page, size: this.pageSize })
   //   this.quaterlyReports$ = this.quaterlyReport.quaterlyReport$
@@ -46,19 +50,26 @@ export class QuaterlyStandingComponent {
   this.quaterlyReport.getQuaterlyReports({ page: this.page, size: this.pageSize });
   this.quaterlyReports$ = this.quaterlyReport.quaterlyReport$;
 
-  this.quaterlyReport.quaterlyReport$.subscribe((val: any) => {
-    this.content = val?.content;
-    console.log(this.content);
 
-    if (Array.isArray(this.content)) {
-      this.content.map((res: any) => {
-        console.log(res);
-        this.label = `PI${res?.piNumber}Standing`;
-      });
-    } else {
-      console.warn('content is not an array:', this.content);
-    }
-  });
+// this.quaterlyReports$ = this.quaterlyReport.quaterlyReport$.pipe(
+//   map((response: any) => {
+//     if (Array.isArray(response.content)) {
+//       return response.content.map((res: any) => {
+//         const updatedRes = { ...res };
+//         for (let i = 0; i <= 4; i++) {
+//           const key = `sprint${i}`;
+//           updatedRes[key] = res[key] ? 'X' : '-';
+//         }
+//         console.log(updatedRes)
+//         return updatedRes;
+//       });
+//     } else {
+//       console.warn('response.content is not an array:', response.content);
+//       return []; // fallback to empty array
+//     }
+//   })
+// );
+
 }
 
   columns = [
@@ -70,7 +81,7 @@ export class QuaterlyStandingComponent {
     { header: 'Sprint 3', field: 'sprint3' },
     { header: 'Sprint 4', field: 'sprint3' },
     { header: '% of Completion', field: 'completionPercentage' },
-    { header: 'Status', field: 'status' },
+    { header: 'Status', field: 'statusReport' },
     { header: 'Action', field: 'action', type: ['edit', 'delete'] }
   ];
 
@@ -108,7 +119,7 @@ export class QuaterlyStandingComponent {
   createQuaterlyReport() {
     this.modalController.create({
       component: CreateQuaterlyStandingComponent,
-      cssClass: 'create-account-modal',
+      cssClass: 'reusable-popUp-modal',
       componentProps: {
 
       }
@@ -116,7 +127,7 @@ export class QuaterlyStandingComponent {
       modal.present();
       modal.onDidDismiss().then((data) => {
         // this.loadProjects(this.page,this.pageSize);
-
+this.quaterlyReport.getQuaterlyReports({ page: this.page, size: this.pageSize })
         console.log('Modal dismissed with data:', data);
         // Handle any data returned from the modal if needed
       });
@@ -135,7 +146,7 @@ export class QuaterlyStandingComponent {
       modal.present();
       modal.onDidDismiss().then((data) => {
         // this.loadProjects(this.page,this.pageSize);
-
+this.quaterlyReport.getQuaterlyReports({ page: this.page, size: this.pageSize })
         console.log('Modal dismissed with data:', data);
         // Handle any data returned from the modal if needed
       });

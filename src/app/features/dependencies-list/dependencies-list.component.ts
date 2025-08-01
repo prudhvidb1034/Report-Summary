@@ -107,7 +107,7 @@ export class DependenciesListComponent {
     console.log('Selected row data:', item);
     this.modalController.create({
       component: CreateDependenciesListComponent,
-      cssClass: 'create-account-modal',
+      cssClass: 'create-dependency-modal',
       componentProps: {
         editData: item
       }

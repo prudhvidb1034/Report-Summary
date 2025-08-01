@@ -5,3 +5,11 @@
 </div>
 
 <!-- {{quaterlyReport$  | async | json}} -->
+ <ng-container *ngIf="{ 
+    a: isLoading$ | async, 
+    b: isLoadingCommon$ | async 
+  } as flags">
+  <div *ngIf="flags.a || flags.b" class="loader-overlay">
+    <ion-spinner name="crescent"></ion-spinner>
+  </div>
+</ng-container>

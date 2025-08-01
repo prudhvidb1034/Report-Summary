@@ -1,4 +1,4 @@
-import { Component, inject, Input } from '@angular/core';
+import { Component, effect, inject, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, AbstractControl } from '@angular/forms';
 import { IonicModule, ModalController, NavParams } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
@@ -29,15 +29,19 @@ export class CreateQuaterlyStandingComponent {
   private modalCtrl = inject(ModalController);
   private fb = inject(FormBuilder)
   private toast = inject(ToastService);
-  private quaterlyReportStore = inject(QuaterlyReportStore)
+  private quaterlyReportStore = inject(QuaterlyReportStore);
+  private commonStore = inject(CommonStore);
   quaterlyStandingForm!: FormGroup;
-  PINumber:any;
-  pi:any
+  Quarter:any = [1,2,3,4]
+  PINumber: any;
+  pi: any
   @Input() editData: any;
   isEditMode: boolean = false;
-   quaterlyReport = inject(QuaterlyReportStore);
-  commonStore = inject(CommonStore);
+  quaterlyReport = inject(QuaterlyReportStore);
+  public validationService = inject(ValidationsService);
+  allProjects$ = this.commonStore.allProjects$;
   quaterlyReports$: any;
+  isLoading$ = this.quaterlyReport.select(state => state.loading);
   page = 0;
   pageSize = 5;
   content: any = [];
@@ -49,6 +53,26 @@ export class CreateQuaterlyStandingComponent {
   //       { id: 4, sprint3: false },
   //       { id: 5, sprint4: false },
   //     ];
+
+    readonly accountStatusEffect = effect(() => {
+      const status = this.quaterlyReportStore.accountCreateStatus();
+  
+      if (status === 'success') {
+       this.quaterlyReportStore.getQuaterlyReports({ page: 0, size: 5 });
+        this.setOpen(false);
+        this.toast.show('success', 'Report created successfully!');
+  
+      } else if (status === 'update') {
+        this.setOpen(false);
+        this.toast.show('success', 'Report updated successfully!');
+  
+      } else if (status === 'deleted') {
+        this.toast.show('success', 'Report deleted successfully!');
+  
+      } else if (status === 'error') {
+        this.toast.show('error', 'Something went wrong!');
+      }
+    });
   constructor() { }
 
   ngOnInit() {
@@ -56,19 +80,19 @@ export class CreateQuaterlyStandingComponent {
     this.quaterlyReport.getQuaterlyReports({ page: this.page, size: this.pageSize });
     this.quaterlyReports$ = this.quaterlyReport.quaterlyReport$;
     this.quaterlyReport.quaterlyReport$.subscribe((val: any) => {
-    this.content = val?.content;
-    console.log(this.content);
+      this.content = val?.content;
+      console.log(this.content);
 
-    if (Array.isArray(this.content)) {
-      this.content.map((res: any) => {
-        this.PINumber = res?.piNumber;
-        this.pi = this.PINumber
+      if (Array.isArray(this.content)) {
+        this.content.map((res: any) => {
+          this.PINumber = res?.piNumber;
+          this.pi = this.PINumber
           console.log(this.PINumber);
-      });
-    } else {
-      console.warn('content is not an array:', this.content);
-    }
-  });
+        });
+      } else {
+        console.warn('content is not an array:', this.content);
+      }
+    });
     // this.accountStore.getAccounts({ page: 0, size: 5, sortBy: 'accountName' });
     console.log(this.editData);
     if (this.editData) {
@@ -86,9 +110,9 @@ export class CreateQuaterlyStandingComponent {
 
   creteForm() {
     console.log(this.PINumber);
-    
+
     this.quaterlyStandingForm = this.fb.group({
-      projectName: ['', Validators.required],
+      projectId: ['', Validators.required],
       feature: ['', Validators.required],
       sprint0: ['', Validators.required],
       sprint1: ['', Validators.required],
@@ -96,9 +120,8 @@ export class CreateQuaterlyStandingComponent {
       sprint3: ['', Validators.required],
       sprint4: ['', Validators.required],
       completionPercentage: ['', Validators.required],
-      status: ['', Validators.required],
-      id: [''],
-      piNumber: [this.PINumber]
+      statusReport: ['', Validators.required],
+      piNumber: ['']
     })
   }
 
@@ -117,21 +140,22 @@ export class CreateQuaterlyStandingComponent {
   SubmitForm() {
     if (this.quaterlyStandingForm.value) {
       const formValue = {
-  ...this.quaterlyStandingForm.value,
-  piNumber: this.PINumber
-};
+        ...this.quaterlyStandingForm.value,
+        piNumber: this.PINumber
+      };
       // const formValue = this.quaterlyStandingForm.value;
 
       if (this.isEditMode && this.editData?.id) {
         this.quaterlyReportStore.updateQuaterlyReport({ id: this.editData.id, data: formValue });
       } else {
         console.log(formValue);
-        
+
         this.quaterlyReportStore.createQuaterlyReport(formValue);
       }
     } else {
       this.quaterlyStandingForm.markAllAsTouched();
     }
+    
   }
 
 

@@ -67,7 +67,7 @@ export class QuaterlyReportStore extends ComponentStore<QuaterlyReport> {
                             },
                             (error) => {
                                 this.patchState({ loading: false, error: 'Failed to fetch accounts' });
-                                this.toast.show('error', 'Failed to load accounts!');
+                                this.toast.show('error', 'Failed to load reports!');
                             }
                         )
                     )
@@ -88,11 +88,12 @@ export class QuaterlyReportStore extends ComponentStore<QuaterlyReport> {
                         tap({
                             next: (updatedAccount: any) => {
                                 this._accountCreateStatus.set('update');
+                                this.getQuaterlyReports({})
                                 this.patchState({ loading: false });
                             },
                             error: () => {
                                 this._accountCreateStatus.set('error');
-                                this.patchState({ loading: false, error: 'Failed to update account' });
+                                this.patchState({ loading: false, error: 'Failed to update' });
                                 this.toast.show('error', 'Update failed!');
                             }
                         })
@@ -110,7 +111,7 @@ export class QuaterlyReportStore extends ComponentStore<QuaterlyReport> {
                         () => {
                             this._accountCreateStatus.set('deleted');
                             // this.getAccounts({ page: 0, size: 5, sortBy: 'accountName' });
-                            this.toast.show('success', 'Account deleted successfully!');
+                            this.toast.show('success', 'Report deleted successfully!');
                         },
                         (error) => {
                             this.toast.show('error', 'Failed to delete account!');

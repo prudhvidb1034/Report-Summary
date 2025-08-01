@@ -21,18 +21,31 @@
           <ion-col size="4">
             <ion-item
               class="custom-item"
-              [class.invalid]="isInvalid('team')"
-              [class.valid]="isValid('team')"
               lines="none"
+              [class.invalid]="
+                validationService.isInvalid('projectName', quaterlyStandingForm)
+              "
+              [class.valid]="
+                validationService.isValid('projectName', quaterlyStandingForm)
+              "
             >
-              <ion-input
-                formControlName="projectName"
-                label="Team"
-                labelPlacement="floating"
+              <ion-select
                 class="label-texts"
-                placeholder="team"
-                [clearOnEdit]="true"
-              ></ion-input>
+                formControlName="projectId"
+                label="Projects"
+                labelPlacement="floating"
+                interface="popover"
+                placeholder="Select Project"
+              >
+                <ng-container *ngIf="allProjects$ | async as projectList">
+                  <ion-select-option
+                    *ngFor="let p of projectList"
+                    [value]="p.projectId"
+                  >
+                    {{ p.projectName }}
+                  </ion-select-option>
+                </ng-container>
+              </ion-select>
             </ion-item>
           </ion-col>
 
@@ -77,8 +90,7 @@
               </ion-select>
             </ion-item>
 
-            
-   <!-- <ion-item
+            <!-- <ion-item
     class="custom-item"
     [class.invalid]="isInvalid('selectedSprint')"
     [class.valid]="isValid('selectedSprint')"
@@ -107,7 +119,6 @@
       </ion-select-option>
     </ion-select>
   </ion-item> -->
-
           </ion-col>
         </ion-row>
 
@@ -201,7 +212,7 @@
                 ></ion-select
               >
             </ion-item>
-          </ion-col> 
+          </ion-col>
           <ion-col size="4">
             <ion-item
               class="custom-item"
@@ -223,12 +234,12 @@
           <ion-col size="4">
             <ion-item
               class="custom-item"
-              [class.invalid]="isInvalid('status')"
-              [class.valid]="isValid('status')"
+              [class.invalid]="isInvalid('statusReport')"
+              [class.valid]="isValid('statusReport')"
               lines="none"
             >
               <ion-input
-                formControlName="status"
+                formControlName="statusReport"
                 label="Status"
                 labelPlacement="floating"
                 class="label-texts"
@@ -236,9 +247,39 @@
                 [clearOnEdit]="true"
               ></ion-input>
             </ion-item>
-
-
           </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="4">
+           <ion-item
+              class="custom-item"
+              lines="none"
+              [class.invalid]="
+                validationService.isInvalid('piNumber', quaterlyStandingForm)
+              "
+              [class.valid]="
+                validationService.isValid('piNumber', quaterlyStandingForm)
+              "
+            >
+              <ion-select
+                class="label-texts"
+                formControlName="piNumber"
+                label="PI Standing"
+                labelPlacement="floating"
+                interface="popover"
+                placeholder="Select Quarter"
+              >
+                <ng-container>
+                  <ion-select-option
+                    *ngFor="let p of Quarter"
+                    [value]="p"
+                  >
+                    {{ p }}
+                  </ion-select-option>
+                </ng-container>
+              </ion-select>
+            </ion-item>
+            </ion-col>
         </ion-row>
       </ion-grid>
     </form>
@@ -256,6 +297,6 @@
     </ion-toolbar>
   </ion-footer>
 </div>
-<!-- <div class="loader-overlay" *ngIf="(isLoading$ | async)">
+<div class="loader-overlay" *ngIf="(isLoading$ | async)">
   <ion-spinner name="crescent"></ion-spinner>
-</div> -->
+</div>

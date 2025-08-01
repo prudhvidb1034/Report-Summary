@@ -3,11 +3,13 @@ import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { IonicModule, ModalController } from '@ionic/angular';
 import { ValidationsService } from '../../services/validation/validations.service';
+import { PiPgrogressStore } from '../../state/pi-progress.store';
 
 @Component({
   selector: 'app-create-pi-progress',
   standalone: true,
-  imports: [IonicModule, CommonModule,ReactiveFormsModule],
+  imports: [IonicModule, CommonModule, ReactiveFormsModule],
+  providers: [PiPgrogressStore],
   templateUrl: './create-pi-progress.component.html',
   styleUrl: './create-pi-progress.component.scss'
 })
@@ -17,6 +19,7 @@ export class CreatePiProgressComponent {
   private modalCtrl = inject(ModalController);
   isEditMode = false;
   private fb = inject(FormBuilder);
+  private piprogressStore = inject(PiPgrogressStore);
 
   public validationService = inject(ValidationsService);
   ngOnInit() {
@@ -25,17 +28,17 @@ export class CreatePiProgressComponent {
 
   creteForm() {
     this.piProgressForm = this.fb.group({
-      team: ['',Validators.required],
-      leadname: ['',Validators.required],
-      Assignedp: ['',Validators.required],
-      completedsp: ['',Validators.required],
-      Percentage: ['',Validators.required],
+      team: ['', Validators.required],
+      leadname: ['', Validators.required],
+      Assignedp: ['', Validators.required],
+      completedsp: ['', Validators.required],
+      Percentage: ['', Validators.required],
 
 
     })
   }
 
-    setOpen(isOpen: boolean) {
+  setOpen(isOpen: boolean) {
     // this.isModalOpen = isOpen;
 
     // if (!isOpen) {
@@ -46,7 +49,9 @@ export class CreatePiProgressComponent {
 
   }
 
-  SubmitForm(){
-
+  SubmitForm() {
+    if (this.piProgressForm.valid) {
+      this.piprogressStore.createPipgrogressReports(this.piProgressForm.value)
+    }
   }
 }

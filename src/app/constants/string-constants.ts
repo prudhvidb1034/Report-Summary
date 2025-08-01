@@ -31,6 +31,10 @@ export const urls = {
     PROJECT_SEARCH: 'projects/search',
     CREATE_SPRINT: 'api/sprints/createSprint',
     CREATE_INCIENT: 'api/releases/save',
+    CREATE_PI_PROGRESS: 'progress-report',
+  
+    
+
     CREATE_RESOURCES:'api/resources/save',
     API_RESOURCES:'api/resources',
     GET_RESOURCES_FILTER_TYPE:'resources/filter-by-type?type=',

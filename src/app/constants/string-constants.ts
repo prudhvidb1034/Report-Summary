@@ -31,14 +31,12 @@ export const urls = {
     PROJECT_SEARCH: 'projects/search',
     CREATE_SPRINT: 'api/sprints/createSprint',
     CREATE_INCIENT: 'api/releases/save',
+    CREATE_RESOURCES:'resources',
     CREATE_PI_PROGRESS: 'progress-report',
     CREATE_DEPENDENCY: 'api/sprint-dependencies/create',
     GET_DEPENDENCY: 'api/sprint-dependencies/all',
   UPDATE_DELETE_DEPENDENCY: 'api/sprint-dependencies',
-   
-
-    CREATE_RESOURCES:'api/resources/save',
-    API_RESOURCES:'api/resources',
+       API_RESOURCES:'api/resources',
     GET_RESOURCES_FILTER_TYPE:'resources/filter-by-type?type=',
     GET_QUATERLY_REPORT: '/assets/jsons/quaterlylist.json',
     CREATE_QUATERLY_REPORT: '/assets/jsons/quaterlylist.json',

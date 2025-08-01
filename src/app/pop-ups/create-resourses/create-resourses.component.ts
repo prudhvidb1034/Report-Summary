@@ -9,6 +9,7 @@ import { ResourcesStore } from '../../state/resources.store';
   selector: 'app-create-resourses',
   standalone: true,
   imports: [IonicModule, CommonModule,FormsModule, ReactiveFormsModule,],
+  providers:[ResourcesStore],
   templateUrl: './create-resourses.component.html',
   styleUrl: './create-resourses.component.scss'
 })

@@ -58,7 +58,8 @@ export class ProjectResourcesComponent {
   search(){
     if(this.selectedType){
     this.resourceStore.getResources({ page: this.page, size: this.pageSize,sortBy:'resourceType',apiPath:urls.GET_RESOURCES_FILTER_TYPE+this.selectedType});
-    }
+    this.resourcesList$=this.resourceStore.resources$;
+  }
     console.log(this.selectedType)
   }
 
@@ -75,7 +76,7 @@ export class ProjectResourcesComponent {
   onInput(event: any) {
     this.searchTerm = event.detail.value;
     setTimeout(()=>{
-    this.resourceStore.getResources({ page: this.page, size: this.pageSize,sortBy:'resourceType',apiPath:urls.GET_RESOURCES_FILTER_TYPE+this.selectedType+'&name='+this.searchTerm.toUpperCase()});
+
     },300)
     this.updateSuggestions();
   }
@@ -90,8 +91,8 @@ export class ProjectResourcesComponent {
     // handle search logic here
   }
 
-  loadResources(page:number,pageSize:number){
-   // this.resourceStore.getResources({ page: page, size: pageSize,sortBy:'resourceType',apiPath:urls.GET_RESOURCES_FILTER_TYPE });
+  loadResources(){
+    this.resourceStore.getResources({ page: this.page, size: this.pageSize,sortBy:'resourceType',apiPath:urls.GET_RESOURCES_FILTER_TYPE+this.selectedType+'&name='+this.searchTerm.toUpperCase()});
     this.resourcesList$=this.resourceStore.resources$;
 }
   columns = [

@@ -1,15 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, Input } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-
+import { FormsModule } from '@angular/forms';
 import { IonicModule, ModalController } from '@ionic/angular';
 import { ResourcesStore } from '../../state/resources.store';
 
 @Component({
   selector: 'app-create-resourses',
   standalone: true,
-  imports: [IonicModule, CommonModule, ReactiveFormsModule,],
-  providers:[ResourcesStore],
+  imports: [IonicModule, CommonModule,FormsModule, ReactiveFormsModule,],
   templateUrl: './create-resourses.component.html',
   styleUrl: './create-resourses.component.scss'
 })
@@ -17,12 +16,12 @@ export class CreateResoursesComponent {
   @Input() isEditMode = false;
   loading = false;
   resourceForm!: FormGroup;
-  //  projectSearch = '';
-  // employeeSearch = '';
-  // projectId = [];
-  // filteredProjects: any = [];
-  // projectSelected: boolean = false;
-  // personId = '';
+  projectSearch = '';
+  employeeSearch = '';
+  projectId = [];
+  filteredProjects: any = [];
+  projectSelected: boolean = false;
+  personId = '';
   filteredNames: any[] = [];
   types = [
     { id: 'technologies', name: 'Technologies' },
@@ -89,34 +88,34 @@ ngOnInit() {
     }
   }
 
-  // selectProject(name: any) {
-  //   console.log(name)
-  //   this.projectSearch = name.projectName;
-  //   this.projectId = name.projectId;
-  //   this.projectSelected = true;
-  // }
+  selectProject(name: any) {
+    console.log(name)
+    this.projectSearch = name.name;
+    this.projectId = name.id;
+    this.projectSelected = true;
+  }
 
-  // clearProjectSearch() {
-  //   this.projectSearch = '';
-  //   this.projectSelected = false;
-  //   this.filteredProjects = this.projectList;
-  // }
+  clearProjectSearch() {
+    this.projectSearch = '';
+    this.projectSelected = false;
+    this.filteredProjects = this.filteredNames;
+  }
 
-  //   onProjectTyping() {
-  //   this.projectSelected = false;
-  //   const search = this.projectSearch.toLowerCase();
-  //   this.filteredProjects = this.projectList.filter((project: any) =>
-  //     project.projectName.toLowerCase().includes(search)
-  //   );
-  // }
+  onProjectTyping() {
+    this.projectSelected = false;
+    const search = this.projectSearch.toLowerCase();
+    this.filteredProjects = this.filteredNames.filter((project: any) =>
+      project.name.toLowerCase().includes(search)
+    );
+  }
 
-  //   filterItems<T>(items: T[], search: string, key: keyof T, selected: boolean): T[] {
-  //   console.log(items, search, key);
-  //   if (!search || selected) return [];
-  //   return items.filter(item =>
-  //     item[key]?.toString().toLowerCase().includes(search.toLowerCase())
-  //   );
-  // }
+  filterItems<T>(items: T[], search: string, key: keyof T, selected: boolean): T[] {
+    console.log(items, search, key);
+    if (!search || selected) return [];
+    return items.filter(item =>
+      item[key]?.toString().toLowerCase().includes(search.toLowerCase())
+    );
+  }
 
   SubmitForm() {
     console.log(this.resourceForm.valid,this.resourceForm.value)

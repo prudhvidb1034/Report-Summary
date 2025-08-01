@@ -18,48 +18,87 @@ import { QuaterlyReportStore } from '../../state/quaterlyStanding.store';
   selector: 'app-create-quaterly-standing',
   standalone: true,
   imports: [IonicModule, CommonModule, ReactiveFormsModule],
-  providers:[QuaterlyReportStore],
+  providers: [QuaterlyReportStore, QuaterlyReportStore],
   templateUrl: './create-quaterly-standing.component.html',
   styleUrl: './create-quaterly-standing.component.scss'
 })
 export class CreateQuaterlyStandingComponent {
 
 
-   isModalOpen: boolean = false;
-   private modalCtrl = inject(ModalController);
-   private fb = inject(FormBuilder)
-   private toast = inject(ToastService);
-   private quaterlyReportStore = inject(QuaterlyReportStore)
-   quaterlyStandingForm!: FormGroup;
-   @Input() editData: any;
-   isEditMode: boolean = false;
-   constructor() { }
+  isModalOpen: boolean = false;
+  private modalCtrl = inject(ModalController);
+  private fb = inject(FormBuilder)
+  private toast = inject(ToastService);
+  private quaterlyReportStore = inject(QuaterlyReportStore)
+  quaterlyStandingForm!: FormGroup;
+  PINumber:any;
+  pi:any
+  @Input() editData: any;
+  isEditMode: boolean = false;
+   quaterlyReport = inject(QuaterlyReportStore);
+  commonStore = inject(CommonStore);
+  quaterlyReports$: any;
+  page = 0;
+  pageSize = 5;
+  content: any = [];
+  sprints = ['sprint0', 'sprint1', 'sprint2', 'sprint3', 'sprint4'];
+  // sprintInfo: any = [
+  //       { id: 1, sprint0: false },
+  //       { id: 2, sprint1: false },
+  //       { id: 3, sprint2: false },
+  //       { id: 4, sprint3: false },
+  //       { id: 5, sprint4: false },
+  //     ];
+  constructor() { }
 
   ngOnInit() {
     this.creteForm();
+    this.quaterlyReport.getQuaterlyReports({ page: this.page, size: this.pageSize });
+    this.quaterlyReports$ = this.quaterlyReport.quaterlyReport$;
+    this.quaterlyReport.quaterlyReport$.subscribe((val: any) => {
+    this.content = val?.content;
+    console.log(this.content);
+
+    if (Array.isArray(this.content)) {
+      this.content.map((res: any) => {
+        this.PINumber = res?.piNumber;
+        this.pi = this.PINumber
+          console.log(this.PINumber);
+      });
+    } else {
+      console.warn('content is not an array:', this.content);
+    }
+  });
     // this.accountStore.getAccounts({ page: 0, size: 5, sortBy: 'accountName' });
     console.log(this.editData);
-    
     if (this.editData) {
       this.quaterlyStandingForm.patchValue(this.editData);
+      console.log(this.quaterlyStandingForm.value);
       this.isEditMode = true;
+      console.log(this.editData?.piNumber);
+
     }
+    console.log(this.pi);
 
   }
 
 
 
   creteForm() {
+    console.log(this.PINumber);
+    
     this.quaterlyStandingForm = this.fb.group({
-      team: ['', Validators.required],
+      projectName: ['', Validators.required],
       feature: ['', Validators.required],
       sprint0: ['', Validators.required],
       sprint1: ['', Validators.required],
       sprint2: ['', Validators.required],
       sprint3: ['', Validators.required],
-      completion: ['', Validators.required],
-      statusReport:['', Validators.required],
-      id:['']
+      sprint4: ['', Validators.required],
+      completionPercentage: ['', Validators.required],
+      status: ['', Validators.required],
+      id: [''],
+      piNumber: [this.PINumber]
     })
   }
 
@@ -76,12 +115,18 @@ export class CreateQuaterlyStandingComponent {
 
 
   SubmitForm() {
-    if (this.quaterlyStandingForm.valid) {
-      const formValue = this.quaterlyStandingForm.value;
+    if (this.quaterlyStandingForm.value) {
+      const formValue = {
+  ...this.quaterlyStandingForm.value,
+  piNumber: this.PINumber
+};
+      // const formValue = this.quaterlyStandingForm.value;
 
       if (this.isEditMode && this.editData?.id) {
         this.quaterlyReportStore.updateQuaterlyReport({ id: this.editData.id, data: formValue });
       } else {
+        console.log(formValue);
+        
         this.quaterlyReportStore.createQuaterlyReport(formValue);
       }
     } else {
@@ -90,8 +135,12 @@ export class CreateQuaterlyStandingComponent {
   }
 
 
+  // this.quaterlyReportStore.createQuaterlyReport(formValue);
 
-   isInvalid(controlName: string): boolean {
+
+
+
+  isInvalid(controlName: string): boolean {
     const control = this.quaterlyStandingForm.get(controlName);
     return !!(control && control.invalid && control.touched);
   }

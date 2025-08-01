@@ -32,8 +32,10 @@ export const urls = {
     CREATE_SPRINT: 'api/sprints/createSprint',
     CREATE_INCIENT: 'api/releases/save',
     CREATE_PI_PROGRESS: 'progress-report',
-  
-    
+    CREATE_DEPENDENCY: 'api/sprint-dependencies/create',
+    GET_DEPENDENCY: 'api/sprint-dependencies/all',
+  UPDATE_DELETE_DEPENDENCY: 'api/sprint-dependencies',
+   
 
     CREATE_RESOURCES:'api/resources/save',
     API_RESOURCES:'api/resources',

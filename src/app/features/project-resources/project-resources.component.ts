@@ -6,6 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CreateResoursesComponent } from '../../pop-ups/create-resourses/create-resourses.component';
 import { SprintStore } from '../../state/sprint.store';
 import { ResourcesStore } from '../../state/resources.store';
+import { urls } from '../../constants/string-constants';
 
 @Component({
   selector: 'app-project-resources',
@@ -21,8 +22,8 @@ export class ProjectResourcesComponent {
   private resourceStore=inject(ResourcesStore);
   isLoading$ = this.resourceStore.select(state => state.loading);
    types = [
-    { id: 'technologies', name: 'Technologies' },
-    { id: 'projects', name: 'Projects' }
+    { id: 'TECH_STACK', name: 'Technologies' },
+    { id: 'PROJECT', name: 'Projects' }
   ];
   page = 0;
   pageSize = 5;
@@ -43,24 +44,28 @@ export class ProjectResourcesComponent {
   }
 
   ngOnInit(){
-console.log("preojectr REsoirs")
-this.resourceStore.getResources({ page: this.page, size: this.pageSize });
-    this.resourcesList$=this.resourceStore.resources$;
+   // this.loadResources(this.page,this.pageSize);
   }
 
   copyResources(){
-      if (this.copyDisabled) return;
-
+    if (this.copyDisabled) return;
     this.copyDisabled = true;
-    this.resourceStore.getResources({ page: this.page, size: this.pageSize });
+   // this.resourceStore.getResources({ page: this.page, size: this.pageSize,sortBy:'resourceType',apiPath:urls.GET_RESOURCES_FILTER_TYPE });
     this.resourcesList$=this.resourceStore.resources$;
 
   }
 
+  search(){
+    if(this.selectedType){
+    this.resourceStore.getResources({ page: this.page, size: this.pageSize,sortBy:'resourceType',apiPath:urls.GET_RESOURCES_FILTER_TYPE+this.selectedType});
+    }
+    console.log(this.selectedType)
+  }
+
   updateSuggestions() {
-    const list = this.selectedType === 'technologies'
+    const list = this.selectedType === 'TECH_STACK'
       ? this.technologies
-      : this.selectedType === 'projects'
+      : this.selectedType === 'PROJECT'
         ? this.projects
         : [];
     const term = this.searchTerm.toLowerCase();
@@ -69,6 +74,9 @@ this.resourceStore.getResources({ page: this.page, size: this.pageSize });
 
   onInput(event: any) {
     this.searchTerm = event.detail.value;
+    setTimeout(()=>{
+    this.resourceStore.getResources({ page: this.page, size: this.pageSize,sortBy:'resourceType',apiPath:urls.GET_RESOURCES_FILTER_TYPE+this.selectedType+'&name='+this.searchTerm.toUpperCase()});
+    },300)
     this.updateSuggestions();
   }
 
@@ -82,6 +90,10 @@ this.resourceStore.getResources({ page: this.page, size: this.pageSize });
     // handle search logic here
   }
 
+  loadResources(page:number,pageSize:number){
+   // this.resourceStore.getResources({ page: page, size: pageSize,sortBy:'resourceType',apiPath:urls.GET_RESOURCES_FILTER_TYPE });
+    this.resourcesList$=this.resourceStore.resources$;
+}
   columns = [
     { header: 'Type', field: 'type' },
     { header: 'Name', field: 'name' },

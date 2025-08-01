@@ -20,21 +20,27 @@
         <ion-row>
           <!-- Type Dropdown -->
           <ion-col size="6">
-            <ion-item class="custom-item" [class.invalid]="isInvalid('type')" [class.valid]="isValid('type')"
+            <ion-item class="custom-item" [class.invalid]="isInvalid('resourceType')" [class.valid]="isValid('resourceType')"
               lines="none">
-              <ion-select formControlName="type" label="Type" labelPlacement="floating" class="label-texts"
+              <ion-select formControlName="resourceType" label="Type" labelPlacement="floating" class="label-texts"
                 interface="popover" placeholder="Select Type" (ionChange)="onTypeChange($event)">
-                <ion-select-option value="techstack">Technologies</ion-select-option>
-                <ion-select-option value="projects">Projects</ion-select-option>
+                <ion-select-option value="TECH_STACK">Technologies</ion-select-option>
+                <ion-select-option value="PROJECT">Projects</ion-select-option>
               </ion-select>
             </ion-item>
           </ion-col>
 
           <!-- Name Auto-Select -->
           <ion-col size="6">
-            <ion-item class="custom-item" [class.invalid]="isInvalid('name')" [class.valid]="isValid('name')"
+            <ion-item class="custom-item" [class.invalid]="isInvalid('techStack')" [class.valid]="isValid('techStack')"
               lines="none">
-              <ion-select formControlName="name" label="Name" labelPlacement="floating" class="label-texts"
+              <ion-select *ngIf="resourceForm.get('resourceType')?.value === 'TECH_STACK'" formControlName="techStack" label="Name" labelPlacement="floating" class="label-texts"
+                interface="popover" placeholder="Search & Select">
+                <ion-select-option *ngFor="let item of filteredNames" [value]="item.id">
+                  {{ item.name }}
+                </ion-select-option>
+              </ion-select>
+                <ion-select *ngIf="resourceForm.get('resourceType')?.value === 'PROJECT'" formControlName="projectId" label="Name" labelPlacement="floating" class="label-texts"
                 interface="popover" placeholder="Search & Select">
                 <ion-select-option *ngFor="let item of filteredNames" [value]="item.id">
                   {{ item.name }}

@@ -27,18 +27,19 @@
               lines="none"
             >
               <ion-select
-                formControlName="type"
+                formControlName="resourceType"
                 label="Type"
+                [(ngModel)]="selectedType"
                 labelPlacement="floating"
                 class="label-texts"
                 interface="popover"
                 placeholder="Select Type"
-                (ionChange)="onTypeChange($event)"
+                (ionChange)="ionSelectChange()"
               >
-                <ion-select-option value="techstack"
+                <ion-select-option value="TECH_STACK"
                   >Technologies</ion-select-option
                 >
-                <ion-select-option value="projects">Projects</ion-select-option>
+                <ion-select-option value="PROJECT">Projects</ion-select-option>
               </ion-select>
             </ion-item>
           </ion-col>
@@ -70,16 +71,33 @@
             <ion-row>
  <!-- <ion-item> -->
           <!-- <ion-label class="ion-margin">Project Name</ion-label> -->
-          <ion-searchbar
-            [(ngModel)]="projectSearch"
-            [debounce]="300"
-             formControlName="name"
-            (ionClear)="clearProjectSearch()"
-            (ionInput)="onProjectTyping()"
-            placeholder="Select"
-          >
-          </ion-searchbar>
+       <!-- If type is TECH_STACK -->
+<ion-searchbar
+  *ngIf="resourceForm.get('resourceType')?.value === 'TECH_STACK'"
+  [(ngModel)]="projectSearch"
+  formControlName="techStack"
+  [debounce]="300"
+  (ionClear)="clearProjectSearch()"
+  (ionInput)="onProjectTyping($event)"
+  placeholder="Select Technology">
+</ion-searchbar>
 
+<!-- If type is PROJECT -->
+<ion-searchbar
+  *ngIf="resourceForm.get('resourceType')?.value === 'PROJECT'"
+  [(ngModel)]="projectSearch"
+  formControlName="projectId"
+  [debounce]="300"
+  (ionClear)="clearProjectSearch()"
+  (ionInput)="onProjectTyping($event)"
+  placeholder="Select Project">
+</ion-searchbar>
+
+             <ion-list  *ngIf="suggestions$ | async">
+                <ion-item *ngFor="let s of suggestions$ | async" (click)="choose(s)">
+                  {{ s }}
+                </ion-item>
+              </ion-list>
           <!-- <ion-list>
             <ion-item *ngFor="let project of projectList">
               {{ project.projectName }}

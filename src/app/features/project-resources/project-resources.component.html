@@ -82,7 +82,7 @@
     </div>
 
     <div size="auto" class="display-flex btn-properties">
-        <ion-button style="margin-top: 20px;" class="button-cls" (click)="openModal()">
+        <ion-button style="margin-top: 20px;" class="button-cls" (click)="openModal('')">
           Create Resource
         </ion-button>
 
@@ -107,6 +107,7 @@
   <app-reusable-table
     [columns]="columns"
     [data]="resourcesList$"
+    (rowAction)="handleRowAction($event)"
   ></app-reusable-table>
 </div>
 <div class="loader-overlay" *ngIf="isLoading$ | async">

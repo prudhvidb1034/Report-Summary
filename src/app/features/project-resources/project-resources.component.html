@@ -44,8 +44,9 @@
                 placeholder="Search name"
               >
               </ion-searchbar>
-              <ion-list *ngIf="suggestions.length > 0">
-                <ion-item *ngFor="let s of suggestions" (click)="choose(s)">
+
+              <ion-list  *ngIf="suggestions$ | async">
+                <ion-item *ngFor="let s of suggestions$ | async" (click)="choose(s)">
                   {{ s }}
                 </ion-item>
               </ion-list>

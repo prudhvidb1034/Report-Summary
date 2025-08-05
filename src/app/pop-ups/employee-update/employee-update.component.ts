@@ -45,7 +45,7 @@ export class EmployeeUpdateComponent {
 
   ngOnInit() {
     this.commonStore.getAllProjects();
-    this.commonStore.getWeeklyRange();
+    //this.commonStore.getWeeklyRange();
     this.summary.getDetails({ page: 0,size: 5 })
     this.allProjects$.subscribe((val: any) => {
       this.allProjects = val

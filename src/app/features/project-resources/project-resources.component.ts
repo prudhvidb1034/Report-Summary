@@ -7,6 +7,9 @@ import { CreateResoursesComponent } from '../../pop-ups/create-resourses/create-
 import { SprintStore } from '../../state/sprint.store';
 import { ResourcesStore } from '../../state/resources.store';
 import { urls } from '../../constants/string-constants';
+import { CommonStore } from '../../state/common.store';
+import { map } from 'rxjs';
+import { of } from 'rxjs';
 
 @Component({
   selector: 'app-project-resources',
@@ -20,6 +23,7 @@ export class ProjectResourcesComponent {
   label='Resources'
     private modalController = inject(ModalController);
   private resourceStore=inject(ResourcesStore);
+  private commonStore=inject(CommonStore);
   isLoading$ = this.resourceStore.select(state => state.loading);
    types = [
     { id: 'TECH_STACK', name: 'Technologies' },
@@ -31,12 +35,17 @@ export class ProjectResourcesComponent {
   copyDisabled = false;
 
   // sample arrays
-  technologies = ['Angular', 'React', 'Vue', 'Ionic', 'Node.js'];
+  technologies$ = this.commonStore.allTechnologies$;
+  projectNames$ = this.commonStore.allProjects$.pipe(
+  map(projects => projects.map((p:any) => p.projectName))
+);
+
   projects = ['Apollo', 'Zeus', 'Hermes', 'Athena', 'Poseidon'];
 
   selectedType='';
   searchTerm = '';
-  suggestions: string[] = [];
+  suggestions$: any;
+  list$: any;
 
   ionSelectChange() {
     this.searchTerm = '';
@@ -44,7 +53,9 @@ export class ProjectResourcesComponent {
   }
 
   ngOnInit(){
-   // this.loadResources(this.page,this.pageSize);
+    this.technologies$.subscribe((data:any)=>{
+      console.log(data)
+    })
   }
 
   copyResources(){
@@ -63,15 +74,22 @@ export class ProjectResourcesComponent {
     console.log(this.selectedType)
   }
 
-  updateSuggestions() {
-    const list = this.selectedType === 'TECH_STACK'
-      ? this.technologies
-      : this.selectedType === 'PROJECT'
-        ? this.projects
-        : [];
-    const term = this.searchTerm.toLowerCase();
-    this.suggestions = list.filter(item => item.toLowerCase().includes(term));
-  }
+
+updateSuggestions() {
+   this.list$ = this.selectedType === 'TECH_STACK'
+    ? this.technologies$
+    : this.selectedType === 'PROJECT'
+      ? this.projectNames$
+      : of([]);
+     const term = this.searchTerm.toLowerCase();
+       this.suggestions$ = this.list$.pipe(
+        map((list: any[]) =>
+       list.filter(item =>
+          item.toLowerCase().includes(this.searchTerm.toLowerCase())
+      )
+    )
+  );
+}
 
   onInput(event: any) {
     this.searchTerm = event.detail.value;
@@ -83,7 +101,7 @@ export class ProjectResourcesComponent {
 
   choose(name: string) {
     this.searchTerm = name;
-    this.suggestions = [];
+this.suggestions$ = of([] as string[]);
   }
 
   onSearchClicked() {
@@ -96,10 +114,10 @@ export class ProjectResourcesComponent {
     this.resourcesList$=this.resourceStore.resources$;
 }
   columns = [
-    { header: 'Type', field: 'type' },
+    { header: 'Type', field: 'resourceType' },
     { header: 'Name', field: 'name' },
     { header: 'Onsite', field: 'onsite' },
-    { header: 'Offshore', field: 'offshore', },
+    { header: 'Offshore', field: 'offsite', },
     { header: 'Action', field: 'action', type: ['edit', 'delete'] },
   ];
 

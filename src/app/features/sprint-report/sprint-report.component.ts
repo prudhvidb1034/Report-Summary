@@ -6,25 +6,27 @@ import PptxGenJS from 'pptxgenjs';
 import html2canvas from 'html2canvas';
 import { SprintStore } from '../../state/sprint.store';
 import { ActivatedRoute } from '@angular/router';
+import { PiPgrogressStore } from '../../state/pi-progress.store';
 @Component({
   selector: 'app-sprint-report',
   standalone: true,
   imports: [IonicModule, CommonModule],
-  providers: [SprintStore],
+  providers: [SprintStore, PiPgrogressStore],
   templateUrl: './sprint-report.component.html',
   styleUrl: './sprint-report.component.scss'
 })
 export class SprintReportComponent {
 
   private sprintSore = inject(SprintStore);
-
+  private piprogresstore = inject(PiPgrogressStore)
+  piprogresstore$ = this.piprogresstore.piprogressReport$
   SprintList$ = this.sprintSore.sprintReport$;
   incidentList$ = this.sprintSore.incidentReport$;
   isLoading$ = this.sprintSore.select((state: { loading: any; }) => state.loading);
   private router = inject(ActivatedRoute);
   ngOnInit() {
     const sprintId = this.router.snapshot.paramMap.get('id');
-
+    this.piprogresstore.getPipgrogressReports()
     if (sprintId !== null) {
       this.sprintSore.getReportById(sprintId);
       this.sprintSore.getIndicentById(sprintId);
@@ -72,50 +74,50 @@ export class SprintReportComponent {
     this.renderBarChart2()
   }
 
- renderBarChart() {
-  const ctx = document.getElementById('barChart') as HTMLCanvasElement;
+  renderBarChart() {
+    const ctx = document.getElementById('barChart') as HTMLCanvasElement;
 
-  new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: ['C360', 'Innovation', 'Onboarding', 'Core Tex', 'RPA', 'UX', 'Total'],
-      datasets: [
-        {
-          label: 'UI',
-          data: [5, 2, 1, 0, 2, 4, 14],
-          backgroundColor: '#007bff'
-        },
-        {
-          label: 'Backend',
-          data: [3, 1, 4, 1, 0, 0, 9],
-          backgroundColor: '#fd7e14'
-        },
-        {
-          label: 'Total',
-          data: [8, 3, 5, 1, 2, 4, 23],
-          backgroundColor: '#adb5bd'
-        }
-      ]
-    },
-    options: {
-      responsive: true,
-      plugins: {
-        legend: {
-          position: 'bottom' 
-        },
-        title: {
-          display: false
-        }
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['C360', 'Innovation', 'Onboarding', 'Core Tex', 'RPA', 'UX', 'Total'],
+        datasets: [
+          {
+            label: 'UI',
+            data: [5, 2, 1, 0, 2, 4, 14],
+            backgroundColor: '#007bff'
+          },
+          {
+            label: 'Backend',
+            data: [3, 1, 4, 1, 0, 0, 9],
+            backgroundColor: '#fd7e14'
+          },
+          {
+            label: 'Total',
+            data: [8, 3, 5, 1, 2, 4, 23],
+            backgroundColor: '#adb5bd'
+          }
+        ]
       },
-      scales: {
-        x: { stacked: true },
-        y: { stacked: true }
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'bottom'
+          },
+          title: {
+            display: false
+          }
+        },
+        scales: {
+          x: { stacked: true },
+          y: { stacked: true }
+        }
       }
-    }
-  });
-}
+    });
+  }
 
-    renderBarChart2() {
+  renderBarChart2() {
     const ctx = document.getElementById('barChart2') as HTMLCanvasElement;
     new Chart(ctx, {
       type: 'bar',

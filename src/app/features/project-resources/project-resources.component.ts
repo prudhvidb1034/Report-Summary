@@ -101,7 +101,7 @@ updateSuggestions() {
 
   choose(name: string) {
     this.searchTerm = name;
-this.suggestions$ = of([] as string[]);
+    this.suggestions$ = of([] as string[]);
   }
 
   onSearchClicked() {
@@ -121,12 +121,12 @@ this.suggestions$ = of([] as string[]);
     { header: 'Action', field: 'action', type: ['edit', 'delete'] },
   ];
 
-    openModal() {
+    openModal(item:any) {
       this.modalController.create({
         component: CreateResoursesComponent,
         cssClass: 'create-account-modal',
         componentProps: {
-  
+            editData: item
         }
       }).then((modal) => {
         modal.present();
@@ -136,4 +136,15 @@ this.suggestions$ = of([] as string[]);
         });
       });
     }
+
+      handleRowAction(event: any) {
+    switch (event.type) {
+      case 'edit':
+        this.openModal(event);
+        break;
+      default:
+        console.log('Unknown action type:', event.type);
+    }
+  }
+
 }

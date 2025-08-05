@@ -19,13 +19,13 @@
           (click)="downloadAsPptx()"
         >
         </ion-icon> -->
-    <ion-button (click)="downloadAsPptx()" expand="block" fill="solid">
-  <ion-icon name="download-outline" slot="start" size="medium"></ion-icon>
-  Export as Report
-</ion-button>
+        <ion-button (click)="downloadAsPptx()" expand="block" fill="solid">
+          <ion-icon name="download-outline" slot="start" size="medium"></ion-icon>
+          Export as Report
+        </ion-button>
 
-        
-       
+
+
       </ion-buttons>
       <!-- </ion-item> -->
     </ion-toolbar>
@@ -42,72 +42,72 @@
     <!-- {{SprintList$ | async | json}} -->
     <div class="grid-layout">
       <div class="row">
-       
-      <div class="chart-section">
-         <h4>Technology Wise Resources</h4>
-        <canvas id="barChart" style="width: 100%"></canvas>
+
+        <div class="chart-section">
+          <h4>Technology Wise Resources</h4>
+          <canvas id="barChart" style="width: 100%"></canvas>
+        </div>
+
+        <div class="table-section">
+          <h4 style="margin-bottom: 10px;">Technology Wise Summary</h4>
+          <table class="styled-table">
+            <thead>
+              <tr>
+                <th rowspan="2">Technology</th>
+                <th colspan="2">Resource</th>
+                <th rowspan="2">Ratio</th>
+              </tr>
+              <tr>
+                <th>Onsite</th>
+                <th>Offshore</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let row of techSummary">
+                <td>{{ row.tech }}</td>
+                <td>{{ row.onsite }}</td>
+                <td>{{ row.offshore }}</td>
+                <td>{{ row.ratio }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
 
-      <div class="table-section">
-        <h4 style="margin-bottom: 10px;">Technology Wise Summary</h4>
-        <table class="styled-table">
-          <thead>
-            <tr>
-              <th rowspan="2">Technology</th>
-              <th colspan="2">Resource</th>
-              <th rowspan="2">Ratio</th>
-            </tr>
-            <tr>
-              <th>Onsite</th>
-              <th>Offshore</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let row of techSummary">
-              <td>{{ row.tech }}</td>
-              <td>{{ row.onsite }}</td>
-              <td>{{ row.offshore }}</td>
-              <td>{{ row.ratio }}</td>
-            </tr>
-          </tbody>
-        </table>
-        </div>
-        </div>
 
+      <div class="row">
 
-        <div class="row">
-          
         <div class="chart-section">
           <h4 style="margin-bottom: 10px;">Project Wise Resources</h4>
           <canvas id="barChart2" style="width: 100%"></canvas>
         </div>
         <div class="table-section">
-        <h4 class="pt-2" style="margin-bottom: 10px;">Project Wise Summary</h4>
-        <table class="styled-table">
-          <thead>
-            <tr>
-              <th rowspan="2">Project</th>
-              <th colspan="2">Resource</th>
-              <th rowspan="2">Ratio</th>
-            </tr>
-            <tr>
-              <th>Onsite</th>
-              <th>Offshore</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let row of projectSummary">
-              <td>{{ row.project }}</td>
-              <td>{{ row.onsite }}</td>
-              <td>{{ row.offshore }}</td>
-              <td>{{ row.ratio }}</td>
-            </tr>
-          </tbody>
-        </table>
-        </div>
+          <h4 class="pt-2" style="margin-bottom: 10px;">Project Wise Summary</h4>
+          <table class="styled-table">
+            <thead>
+              <tr>
+                <th rowspan="2">Project</th>
+                <th colspan="2">Resource</th>
+                <th rowspan="2">Ratio</th>
+              </tr>
+              <tr>
+                <th>Onsite</th>
+                <th>Offshore</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let row of projectSummary">
+                <td>{{ row.project }}</td>
+                <td>{{ row.onsite }}</td>
+                <td>{{ row.offshore }}</td>
+                <td>{{ row.ratio }}</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
+  </div>
 
   <div class="container">
     <ng-container *ngIf="SprintList$ | async as sprintList">
@@ -393,46 +393,19 @@
             <th>% of completion</th>
           </tr>
         </thead>
-        <tbody>
-          <tr>
-            <td>C360</td>
-            <td>kanwar</td>
-            <td>27</td>
-            <td>21</td>
-            <td>G</td>
-            <td>77.8%</td>
-          </tr>
-          <tr>
-            <td>Onboarding</td>
-            <td>kanwar</td>
-            <td>27</td>
-            <td>21</td>
-            <td>R</td>
-            <td>77.8%</td>
-          </tr>
-          <tr>
-            <td>Innovation</td>
-            <td>kanwar</td>
-            <td>27</td>
-            <td>21</td>
-            <td>R</td>
-            <td>77.8%</td>
-          </tr>
-          <tr>
-            <td>Core Tax</td>
-            <td>kanwar</td>
-            <td>27</td>
-            <td>21</td>
-            <td>R</td>
-            <td>77.8%</td>
-          </tr>
-          <tr>
-            <td>RPA</td>
-            <td>kanwar</td>
-            <td>27</td>
-            <td>21</td>
-            <td>R</td>
-            <td>77.8%</td>
+        <tbody *ngIf="piprogresstore$ | async as reports">
+          <tr *ngFor="let piStanding of reports.content">
+            <td>{{piStanding.team}}</td>
+            <td>{{piStanding.tcbLead}}</td>
+            <td>{{piStanding.assignedSP}}</td>
+            <td>{{piStanding.completedSP}}</td>
+            <td [ngClass]="{
+          'green-cell': piStanding.completionPercentage >= 80,
+          'amber-cell': piStanding.completionPercentage >= 25 && piStanding.completionPercentage < 80,
+          'red-cell': piStanding.completionPercentage < 25
+        }">
+            </td>
+            <td>{{piStanding.completionPercentage}}</td>
           </tr>
         </tbody>
       </table>

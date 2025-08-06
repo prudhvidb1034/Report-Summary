@@ -1,30 +1,26 @@
-<div class="modal-wrapper">
+<ion-header>
+    <ion-toolbar color="light">
+        <ion-title slot="start" class="ion-text-start">
+            <b>Delete</b>
+        </ion-title>
+        <ion-buttons slot="end" class="">
+            <ion-button fill="clear" (click)="setOpen(false)">
+                <ion-icon name="close-outline" class="icon-medium"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
 
+<ion-content>
+    <p>Are you sure you want to delete ? <strong>{{data.name}}</strong></p>
+</ion-content>
+<ion-footer>
+    <ion-toolbar>
+        <ion-buttons slot="end" class="ion-no-paddings">
 
-    <ion-header>
-        <ion-toolbar color="light">
-            <ion-title slot="start" class="ion-text-start">
-                <b>Delete</b>
-            </ion-title>
-            <ion-buttons slot="end" class="">
-                <ion-button fill="clear" (click)="setOpen(false)">
-                    <ion-icon name="close-outline" class="icon-medium"></ion-icon>
-                </ion-button>
-            </ion-buttons>
-        </ion-toolbar>
-    </ion-header>
+            <ion-button class="close" (click)="setOpen(false)">No</ion-button>
 
-    <ion-content>
-        <p>Are you sure you want to delete ?  <strong>{{data.name}}</strong></p>
-    </ion-content>
-    <ion-footer>
-        <ion-toolbar>
-            <ion-buttons slot="end" class="ion-no-paddings">
-
-                <ion-button class="close" (click)="setOpen(false)">No</ion-button>
-
-                <ion-button class="save-del" (click)="confirm()">Yes,Delete</ion-button>
-            </ion-buttons>
-        </ion-toolbar>
-    </ion-footer>
-</div>
+            <ion-button class="save-del" (click)="confirm()">Yes,Delete</ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-footer>

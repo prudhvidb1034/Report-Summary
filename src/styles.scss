@@ -129,7 +129,7 @@ ion-app ion-footer {
 
 /* Restore footer stickiness for modals */
 ion-modal ion-footer {
-  position: absolute;
+  position: sticky;
   bottom: 0;
   left: 0;
   right: 0;
@@ -190,7 +190,7 @@ app-project-status {
 
 
 ion-modal.register-modal {
-  --height: calc(100vh - 28vh);
+  --height: calc(100vh - 25vh);
 }
 
 ion-modal.create-account-modal {
@@ -217,7 +217,7 @@ ion-modal.weekly-sprint-creation-modal {
 }
 
 ion-modal.weekly-sprint-releases-modal {
---height: calc(100vh - 50vh);
+--height: calc(100vh - 45vh);
 }
 
 

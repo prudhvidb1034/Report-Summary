@@ -15,7 +15,7 @@ import { of } from 'rxjs';
   selector: 'app-project-resources',
   standalone: true,
   imports: [ReusableTableComponent,IonicModule,CommonModule,FormsModule,ReactiveFormsModule],
-  providers:[ResourcesStore],
+  providers:[ResourcesStore,ModalController],
   templateUrl: './project-resources.component.html',
   styleUrl: './project-resources.component.scss'
 })

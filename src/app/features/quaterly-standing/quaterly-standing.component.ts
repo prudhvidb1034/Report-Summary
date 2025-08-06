@@ -20,7 +20,7 @@ import { map } from 'rxjs/operators';
 })
 export class QuaterlyStandingComponent {
   accountList$: any;
-  label = 'PI Standing List';
+  label = 'PI Standing';
   quaterlyReport = inject(QuaterlyReportStore);
   commonStore = inject(CommonStore);
   quaterlyReports$: any;

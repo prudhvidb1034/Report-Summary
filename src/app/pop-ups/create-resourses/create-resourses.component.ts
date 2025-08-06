@@ -55,6 +55,7 @@ ngOnInit() {
     projectId: ['', Validators.required],
     onsite: ['', Validators.required],
     offsite: ['', Validators.required],
+    name:['', Validators.required]
   });
 
   this.resourceForm.get('resourceType')!.valueChanges.subscribe(type => {

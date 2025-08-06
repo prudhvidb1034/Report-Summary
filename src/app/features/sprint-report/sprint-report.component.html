@@ -20,11 +20,7 @@
         >
         </ion-icon> -->
         <ion-button (click)="downloadAsPptx()" expand="block" fill="solid">
-          <ion-icon
-            name="download-outline"
-            slot="start"
-            size="medium"
-          ></ion-icon>
+          <ion-icon name="download-outline" slot="start" size="medium"></ion-icon>
           Export as Report
         </ion-button>
       </ion-buttons>
@@ -320,11 +316,11 @@
           <tr *ngFor="let piStanding of reports">
             <td>{{ piStanding.projectName }}</td>
             <td>{{ piStanding.feature }}</td>
-            <td>{{ piStanding.sprint0 }}</td>
-            <td>{{ piStanding.sprint1 }}</td>
-            <td>{{ piStanding.sprint2 }}</td>
-            <td>{{ piStanding.sprint3 }}</td>
-            <td>{{ piStanding.sprint4 }}</td>
+            <td>{{ piStanding.sprint0 ? 'X' : '-' }}</td>
+            <td>{{ piStanding.sprint1 ? 'X' : '-' }}</td>
+            <td>{{ piStanding.sprint2 ? 'X' : '-' }}</td>
+            <td>{{ piStanding.sprint3 ? 'X' : '-' }}</td>
+            <td>{{ piStanding.sprint4 ? 'X' : '-' }}</td>
             <td>{{ piStanding.completionPercentage }}</td>
             <td>{{ piStanding.statusReport }}</td>
           </tr>
@@ -353,15 +349,13 @@
             <td>{{ piStanding.tcbLead }}</td>
             <td>{{ piStanding.assignedSP }}</td>
             <td>{{ piStanding.completedSP }}</td>
-            <td
-              [ngClass]="{
+            <td [ngClass]="{
                 'green-cell': piStanding.completionPercentage >= 80,
                 'amber-cell':
                   piStanding.completionPercentage >= 25 &&
                   piStanding.completionPercentage < 80,
                 'red-cell': piStanding.completionPercentage < 25
-              }"
-            ></td>
+              }"></td>
             <td>{{ piStanding.completionPercentage }}</td>
           </tr>
         </tbody>

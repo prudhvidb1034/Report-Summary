@@ -22,6 +22,7 @@ export class SprintReportComponent {
   piprogresstore$ = this.piprogresstore.piprogressReport$
   SprintList$ = this.sprintSore.sprintReport$;
   incidentList$ = this.sprintSore.incidentReport$;
+  piStandingData$ = this.sprintSore.piStandingReport$ 
   isLoading$ = this.sprintSore.select((state: { loading: any; }) => state.loading);
   private router = inject(ActivatedRoute);
   ngOnInit() {
@@ -31,6 +32,10 @@ export class SprintReportComponent {
       this.sprintSore.getReportById(sprintId);
       this.sprintSore.getIndicentById(sprintId);
     }
+    this.sprintSore.getPIStandingData();
+    this.piStandingData$.subscribe((res:any)=>{
+      console.log(res);
+    })
 
   }
   techSummary = [

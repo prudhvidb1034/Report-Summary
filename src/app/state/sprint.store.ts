@@ -20,6 +20,7 @@ export interface CreateSprint {
     loading: boolean;
     createweekSprint:any;
     error: string | null;
+    piStandingReport:any;
 }
 
 export interface ApiResponse<T> {
@@ -31,7 +32,7 @@ export class SprintStore extends ComponentStore<CreateSprint> {
 
 private sharedservice = inject(SharedService);
     constructor() {
-        super({ sprint: [],resources:[] ,weeklySprint:[],sprintReport:[],incidentReport:[],createweekSprint:[], loading: false, error: null });
+        super({ sprint: [],resources:[] ,weeklySprint:[],sprintReport:[],incidentReport:[],createweekSprint:[],piStandingReport:[], loading: false, error: null });
     }
     private _sprintCreateStatus = signal<null | 'success' | 'deleted' | 'update' | 'error'>(null);
 
@@ -43,6 +44,7 @@ private sharedservice = inject(SharedService);
         readonly resourcesList$ = this.select(state => state.resources);
 
      readonly incidentReport$ = this.select(state => state.incidentReport);
+    readonly piStandingReport$ = this.select(state => state.piStandingReport)
     readonly loading$ = this.select(state => state.loading);
     readonly error$ = this.select(state => state.error);
     private toast = inject(ToastService);
@@ -328,6 +330,27 @@ private sharedservice = inject(SharedService);
               )
       );
 
+
+
+   readonly getPIStandingData = this.effect(
+          trigger$ =>
+              trigger$.pipe(
+                  tap(() => this.patchState({ loading: true, error: null })),
+                  switchMap(() =>
+                      this.sharedservice.getData<any>(`api/pi-standing/all`).pipe(
+                          tapResponse(
+                              (resources) => {
+                                  this.patchState({ piStandingReport: resources.data, loading: false });
+                              },
+                              (error) => {
+                                  this.patchState({ loading: false, error: 'Failed to fetch resources' });
+                                  this.toast.show('error', 'Failed to fetch resources!');
+                              }
+                          )
+                      )
+                  )
+              )
+      );
   
 }
 

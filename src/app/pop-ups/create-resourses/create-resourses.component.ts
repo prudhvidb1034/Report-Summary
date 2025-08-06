@@ -4,11 +4,13 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { FormsModule } from '@angular/forms';
 import { IonicModule, ModalController } from '@ionic/angular';
 import { ResourcesStore } from '../../state/resources.store';
+import { CommonStore } from '../../state/common.store';
+import { map, of } from 'rxjs';
 
 @Component({
   selector: 'app-create-resourses',
   standalone: true,
-  imports: [IonicModule, CommonModule,FormsModule, ReactiveFormsModule,],
+  imports: [IonicModule, CommonModule,FormsModule, ReactiveFormsModule],
   providers:[ResourcesStore],
   templateUrl: './create-resourses.component.html',
   styleUrl: './create-resourses.component.scss'
@@ -22,6 +24,7 @@ export class CreateResoursesComponent {
   projectId = [];
   filteredProjects: any = [];
   projectSelected: boolean = false;
+    private commonStore=inject(CommonStore);
   personId = '';
   filteredNames: any[] = [];
   types = [
@@ -34,10 +37,18 @@ export class CreateResoursesComponent {
   suggestions: string[] = [];
  @Input() editData: any;
    resourceStore = inject(ResourcesStore)
+  list$: any;
+  selectedType='';
+   technologies$ = this.commonStore.allTechnologies$;
+    projectNames$ = this.commonStore.allProjects$.pipe(
+    map(projects => projects.map((p:any) => p.projectName))
+  );
+  suggestions$: any;
  
   constructor(private fb: FormBuilder, private modalCtrl: ModalController) { }
 
 ngOnInit() {
+
   this.resourceForm = this.fb.group({
     resourceType: ['', Validators.required],
     techStack: ['', Validators.required],
@@ -69,25 +80,35 @@ ngOnInit() {
     tech.updateValueAndValidity();
     proj.updateValueAndValidity();
   });
+
+    if (this.editData) {
+      console.log(this.editData);
+      this.resourceForm.patchValue(this.editData.item);
+      this.isEditMode = true;
+    }
 }
 
+   ionSelectChange() {
+    this.projectSearch = '';
+    //this.selectedType=
+    this.updateSuggestions();
+  }
 
-
-  onTypeChange(event: any) {
-    const selectedType = event.detail.value;
-
-    if (selectedType === 'TECH_STACK') {
-      this.filteredNames = [
-        { id: 'TESTING', name: 'Angular' },
-        { id: 'React', name: 'React' },
-        { id: 3, name: 'Node.js' },
-      ];
-    } else if (selectedType === 'PROJECT') {
-      this.filteredNames = [
-        { id: 10, name: 'Project Alpha' },
-        { id: 11, name: 'Project Beta' },
-      ];
-    }
+  
+  updateSuggestions() {
+     this.list$ = this.selectedType === 'TECH_STACK'
+      ? this.technologies$
+      : this.selectedType === 'PROJECT'
+        ? this.projectNames$
+        : of([]);
+       const term = this.projectSearch.toLowerCase();
+         this.suggestions$ = this.list$.pipe(
+          map((list: any[]) =>
+         list.filter(item =>
+            item.toLowerCase().includes(this.projectSearch.toLowerCase())
+        )
+      )
+    );
   }
 
   selectProject(name: any) {
@@ -103,12 +124,25 @@ ngOnInit() {
     this.filteredProjects = this.filteredNames;
   }
 
-  onProjectTyping() {
-    this.projectSelected = false;
-    const search = this.projectSearch.toLowerCase();
-    this.filteredProjects = this.filteredNames.filter((project: any) =>
-      project.name.toLowerCase().includes(search)
-    );
+  // onProjectTyping() {
+  //   this.projectSelected = false;
+  //   const search = this.projectSearch.toLowerCase();
+  //   this.filteredProjects = this.filteredNames.filter((project: any) =>
+  //     project.name.toLowerCase().includes(search)
+  //   );
+  // }
+    onProjectTyping(event: any) {
+    this.projectSearch = event.detail.value;
+    setTimeout(()=>{
+
+    },300)
+    this.updateSuggestions();
+  }
+
+  choose(s:any){
+    this.projectSearch = s;
+    this.suggestions$ = of([] as string[]);
+
   }
 
   filterItems<T>(items: T[], search: string, key: keyof T, selected: boolean): T[] {

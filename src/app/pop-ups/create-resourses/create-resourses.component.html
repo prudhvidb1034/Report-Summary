@@ -29,16 +29,17 @@
               <ion-select
                 formControlName="resourceType"
                 label="Type"
+                [(ngModel)]="selectedType"
                 labelPlacement="floating"
                 class="label-texts"
                 interface="popover"
                 placeholder="Select Type"
-                (ionChange)="onTypeChange($event)"
+                (ionChange)="ionSelectChange()"
               >
-                <ion-select-option value="techstack"
+                <ion-select-option value="TECH_STACK"
                   >Technologies</ion-select-option
                 >
-                <ion-select-option value="projects">Projects</ion-select-option>
+                <ion-select-option value="PROJECT">Projects</ion-select-option>
               </ion-select>
             </ion-item>
           </ion-col>
@@ -52,7 +53,7 @@
                 [debounce]="300"
                 formControlName="name"
                 (ionClear)="clearProjectSearch()"
-                (ionInput)="onProjectTyping()"
+                (ionInput)="onProjectTyping($event)"
                 placeholder="Select"
               >
               </ion-searchbar>

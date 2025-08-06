@@ -1,58 +1,7 @@
-// :host {
-//   display: flex;
-//   flex-direction: column;
-//   // min-height: 12vh;
-//   // height: calc(100vh - 86vh);
-//   height: 0px;
-// }
-
-
-.modal-wrapper {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  width: 100%;
-  background: var(--ion-background-color, #fff);
-  overflow: hidden;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
-  ion-content {
-  //  min-height: 30vh;
-  --padding-top:16px !important;
-     overflow-y: auto;
-   }
-}
-
-// .modal-wrapper {
-//   // min-height: 16vh;
-//   // max-height: 90vh;
-//   // display: flex;
-//   // flex-direction: column;
-//   // overflow: hidden;
-
-//   // ion-header,
-//   // ion-footer {
-    
-//   //   // flex: 0 0 auto;
-//   // }
-
-//   //   .modal-wrapper {
-//   //   ion-content {
-//   //     min-height: 30vh;
-//   //     overflow-y: auto;
-//   //   }
-//   // }
-
-//   ion-content {
-//     // height: 20%;
-//     flex: 1 1 auto;
-//     overflow-y: auto;
-//   }
-// }
-
-
 .ion-no-paddings {
-  margin-right: 14px;
+  margin-right: 0px;
 }
+
 .save-del {
   color: white;
   background-color: rgb(219, 109, 109);

@@ -247,7 +247,6 @@
   <!-- PAGE 4 -->
   <div class="container">
     <div class="heading">Sprint Dependencies & Blockers</div>
-
     <div class="table-container">
       <table class="styled-table">
         <thead>
@@ -262,33 +261,17 @@
             <th>Action Taken</th>
           </tr>
         </thead>
-        <tbody>
-          <tr>
-            <td>Onboarding</td>
-            <td>Dependency</td>
-            <td>Lack of rich backlog</td>
-            <td>Qentelli (Arpit)</td>
-            <td>04-Jun</td>
-            <td>In Progress</td>
-            <td>
-              Team is underutilized and increase injection in middle of the
-              sprint.
-            </td>
-            <td>
-              Had an in-depth discussion with the TPM of the Onboarding team,
-              and she is ensuring that a sufficient number of user stories are
-              assigned for the upcoming sprint.
-            </td>
-          </tr>
-          <tr>
-            <td>C360</td>
-            <td>Dependency</td>
-            <td>Swagger hub limited access.</td>
-            <td>Qentelli (Arpit)</td>
-            <td>01-Jul</td>
-            <td>In Progress</td>
-            <td>This led to delay in ARB permits.</td>
-            <td>Connecting with TCB stockholders to get required access.</td>
+
+        <tbody *ngIf="dependencieslist$ | async as dependencieslist">
+          <tr *ngFor="let dependencies of dependencieslist">
+            <td>{{dependencies.projectName}}</td>
+            <td>{{dependencies.type}}</td>
+            <td>{{dependencies.description}}</td>
+            <td>{{dependencies.owner}}</td>
+            <td>{{dependencies.date}}</td>
+            <td>{{dependencies.statusIn}}</td>
+            <td>{{dependencies.impact}}</td>
+            <td>{{dependencies.actionTaken}}</td>
           </tr>
         </tbody>
       </table>

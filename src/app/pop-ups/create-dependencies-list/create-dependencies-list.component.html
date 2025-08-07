@@ -56,9 +56,9 @@
 
                 <ion-col size="6">
                     <ion-item class="custom-item" lines="none"
-                        [class.invalid]="validationService.isInvalid('status_in', dependenciesform)"
-                        [class.valid]="validationService.isValid('status_in', dependenciesform)">
-                        <ion-select formControlName="status_in" label="Status" labelPlacement="floating"
+                        [class.invalid]="validationService.isInvalid('statusIn', dependenciesform)"
+                        [class.valid]="validationService.isValid('statusIn', dependenciesform)">
+                        <ion-select formControlName="statusIn" label="Status" labelPlacement="floating"
                             class="label-texts" interface="popover">
 
                             <ion-select-option value="TODO">To do</ion-select-option>
@@ -67,9 +67,9 @@
                             <ion-select-option value="BLOCKED">Blocked</ion-select-option>
                         </ion-select>
                     </ion-item>
-                    @if (validationService.isInvalid('status_in', dependenciesform)) {
+                    @if (validationService.isInvalid('statusIn', dependenciesform)) {
                     <ion-text color="danger" class="error-message">
-                        <p>status_in is required.</p>
+                        <p>statusIn is required.</p>
                     </ion-text>
                     }
                 </ion-col>
@@ -89,7 +89,7 @@
                     </ion-text>
                     }
                 </ion-col>
-                <!-- Date status_in -->
+                <!-- Date statusIn -->
                 <ion-col size="6">
                     <ion-item class="custom-item" lines="none"
                         [class.invalid]="validationService.isInvalid('date', dependenciesform)"
@@ -175,6 +175,6 @@
 </ion-footer>
 
 
-<!-- <div class="loader-overlay" *ngIf="isLoading$ | async">
+<div class="loader-overlay" *ngIf="isLoading$ | async">
   <ion-spinner name="crescent"></ion-spinner>
-</div> -->
+</div>

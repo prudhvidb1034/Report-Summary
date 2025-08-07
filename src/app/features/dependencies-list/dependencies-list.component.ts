@@ -7,11 +7,12 @@ import { ConfirmDeleteComponent } from '../../pop-ups/confirm-delete/confirm-del
 import { CreateDependenciesListComponent } from '../../pop-ups/create-dependencies-list/create-dependencies-list.component';
 import { CommonModule } from '@angular/common';
 import { CommonStore } from '../../state/common.store';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-dependencies-list',
   standalone: true,
-  imports: [ReusableTableComponent,CommonModule,IonicModule],
+  imports: [ReusableTableComponent, CommonModule, IonicModule],
   providers: [DependenciesStore],
   templateUrl: './dependencies-list.component.html',
   styleUrl: './dependencies-list.component.scss'
@@ -23,9 +24,11 @@ export class DependenciesListComponent {
   private dependenciesStore = inject(DependenciesStore);
   page = 0;
   pageSize = 5;
-  private commonStore=inject(CommonStore);
+  sprintId: any;
+  private commonStore = inject(CommonStore);
   private modalController = inject(ModalController);
-   isLoadingCommon$=this.commonStore.select(state=>state.loading);
+  private route = inject(ActivatedRoute)
+  isLoadingCommon$ = this.commonStore.select(state => state.loading);
   isLoading$ = this.dependenciesStore.select(state => state.loading);
 
   columns = [
@@ -34,7 +37,7 @@ export class DependenciesListComponent {
     { header: 'Description', field: 'description' },
     { header: 'Owner', field: 'owner' },
     { header: 'Date', field: 'date' },
-    { header: 'Status', field: 'status_in' },
+    { header: 'Status', field: 'statusIn' },
     { header: 'Impact', field: 'impact' },
     { header: 'Action Taken', field: 'actionTaken' },
 
@@ -43,14 +46,18 @@ export class DependenciesListComponent {
 
 
 
-
   ngOnInit() {
+
+
+    this.sprintId = this.route.snapshot.paramMap.get('id');
     this.loadDependency(this.page, this.pageSize);
   }
 
 
   loadDependency(pageNum: number, pageSize: number) {
-    this.dependenciesStore.getDependencies({ page: pageNum, size: pageSize });
+    this.dependenciesStore.getDependencies({
+       sprintId: this.sprintId,
+      page: pageNum, size: pageSize });
     this.sprintDependencies$ = this.dependenciesStore.dependencies$;
   }
   handleRowAction(event: any) {
@@ -91,7 +98,7 @@ export class DependenciesListComponent {
       component: CreateDependenciesListComponent,
       cssClass: 'create-dependency-modal',
       componentProps: {
-
+        sprintId: this.sprintId
       }
     }).then((modal) => {
       modal.present();
@@ -136,7 +143,7 @@ export class DependenciesListComponent {
       modal.present();
       modal.onDidDismiss().then((result) => {
         if (result?.data?.confirmed) {
-           this.dependenciesStore.deleteDepedency(result.data.id);
+          this.dependenciesStore.deleteDepedency(result.data.id);
         }
       });
     });

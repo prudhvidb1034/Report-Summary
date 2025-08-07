@@ -53,29 +53,23 @@
                 [debounce]="300"
                 formControlName="name"
                 (ionClear)="clearProjectSearch()"
-                (ionInput)="onProjectTyping($event)"
+                (ionInput)="onProjectTyping()"
                 placeholder="Select"
+                [disabled]="!selectedType"
               >
               </ion-searchbar>
             </ion-row>
 
-            <ion-row *ngIf="projectSearch">
-              <ion-col size="8">
-                <ion-list class="scroll-list" *ngIf="filteredNames">
+            <ion-row *ngIf="projectSearch && !projectSelected">
+              <ion-col size="12">
+                <ion-list class="scroll-list" *ngIf="filteredNames.length">
                   <ion-item
-                    *ngFor="
-                      let project of filterItems(
-                        filteredNames,
-                        projectSearch,
-                        'name',
-                        projectSelected
-                      )
-                    "
+                     *ngFor="let project of filterItems(filteredNames, projectSearch, projectSelected)"
                     button
                     lines="none"
                     (click)="selectProject(project)"
                   >
-                    <ion-label>{{ project.name }}</ion-label>
+                    <ion-label>{{ project}}</ion-label>
                   </ion-item>
                 </ion-list>
               </ion-col>

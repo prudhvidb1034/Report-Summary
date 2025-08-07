@@ -52,12 +52,12 @@ export class DependenciesStore extends ComponentStore<dependenciesState> {
         )
     );
 
-    readonly getDependencies = this.effect<{ page: number; size: number; }>(
+    readonly getDependencies = this.effect<{ sprintId: string; page: number; size: number; }>(
         trigger$ =>
             trigger$.pipe(
                 tap(() => this.patchState({ loading: true, error: null })),
-                switchMap(({ page, size }) =>
-                    this.sharedservice.getData<ApiResponse<any[]>>(urls.GET_DEPENDENCY).pipe(
+                switchMap(({sprintId, page, size }) =>
+                    this.sharedservice.getData<ApiResponse<any[]>>(`${urls.GET_DEPENDENCY}/${sprintId}?page=${page}&size=${size}`).pipe(
                         tapResponse(
                             (accounts) => {
                                 this.patchState({ dependencies: accounts.data, loading: false });

@@ -6,6 +6,7 @@ import { ValidationsService } from '../../services/validation/validations.servic
 import { CommonStore } from '../../state/common.store';
 import { DependenciesStore } from '../../state/dependecies.store';
 import { ToastService } from '../../shared/toast.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-create-dependencies-list',
@@ -18,13 +19,18 @@ import { ToastService } from '../../shared/toast.service';
 export class CreateDependenciesListComponent {
 
   dependenciesform !: FormGroup;
+  @Input() sprintId:any
   @Input() editData: any;
   private modalCtrl = inject(ModalController);
   private fb = inject(FormBuilder);
   private commonStore = inject(CommonStore);
   private toast = inject(ToastService);
   isEditMode: boolean = false;
+   private route = inject(ActivatedRoute);
+  dependencyId: string | null = null;
+
   private dependenciesStore = inject(DependenciesStore);
+  isLoading$ = this.dependenciesStore.select(state => state.loading);
   allProjects$ = this.commonStore.allProjects$;
 
   public validationService = inject(ValidationsService);
@@ -49,7 +55,8 @@ export class CreateDependenciesListComponent {
     }
   });
   ngOnInit() {
-    this.createDependenciesForm();
+
+       this.createDependenciesForm();
     if (this.editData) {
       this.dependenciesform.patchValue(this.editData);
       this.isEditMode = true;
@@ -57,10 +64,11 @@ export class CreateDependenciesListComponent {
   }
   createDependenciesForm() {
     this.dependenciesform = this.fb.group({
+    sprintId: [parseInt(this.sprintId)],
       projectId: [null, Validators.required],
       type: [null, Validators.required],
       description: [null, Validators.required],
-      status_in: [null, Validators.required],
+      statusIn: [null, Validators.required],
       owner: [null, Validators.required],
       impact: [null, Validators.required],
       actionTaken: [null, Validators.required],

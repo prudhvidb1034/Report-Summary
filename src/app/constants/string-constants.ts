@@ -34,7 +34,7 @@ export const urls = {
     CREATE_RESOURCES:'resources',
     CREATE_PI_PROGRESS: 'progress-report',
     CREATE_DEPENDENCY: 'api/sprint-dependencies/create',
-    GET_DEPENDENCY: 'api/sprint-dependencies/all',
+    GET_DEPENDENCY: 'api/sprint-dependencies/sprint',
   UPDATE_DELETE_DEPENDENCY: 'api/sprint-dependencies',
        API_RESOURCES:'api/resources',
     GET_RESOURCES_FILTER_TYPE:'resources/filter-by-type?type=',

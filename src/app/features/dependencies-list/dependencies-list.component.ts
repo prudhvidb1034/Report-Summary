@@ -103,7 +103,7 @@ export class DependenciesListComponent {
     }).then((modal) => {
       modal.present();
       modal.onDidDismiss().then((data) => {
-        // this.loadAccounts(this.page,this.pageSize);
+      this.loadDependency(this.page, this.pageSize);
         console.log('Modal dismissed with data:', data);
       });
     });

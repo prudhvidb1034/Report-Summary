@@ -258,12 +258,12 @@
             <th>Date</th>
             <th>Status</th>
             <th>Impact</th>
-            <th>Action Taken</th>
+            <th>Action Taken</th>Create Weekly Sprint Update
           </tr>
         </thead>
 
         <tbody *ngIf="dependencieslist$ | async as dependencieslist">
-          <tr *ngFor="let dependencies of dependencieslist">
+          <tr *ngFor="let dependencies of dependencieslist.content">
             <td>{{dependencies.projectName}}</td>
             <td>{{dependencies.type}}</td>
             <td>{{dependencies.description}}</td>

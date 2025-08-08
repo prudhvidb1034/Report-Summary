@@ -36,7 +36,7 @@
                 placeholder="Select Type"
                 (ionChange)="ionSelectChange()"
               >
-                <ion-select-option value="TECH_STACK"
+                <ion-select-option value="TECHSTACK"
                   >Technologies</ion-select-option
                 >
                 <ion-select-option value="PROJECT">Projects</ion-select-option>
@@ -51,7 +51,7 @@
               <ion-searchbar
                 [(ngModel)]="projectSearch"
                 [debounce]="300"
-                formControlName="name"
+                formControlName="techStack"
                 (ionClear)="clearProjectSearch()"
                 (ionInput)="onProjectTyping()"
                 placeholder="Select"

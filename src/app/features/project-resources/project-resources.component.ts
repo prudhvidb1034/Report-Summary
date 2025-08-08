@@ -10,92 +10,103 @@ import { urls } from '../../constants/string-constants';
 import { CommonStore } from '../../state/common.store';
 import { map } from 'rxjs';
 import { of } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-project-resources',
   standalone: true,
-  imports: [ReusableTableComponent,IonicModule,CommonModule,FormsModule,ReactiveFormsModule],
-  providers:[ResourcesStore,ModalController],
+  imports: [ReusableTableComponent, IonicModule, CommonModule, FormsModule, ReactiveFormsModule],
+  providers: [ResourcesStore, ModalController],
   templateUrl: './project-resources.component.html',
   styleUrl: './project-resources.component.scss'
 })
 export class ProjectResourcesComponent {
-  label='Resources'
-    private modalController = inject(ModalController);
-  private resourceStore=inject(ResourcesStore);
-  private commonStore=inject(CommonStore);
+  label = 'Resources'
+  private modalController = inject(ModalController);
+  private resourceStore = inject(ResourcesStore);
+  private commonStore = inject(CommonStore);
+  private router = inject(ActivatedRoute)
   isLoading$ = this.resourceStore.select(state => state.loading);
-   types = [
+  types = [
     { id: 'TECH_STACK', name: 'Technologies' },
     { id: 'PROJECT', name: 'Projects' }
   ];
   page = 0;
   pageSize = 5;
-  resourcesList$:any;
+  resourcesList$: any;
   copyDisabled = false;
 
   // sample arrays
   technologies$ = this.commonStore.allTechnologies$;
   projectNames$ = this.commonStore.allProjects$.pipe(
-  map(projects => projects.map((p:any) => p.projectName))
-);
+    map(projects => projects.map((p: any) => p.projectName))
+  );
 
   projects = ['Apollo', 'Zeus', 'Hermes', 'Athena', 'Poseidon'];
 
-  selectedType='';
+  selectedType = '';
   searchTerm = '';
   suggestions$: any;
   list$: any;
-
+  sprintId: any;
   ionSelectChange() {
     this.searchTerm = '';
     this.updateSuggestions();
   }
 
-  ngOnInit(){
-    this.technologies$.subscribe((data:any)=>{
+  ngOnInit() {
+    this.sprintId = this.router.snapshot.paramMap.get('id')
+    this.technologies$.subscribe((data: any) => {
       console.log(data)
     })
+
   }
 
-  copyResources(){
+  copyResources() {
     if (this.copyDisabled) return;
     this.copyDisabled = true;
-   // this.resourceStore.getResources({ page: this.page, size: this.pageSize,sortBy:'resourceType',apiPath:urls.GET_RESOURCES_FILTER_TYPE });
-    this.resourcesList$=this.resourceStore.resources$;
+    // this.resourceStore.getResources({ page: this.page, size: this.pageSize,sortBy:'resourceType',apiPath:urls.GET_RESOURCES_FILTER_TYPE });
+    this.resourcesList$ = this.resourceStore.resources$;
 
   }
 
-  search(){
-    if(this.selectedType){
-    this.resourceStore.getResources({ page: this.page, size: this.pageSize,sortBy:'resourceType',apiPath:urls.GET_RESOURCES_FILTER_TYPE+this.selectedType});
-    this.resourcesList$=this.resourceStore.resources$;
-  }
+  search() {
+    if (this.selectedType) {
+      const sprintId = this.sprintId; // e.g., 1
+const resourceType = 'PROJECT';
+const projectName = 'AI test';
+const page = 0;
+const size = 10;
+
+const queryParams = `sprintId=${sprintId}&resourceType=${encodeURIComponent(resourceType)}&projectName=${encodeURIComponent(projectName)}&page=${page}&size=${size}`;
+      this.resourceStore.getResources({ page: this.page, size: this.pageSize, sortBy: 'resourceType', apiPath: urls.GET_RESOURCES_FILTER_TYPE + this.sprintId });
+      this.resourcesList$ = this.resourceStore.resources$;
+    }
     console.log(this.selectedType)
   }
 
 
-updateSuggestions() {
-   this.list$ = this.selectedType === 'TECH_STACK'
-    ? this.technologies$
-    : this.selectedType === 'PROJECT'
-      ? this.projectNames$
-      : of([]);
-     const term = this.searchTerm.toLowerCase();
-       this.suggestions$ = this.list$.pipe(
-        map((list: any[]) =>
-       list.filter(item =>
+  updateSuggestions() {
+    this.list$ = this.selectedType === 'TECH_STACK'
+      ? this.technologies$
+      : this.selectedType === 'PROJECT'
+        ? this.projectNames$
+        : of([]);
+    const term = this.searchTerm.toLowerCase();
+    this.suggestions$ = this.list$.pipe(
+      map((list: any[]) =>
+        list.filter(item =>
           item.toLowerCase().includes(this.searchTerm.toLowerCase())
+        )
       )
-    )
-  );
-}
+    );
+  }
 
   onInput(event: any) {
     this.searchTerm = event.detail.value;
-    setTimeout(()=>{
+    setTimeout(() => {
 
-    },300)
+    }, 300)
     this.updateSuggestions();
   }
 
@@ -109,10 +120,10 @@ updateSuggestions() {
     // handle search logic here
   }
 
-  loadResources(){
-    this.resourceStore.getResources({ page: this.page, size: this.pageSize,sortBy:'resourceType',apiPath:urls.GET_RESOURCES_FILTER_TYPE+this.selectedType+'&name='+this.searchTerm.toUpperCase()});
-    this.resourcesList$=this.resourceStore.resources$;
-}
+  loadResources() {
+    this.resourceStore.getResources({ page: this.page, size: this.pageSize, sortBy: 'resourceType', apiPath: urls.GET_RESOURCES_FILTER_TYPE + this.selectedType + '&name=' + this.searchTerm.toUpperCase() });
+    this.resourcesList$ = this.resourceStore.resources$;
+  }
   columns = [
     { header: 'Type', field: 'resourceType' },
     { header: 'Name', field: 'name' },
@@ -121,25 +132,27 @@ updateSuggestions() {
     { header: 'Action', field: 'action', type: ['edit', 'delete'] },
   ];
 
-    openModal(item:any) {
-      this.modalController.create({
-        component: CreateResoursesComponent,
-        cssClass: 'create-account-modal',
-        componentProps: {
-            editData: item
-        }
-      }).then((modal) => {
-        modal.present();
-        modal.onDidDismiss().then((data) => {
-         // this.loadAccounts(this.page,this.pageSize);
-          console.log('Modal dismissed with data:', data);
-        });
+  openModal(item: any) {
+    console.log(item);
+    
+    this.modalController.create({
+      component: CreateResoursesComponent,
+      cssClass: 'create-account-modal',
+      componentProps: {
+        editData: item
+      }
+    }).then((modal) => {
+      modal.present();
+      modal.onDidDismiss().then((data) => {
+        // this.loadAccounts(this.page,this.pageSize);
+        console.log('Modal dismissed with data:', data);
       });
-    }
+    });
+  }
 
-      handleRowAction(event: any) {
+  handleRowAction(event: any) {
     switch (event.type) {
-      case 'edit':
+      case 'create':
         this.openModal(event);
         break;
       default:

@@ -6,6 +6,7 @@ import { IonicModule, ModalController } from '@ionic/angular';
 import { ResourcesStore } from '../../state/resources.store';
 import { CommonStore } from '../../state/common.store';
 import { map, of } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-create-resourses',
@@ -25,6 +26,7 @@ export class CreateResoursesComponent {
   filteredProjects: any = [];
   projectSelected: boolean = false;
   private commonStore = inject(CommonStore);
+  private router = inject(ActivatedRoute)
   personId = '';
   filteredNames: any[] = [];
   types = [
@@ -39,6 +41,8 @@ export class CreateResoursesComponent {
   resourceStore = inject(ResourcesStore)
   list$: any;
   selectedType = '';
+  sprintId: any;
+  rawProjects: any[] = []
   technologies$ = this.commonStore.allTechnologies$;
   projects$ = this.commonStore.allProjects$
 
@@ -49,16 +53,11 @@ export class CreateResoursesComponent {
 
   constructor(private fb: FormBuilder, private modalCtrl: ModalController) { }
 
+
   ngOnInit() {
 
-    this.resourceForm = this.fb.group({
-      resourceType: ['', Validators.required],
-      techStack: ['', Validators.required],
-      projectId: ['', Validators.required],
-      onsite: ['', Validators.required],
-      offsite: ['', Validators.required],
-      name: ['', Validators.required]
-    });
+    this.sprintId = this.router.snapshot.paramMap.get('id')
+    this.createForm();
     this.commonStore.getAllProjects();
     // this.commonStore.getTechnologies()
     this.resourceForm.get('resourceType')!.valueChanges.subscribe(type => {
@@ -95,15 +94,26 @@ export class CreateResoursesComponent {
       console.log(this.technologies);
 
     })
-    this.projects$.subscribe((val: any[]) => {
-      this.projects = val.map((project: any) =>
-        project?.projectName);
-      console.log(this.projects); // Should log an array of project names
+    this.projects$.subscribe(val => {
+      this.rawProjects = val;
+      this.projects = val.map((p: any) => p.projectName);
     });
 
 
   }
 
+
+  createForm() {
+    this.resourceForm = this.fb.group({
+      resourceType: ['', Validators.required],
+      sprintId: parseInt(this.sprintId),
+      techStack: ['', Validators.required],
+      projectId: ['', Validators.required],
+      onsite: ['', Validators.required],
+      offsite: ['', Validators.required],
+      name: ['', Validators.required],
+    });
+  }
 
 
   // ionSelectChange() {
@@ -174,45 +184,92 @@ export class CreateResoursesComponent {
 
 
 
-    ionSelectChange() {
+  ionSelectChange() {
     this.projectSearch = '';
     this.projectSelected = false;
     this.resourceForm.get('name')?.setValue('');
-    this.filteredNames = this.selectedType === 'TECH_STACK' ? this.technologies : this.projects;
+    this.resourceForm.get('projectId')?.setValue(null);
+    this.filteredNames = this.selectedType === 'TECHSTACK' ? this.technologies : this.projects;
   }
 
-    onProjectTyping() {
+  onProjectTyping() {
     this.projectSelected = false;
     const search = this.projectSearch.toLowerCase();
-    this.filteredNames = (this.selectedType === 'TECH_STACK' ? this.technologies : this.projects)
+    this.filteredNames = (this.selectedType === 'TECHSTACK' ? this.technologies : this.projects)
       .filter((name: string) => name.toLowerCase().includes(search));
   }
 
 
-    selectProject(name: string) {
+  selectProject(name: string) {
     this.projectSearch = name;
     this.resourceForm.get('name')?.setValue(name);
     this.projectSelected = true;
+
+    if (this.selectedType === 'PROJECT') {
+      const selected = this.rawProjects.find(p => p.projectName === name);
+      this.resourceForm.get('projectId')?.setValue(selected?.projectId ?? null); // ✅ Set projectId
+    } else {
+      this.resourceForm.get('projectId')?.setValue(null); // ✅ Clear projectId for technologies
+    }
   }
 
   clearProjectSearch() {
     this.projectSearch = '';
     this.projectSelected = false;
     this.filteredNames = [];
+    this.resourceForm.get('projectId')?.setValue(null);
   }
 
-    filterItems(items: string[], search: string, selected: boolean): string[] {
+  filterItems(items: string[], search: string, selected: boolean): string[] {
     if (!search || selected) return [];
     return items.filter(item =>
       item.toLowerCase().includes(search.toLowerCase())
     );
   }
 
+  // SubmitForm() {
+  //   console.log(this.resourceForm.valid, this.resourceForm.value)
+  //   if (this.resourceForm.value) {
+  //     // const formValue = this.resourceForm.value;
+  //     const formValue = {
+  //       projectId : this.resourceForm.get('projectId')?.value,
+  //       resourceType : this.resourceForm.get('resourceType')?.value,
+  //       onsite: this.resourceForm.get('onsite')?.value,
+  //       offsite: this.resourceForm.get('offsite')?.value
+  //     }
+  //     console.log(formValue);
+  //     if (this.isEditMode && this.editData?.accountId) {
+  //       this.resourceStore.updateDependencies({ id: this.editData.accountId, data: formValue });
+  //     } else {
+  //       this.resourceStore.createResource(formValue);
+  //     }
+  //   } else {
+  //     this.resourceForm.markAllAsTouched();
+  //   }
+  // }
+
   SubmitForm() {
-    console.log(this.resourceForm.valid, this.resourceForm.value)
+    // console.log('edit', this.editData, this.resourceForm.valid, this.resourceForm.value);
+
     if (this.resourceForm.value) {
-      const formValue = this.resourceForm.value;
-      console.log(formValue);
+      const resourceType = this.resourceForm.get('resourceType')?.value;
+      const name = this.resourceForm.get('techStack')?.value;
+
+      const formValue: any = {
+        resourceType: resourceType,
+        onsite: this.resourceForm.get('onsite')?.value,
+        offsite: this.resourceForm.get('offsite')?.value,
+        sprintId: this.sprintId
+      };
+
+      if (resourceType === 'PROJECT') {
+        formValue.projectId = this.resourceForm.get('projectId')?.value;
+      } else if (resourceType === 'TECHSTACK') {
+        formValue.techStack = name;
+      }
+
+      // console.log('Final form value:', formValue);
+
       if (this.isEditMode && this.editData?.accountId) {
         this.resourceStore.updateDependencies({ id: this.editData.accountId, data: formValue });
       } else {
@@ -222,6 +279,7 @@ export class CreateResoursesComponent {
       this.resourceForm.markAllAsTouched();
     }
   }
+
 
 
   setOpen(isOpen: boolean) {

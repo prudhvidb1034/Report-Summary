@@ -32,7 +32,7 @@ export class CreateQuaterlyStandingComponent {
   private quaterlyReportStore = inject(QuaterlyReportStore);
   private commonStore = inject(CommonStore);
   quaterlyStandingForm!: FormGroup;
-  Quarter:any = [1,2,3,4]
+  Quarter: any = [1, 2, 3, 4]
   PINumber: any;
   pi: any
   @Input() editData: any;
@@ -54,25 +54,25 @@ export class CreateQuaterlyStandingComponent {
   //       { id: 5, sprint4: false },
   //     ];
 
-    readonly accountStatusEffect = effect(() => {
-      const status = this.quaterlyReportStore.accountCreateStatus();
-  
-      if (status === 'success') {
-       this.quaterlyReportStore.getQuaterlyReports({ page: 0, size: 5 });
-        this.setOpen(false);
-        this.toast.show('success', 'Report created successfully!');
-  
-      } else if (status === 'update') {
-        this.setOpen(false);
-        this.toast.show('success', 'Report updated successfully!');
-  
-      } else if (status === 'deleted') {
-        this.toast.show('success', 'Report deleted successfully!');
-  
-      } else if (status === 'error') {
-        this.toast.show('error', 'Something went wrong!');
-      }
-    });
+  readonly accountStatusEffect = effect(() => {
+    const status = this.quaterlyReportStore.accountCreateStatus();
+
+    if (status === 'success') {
+      this.quaterlyReportStore.getQuaterlyReports({ page: 0, size: 5 });
+      this.setOpen(false);
+      this.toast.show('success', 'Report created successfully!');
+
+    } else if (status === 'update') {
+      this.setOpen(false);
+      this.toast.show('success', 'Report updated successfully!');
+
+    } else if (status === 'deleted') {
+      this.toast.show('success', 'Report deleted successfully!');
+
+    } else if (status === 'error') {
+      this.toast.show('error', 'Something went wrong!');
+    }
+  });
   constructor() { }
 
   ngOnInit() {
@@ -139,23 +139,18 @@ export class CreateQuaterlyStandingComponent {
 
   SubmitForm() {
     if (this.quaterlyStandingForm.value) {
-      const formValue = {
-        ...this.quaterlyStandingForm.value,
-        piNumber: this.PINumber
-      };
-      // const formValue = this.quaterlyStandingForm.value;
+
+      const formValue = this.quaterlyStandingForm.value;
 
       if (this.isEditMode && this.editData?.id) {
         this.quaterlyReportStore.updateQuaterlyReport({ id: this.editData.id, data: formValue });
       } else {
-        console.log(formValue);
-
         this.quaterlyReportStore.createQuaterlyReport(formValue);
       }
     } else {
       this.quaterlyStandingForm.markAllAsTouched();
     }
-    
+
   }
 
 

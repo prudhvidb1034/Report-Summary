@@ -366,7 +366,7 @@ export class SprintStore extends ComponentStore<CreateSprint> {
     sprintId$.pipe(
       tap(() => this.patchState({ loading: true, error: null })),
       exhaustMap(sprintId =>
-        this.sharedservice.getData<ApiResponse<any>>(`${urls.GET_DEPENDENCY}/${sprintId}/all`).pipe(
+        this.sharedservice.getData<ApiResponse<any>>(`${urls.GET_DEPENDECY_SPRINT_ID}/${sprintId}`).pipe(
           tapResponse(
             (response) => {
               this.patchState({ getdependencies: response.data, loading: false });

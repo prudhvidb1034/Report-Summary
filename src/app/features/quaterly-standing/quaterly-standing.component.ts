@@ -79,7 +79,7 @@ export class QuaterlyStandingComponent {
     { header: 'Sprint 1', field: 'sprint1' },
     { header: 'Sprint 2', field: 'sprint2' },
     { header: 'Sprint 3', field: 'sprint3' },
-    { header: 'Sprint 4', field: 'sprint3' },
+    { header: 'Sprint 4', field: 'sprint4' },
     { header: '% of Completion', field: 'completionPercentage' },
     { header: 'Status', field: 'statusReport' },
     { header: 'Action', field: 'action', type: ['edit', 'delete'] }
@@ -154,7 +154,7 @@ this.quaterlyReport.getQuaterlyReports({ page: this.page, size: this.pageSize })
   }
 
   deleteModal(item: any) {
-    console.log(item);
+    console.log(item.id);
 
     this.modalController.create({
       component: ConfirmDeleteComponent,
@@ -163,7 +163,7 @@ this.quaterlyReport.getQuaterlyReports({ page: this.page, size: this.pageSize })
         role: 'delete',
         data: {
           id: item.id,
-          name: item.team,
+          name: item.projectName,
 
         }
       }

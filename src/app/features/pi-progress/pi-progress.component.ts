@@ -109,8 +109,6 @@ export class PiProgressComponent {
         if (result?.data?.confirmed) {
           this.piprogressReport.deletepiprogressReport(item.reportId);
         }
-
-        // Handle any data returned from the modal if needed
       });
     });
   }

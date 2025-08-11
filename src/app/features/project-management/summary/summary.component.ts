@@ -15,42 +15,42 @@ import { WeekRangePipe } from '../../../shared/pipes/week-range.pipe';
 @Component({
   selector: 'app-summary',
   standalone: true,
-  imports: [IonicModule, CommonModule, ReactiveFormsModule, ReusableTableComponent,IonicModule],
-  providers: [SummaryStore,WeekRangePipe],
+  imports: [IonicModule, CommonModule, ReactiveFormsModule, ReusableTableComponent, IonicModule],
+  providers: [SummaryStore, WeekRangePipe],
   templateUrl: './summary.component.html',
   styleUrl: './summary.component.scss'
 })
 export class SummaryComponent {
   label = 'Summary';
   private modalController = inject(ModalController);
-  private  loginStore = inject(LoginStore)
+  private loginStore = inject(LoginStore)
   private readonly summaryStore = inject(SummaryStore);
-  private datePipe=inject(WeekRangePipe);
+  private datePipe = inject(WeekRangePipe);
   isLoading$ = this.summaryStore.select(state => state.loading);
 
   // projects: createProject[] = [];
   // private summary = inject(SummaryService);
   // weekSummaryForm !: FormGroup;
   private route = inject(Router);
-      userRole$ = this.loginStore.user$.pipe(
-        map(res => res?.role?.toLocaleLowerCase())
-      );
-  role:any;
+  userRole$ = this.loginStore.user$.pipe(
+    map(res => res?.role?.toLocaleLowerCase())
+  );
+  role: any;
 
-  columns:any;
+  columns: any;
   page = 0;
   pageSize = 5;
 
 
-constructor(){
-    this.loadSummary(this.page,this.pageSize)
-}
+  constructor() {
+    this.loadSummary(this.page, this.pageSize)
+  }
 
-  ngOnInit(){
+  ngOnInit() {
     this.userRole$.pipe(take(1)).subscribe(role => {
-      this.role=role;
+      this.role = role;
       console.log('User role:', role);
-});
+    });
     if (this.role == 'employee') {
       this.columns = [
         { header: 'Name ', field: 'weekRange' },
@@ -69,7 +69,7 @@ constructor(){
 
     }
 
-console.log(this.userRole$)
+    console.log(this.userRole$)
   }
   // private readonly store = inject(SummaryStore);
   // dateError: string | null = null;
@@ -139,7 +139,7 @@ console.log(this.userRole$)
   summary = [
     {
       weekId: 'WEEK 01-June-2025 To 07-June-2025',
-      weekNo:0,
+      weekNo: 0,
       // startDate: '2025-05-01',
       // endDate: '2025-05-07',
       status: 'Active',
@@ -148,7 +148,7 @@ console.log(this.userRole$)
     },
     {
       weekId: 'WEEK 08-June-2025 To 14-June-2025',
-       weekNo:1,
+      weekNo: 1,
       // startDate: '2025-05-08',
       // endDate: '2025-05-14',
       status: 'InActive',
@@ -157,7 +157,7 @@ console.log(this.userRole$)
     }
   ];
 
-  summarylist$:any;
+  summarylist$: any;
 
   handleRowAction(event: any) {
     switch (event.type) {
@@ -171,10 +171,10 @@ console.log(this.userRole$)
         this.loadCreateEmployeeModal();
         break;
       case 'toggle-status':
-        this.updatedRowData(event);  
+        this.updatedRowData(event);
         break;
       case 'createStatus':
-        this.updateWeeklySummary();  
+        this.updateWeeklySummary();
         break;
       case 'edit':
         this.loadCreateEmployeeModal();
@@ -182,7 +182,7 @@ console.log(this.userRole$)
       case 'delete':
         this.deleteModal();
         break;
-            case 'nextPage':
+      case 'nextPage':
         this.page = event.item;
         this.loadSummary(this.page, this.pageSize)
         break;
@@ -192,20 +192,20 @@ console.log(this.userRole$)
         break;
       case 'navigate':
         this.navigate(event);
-        break;       
+        break;
       default:
         console.log('Unknown action type:', event.type);
     }
   }
   updatedRowData(event: any) {
-    this.summary.filter((val:any)=>val.weekId===event.item.weekId?val.status=event.value:'');
+    this.summary.filter((val: any) => val.weekId === event.item.weekId ? val.status = event.value : '');
     console.log(event)
   }
 
   loadCreateEmployeeModal() {
     this.modalController.create({
       component: CreateSummaryComponent,
-       cssClass:'create-summary-modal',
+      cssClass: 'create-summary-modal',
       componentProps: {
       }
     }).then((modal) => {
@@ -217,52 +217,40 @@ console.log(this.userRole$)
   }
 
 
-  navigate(event:any){
-    if(event.columnName === 'View Task'){
-    this.route.navigate(
-          ['/summary/task', event.item.weekRange.weekId],
-          { state: { name: this.datePipe.transform(event.item.weekRange) } }
-        );
+  navigate(event: any) {
+    if (event.columnName === 'View Task') {
+      this.route.navigate(
+        ['/summary/task', event.item.weekRange.weekId],
+        { state: { name: this.datePipe.transform(event.item.weekRange) } }
+      );
       console.log(this.datePipe.transform(event.item.weekRange));
-    }else{
-          this.route.navigate(
-          ['view-reports/', event.item.weekRange.weekId],
-          { state: { name: this.datePipe.transform(event.item.weekRange) } }
-        );
+    } else {
+      this.route.navigate(
+        ['view-reports/', event.item.weekRange.weekId],
+        { state: { name: this.datePipe.transform(event.item.weekRange) } }
+      );
     }
     console.log(event);
   }
 
   updateWeeklySummary() {
-    // this.modalController.create({
-    //   component: EmployeeUpdateComponent,
-    //   cssClass: 'employee-update-popup',
-    //   componentProps: {
-    //   }
-    // }).then((modal) => {
-    //   modal.present();
-    //   modal.onDidDismiss().then((data) => {
-    //     console.log('Modal dismissed with data:', data);
-    //     // Handle any data returned from the modal if needed
-    //   });
-    // });
     this.route.navigate(['/summary/employee-dashboard'])
   }
-   deleteModal(){
-        this.modalController.create({
-          component: ConfirmDeleteComponent,
-          cssClass: 'custom-delete-modal',
-          componentProps: { 
-            role: 'delete',
-          }
-        }).then((modal) => {
-          modal.present();
-          modal.onDidDismiss().then((data) => {
-            console.log('Modal dismissed with data:', data);
-            // Handle any data returned from the modal if needed
-          });
-        });
-     }
+  deleteModal() {
+    this.modalController.create({
+      component: ConfirmDeleteComponent,
+      cssClass: 'custom-delete-modal',
+      componentProps: {
+        role: 'delete',
+      }
+    }).then((modal) => {
+      modal.present();
+      modal.onDidDismiss().then((data) => {
+        console.log('Modal dismissed with data:', data);
+        // Handle any data returned from the modal if needed
+      });
+    });
+  }
 
   loadSummary(pageNum: number, pageSize: number) {
     this.summaryStore.getDetails({ page: pageNum, size: pageSize });

@@ -45,6 +45,8 @@
         </div>
 
         <div class="table-section">
+
+          <!-- {{getresources$ | async | json}} -->
           <h4 style="margin-bottom: 10px">Technology Wise Summary</h4>
           <table class="styled-table">
             <thead>
@@ -58,12 +60,12 @@
                 <th>Offshore</th>
               </tr>
             </thead>
-            <tbody>
-              <tr *ngFor="let row of techSummary">
-                <td>{{ row.tech }}</td>
-                <td>{{ row.onsite }}</td>
-                <td>{{ row.offshore }}</td>
-                <td>{{ row.ratio }}</td>
+            <tbody *ngIf="getresources$ | async as getresourceslist">
+              <tr *ngFor="let resource of getresourceslist.techStackResources">
+                <td>{{resource.techStack}}</td>
+                <td>{{resource.onsite}}</td>
+                <td>{{resource.offsite}}</td>
+                <td>{{resource.ratio}}</td>
               </tr>
             </tbody>
           </table>
@@ -89,11 +91,11 @@
                 <th>Offshore</th>
               </tr>
             </thead>
-            <tbody>
-              <tr *ngFor="let row of projectSummary">
-                <td>{{ row.project }}</td>
+            <tbody *ngIf="getresources$ | async as projectResourceslist">
+              <tr *ngFor="let row of projectResourceslist.projectResources">
+                <td>{{ row.projectName }}</td>
                 <td>{{ row.onsite }}</td>
-                <td>{{ row.offshore }}</td>
+                <td>{{ row.offsite }}</td>
                 <td>{{ row.ratio }}</td>
               </tr>
             </tbody>

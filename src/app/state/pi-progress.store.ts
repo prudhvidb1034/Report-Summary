@@ -108,7 +108,7 @@ export class PiPgrogressStore extends ComponentStore<piproggressReport> {
     readonly deletepiprogressReport = this.effect((accountId$: Observable<string>) =>
         accountId$.pipe(
             exhaustMap(id =>
-                this.sharedservice.deleteLocalData(`${urls.REMOVE_QUATERLY_REPORT}/${id}`).pipe(
+                this.sharedservice.deleteData(`${urls.CREATE_PI_PROGRESS}/${id}`).pipe(
                     tapResponse(
                         () => {
                             this._accountCreateStatus.set('deleted');

@@ -24,6 +24,7 @@ export class SprintReportComponent {
   incidentList$ = this.sprintSore.incidentReport$;
   piStandingData$ = this.sprintSore.piStandingReport$ 
   dependencieslist$ = this.sprintSore.getdependencies$
+  getresources$ = this.sprintSore.getresources$;
   isLoading$ = this.sprintSore.select((state: { loading: any; }) => state.loading);
   private router = inject(ActivatedRoute);
   ngOnInit() {
@@ -33,6 +34,7 @@ export class SprintReportComponent {
       this.sprintSore.getReportById(sprintId);
       this.sprintSore.getIndicentById(sprintId);
       this.sprintSore.getDependencybySprintID(sprintId)
+      this.sprintSore.getResourceBySprintId(sprintId);
     }
     this.sprintSore.getPIStandingData();
     this.piStandingData$.subscribe((res:any)=>{

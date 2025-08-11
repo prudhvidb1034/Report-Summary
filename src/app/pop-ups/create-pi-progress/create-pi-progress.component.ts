@@ -5,6 +5,7 @@ import { IonicModule, ModalController } from '@ionic/angular';
 import { ValidationsService } from '../../services/validation/validations.service';
 import { PiPgrogressStore } from '../../state/pi-progress.store';
 import { ToastService } from '../../shared/toast.service';
+import { CommonStore } from '../../state/common.store';
 
 @Component({
   selector: 'app-create-pi-progress',
@@ -21,11 +22,13 @@ export class CreatePiProgressComponent {
   isEditMode = false;
   private fb = inject(FormBuilder);
   @Input() editData: any;
+   private commonStore = inject(CommonStore);
   private piprogressStore = inject(PiPgrogressStore);
 
   public validationService = inject(ValidationsService);
 
   isLoading$ = this.piprogressStore.select(state => state.loading);
+    allProjects$ = this.commonStore.allProjects$;
   readonly accountStatusEffect = effect(() => {
     const status = this.piprogressStore.accountCreateStatus();
 
@@ -56,8 +59,8 @@ export class CreatePiProgressComponent {
 
   creteForm() {
     this.piProgressForm = this.fb.group({
-      team: ['', Validators.required],
-      tcbLead: ['', Validators.required],
+      projectId: ['', Validators.required],
+      teamLead: ['', Validators.required],
       assignedSP: ['', Validators.required],
       completedSP: ['', Validators.required],
       // Percentage: ['', Validators.required],
@@ -87,8 +90,8 @@ export class CreatePiProgressComponent {
 
       const formValue = this.piProgressForm.value;
 
-      if (this.editData && this.editData?.projectId) {
-        this.piprogressStore.updatepiprogressReport({ id: this.editData.progressid, data: formValue });
+      if (this.editData && this.editData?.reportId) {
+        this.piprogressStore.updatepiprogressReport({ id: this.editData.reportId, data: formValue });
       } else {
         this.piprogressStore.createPipgrogressReports(response);
       }

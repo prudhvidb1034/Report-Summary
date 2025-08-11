@@ -45,15 +45,6 @@ export class CreateQuaterlyStandingComponent {
   page = 0;
   pageSize = 5;
   content: any = [];
-  sprints = ['sprint0', 'sprint1', 'sprint2', 'sprint3', 'sprint4'];
-  // sprintInfo: any = [
-  //       { id: 1, sprint0: false },
-  //       { id: 2, sprint1: false },
-  //       { id: 3, sprint2: false },
-  //       { id: 4, sprint3: false },
-  //       { id: 5, sprint4: false },
-  //     ];
-
   readonly accountStatusEffect = effect(() => {
     const status = this.quaterlyReportStore.accountCreateStatus();
 
@@ -83,18 +74,8 @@ export class CreateQuaterlyStandingComponent {
       this.content = val?.content;
       console.log(this.content);
 
-      if (Array.isArray(this.content)) {
-        this.content.map((res: any) => {
-          this.PINumber = res?.piNumber;
-          this.pi = this.PINumber
-          console.log(this.PINumber);
-        });
-      } else {
-        console.warn('content is not an array:', this.content);
-      }
+
     });
-    // this.accountStore.getAccounts({ page: 0, size: 5, sortBy: 'accountName' });
-    console.log(this.editData);
     if (this.editData) {
       this.quaterlyStandingForm.patchValue(this.editData);
       console.log(this.quaterlyStandingForm.value);
@@ -114,14 +95,10 @@ export class CreateQuaterlyStandingComponent {
     this.quaterlyStandingForm = this.fb.group({
       projectId: ['', Validators.required],
       feature: ['', Validators.required],
-      sprint0: ['', Validators.required],
-      sprint1: ['', Validators.required],
-      sprint2: ['', Validators.required],
-      sprint3: ['', Validators.required],
-      sprint4: ['', Validators.required],
+      selectedSprint: ['', Validators.required],
+      piNumber: ['', Validators.required],
       completionPercentage: ['', Validators.required],
       statusReport: ['', Validators.required],
-      piNumber: ['']
     })
   }
 

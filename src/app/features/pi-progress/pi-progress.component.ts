@@ -10,7 +10,7 @@ import { ConfirmDeleteComponent } from '../../pop-ups/confirm-delete/confirm-del
 @Component({
   selector: 'app-pi-progress',
   standalone: true,
-  imports: [ReusableTableComponent,CommonModule,IonicModule],
+  imports: [ReusableTableComponent, CommonModule, IonicModule],
   providers: [PiPgrogressStore, CommonStore],
   templateUrl: './pi-progress.component.html',
   styleUrl: './pi-progress.component.scss'
@@ -22,8 +22,9 @@ export class PiProgressComponent {
   piprogressReport = inject(PiPgrogressStore);
   commonStore = inject(CommonStore);
   piprogressReport$: any;
+  isLoadingCommon$ = this.commonStore.select(state => state.loading);
   private modalController = inject(ModalController);
-   isLoading$ = this.piprogressReport.select(state => state.loading);
+  isLoading$ = this.piprogressReport.select(state => state.loading);
   ngOnInit() {
     this.piprogressReport.getPipgrogressReports()
     this.piprogressReport$ = this.piprogressReport.piprogressReport$
@@ -32,8 +33,8 @@ export class PiProgressComponent {
 
 
   columns = [
-    { header: 'Team', field: 'team' },
-    { header: 'Lead Name', field: 'tcbLead' },
+    { header: 'Team', field: 'projectName' },
+    { header: 'Lead Name', field: 'teamLead' },
     { header: 'Assigned SP', field: 'assignedSP' },
     { header: 'Completed SP', field: 'completedSP' },
     { header: '% of Completion', field: 'completionPercentage' },
@@ -67,10 +68,7 @@ export class PiProgressComponent {
     }).then((modal) => {
       modal.present();
       modal.onDidDismiss().then((data) => {
-        // this.loadProjects(this.page,this.pageSize);
-
-        console.log('Modal dismissed with data:', data);
-        // Handle any data returned from the modal if needed
+        this.piprogressReport.getPipgrogressReports()
       });
     });
   }
@@ -94,24 +92,26 @@ export class PiProgressComponent {
     });
   }
 
-    deleteModal(item: any) {
-      this.modalController.create({
-        component: ConfirmDeleteComponent,
-        cssClass: 'custom-delete-modal',
-        componentProps: {
-          role: 'delete',
-          data: {
-            id: item.progressid,
-            name: item.team
-          }
+  deleteModal(item: any) {
+    this.modalController.create({
+      component: ConfirmDeleteComponent,
+      cssClass: 'custom-delete-modal',
+      componentProps: {
+        role: 'delete',
+        data: {
+          id: item.reportId,
+          name: item.teamLead
         }
-      }).then((modal) => {
-        modal.present();
-        modal.onDidDismiss().then((data) => {
-          console.log('Modal dismissed with data:', data);
-          this.piprogressReport.deletepiprogressReport(item.progressid);
-          // Handle any data returned from the modal if needed
-        });
+      }
+    }).then((modal) => {
+      modal.present();
+      modal.onDidDismiss().then((result) => {
+        if (result?.data?.confirmed) {
+          this.piprogressReport.deletepiprogressReport(item.reportId);
+        }
+
+        // Handle any data returned from the modal if needed
       });
-    }
+    });
+  }
 }

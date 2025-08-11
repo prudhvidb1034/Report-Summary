@@ -21,30 +21,35 @@
           <ion-row>
             <!-- Team -->
             <ion-col size="6">
-              <ion-item class="custom-item" lines="none"
-                [class.invalid]="validationService.isInvalid('team', piProgressForm)"
-                [class.valid]="validationService.isValid('team', piProgressForm)">
-                <ion-input formControlName="team" label="Team" labelPlacement="floating" class="label-texts"
-                  placeholder="Enter team name">
-                </ion-input>
-              </ion-item>
-              @if (validationService.isInvalid('team', piProgressForm)) {
-              <ion-text color="danger" class="error-message">
-                <p>Team name is required.</p>
-              </ion-text>
-              }
-            </ion-col>
+                    <ion-item class="custom-item" lines="none"
+                        [class.invalid]="validationService.isInvalid('projectId', piProgressForm)"
+                        [class.valid]="validationService.isValid('projectId', piProgressForm)">
+                        <ion-select class="label-texts" formControlName="projectId" label="Projects"
+                            labelPlacement="floating" interface="popover" placeholder="Select Project">
+                            <ng-container *ngIf="allProjects$ | async as projectList">
+                                <ion-select-option *ngFor="let p of projectList" [value]="p.projectId">
+                                    {{ p.projectName }}
+                                </ion-select-option>
+                            </ng-container>
+                        </ion-select>
+                    </ion-item>
+                    @if (validationService.isInvalid('projectId', piProgressForm)) {
+                    <ion-text color="danger" class="error-message">
+                        <p>At least one project must be selected.</p>
+                    </ion-text>
+                    }
+                </ion-col>
 
             <!-- Lead Name -->
             <ion-col size="6">
               <ion-item class="custom-item" lines="none"
-                [class.invalid]="validationService.isInvalid('tcbLead', piProgressForm)"
-                [class.valid]="validationService.isValid('tcbLead', piProgressForm)">
-                <ion-input formControlName="tcbLead" label="Lead Name" labelPlacement="floating" class="label-texts"
+                [class.invalid]="validationService.isInvalid('teamLead', piProgressForm)"
+                [class.valid]="validationService.isValid('teamLead', piProgressForm)">
+                <ion-input formControlName="teamLead" label="Lead Name" labelPlacement="floating" class="label-texts"
                   placeholder="Enter lead name">
                 </ion-input>
               </ion-item>
-              @if (validationService.isInvalid('tcbLead', piProgressForm)) {
+              @if (validationService.isInvalid('teamLead', piProgressForm)) {
               <ion-text color="danger" class="error-message">
                 <p>Lead name is required.</p>
               </ion-text>

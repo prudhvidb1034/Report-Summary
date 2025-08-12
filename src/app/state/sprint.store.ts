@@ -23,6 +23,7 @@ export interface CreateSprint {
   piStandingReport: any;
   getdependencies: any;
   getresources: any;
+  historyWeekdata:any;
 }
 
 export interface ApiResponse<T> {
@@ -34,7 +35,7 @@ export class SprintStore extends ComponentStore<CreateSprint> {
 
   private sharedservice = inject(SharedService);
   constructor() {
-    super({ sprint: [], resources: [], weeklySprint: [], sprintReport: [], incidentReport: [], createweekSprint: [], piStandingReport: [], getdependencies: [], getresources: [], loading: false, error: null });
+    super({ sprint: [], resources: [], weeklySprint: [], sprintReport: [], incidentReport: [], createweekSprint: [], piStandingReport: [], getdependencies: [], getresources: [],historyWeekdata:[], loading: false, error: null });
   }
   private _sprintCreateStatus = signal<null | 'success' | 'deleted' | 'update' | 'error'>(null);
 
@@ -46,6 +47,7 @@ export class SprintStore extends ComponentStore<CreateSprint> {
   readonly resourcesList$ = this.select(state => state.resources);
   readonly getdependencies$ = this.select(state => state.getdependencies);
   readonly getresources$ = this.select(state => state.getresources);
+  readonly  historyWeekdata$ = this.select(state => state.historyWeekdata);
 
   readonly incidentReport$ = this.select(state => state.incidentReport);
   readonly piStandingReport$ = this.select(state => state.piStandingReport)
@@ -237,7 +239,24 @@ export class SprintStore extends ComponentStore<CreateSprint> {
     )
   );
 
-
+  readonly getHistoryById = this.effect((sprintId$: Observable<string>) =>
+    sprintId$.pipe(
+      tap(() => this.patchState({ loading: true, error: null })),
+      exhaustMap(weekNumber =>
+        this.sharedservice.getData<ApiResponse<any[]>>(`${urls.get_HISTORY_BY_WEEK_ID}${weekNumber}`).pipe(
+          tapResponse(
+            (response) => {
+              this.patchState({ historyWeekdata: response.data, loading: false });
+            },
+            (error) => {
+              this.patchState({ loading: false, error: 'Failed to fetch sprint by ID' });
+              this.toast.show('error', 'Failed to fetch sprint by ID');
+            }
+          )
+        )
+      )
+    )
+  );
 
 
   readonly getResourceBySprintId = this.effect((sprintId$: Observable<string>) =>

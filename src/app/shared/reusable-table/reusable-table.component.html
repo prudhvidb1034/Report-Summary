@@ -46,7 +46,7 @@
         <ng-template #defaultTemplate>
           <div *ngIf="column.field ==='status'" style="display: flex; justify-content: center;">
             <ion-toggle *ngIf="column.field === 'status'" (ionChange)="toggleEvent($event,item)"
-              [checked]="item.status === 'Active'" justify="center">
+              [checked]="item.isEnabled ===true" justify="center">
             </ion-toggle>
           </div>
           <div style="display: flex; gap: 10px; justify-content: center;" *ngIf="column.field==='action'">
@@ -55,11 +55,11 @@
                 (click)="action('view',item)">
                 <ion-icon name="eye-outline" class="action-color" slot="icon-only"></ion-icon>
               </ion-button>
-              <ion-button [disabled]="item.status=== 'InActive'" *ngIf="actionArray==='edit'" fill="clear" size="small"
+              <ion-button [disabled]="item.isEnabled=== true" *ngIf="actionArray==='edit'" fill="clear" size="small"
                 color="primary" title="Edit" (click)="action('edit',item)">
                 <ion-icon name="create-outline" class="action-color" slot="icon-only"></ion-icon>
               </ion-button>
-              <ion-button [disabled]="item.status=== 'InActive'" *ngIf="actionArray==='delete'" fill="clear"
+              <ion-button [disabled]="item.isEnabled=== true" *ngIf="actionArray==='delete'" fill="clear"
                 size="small" color="danger" title="Delete" (click)="action('delete',item)">
                 <ion-icon name="trash-outline" class="action-color" slot="icon-only"></ion-icon>
               </ion-button>

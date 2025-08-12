@@ -2,11 +2,10 @@ import { Component, inject } from '@angular/core';
 import { IonicModule, ModalController } from '@ionic/angular';
 import { ReusableTableComponent } from '../../shared/reusable-table/reusable-table.component';
 import { CreateSprintComponent } from '../../pop-ups/create-sprint/create-sprint.component';
-import { of } from 'rxjs';
 import { SprintStore } from '../../state/sprint.store';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Route, Router } from '@angular/router';
+import {  Router } from '@angular/router';
 import { ConfirmDeleteComponent } from '../../pop-ups/confirm-delete/confirm-delete.component';
 
 @Component({
@@ -85,6 +84,9 @@ export class SprintsComponent {
       case 'navigate':
         this.navigate(event);
         break;
+      case 'toggle-status':
+        this.toggleAPI(event);
+        break;  
       default:
         console.log('Unknown action type:', event.type);
     }
@@ -93,6 +95,11 @@ export class SprintsComponent {
   loadSprint(pageNum: number, pageSize: number) {
     this.sprintSore.getSprintDetails({ page: pageNum, size: pageSize });
     this.sprintList$ = this.sprintSore.sprint$;
+  }
+
+  toggleAPI(event:any){
+    this.sprintSore.toggleStatus(event.item.sprintId)
+    console.log("toggle",event);
   }
 
   loadCreateEmployeeModal() {

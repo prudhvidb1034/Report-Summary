@@ -25,6 +25,11 @@ export class SharedService {
     return this.http.put<T>(this.url+url, data);
   }
 
+  // patchVal(url: string): Observable<ArrayBuffer> {
+  //   return this.http.put(this.url+url, null, { responseType: 'arraybuffer' });
+  // }
+
+
   deleteData<T>(url: string): Observable<T> {
     return this.http.delete<T>(this.url+url);
   }

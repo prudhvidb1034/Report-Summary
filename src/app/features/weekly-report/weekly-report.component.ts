@@ -61,12 +61,19 @@ private datePipe=inject(WeekRangePipe);
         this.navigate(event);
         break;
       case 'toggle-status'  :
+        this.toggleAPI(event);
         // this.sprintStore.disableWeekId()
         break;
 
       default:
         console.log('Unknown action type:', event.type);
     }
+  }
+
+   toggleAPI(event:any){
+    this.sprintStore.weeklyToggle(event.item.weekId);
+    //this.loadWeeklyReport();
+  // console.log("weekly-toggle",event);
   }
 
   loadCreateEmployeeModal() {

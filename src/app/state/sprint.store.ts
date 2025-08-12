@@ -158,6 +158,46 @@ export class SprintStore extends ComponentStore<CreateSprint> {
     )
   );
 
+  readonly toggleStatus = this.effect((accountId$: Observable<string>) =>
+    accountId$.pipe(
+      exhaustMap((id) =>
+        this.sharedservice.patchData(`api/sprints/toggle-enabled/${id}`,'').pipe(
+          tapResponse(
+            () => {
+              this._sprintCreateStatus.set('update');
+              this.getSprintDetails({ page: 0, size: 5 });
+              this.toast.show('success', 'Sprint Updated successfully!');
+            },
+            (error) => {
+              this.toast.show('error', 'Failed to Update sprint!');
+            }
+          )
+        )
+      )
+    )
+  );
+
+   readonly weeklyToggle = this.effect((accountId$: Observable<string>) =>
+    accountId$.pipe(
+      exhaustMap((id) =>
+        this.sharedservice.patchData(`api/week-ranges/toggle-enabled/${id}`,'').pipe(
+          tapResponse(
+            () => {
+              this._sprintCreateStatus.set('update');
+            //  this.getSprintDetails({ page: 0, size: 5 });
+              this.toast.show('success', 'Weekly Sprint Updated successfully!');
+            },
+            (error) => {
+              this.toast.show('error', 'Failed to Update sprint!');
+            }
+          )
+        )
+      )
+    )
+  );
+
+
+
   readonly createWeeklyUpdateSprint = this.effect((sprintUpdate$: Observable<any>) =>
     sprintUpdate$.pipe(
       exhaustMap(updateBody => {

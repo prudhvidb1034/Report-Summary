@@ -330,8 +330,8 @@
         </thead>
         <tbody *ngIf="piprogresstore$ | async as reports">
           <tr *ngFor="let piStanding of reports.content">
-            <td>{{ piStanding.team }}</td>
-            <td>{{ piStanding.tcbLead }}</td>
+            <td>{{ piStanding.projectName }}</td>
+            <td>{{ piStanding.teamLead }}</td>
             <td>{{ piStanding.assignedSP }}</td>
             <td>{{ piStanding.completedSP }}</td>
             <td [ngClass]="{

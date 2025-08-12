@@ -90,6 +90,7 @@ export class WeeklySprintUpdateComponent {
 );
     this.sprintStore.getWeeklyReportById(this.weekId);
     this.sprintReleaseStore.getReleaseByWeekId(this.weekId);
+   
   }
 
   columnsWeekly = [
@@ -152,38 +153,33 @@ export class WeeklySprintUpdateComponent {
         console.log('Unknown action type:', event);
     }
   }
-  loadCreateModalByTab(item: any) {
-    let componentToLoad: any;
-    let cssClass = '';
+ loadCreateModalByTab(item: any) {
+  if (this.selectedTab === 'active') {
+    // Navigate instead of opening modal
+    const id = this.weekId;
+    this.router.navigate([
+      '/sprints/create-weekly-sprint/create-weekly-report-sprint/create',
+      id
+    ]);
+    return; // ⬅️ Important! stop execution here
+  }
 
-    if (this.selectedTab === 'active') {
-      componentToLoad = WeeklySprintCreationComponent;
-      cssClass = 'weekly-sprint-creation-modal';
-    } else if (this.selectedTab === 'link') {
-      componentToLoad = WeeklySprintReleasesComponent;
-      cssClass = 'weekly-sprint-releases-modal';
-    } else {
-      console.warn('No modal defined for tab:', this.selectedTab);
-      return;
-    }
-
+  if (this.selectedTab === 'link') {
     this.modalController.create({
-      component: componentToLoad,
-      cssClass: cssClass,
+      component: WeeklySprintReleasesComponent,
+      cssClass: 'weekly-sprint-releases-modal',
       componentProps: {
         editData: item
       }
     }).then(modal => {
       modal.present();
       modal.onDidDismiss().then(() => {
-        if (this.selectedTab === 'link') {
-          this.sprintReleaseStore.getReleaseByWeekId(this.weekId);
-        } else {
-          this.sprintStore.getWeeklyReportById(this.weekId); 
-        }
+        this.sprintReleaseStore.getReleaseByWeekId(this.weekId);
       });
     });
   }
+}
+
 
  deleteModal(item: any) {
   this.modalController.create({

@@ -75,7 +75,7 @@ export class EmployeeUpdateComponent {
     console.log("userList", this.userInfo)
     //  this.summary.getDetails('');
     this.summary.projects$.subscribe((data: any) => {
-      var d = data.find((ele: any) => ele.project_name === this.userInfo.projectName);
+      const d = data.find((ele: any) => ele.project_name === this.userInfo.projectName);
       this.projectInfo = d?.id;
       console.log("filter", d)
       console.log(data);
@@ -123,7 +123,7 @@ export class EmployeeUpdateComponent {
   }
 
   createWeeklyUpdateGroup(): FormGroup {
-    let group: FormGroup = this.fb.group({
+    const group: FormGroup = this.fb.group({
       // upcomingTasks: ['', [Validators.required]],
       // status: ['', [Validators.required]],
       // summary: ['', [Validators.required]],

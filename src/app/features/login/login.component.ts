@@ -1,10 +1,8 @@
 import { Component, inject } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { LoginStore } from '../../state/login.store';
 import { CommonModule } from '@angular/common';
-import { ToastService } from '../../shared/toast.service';
-import { RouterLink } from '@angular/router';
 
 interface LoginCredentials {
   userName: string;

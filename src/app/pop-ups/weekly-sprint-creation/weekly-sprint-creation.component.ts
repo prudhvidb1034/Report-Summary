@@ -18,27 +18,35 @@ import { ToastService } from '../../shared/toast.service';
   styleUrl: './weekly-sprint-creation.component.scss'
 })
 export class WeeklySprintCreationComponent {
-  private routering = inject(ActivatedRoute);
   weeklysprintUpdateForm !: FormGroup;
   private fb = inject(FormBuilder);
   @Input() editData: any;
   weekId: any;
+  weekIds: any;
   private commonStore = inject(CommonStore);
-  private modalCtrl = inject(ModalController)
+  private modalCtrl = inject(ModalController);
+  private router = inject(ActivatedRoute);
   allProjects$ = this.commonStore.allProjects$;
   private sprintStore = inject(SprintStore);
+  historyWeekdata$ = this.sprintStore.historyWeekdata$;
   isLoading$ = this.sprintStore.select(state => state.loading);
   public validationService = inject(ValidationsService);
   private toast = inject(ToastService);
   isEditMode: boolean = false;
 
   ngOnInit() {
-    this.weekId = this.editData
+    this.weekId = this.editData;
+    this.router.paramMap.subscribe(params => {
+      this.weekIds = params.get('id')!;
+    
+    });
+   
     this.createSprintForm();
     if (this.editData?.item?.weeekRangeId) {
       this.weeklysprintUpdateForm.patchValue(this.editData.item);
       this.isEditMode = true;
     }
+     this.sprintStore.getHistoryById(this.weekIds);
 
   }
 
@@ -69,7 +77,7 @@ export class WeeklySprintCreationComponent {
 
   createSprintForm() {
     this.weeklysprintUpdateForm = this.fb.group({
-      weeekRangeId: this.weekId,
+      weeekRangeId: this.weekIds,
       projectId: ['', Validators.required],
       assignedPoints: [null],
       assignedStoriesCount: [null],
@@ -95,14 +103,14 @@ export class WeeklySprintCreationComponent {
   }
 
   onSubmit() {
-    this.weeklysprintUpdateForm.addControl(
-      'estimationHealthStatus',
-      new FormControl(this.weeklysprintUpdateForm.get('estimationHealth')?.value)
-    );
-    this.weeklysprintUpdateForm.addControl(
-      'groomingHealthStatus',
-      new FormControl(this.weeklysprintUpdateForm.get('groomingHealth')?.value)
-    );
+    // this.weeklysprintUpdateForm.addControl(
+    //   'estimationHealthStatus',
+    //   new FormControl(this.weeklysprintUpdateForm.get('estimationHealth')?.value)
+    // );
+    // this.weeklysprintUpdateForm.addControl(
+    //   'groomingHealthStatus',
+    //   new FormControl(this.weeklysprintUpdateForm.get('groomingHealth')?.value)
+    // );
 
     if (this.isEditMode) {
       this.sprintStore.updateWeeklySprintById({ id: this.editData.item.weekSprintId, data: this.weeklysprintUpdateForm.value });

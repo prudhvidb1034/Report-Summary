@@ -9,7 +9,7 @@ import { ToastService } from '../../../shared/toast.service';
 describe('ProjectListComponent', () => {
   let component: ProjectListComponent;
   let fixture: ComponentFixture<ProjectListComponent>;
-  let router = {
+  const router = {
     navigate: jasmine.createSpy('navigate')
   };
   let teamStoreSpy: jasmine.SpyObj<ProjectStore>;

@@ -23,7 +23,8 @@ export interface CreateSprint {
   piStandingReport: any;
   getdependencies: any;
   getresources: any;
-  historyWeekdata:any;
+  historyWeekdata: any;
+  resourcesbygraph: any;
 }
 
 export interface ApiResponse<T> {
@@ -35,7 +36,7 @@ export class SprintStore extends ComponentStore<CreateSprint> {
 
   private sharedservice = inject(SharedService);
   constructor() {
-    super({ sprint: [], resources: [], weeklySprint: [], sprintReport: [], incidentReport: [], createweekSprint: [], piStandingReport: [], getdependencies: [], getresources: [],historyWeekdata:[], loading: false, error: null });
+    super({ sprint: [], resources: [], weeklySprint: [], sprintReport: [], incidentReport: [], createweekSprint: [], piStandingReport: [], getdependencies: [], getresources: [], historyWeekdata: [], resourcesbygraph: [], loading: false, error: null });
   }
   private _sprintCreateStatus = signal<null | 'success' | 'deleted' | 'update' | 'error'>(null);
 
@@ -47,8 +48,8 @@ export class SprintStore extends ComponentStore<CreateSprint> {
   readonly resourcesList$ = this.select(state => state.resources);
   readonly getdependencies$ = this.select(state => state.getdependencies);
   readonly getresources$ = this.select(state => state.getresources);
-  readonly  historyWeekdata$ = this.select(state => state.historyWeekdata);
-
+  readonly historyWeekdata$ = this.select(state => state.historyWeekdata);
+  readonly resourcesbygraph$ = this.select(state => state.resourcesbygraph);
   readonly incidentReport$ = this.select(state => state.incidentReport);
   readonly piStandingReport$ = this.select(state => state.piStandingReport)
   readonly loading$ = this.select(state => state.loading);
@@ -161,7 +162,7 @@ export class SprintStore extends ComponentStore<CreateSprint> {
   readonly toggleStatus = this.effect((accountId$: Observable<string>) =>
     accountId$.pipe(
       exhaustMap((id) =>
-        this.sharedservice.patchData(`api/sprints/toggle-enabled/${id}`,'').pipe(
+        this.sharedservice.patchData(`api/sprints/toggle-enabled/${id}`, '').pipe(
           tapResponse(
             () => {
               this._sprintCreateStatus.set('update');
@@ -177,14 +178,14 @@ export class SprintStore extends ComponentStore<CreateSprint> {
     )
   );
 
-   readonly weeklyToggle = this.effect((accountId$: Observable<string>) =>
+  readonly weeklyToggle = this.effect((accountId$: Observable<string>) =>
     accountId$.pipe(
       exhaustMap((id) =>
-        this.sharedservice.patchData(`api/week-ranges/toggle-enabled/${id}`,'').pipe(
+        this.sharedservice.patchData(`api/week-ranges/toggle-enabled/${id}`, '').pipe(
           tapResponse(
             () => {
               this._sprintCreateStatus.set('update');
-            //  this.getSprintDetails({ page: 0, size: 5 });
+              //  this.getSprintDetails({ page: 0, size: 5 });
               this.toast.show('success', 'Weekly Sprint Updated successfully!');
             },
             (error) => {
@@ -267,6 +268,26 @@ export class SprintStore extends ComponentStore<CreateSprint> {
           tapResponse(
             (response) => {
               this.patchState({ getresources: response.data, loading: false });
+            },
+            (error) => {
+              this.patchState({ loading: false, error: 'Failed to fetch sprint by ID' });
+              this.toast.show('error', 'Failed to fetch sprint by ID');
+            }
+          )
+        )
+      )
+    )
+  );
+
+
+  readonly getResourceByGrpahSprintId = this.effect((sprintId$: Observable<string>) =>
+    sprintId$.pipe(
+      tap(() => this.patchState({ loading: true, error: null })),
+      exhaustMap(sprintids =>
+        this.sharedservice.getData<ApiResponse<any[]>>(`${urls.GET_RESOURCE_BY_GRAPH_SPRINT_ID}/${sprintids}`).pipe(
+          tapResponse(
+            (response) => {
+              this.patchState({ resourcesbygraph: response.data, loading: false });
             },
             (error) => {
               this.patchState({ loading: false, error: 'Failed to fetch sprint by ID' });

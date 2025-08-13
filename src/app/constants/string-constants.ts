@@ -39,7 +39,7 @@ export const urls = {
     UPDATE_DELETE_DEPENDENCY: 'api/sprint-dependencies',
     API_RESOURCES: 'api/resources',
     GET_RESOURCE_BY_SPRINT_ID: 'Resource/sprint/grouped?sprintId=',
-   
+    GET_RESOURCE_BY_GRAPH_SPRINT_ID: 'Resource/summary/combined',
     get_HISTORY_BY_WEEK_ID: 'weekly-sprint-update/history-by-week-id?weekId=',
     // GET_RESOURCES_FILTER_TYPE:'resources/filter-by-type?type=',
     GET_RESOURCES_FILTER_TYPE: 'Resource/search/project?sprintId=',

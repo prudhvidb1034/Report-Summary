@@ -205,6 +205,7 @@
         <table class="styled-table">
             <thead>
                 <tr>
+                    <th>Week ID</th>
                     <th>Project Name</th>
                     <th>Assigned</th>
                     <th>InDev</th>
@@ -216,6 +217,7 @@
             </thead>
             <tbody *ngIf="historyWeekdata$ | async as historyData">
                 <tr *ngFor="let item of historyData.content">
+                    <td>{{item.weeekRangeId}}</td>
                     <td>{{item.projectName}}</td>
                     <td>{{item.assignedStoriesCount}} ({{item.assignedPoints}})</td>
                     <td>{{item.inDevStoriesCount}} ({{item.inDevPoints}})</td>

@@ -13,6 +13,7 @@ export class SharedService {
  private localUrl='http://localhost:4200'
  
  sprintId:any;
+  sharedValue: any;
 
   getData<T>(url: string): Observable<T> {
     return this.http.get<T>(this.url+url);

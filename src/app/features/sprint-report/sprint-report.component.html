@@ -21,7 +21,7 @@
         </ion-icon> -->
         <ion-button (click)="downloadAsPptx()" expand="block" fill="solid">
           <ion-icon name="download-outline" slot="start" size="medium"></ion-icon>
-          Export as Report
+          Download Report
         </ion-button>
       </ion-buttons>
       <!-- </ion-item> -->
@@ -138,12 +138,12 @@
           <ng-container *ngIf="SprintList$ | async as sprintList">
             <tr *ngFor="let sprint of sprintList.content">
               <td>{{ sprint?.projectName }}</td>
-              <td [ngStyle]="getBgStyle(sprint.estimationHealthStatus)">
-                {{ sprint.estimationHealthStatus?.charAt(0) }}
+              <td [ngStyle]="getBgStyle(sprint.estimationHealth)">
+                {{ sprint.estimationHealth?.charAt(0) }}
               </td>
 
-              <td [ngStyle]="getBgStyle(sprint.groomingHealthStatus)">
-                {{ sprint.groomingHealthStatus?.charAt(0) }}
+              <td [ngStyle]="getBgStyle(sprint.groomingHealth)">
+                {{ sprint.groomingHealth?.charAt(0) }}
               </td>
               <td>{{ sprint.completePoints }}</td>
               <td>{{ sprint.inDevPoints }}</td>

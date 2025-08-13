@@ -1,19 +1,21 @@
 import { CommonModule } from '@angular/common';
 import { Component, effect, inject, Input } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { ValidationsService } from '../../services/validation/validations.service';
 import { CommonStore } from '../../state/common.store';
 import { ModalController } from '@ionic/angular/standalone';
 import { SprintStore } from '../../state/sprint.store';
 import { ToastService } from '../../shared/toast.service';
+import { WeekRangePipe } from '../../shared/pipes/week-range.pipe';
+import { SharedService } from '../../services/shared/shared.service';
 
 @Component({
   selector: 'app-weekly-sprint-creation',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, IonicModule],
-  providers: [SprintStore],
+  providers: [SprintStore,WeekRangePipe],
   templateUrl: './weekly-sprint-creation.component.html',
   styleUrl: './weekly-sprint-creation.component.scss'
 })
@@ -33,6 +35,10 @@ export class WeeklySprintCreationComponent {
   public validationService = inject(ValidationsService);
   private toast = inject(ToastService);
   isEditMode: boolean = false;
+  private navRouter = inject(Router);
+private datePipe=inject(WeekRangePipe);
+private commonService=inject(SharedService)
+
 
   ngOnInit() {
     this.weekId = this.editData;
@@ -56,11 +62,16 @@ export class WeeklySprintCreationComponent {
     if (status === 'success') {
       // this.sprintStore.getWeeklyReportById(this.weekId.weeekRangeId);
       this.setOpen(false);
+            console.log("this.weekld",this.weekIds)
+            this.navRouter.navigateByUrl('sprints/create-weekly-sprint/create-weekly-report-sprint'+'/'+this.weekIds,  { state: { name: this.datePipe.transform(this.commonService.sharedValue) } });
+
       this.toast.show('success', 'Weekly Sprint Updated Successfully!');
 
     } else if (status === 'update') {
       this.setOpen(false);
-      console.log(this.weekId)
+            this.navRouter.navigateByUrl('sprints/create-weekly-sprint/create-weekly-report-sprint'+'/'+this.weekIds,  { state: { name: this.datePipe.transform(this.commonService.sharedValue) } });
+
+      console.log(this.weekIds)
 
       this.toast.show('success', 'Weekly Sprint Updated successfully!');
 
@@ -115,6 +126,7 @@ export class WeeklySprintCreationComponent {
     if (this.isEditMode) {
       this.sprintStore.updateWeeklySprintById({ id: this.editData.item.weekSprintId, data: this.weeklysprintUpdateForm.value });
     } else {
+      console.log("this.weeklysprintUpdateForm.value",this.weeklysprintUpdateForm.value)
       this.sprintStore.createWeeklyUpdateSprint(this.weeklysprintUpdateForm.value)
     }
 

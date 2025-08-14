@@ -2,17 +2,16 @@
   <ion-header translucent>
     <ion-toolbar color="primary">
       <ion-title class="ion-text-center">Resource Summary</ion-title>
-           <ion-buttons slot="end">
-              <ion-button (click)="downloadAsPptx()" expand="block" fill="solid">
+      <ion-buttons slot="end">
+        <ion-button (click)="downloadAsPptx()" expand="block" fill="solid">
           <ion-icon name="download-outline" slot="start" size="medium"></ion-icon>
           Download Report
         </ion-button>
       </ion-buttons>
-         </ion-toolbar>
+    </ion-toolbar>
   </ion-header>
 
   <div class="container">
-    <!-- {{SprintList$ | async | json}} -->
     <div class="grid-layout">
       <div class="row">
         <div class="chart-section">
@@ -21,8 +20,6 @@
         </div>
 
         <div class="table-section">
-
-          <!-- {{getresources$ | async | json}} -->
           <h4 style="margin-bottom: 10px">Technology Wise Summary</h4>
           <table class="styled-table">
             <thead>

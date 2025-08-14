@@ -86,7 +86,7 @@ export class CreateResoursesComponent {
       const tech = this.resourceForm.get('techStack')!;
       const proj = this.resourceForm.get('projectId')!;
 
-      if (type === 'TECH_STACK') {
+      if (type === 'TECHSTACK') {
         tech.setValidators([Validators.required]);
         proj.clearValidators();
         proj.reset();

@@ -40,7 +40,7 @@ export class CreateResoursesComponent {
   suggestions: string[] = [];
   @Input() editData: any;
   resourceStore = inject(ResourcesStore)
-   private toast = inject(ToastService);
+  private toast = inject(ToastService);
   list$: any;
   selectedType = '';
   sprintId: any;
@@ -55,8 +55,8 @@ export class CreateResoursesComponent {
 
   constructor(private fb: FormBuilder, private modalCtrl: ModalController) { }
 
- readonly accountStatusEffect = effect(() => {
-   const status = this.resourceStore.accountCreateStatus();
+  readonly accountStatusEffect = effect(() => {
+    const status = this.resourceStore.accountCreateStatus();
 
     if (status === 'success') {
       this.setOpen(false);
@@ -107,21 +107,24 @@ export class CreateResoursesComponent {
 
     if (this.editData) {
       console.log(this.editData);
-//     if(this.editData?.resourceType === "Project"){
-//       setTimeout(() => {
-//   this.resourceForm?.patchValue({ resourceType: 'PROJECT' });
-// })
-//       // this.resourceForm.patchValue({ resourceType: 'Project' });
-//     }else{
-//       this.resourceForm.patchValue({ resourceType: 'Techstack' });
-//     }
-       
-      this.isEditMode = true;
-      this.resourceForm.patchValue(this.editData);
-
-       console.log('res',this.resourceForm.value);
       
+      
+      //     if(this.editData?.resourceType === "Project"){
+      //       setTimeout(() => {
+      //   this.resourceForm?.patchValue({ resourceType: 'PROJECT' });
+      // })
+      //       // this.resourceForm.patchValue({ resourceType: 'Project' });
+      //     }else{
+      //       this.resourceForm.patchValue({ resourceType: 'Techstack' });
+      //     }
+
+      this.isEditMode = true;
+      this.selectedType = this.editData.type;
+      this.projectSearch = this.editData.name;
+      this.resourceForm.patchValue(this.editData);
+      console.log('res', this.resourceForm.value);
     }
+
 
     this.technologies$.subscribe((val: any) => {
       this.technologies = val;
@@ -146,8 +149,9 @@ export class CreateResoursesComponent {
       onsite: ['', Validators.required],
       offsite: ['', Validators.required],
       name: ['', Validators.required],
-      
+      type:['']
     });
+
   }
 
 
@@ -294,23 +298,21 @@ export class CreateResoursesComponent {
         resourceType: this.resourceForm.get('resourceType')?.value,
         onsite: this.resourceForm.get('onsite')?.value,
         offsite: this.resourceForm.get('offsite')?.value,
-        // techStack: this.resourceForm.get('techStack')?.value,
+        type: this.resourceForm.get('techStack')?.value,
         sprintId: this.sprintId
       };
 
       // console.log(formValue);
-      
+
       if (resourceType === 'PROJECT') {
         formValue.projectId = this.resourceForm.get('projectId')?.value;
+
       } else if (resourceType === 'TECHSTACK') {
         formValue.techStack = name;
       }
 
       console.log('Final form value:', formValue);
-
       if (this.isEditMode && this.editData) {
-    
-        
         this.resourceStore.updateResource({ id: this.editData.resourceId, data: formValue });
       } else {
         // this.toast.show('error', 'Please fill in all required fields.')

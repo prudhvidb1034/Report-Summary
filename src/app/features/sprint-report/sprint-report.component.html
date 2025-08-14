@@ -106,7 +106,7 @@
         <thead>
           <tr>
             <th rowspan="2">Team</th>
-            <th colspan="2">Health</th>
+            <th colspan="2">Health</th  >
             <th rowspan="2">Overall Sprint Completion %</th>
             <th colspan="4">Stories - Count(SP)</th>
           </tr>
@@ -120,34 +120,41 @@
           </tr>
         </thead>
         <tbody>
-          <ng-container *ngIf="SprintList$ | async as sprintList">
-            <tr *ngFor="let sprint of sprintList.content">
-              <td>{{ sprint?.projectName }}</td>
-              <td [ngStyle]="getBgStyle(sprint.estimationHealth)">
-                {{ sprint.estimationHealth?.charAt(0) }}
-              </td>
-
-              <td [ngStyle]="getBgStyle(sprint.groomingHealth)">
-                {{ sprint.groomingHealth?.charAt(0) }}
-              </td>
-              <td>{{ sprint.completePoints }}</td>
-              <td>{{ sprint.inDevPoints }}</td>
-              <td>{{ sprint.inQaPoints }}</td>
-              <td>{{ sprint.blockedPoints }}</td>
-              <td>{{ sprint.riskPoints }}</td>
-            </tr>
-          </ng-container>
+          @for (sprint of (SprintList$ | async)?.content; track sprint) {
+          <tr>
+            <td>{{ sprint?.projectName }}</td>
+            <td [ngStyle]="getBgStyle(sprint.estimationHealth)">
+              {{ sprint.estimationHealth?.charAt(0) }}
+            </td>
+            <td [ngStyle]="getBgStyle(sprint.groomingHealth)">
+              {{ sprint.groomingHealth?.charAt(0) }}
+            </td>
+            <td>{{ sprint.completePoints }}</td>
+            <td>{{ sprint.inDevPoints }}</td>
+            <td>{{ sprint.inQaPoints }}</td>
+            <td>{{ sprint.blockedPoints }}</td>
+            <td>{{ sprint.riskPoints }}</td>
+          </tr>
+          } @empty {
+          <tr>
+            <td colspan="8" style="text-align:center; font-style:italic; color:gray;">
+              No sprint health data found
+            </td>
+          </tr>
+          }
         </tbody>
       </table>
 
-      <div *ngIf="SprintList$ | async as SprintList">
-        <ng-container *ngFor="let item of SprintList.content">
-          <p *ngIf="item.comments" class="release-info">
-            <strong>{{ item.projectName }}</strong> {{ item.comments }}
-          </p>
-        </ng-container>
-      </div>
+      <!-- Comments Section -->
+      @for (item of (SprintList$ | async)?.content; track item) {
+      @if (item.comments) {
+      <p class="release-info">
+        <strong>{{ item.projectName }}</strong> {{ item.comments }}
+      </p>
+      }
+      }
     </div>
+
 
     <div class="table-container">
       <h4 class="table-title" style="margin-bottom: 10px">Release (Count)</h4>
@@ -161,15 +168,22 @@
           </tr>
         </thead>
         <tbody>
-          <ng-container *ngIf="incidentList$ | async as incidentList">
-            <tr *ngFor="let item of incidentList.content">
-              <td>{{ item.projectName }}</td>
-              <td>{{ item.major }}</td>
-              <td>{{ item.minor }}</td>
-              <td>{{ item.incidentCreated }}</td>
-            </tr>
-          </ng-container>
+          @for (item of (incidentList$ | async)?.content; track item) {
+          <tr>
+            <td>{{ item.projectName }}</td>
+            <td>{{ item.major }}</td>
+            <td>{{ item.minor }}</td>
+            <td>{{ item.incidentCreated }}</td>
+          </tr>
+          } @empty {
+          <tr>
+            <td colspan="4" style="text-align:center; font-style:italic; color:gray;">
+              No incidents found
+            </td>
+          </tr>
+          }
         </tbody>
+
       </table>
 
       <div *ngIf="incidentList$ | async as incidentList">
@@ -212,21 +226,26 @@
           </tr>
         </thead>
         <tbody>
-          <ng-container *ngIf="SprintList$ | async as sprintList">
-            <!-- {{ sprintList.content | json }} -->
-
-            <tr *ngFor="let sprint of sprintList.content">
-              <td>{{ sprint.projectName }}</td>
-              <td>{{ sprint.assignedPoints }}</td>
-              <td>{{ sprint.completePoints }}</td>
-              <td>{{ sprint.riskPoints }}</td>
-              <td>0</td>
-              <td>0</td>
-              <td>0</td>
-              <td>N/A</td>
-            </tr>
-          </ng-container>
+          @for (sprint of (SprintList$ | async)?.content; track sprint) {
+          <tr>
+            <td>{{ sprint.projectName }}</td>
+            <td>{{ sprint.assignedPoints }}</td>
+            <td>{{ sprint.completePoints }}</td>
+            <td>{{ sprint.riskPoints }}</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>N/A</td>
+          </tr>
+          } @empty {
+          <tr>
+            <td colspan="8" style="text-align:center; font-style:italic; color:gray;">
+              No sprint weekly data found
+            </td>
+          </tr>
+          }
         </tbody>
+
       </table>
     </div>
   </div>
@@ -249,8 +268,9 @@
           </tr>
         </thead>
 
-        <tbody *ngIf="dependencieslist$ | async as dependencieslist">
-          <tr *ngFor="let dependencies of dependencieslist.content">
+        <tbody>
+          @for (dependencies of (dependencieslist$ | async)?.content; track dependencies) {
+          <tr>
             <td>{{dependencies.projectName}}</td>
             <td>{{dependencies.type}}</td>
             <td>{{dependencies.description}}</td>
@@ -260,7 +280,15 @@
             <td>{{dependencies.impact}}</td>
             <td>{{dependencies.actionTaken}}</td>
           </tr>
+          } @empty {
+          <tr>
+            <td colspan="8" style="text-align:center; font-style:italic; color:gray;font-weight: bold;">
+              No dependencies/blockers found
+            </td>
+          </tr>
+          }
         </tbody>
+
       </table>
     </div>
   </div>
@@ -282,8 +310,9 @@
             <th>Status</th>
           </tr>
         </thead>
-        <tbody *ngIf="piStandingData$ | async as reports">
-          <tr *ngFor="let piStanding of reports">
+        <tbody>
+          @for (piStanding of (piStandingData$ | async); track piStanding) {
+          <tr>
             <td>{{ piStanding.projectName }}</td>
             <td>{{ piStanding.feature }}</td>
             <td>{{ piStanding.sprint0 ? 'X' : '-' }}</td>
@@ -294,7 +323,15 @@
             <td>{{ piStanding.completionPercentage }}</td>
             <td>{{ piStanding.statusReport }}</td>
           </tr>
+          } @empty {
+          <tr>
+            <td colspan="9" style="text-align:center; font-style:italic; color:gray;">
+              No PI standing data found
+            </td>
+          </tr>
+          }
         </tbody>
+
       </table>
     </div>
   </div>
@@ -313,22 +350,30 @@
             <th>% of completion</th>
           </tr>
         </thead>
-        <tbody *ngIf="piprogresstore$ | async as reports">
-          <tr *ngFor="let piStanding of reports.content">
+        <tbody>
+          @for (piStanding of (piprogresstore$ | async)?.content; track piStanding) {
+          <tr>
             <td>{{ piStanding.projectName }}</td>
             <td>{{ piStanding.teamLead }}</td>
             <td>{{ piStanding.assignedSP }}</td>
             <td>{{ piStanding.completedSP }}</td>
             <td [ngClass]="{
-                'green-cell': piStanding.completionPercentage >= 80,
-                'amber-cell':
-                  piStanding.completionPercentage >= 25 &&
-                  piStanding.completionPercentage < 80,
-                'red-cell': piStanding.completionPercentage < 25
-              }"></td>
+            'green-cell': piStanding.completionPercentage >= 80,
+            'amber-cell': piStanding.completionPercentage >= 25 && piStanding.completionPercentage < 80,
+            'red-cell': piStanding.completionPercentage < 25
+          }">
+            </td>
             <td>{{ piStanding.completionPercentage }}</td>
           </tr>
+          } @empty {
+          <tr>
+            <td colspan="6" style="text-align:center; font-style:italic; color:gray;">
+              No PI progress data found
+            </td>
+          </tr>
+          }
         </tbody>
+
       </table>
     </div>
   </div>

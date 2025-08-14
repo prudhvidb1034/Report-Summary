@@ -53,7 +53,6 @@ export class SprintsComponent {
     this.role = userData.role;
 
     this.columns = [
-      { header: 'Sprint Number', field: 'sprintNumber' },
       { header: 'Sprint Name', field: 'sprintName' },
       { header: 'From Date', field: 'fromDate' },
       { header: 'To Date', field: 'toDate' },

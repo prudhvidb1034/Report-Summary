@@ -46,7 +46,7 @@
           <ion-item class="custom-item" [class.invalid]="isInvalid('selectedSprint')"
             [class.valid]="isValid('selectedSprint')" lines="none">
             <ion-select formControlName="selectedSprint" label="Selected Sprint" labelPlacement="floating"
-              class="label-texts" placeholder="selectedSprint" interface="popover">
+              class="label-texts" placeholder="selectedSprint" interface="popover" multiple="true" >
               <ion-select-option value="Sprint-0">Sprint-0</ion-select-option>
               <ion-select-option value="Sprint-1">Sprint-1</ion-select-option>
               <ion-select-option value="Sprint-2">Sprint-2</ion-select-option>

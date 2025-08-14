@@ -199,7 +199,7 @@
 
 
 
-<div class="container">
+<div class="container" *ngIf="(historyWeekdata$ | async)?.content?.length > 0">
     <div class="heading">History</div>
     <div class="table-container">
         <table class="styled-table">

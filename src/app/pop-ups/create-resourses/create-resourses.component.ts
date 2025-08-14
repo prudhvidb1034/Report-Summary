@@ -107,21 +107,16 @@ export class CreateResoursesComponent {
 
     if (this.editData) {
       console.log(this.editData);
-      
-      
-      //     if(this.editData?.resourceType === "Project"){
-      //       setTimeout(() => {
-      //   this.resourceForm?.patchValue({ resourceType: 'PROJECT' });
-      // })
-      //       // this.resourceForm.patchValue({ resourceType: 'Project' });
-      //     }else{
-      //       this.resourceForm.patchValue({ resourceType: 'Techstack' });
-      //     }
-
       this.isEditMode = true;
-      this.selectedType = this.editData.type;
+      this.selectedType = this.editData.resourceType?.toUpperCase();
       this.projectSearch = this.editData.name;
       this.resourceForm.patchValue(this.editData);
+      this.resourceForm.patchValue({
+        resourceType: this.editData.resourceType?.toUpperCase() || '', // convert to uppercase
+        techStack: this.editData.techStack || '',
+        onsite: this.editData.onsite,
+        offsite: this.editData.offsite
+      });
       console.log('res', this.resourceForm.value);
     }
 
@@ -149,7 +144,7 @@ export class CreateResoursesComponent {
       onsite: ['', Validators.required],
       offsite: ['', Validators.required],
       name: ['', Validators.required],
-      type:['']
+      type: ['', Validators.required]
     });
 
   }
@@ -293,12 +288,12 @@ export class CreateResoursesComponent {
     if (this.resourceForm.value) {
       const resourceType = this.resourceForm.get('resourceType')?.value;
       const name = this.resourceForm.get('techStack')?.value;
+      const type = this.resourceForm.get('resourceType')?.value;
 
       const formValue: any = {
         resourceType: this.resourceForm.get('resourceType')?.value,
         onsite: this.resourceForm.get('onsite')?.value,
         offsite: this.resourceForm.get('offsite')?.value,
-        type: this.resourceForm.get('techStack')?.value,
         sprintId: this.sprintId
       };
 

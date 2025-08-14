@@ -293,7 +293,7 @@ export class CreateResoursesComponent {
         resourceType: this.resourceForm.get('resourceType')?.value,
         onsite: this.resourceForm.get('onsite')?.value,
         offsite: this.resourceForm.get('offsite')?.value,
-        techStack: this.resourceForm.get('techStack')?.value,
+        // techStack: this.resourceForm.get('techStack')?.value,
         sprintId: this.sprintId
       };
 
@@ -308,7 +308,7 @@ export class CreateResoursesComponent {
       // console.log('Final form value:', formValue);
 
       if (this.isEditMode && this.editData) {
-        console.log('form', formValue);
+        // console.log('form', formValue);
         
         this.resourceStore.updateResource({ id: this.editData.sprintId, data: formValue });
       } else {

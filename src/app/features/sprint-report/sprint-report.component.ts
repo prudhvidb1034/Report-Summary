@@ -44,7 +44,7 @@ export class SprintReportComponent {
     })
 
   }
- 
+
   ngAfterViewInit() {
     this.resourcesbygraphlist$.subscribe((res: any) => {
       if (res && res.techStackSummary) {
@@ -52,12 +52,12 @@ export class SprintReportComponent {
       }
     });
 
-     this.resourcesbygraphlist$.subscribe((res: any) => {
+    this.resourcesbygraphlist$.subscribe((res: any) => {
       if (res && res.projectSummary) {
         this.renderBarChart2(res.projectSummary);
       }
     });
-  
+
   }
 
   renderBarChart(techStackSummary: any[]) {
@@ -99,19 +99,30 @@ export class SprintReportComponent {
           }
         },
         scales: {
-          x: { stacked: true },
-          y: { stacked: true }
+          x: { stacked: true 
+            ,
+             grid: {
+              drawTicks: false,
+              drawOnChartArea: false 
+            }
+          },
+          y: {
+            stacked: true,
+            ticks: {
+              stepSize: 5
+            }
+          }
         }
       }
     });
   }
 
-  renderBarChart2(projectSummary:any[]) {
+  renderBarChart2(projectSummary: any[]) {
     const ctx = document.getElementById('barChart2') as HTMLCanvasElement;
-     const labels = projectSummary.map(item => item.projectName);
-     const onsiteData = projectSummary.map(item => item.onsite);
-     const offsiteData = projectSummary.map(item => item.offsite);
-      const totalData = projectSummary.map(item => item.total);
+    const labels = projectSummary.map(item => item.projectName);
+    const onsiteData = projectSummary.map(item => item.onsite);
+    const offsiteData = projectSummary.map(item => item.offsite);
+    const totalData = projectSummary.map(item => item.total);
     new Chart(ctx, {
       type: 'bar',
       data: {
@@ -141,8 +152,19 @@ export class SprintReportComponent {
           title: { display: false }
         },
         scales: {
-          x: { stacked: true },
-          y: { stacked: true }
+          x: {
+            stacked: true,
+            grid: {
+              drawTicks: false,
+              drawOnChartArea: false 
+            }
+          },
+          y: {
+            stacked: true,
+            ticks: {
+              stepSize: 5
+            }
+          }
         }
       }
     });
@@ -151,21 +173,24 @@ export class SprintReportComponent {
     this.sprintSore.patchState({ loading: true });
     try {
       const pptx = new PptxGenJS();
+
+      // wait 500ms to ensure charts are rendered
+      await new Promise(res => setTimeout(res, 500));
+
       const pageSections = document.querySelectorAll('.container') as NodeListOf<HTMLElement>;
 
-      // Wait for fonts to be fully loaded
       await document.fonts.ready;
 
       const totalPages = pageSections.length;
 
       for (const [index, page] of Array.from(pageSections).entries()) {
-        // Force consistent font styling
         page.style.fontFamily = "'Poppins', sans-serif";
         page.style.fontSize = '12px';
 
         const canvas = await html2canvas(page, {
           scale: 3,
-          useCORS: true
+          useCORS: true,
+          backgroundColor: '#ffffff'
         });
 
         const fullWidth = canvas.width;
@@ -175,7 +200,6 @@ export class SprintReportComponent {
 
         const slide = pptx.addSlide();
 
-        // Add image to slide
         slide.addImage({
           data: imgData,
           x: 0,
@@ -184,11 +208,10 @@ export class SprintReportComponent {
           h: 10 * aspectRatio
         });
 
-        // Add bottom-right page number (e.g. "1 of 7")
         const pageNumber = `${index + 1} of ${totalPages}`;
         slide.addText(pageNumber, {
-          x: '85%', // 85% from left (approximate bottom-right)
-          y: '90%', // 90% from top
+          x: '85%',
+          y: '90%',
           fontSize: 10,
           color: '666666',
           align: 'right',
@@ -205,6 +228,7 @@ export class SprintReportComponent {
       this.sprintSore.patchState({ loading: false });
     }
   }
+
 
 
   getBgStyle(status: string): { [key: string]: string } {

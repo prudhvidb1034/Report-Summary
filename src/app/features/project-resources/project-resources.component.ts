@@ -11,6 +11,7 @@ import { CommonStore } from '../../state/common.store';
 import { map } from 'rxjs';
 import { of } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
+import { ConfirmDeleteComponent } from '../../pop-ups/confirm-delete/confirm-delete.component';
 
 @Component({
   selector: 'app-project-resources',
@@ -32,7 +33,7 @@ export class ProjectResourcesComponent {
     { id: 'PROJECT', name: 'Projects' }
   ];
   page = 0;
-  pageSize = 5;
+  pageSize = 10;
   resourcesList$: any;
   copyDisabled = false;
 
@@ -55,11 +56,12 @@ export class ProjectResourcesComponent {
   }
 
   ngOnInit() {
+
     this.sprintId = this.router.snapshot.paramMap.get('id')
     this.technologies$.subscribe((data: any) => {
       console.log(data)
     })
-
+    this.loadAllResources();
   }
 
   copyResources() {
@@ -72,18 +74,35 @@ export class ProjectResourcesComponent {
 
   search() {
     if (this.selectedType) {
-      const sprintId = this.sprintId; // e.g., 1
-const resourceType = 'PROJECT';
-const projectName = 'AI test';
-const page = 0;
-const size = 10;
+      const sprintId = 1
+      const resourceType = 'PROJECT';
+      // const projectName = 'AI test';
+      const page = this.page;
+      const pageSize = this.pageSize;
 
-const queryParams = `sprintId=${sprintId}&resourceType=${encodeURIComponent(resourceType)}&projectName=${encodeURIComponent(projectName)}&page=${page}&size=${size}`;
-      this.resourceStore.getResources({ page: this.page, size: this.pageSize, sortBy: 'resourceType', apiPath: urls.GET_RESOURCES_FILTER_TYPE + this.sprintId });
+      const queryParams = `${sprintId}&resourceType=${encodeURIComponent(resourceType)}&page=${page}&size=${pageSize}`;
+      this.resourceStore.getResourcesWithType({ apiPath: urls.GET_RESOURCES_FILTER_TYPE + queryParams });
       this.resourcesList$ = this.resourceStore.resources$;
     }
     console.log(this.selectedType)
   }
+
+  // searchWithType() {
+  //   if (this.selectedType) {
+  //     const sprintId = 1
+  //     const resourceType = 'PROJECT';
+  //     // const projectName = 'AI test';
+  //     const page = this.page;
+  //     const pageSize = this.pageSize;
+
+  //     const queryParams = `${sprintId}&resourceType=${encodeURIComponent(resourceType)}&page=${page}&size=${pageSize}`;
+  //     this.resourceStore.getResourcesByProjectOrTeckStack({ apiPath: urls.GET_RESOURCES_FILTER_TYPE + queryParams });
+  //     this.resourcesList$ = this.resourceStore.resources$;
+  //   }
+  //   console.log(this.selectedType)
+  // }
+
+
 
 
   updateSuggestions() {
@@ -120,9 +139,18 @@ const queryParams = `sprintId=${sprintId}&resourceType=${encodeURIComponent(reso
     // handle search logic here
   }
 
-  loadResources() {
-    this.resourceStore.getResources({ page: this.page, size: this.pageSize, sortBy: 'resourceType', apiPath: urls.GET_RESOURCES_FILTER_TYPE + this.selectedType + '&name=' + this.searchTerm.toUpperCase() });
+  loadAllResources() {
+    const sprintId = this.sprintId
+    this.resourceStore.getAllResources(
+      {
+        apiPath: urls.GET_ALL_RESOURCES + `sprintId=${sprintId}`
+      }
+    );
     this.resourcesList$ = this.resourceStore.resources$;
+    this.resourcesList$.subscribe((val: any) => {
+      console.log(val);
+
+    })
   }
   columns = [
     { header: 'Type', field: 'resourceType' },
@@ -133,8 +161,8 @@ const queryParams = `sprintId=${sprintId}&resourceType=${encodeURIComponent(reso
   ];
 
   openModal(item: any) {
-    console.log(item);
-    
+    // console.log(item);
+
     this.modalController.create({
       component: CreateResoursesComponent,
       cssClass: 'create-account-modal',
@@ -144,7 +172,50 @@ const queryParams = `sprintId=${sprintId}&resourceType=${encodeURIComponent(reso
     }).then((modal) => {
       modal.present();
       modal.onDidDismiss().then((data) => {
-        // this.loadAccounts(this.page,this.pageSize);
+        this.loadAllResources();
+        console.log('Modal dismissed with data:', data);
+      });
+    });
+  }
+
+  deleteModal(item: any) {
+    // console.log(item)
+    this.modalController.create({
+      component: ConfirmDeleteComponent,
+      cssClass: 'custom-delete-modal',
+      componentProps: {
+        role: 'delete',
+        data: {
+          id: item.resourceId,
+          name: item.name
+        }
+      }
+    }).then((modal) => {
+      modal.present();
+      modal.onDidDismiss().then((result) => {
+        console.log(result)
+        if (result?.data?.confirmed) {
+          this.resourceStore.deleteResource(result.data.id);
+
+        }
+      });
+
+    });
+
+  }
+
+  updateCreateResourceModal(item: any) {
+    // console.log('Selected row data:', item);
+    this.modalController.create({
+      component: CreateResoursesComponent,
+      cssClass: 'create-account-modal',
+      componentProps: {
+        editData: item
+      }
+    }).then((modal) => {
+      modal.present();
+      modal.onDidDismiss().then((data) => {
+        // this.accountStore.getAccounts();
         console.log('Modal dismissed with data:', data);
       });
     });
@@ -154,6 +225,12 @@ const queryParams = `sprintId=${sprintId}&resourceType=${encodeURIComponent(reso
     switch (event.type) {
       case 'create':
         this.openModal(event);
+        break;
+      case 'delete':
+        this.deleteModal(event.item);
+        break;
+      case 'edit':
+        this.updateCreateResourceModal(event.item);
         break;
       default:
         console.log('Unknown action type:', event.type);

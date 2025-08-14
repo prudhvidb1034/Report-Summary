@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, Input } from '@angular/core';
+import { Component, effect, inject, Input } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 import { IonicModule, ModalController } from '@ionic/angular';
@@ -7,6 +7,7 @@ import { ResourcesStore } from '../../state/resources.store';
 import { CommonStore } from '../../state/common.store';
 import { map, of } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
+import { ToastService } from '../../shared/toast.service';
 
 @Component({
   selector: 'app-create-resourses',
@@ -39,6 +40,7 @@ export class CreateResoursesComponent {
   suggestions: string[] = [];
   @Input() editData: any;
   resourceStore = inject(ResourcesStore)
+   private toast = inject(ToastService);
   list$: any;
   selectedType = '';
   sprintId: any;
@@ -53,6 +55,26 @@ export class CreateResoursesComponent {
 
   constructor(private fb: FormBuilder, private modalCtrl: ModalController) { }
 
+ readonly accountStatusEffect = effect(() => {
+   const status = this.resourceStore.accountCreateStatus();
+
+    if (status === 'success') {
+      this.setOpen(false);
+      this.toast.show('success', 'resource created successfully!');
+    } else if (status === 'update') {
+      this.setOpen(false);
+      this.toast.show('success', 'resource updated successfully!');
+    } else if (status === 'deleted') {
+      this.toast.show('success', 'resource deleted successfully!');
+    } else if (status === 'error') {
+      this.toast.show('error', 'Something went wrong!');
+    }
+
+
+    if (status) {
+      this.resourceStore['_resourcesCreateStatus'].set(null);
+    }
+  });
 
   ngOnInit() {
 
@@ -85,13 +107,24 @@ export class CreateResoursesComponent {
 
     if (this.editData) {
       console.log(this.editData);
-      this.resourceForm.patchValue(this.editData.item);
+//     if(this.editData?.resourceType === "Project"){
+//       setTimeout(() => {
+//   this.resourceForm?.patchValue({ resourceType: 'PROJECT' });
+// })
+//       // this.resourceForm.patchValue({ resourceType: 'Project' });
+//     }else{
+//       this.resourceForm.patchValue({ resourceType: 'Techstack' });
+//     }
+       this.resourceForm.patchValue(this.editData);
+
+       console.log('res',this.resourceForm.value);
       this.isEditMode = true;
+      
     }
 
     this.technologies$.subscribe((val: any) => {
       this.technologies = val;
-      console.log(this.technologies);
+      // console.log(this.technologies);
 
     })
     this.projects$.subscribe(val => {
@@ -112,6 +145,7 @@ export class CreateResoursesComponent {
       onsite: ['', Validators.required],
       offsite: ['', Validators.required],
       name: ['', Validators.required],
+      
     });
   }
 
@@ -249,19 +283,22 @@ export class CreateResoursesComponent {
   // }
 
   SubmitForm() {
-    // console.log('edit', this.editData, this.resourceForm.valid, this.resourceForm.value);
+    //  console.log('edit', this.editData, this.resourceForm.valid, this.resourceForm.value);
 
     if (this.resourceForm.value) {
       const resourceType = this.resourceForm.get('resourceType')?.value;
       const name = this.resourceForm.get('techStack')?.value;
 
       const formValue: any = {
-        resourceType: resourceType,
+        resourceType: this.resourceForm.get('resourceType')?.value,
         onsite: this.resourceForm.get('onsite')?.value,
         offsite: this.resourceForm.get('offsite')?.value,
+        techStack: this.resourceForm.get('techStack')?.value,
         sprintId: this.sprintId
       };
 
+      // console.log(formValue);
+      
       if (resourceType === 'PROJECT') {
         formValue.projectId = this.resourceForm.get('projectId')?.value;
       } else if (resourceType === 'TECHSTACK') {
@@ -270,9 +307,12 @@ export class CreateResoursesComponent {
 
       // console.log('Final form value:', formValue);
 
-      if (this.isEditMode && this.editData?.accountId) {
-        this.resourceStore.updateDependencies({ id: this.editData.accountId, data: formValue });
+      if (this.isEditMode && this.editData) {
+        console.log('form', formValue);
+        
+        this.resourceStore.updateResource({ id: this.editData.sprintId, data: formValue });
       } else {
+        // this.toast.show('error', 'Please fill in all required fields.')
         this.resourceStore.createResource(formValue);
       }
     } else {

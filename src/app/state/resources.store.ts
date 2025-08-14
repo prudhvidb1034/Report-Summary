@@ -52,12 +52,35 @@ export class ResourcesStore extends ComponentStore<resourcesState> {
         )
     );
 
-      readonly getResources = this.effect<{ page: number; size: number; sortBy:string; apiPath:string}>(
+      readonly getResourcesWithType = this.effect<{ apiPath:string}>(
           trigger$ =>
               trigger$.pipe(
                   tap(() => this.patchState({ loading: true, error: null })),
-                  switchMap(({ page, size,sortBy,apiPath }) =>
-                      this.sharedservice.getData<any>(`${apiPath}&page=${page}&size=${size}`).pipe(
+                  switchMap(({apiPath }) =>
+                      this.sharedservice.getData<any>(`${apiPath}`).pipe(
+                          tapResponse(
+                              (resources) => {
+                                setTimeout(()=>{
+                                this.patchState({ resources: resources.data, loading: false });
+                                },600)
+                              },
+                              (error) => {
+                                  this.patchState({ loading: false, error: 'Failed to fetch resources' });
+                                  this.toast.show('error', 'Failed to fetch resources!');
+                              }
+                          )
+                      )
+                  )
+              )
+      );
+
+
+       readonly getResourcesByProjectOrTeckStack = this.effect<{ apiPath:string}>(
+          trigger$ =>
+              trigger$.pipe(
+                  tap(() => this.patchState({ loading: true, error: null })),
+                  switchMap(({apiPath }) =>
+                      this.sharedservice.getData<any>(`${apiPath}`).pipe(
                           tapResponse(
                               (resources) => {
                                 setTimeout(()=>{
@@ -78,7 +101,7 @@ export class ResourcesStore extends ComponentStore<resourcesState> {
 
 
 
-    readonly updateDependencies = this.effect(
+       readonly updateDependencies = this.effect(
         (account$: Observable<{ id: string; data: any }>) =>
             account$.pipe(
                 exhaustMap(({ id, data }) => {
@@ -113,6 +136,88 @@ export class ResourcesStore extends ComponentStore<resourcesState> {
                         },
                         (error) => {
                             this.toast.show('error', 'Failed to delete account!');
+                        }
+                    )
+                )
+            )
+        )
+    );
+
+
+    
+readonly getAllResources = this.effect<{ apiPath: string }>(trigger$ =>
+  trigger$.pipe(
+    tap(() => this.patchState({ loading: true, error: null })),
+    switchMap(({ apiPath }) =>
+      this.sharedservice.getData<any>(`${apiPath}`).pipe(
+        tapResponse(
+          (response) => {
+            const modifiedContent = response.data?.content?.map((res: any) => ({
+              ...res,
+              name:
+                res.resourceType?.toLowerCase() === 'project'
+                  ? res.projectName
+                  : res.resourceType?.toLowerCase() === 'techstack'
+                  ? res.techStack
+                  : null
+            })) || [];
+
+            const updatedData = {
+              ...response.data,
+              content: modifiedContent
+            };
+
+            setTimeout(() => {
+              this.patchState({ resources: updatedData, loading: false });
+            }, 600);
+          },
+          (error) => {
+            this.patchState({ loading: false, error: 'Failed to fetch resources' });
+            this.toast.show('error', 'Failed to fetch resources!');
+          }
+        )
+      )
+    )
+  )
+);
+
+
+    readonly updateResource = this.effect(
+        (account$: Observable<{ id: string; data: any }>) =>
+            account$.pipe(
+                exhaustMap(({ id, data }) => {
+                    this.patchState({ loading: true, error: null });
+                    return this.sharedservice.patchData(`${urls.UPDATE_RESOURCE}/${id}`, data).pipe(
+                        tap({
+                            next: (updatedAccount: any) => {
+                                this._resourcesCreateStatus.set('update');
+                                this.patchState({ loading: false });
+                            },
+                            error: () => {
+                                this._resourcesCreateStatus.set('error');
+                                this.patchState({ loading: false, error: 'Failed to update account' });
+                                this.toast.show('error', 'Update failed!');
+                            }
+                        })
+                    );
+                })
+            )
+    );
+
+
+    readonly deleteResource = this.effect((accountId$: Observable<string>) =>
+        accountId$.pipe(
+            exhaustMap(id =>
+                this.sharedservice.deleteData(`${urls.DELETE_RESOURCE}/${id}`).pipe(
+                    tapResponse(
+                        () => {
+                            this._resourcesCreateStatus.set('deleted');
+                            this.toast.show('success', 'Resource deleted successfully!');
+                            // this.getAllResources({ apiPath: urls.GET_ALL_RESOURCES });
+
+                        },
+                        (error) => {
+                            this.toast.show('error', 'Failed to delete resource!');
                         }
                     )
                 )

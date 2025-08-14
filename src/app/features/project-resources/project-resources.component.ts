@@ -196,10 +196,11 @@ export class ProjectResourcesComponent {
         console.log(result)
         if (result?.data?.confirmed) {
           this.resourceStore.deleteResource(result.data.id);
-
         }
+        setTimeout(() => {
+          this.loadAllResources();
+        }, 2000);
       });
-
     });
 
   }

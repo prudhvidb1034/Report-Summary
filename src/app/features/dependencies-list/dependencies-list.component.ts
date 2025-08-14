@@ -31,6 +31,7 @@ export class DependenciesListComponent {
   private route = inject(ActivatedRoute)
   isLoadingCommon$ = this.commonStore.select(state => state.loading);
   isLoading$ = this.dependenciesStore.select(state => state.loading);
+  createEnableFlag$=this.commonStore.flag$;
 
   columns = [
     { header: 'Team', field: 'projectName' },

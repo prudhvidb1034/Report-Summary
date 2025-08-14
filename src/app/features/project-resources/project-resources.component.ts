@@ -50,6 +50,8 @@ export class ProjectResourcesComponent {
   suggestions$: any;
   list$: any;
   sprintId: any;
+  createEnableFlag$=this.commonStore.flag$;
+
   ionSelectChange() {
     this.searchTerm = '';
     this.updateSuggestions();

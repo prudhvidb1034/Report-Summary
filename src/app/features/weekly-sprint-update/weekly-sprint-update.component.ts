@@ -40,6 +40,8 @@ export class WeeklySprintUpdateComponent {
   allProjects$ = this.commonStore.allProjects$;
   private toast = inject(ToastService);
   private commonService=inject(SharedService);
+    createEnableFlag$=this.commonStore.flag$;
+
 
   public validationService = inject(ValidationsService);
   isLoading$ = this.sprintStore.select(state => state.loading);

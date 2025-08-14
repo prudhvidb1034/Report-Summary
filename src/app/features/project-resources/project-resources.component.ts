@@ -61,7 +61,7 @@ export class ProjectResourcesComponent {
 
     this.sprintId = this.router.snapshot.paramMap.get('id')
     this.technologies$.subscribe((data: any) => {
-      console.log(data)
+      // console.log(data)
     })
     this.loadAllResources();
   }

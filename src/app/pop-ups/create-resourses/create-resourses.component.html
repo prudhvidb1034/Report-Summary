@@ -20,7 +20,7 @@
         <ion-row>
           <!-- Type Dropdown -->
           <ion-col size="6">
-            <ion-item
+            <!-- <ion-item
               class="custom-item"
               [class.invalid]="isInvalid('resourceType')"
               [class.valid]="isValid('resourceType')"
@@ -41,15 +41,30 @@
                 >
                 <ion-select-option value="PROJECT">Projects</ion-select-option>
               </ion-select>
+            </ion-item> -->
+          <ion-item lines="none" class="custom-item">
+              <ion-select
+                interface="popover"
+                style="font-size: 13px"
+                placeholder="Select Type"
+              formControlName="resourceType"
+                [(ngModel)]="selectedType"
+                placeholder="Select Type"
+                (ionChange)="ionSelectChange()"
+              >
+                <ion-select-option *ngFor="let type of types" [value]="type.id">
+                  {{ type.name }}
+                </ion-select-option>
+              </ion-select>
             </ion-item>
+          
           </ion-col>
 
 
           <!-- Name Auto-Select -->
           <ion-col size="6">
-            <ion-row>
-              <!-- <ion-label class="ion-margin">Project Name</ion-label> -->
-              <ion-searchbar
+            <!-- <ion-row>
+               <ion-searchbar
                 formControlName="techStack"
                 [(ngModel)]="projectSearch"
                 [debounce]="300"
@@ -80,7 +95,28 @@
                   </ion-item>
                 </ion-list>
               </ion-col>
-            </ion-row>
+            </ion-row> -->
+          
+           <ion-searchbar
+                  class="search-bar"
+                  [debounce]="300"
+                  animated="true"
+                formControlName="techStack"
+                  [(ngModel)]="searchTerm"
+                  (ionInput)="onInput($event)"
+                  [disabled]="!selectedType"
+                  placeholder="Search name"
+                >
+                </ion-searchbar>
+
+                <ion-list *ngIf="suggestions$ | async">
+                  <ion-item
+                    *ngFor="let s of suggestions$ | async"
+                    (click)="choose(s)"
+                  >
+                    {{ s.display  }}
+                  </ion-item>
+                </ion-list>
           </ion-col>
         </ion-row>
 

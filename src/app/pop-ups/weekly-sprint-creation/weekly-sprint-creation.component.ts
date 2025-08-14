@@ -10,6 +10,7 @@ import { SprintStore } from '../../state/sprint.store';
 import { ToastService } from '../../shared/toast.service';
 import { WeekRangePipe } from '../../shared/pipes/week-range.pipe';
 import { SharedService } from '../../services/shared/shared.service';
+import { map } from 'rxjs';
 
 @Component({
   selector: 'app-weekly-sprint-creation',
@@ -41,6 +42,15 @@ private commonService=inject(SharedService)
 
 
   ngOnInit() {
+    if(this.commonService.projectArray.length){
+      this.allProjects$ = this.allProjects$.pipe(
+  map(projectList => projectList.map((p:any) => ({
+    ...p,
+    disabled: this.commonService.projectArray.includes(p.projectId)
+  })))
+);
+
+    }
     this.weekId = this.editData;
     this.router.paramMap.subscribe(params => {
       this.weekIds = params.get('id')!;
@@ -53,8 +63,17 @@ private commonService=inject(SharedService)
       this.isEditMode = true;
     }
      this.sprintStore.getHistoryById(this.weekIds);
+       const assignedControl = this.weeklysprintUpdateForm.get('assignedPoints');
+  const completedControl = this.weeklysprintUpdateForm.get('completePoints');
+
+  if (assignedControl && completedControl) {
+    assignedControl.valueChanges.subscribe(() => this.computePercentage());
+    completedControl.valueChanges.subscribe(() => this.computePercentage());
+  }
 
   }
+
+  
 
   readonly accountStatusEffect = effect(() => {
     const status = this.sprintStore.sprintCreateStatus();
@@ -84,7 +103,12 @@ private commonService=inject(SharedService)
     }
   });
 
-
+computePercentage() {
+  const assigned = this.weeklysprintUpdateForm.get('assignedPoints')?.value || 0;
+  const completed = this.weeklysprintUpdateForm.get('completePoints')?.value || 0;
+  const percent = assigned > 0 ? (completed / assigned) * 100 : 0;
+  this.weeklysprintUpdateForm.get('completePercentage')?.patchValue(percent.toFixed(2), { emitEvent: false });
+}
 
   createSprintForm() {
     this.weeklysprintUpdateForm = this.fb.group({
@@ -100,7 +124,7 @@ private commonService=inject(SharedService)
       completeStoriesCount: [null],
       blockedPoints: [null],
       blockedStoriesCount: [null],
-      completePercentage: [null],
+      completePercentage: [{ value: 0, disabled: true }],
       estimationHealth: [''],
       groomingHealth: [''],
       difficultCount1: [null],
@@ -111,6 +135,8 @@ private commonService=inject(SharedService)
       comments: [null],
       weeklySprintUpdateStatus: true
     });
+
+
   }
 
   onSubmit() {

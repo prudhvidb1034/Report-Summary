@@ -14,6 +14,7 @@ export class SharedService {
  
  sprintId:any;
   sharedValue: any;
+  projectArray:any[]=[];
 
   getData<T>(url: string): Observable<T> {
     return this.http.get<T>(this.url+url);

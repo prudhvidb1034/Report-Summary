@@ -13,6 +13,7 @@ import { WeeklySprintReleasesComponent } from '../../pop-ups/weekly-sprint-relea
 import { ToastService } from '../../shared/toast.service';
 import { SprintReleaseStore } from '../../state/Sprint-release.store';
 import { ConfirmDeleteComponent } from '../../pop-ups/confirm-delete/confirm-delete.component';
+import { SharedService } from '../../services/shared/shared.service';
 
 @Component({
   selector: 'app-weekly-sprint-update',
@@ -38,6 +39,7 @@ export class WeeklySprintUpdateComponent {
   weeklyReportById$: any;
   allProjects$ = this.commonStore.allProjects$;
   private toast = inject(ToastService);
+  private commonService=inject(SharedService);
 
   public validationService = inject(ValidationsService);
   isLoading$ = this.sprintStore.select(state => state.loading);
@@ -75,19 +77,25 @@ export class WeeklySprintUpdateComponent {
   }
   ngOnInit() {
     this.weekId = this.routering.snapshot.paramMap.get('id');
-    this.sprintstore$ = this.sprintStore.weeklySprint$.pipe(
-  map(payload => ({
-    ...payload,
-    content: payload?.content?.map((item:any) => ({
+  this.sprintStore.weeklySprint$.pipe(
+  map(payload => {
+    const content = payload?.content?.map((item:any) => ({
       ...item,
       totalAssigned: `${item.assignedStoriesCount} ( ${item.assignedPoints} )`,
-      totalDevs:`${item.inDevStoriesCount} ( ${item.inDevPoints} )`,
-      totalQA:`${item.inQaStoriesCount} ( ${item.inQaPoints} )`,
-      totalBlocked:`${item.blockedStoriesCount} ( ${item.blockedPoints} )`,
-       totalCompletion:`${item.completeStoriesCount} ( ${item.completePoints} )`,
-    }))
-  }))
-);
+      totalDevs: `${item.inDevStoriesCount} ( ${item.inDevPoints} )`,
+      totalQA: `${item.inQaStoriesCount} ( ${item.inQaPoints} )`,
+      totalBlocked: `${item.blockedStoriesCount} ( ${item.blockedPoints} )`,
+      totalCompletion: `${item.completeStoriesCount} ( ${item.completePoints} )`,
+    }));
+    
+    // Update project IDs here
+    const ids = content?.map((item:any) => item.projectId) || [];
+    this.commonService.projectArray=ids;
+console.log("ids",ids)
+    return { ...payload, content };
+  })
+).subscribe(s => this.sprintstore$ = of(s));
+
     this.sprintStore.getWeeklyReportById(this.weekId);
     this.sprintReleaseStore.getReleaseByWeekId(this.weekId);
    

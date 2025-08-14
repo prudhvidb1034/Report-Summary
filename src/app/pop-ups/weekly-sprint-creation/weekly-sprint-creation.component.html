@@ -21,7 +21,7 @@
                     <ion-select class="label-texts" formControlName="projectId" label="Projects"
                         labelPlacement="floating" interface="popover" placeholder="Select Project">
                         <ng-container *ngIf="allProjects$ | async as projectList">
-                            <ion-select-option *ngFor="let p of projectList" [value]="p.projectId">
+                            <ion-select-option *ngFor="let p of projectList" [value]="p.projectId"  [disabled]="p.disabled">
                                 {{ p.projectName }}
                             </ion-select-option>
                         </ng-container>
@@ -49,7 +49,7 @@
             </ion-col>
             <ion-col size="4">
                 <ion-item class="custom-item" lines="none">
-                    <ion-input formControlName="completePercentage" label="Completed %" labelPlacement="floating"
+                 <ion-input formControlName="completePoints" label="Completed Points" labelPlacement="floating"
                         class="label-texts" type="number"></ion-input>
                 </ion-item>
             </ion-col>
@@ -87,7 +87,8 @@
             </ion-col>
             <ion-col size="4">
                 <ion-item class="custom-item" lines="none">
-                    <ion-input formControlName="completePoints" label="Completed Points" labelPlacement="floating"
+                   
+                           <ion-input formControlName="completePercentage" label="Completed %" labelPlacement="floating"
                         class="label-texts" type="number"></ion-input>
                 </ion-item>
             </ion-col>

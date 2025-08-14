@@ -2,40 +2,16 @@
   <ion-header translucent>
     <ion-toolbar color="primary">
       <ion-title class="ion-text-center">Resource Summary</ion-title>
-      <!-- <ion-buttons slot="end">
-        <ion-icon name="star" size="large"></ion-icon>
-      </ion-buttons> -->
-
-      <!-- <ion-item lines="none"> -->
-      <ion-buttons slot="end">
-        <!-- <ion-icon name="arrow-down-circle" class="cursor" slot="end" size="large" title="Download the Report"
-        (click)="downloadAsPptx()"></ion-icon> -->
-        <!-- <ion-icon
-          name="download-outline"
-          class="cursor"
-          slot="end"
-          size="large"
-          title="Download the Report"
-          (click)="downloadAsPptx()"
-        >
-        </ion-icon> -->
-        <ion-button (click)="downloadAsPptx()" expand="block" fill="solid">
+           <ion-buttons slot="end">
+              <ion-button (click)="downloadAsPptx()" expand="block" fill="solid">
           <ion-icon name="download-outline" slot="start" size="medium"></ion-icon>
           Download Report
         </ion-button>
       </ion-buttons>
-      <!-- </ion-item> -->
-    </ion-toolbar>
+         </ion-toolbar>
   </ion-header>
 
   <div class="container">
-    <!-- <ion-item lines="none">
-      <ion-icon name="arrow-down-circle" class="cursor" slot="end" size="large" title="Download the Report"
-        (click)="downloadAsPptx()"></ion-icon>
-    </ion-item> -->
-
-    <!-- <h2 class="subtitle" style="margin-bottom: 10px;">Project Wise Resources UI-UX-JAVA-RPA</h2> -->
-
     <!-- {{SprintList$ | async | json}} -->
     <div class="grid-layout">
       <div class="row">
@@ -67,6 +43,12 @@
                 <td>{{resource.offsite}}</td>
                 <td>{{resource.ratio}}</td>
               </tr>
+              <tr class="font-bold">
+                <td>Total</td>
+                <td>{{ getresourceslist.techStackOnsiteTotal }}</td>
+                <td>{{ getresourceslist.techStackOffsiteTotal }}</td>
+                <td>{{ getresourceslist.techStackRatio }}</td>
+              </tr>
             </tbody>
           </table>
         </div>
@@ -97,6 +79,12 @@
                 <td>{{ row.onsite }}</td>
                 <td>{{ row.offsite }}</td>
                 <td>{{ row.ratio }}</td>
+              </tr>
+              <tr class="font-bold">
+                <td>Total</td>
+                <td>{{ projectResourceslist.projectOnsiteTotal }}</td>
+                <td>{{ projectResourceslist.projectOffsiteTotal }}</td>
+                <td>{{ projectResourceslist.projectRatio }}</td>
               </tr>
             </tbody>
           </table>

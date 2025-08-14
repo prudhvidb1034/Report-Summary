@@ -44,14 +44,15 @@
             </ion-item>
           </ion-col>
 
+
           <!-- Name Auto-Select -->
           <ion-col size="6">
             <ion-row>
               <!-- <ion-label class="ion-margin">Project Name</ion-label> -->
               <ion-searchbar
+                formControlName="techStack"
                 [(ngModel)]="projectSearch"
                 [debounce]="300"
-                formControlName="techStack"
                 (ionClear)="clearProjectSearch()"
                 (ionInput)="onProjectTyping()"
                 placeholder="Select"
@@ -64,12 +65,18 @@
               <ion-col size="12">
                 <ion-list class="scroll-list" *ngIf="filteredNames.length">
                   <ion-item
-                     *ngFor="let project of filterItems(filteredNames, projectSearch, projectSelected)"
+                    *ngFor="
+                      let project of filterItems(
+                        filteredNames,
+                        projectSearch,
+                        projectSelected
+                      )
+                    "
                     button
                     lines="none"
                     (click)="selectProject(project)"
                   >
-                    <ion-label>{{ project}}</ion-label>
+                    <ion-label>{{ project }}</ion-label>
                   </ion-item>
                 </ion-list>
               </ion-col>

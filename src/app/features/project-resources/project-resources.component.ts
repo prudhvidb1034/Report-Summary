@@ -215,7 +215,7 @@ export class ProjectResourcesComponent {
     }).then((modal) => {
       modal.present();
       modal.onDidDismiss().then((data) => {
-        // this.accountStore.getAccounts();
+        this.loadAllResources();
         console.log('Modal dismissed with data:', data);
       });
     });

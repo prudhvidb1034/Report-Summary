@@ -305,10 +305,10 @@ export class CreateResoursesComponent {
         formValue.techStack = name;
       }
 
-      // console.log('Final form value:', formValue);
+      console.log('Final form value:', formValue);
 
       if (this.isEditMode && this.editData) {
-        // console.log('form', formValue);
+    
         
         this.resourceStore.updateResource({ id: this.editData.sprintId, data: formValue });
       } else {

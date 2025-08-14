@@ -19,7 +19,7 @@
       <ion-grid>
         <ion-row>
           <!-- Type Dropdown -->
-          <ion-col size="6" *ngIf="!isEditMode">
+          <ion-col size="6">
             <ion-item
               class="custom-item"
               [class.invalid]="isInvalid('resourceType')"
@@ -32,27 +32,6 @@
                 [(ngModel)]="selectedType"
                 labelPlacement="floating"
                 class="label-texts"
-                interface="popover"
-                placeholder="Select Type"
-                (ionChange)="ionSelectChange()"
-              >
-                <ion-select-option value="TECHSTACK"
-                  >Technologies</ion-select-option
-                >
-                <ion-select-option value="PROJECT">Projects</ion-select-option>
-              </ion-select>
-            </ion-item>
-          </ion-col>
-
-          <ion-col size="6" *ngIf="isEditMode">
-            <ion-item
-              class="custom-item"
-              [class.invalid]="isInvalid('resourceType')"
-              [class.valid]="isValid('resourceType')"
-              lines="none"
-            >
-              <ion-select
-                formControlName="resourceType"
                 interface="popover"
                 placeholder="Select Type"
                 (ionChange)="ionSelectChange()"

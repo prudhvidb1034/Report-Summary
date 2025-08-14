@@ -19,7 +19,7 @@
       <ion-grid>
         <ion-row>
           <!-- Type Dropdown -->
-          <ion-col size="6">
+          <ion-col size="6" *ngIf="!isEditMode">
             <ion-item
               class="custom-item"
               [class.invalid]="isInvalid('resourceType')"
@@ -44,14 +44,35 @@
             </ion-item>
           </ion-col>
 
+          <ion-col size="6" *ngIf="isEditMode">
+            <ion-item
+              class="custom-item"
+              [class.invalid]="isInvalid('resourceType')"
+              [class.valid]="isValid('resourceType')"
+              lines="none"
+            >
+              <ion-select
+                formControlName="resourceType"
+                interface="popover"
+                placeholder="Select Type"
+                (ionChange)="ionSelectChange()"
+              >
+                <ion-select-option value="TECHSTACK"
+                  >Technologies</ion-select-option
+                >
+                <ion-select-option value="PROJECT">Projects</ion-select-option>
+              </ion-select>
+            </ion-item>
+          </ion-col>
+
           <!-- Name Auto-Select -->
           <ion-col size="6">
             <ion-row>
               <!-- <ion-label class="ion-margin">Project Name</ion-label> -->
               <ion-searchbar
+                formControlName="techStack"
                 [(ngModel)]="projectSearch"
                 [debounce]="300"
-                formControlName="techStack"
                 (ionClear)="clearProjectSearch()"
                 (ionInput)="onProjectTyping()"
                 placeholder="Select"
@@ -64,12 +85,18 @@
               <ion-col size="12">
                 <ion-list class="scroll-list" *ngIf="filteredNames.length">
                   <ion-item
-                     *ngFor="let project of filterItems(filteredNames, projectSearch, projectSelected)"
+                    *ngFor="
+                      let project of filterItems(
+                        filteredNames,
+                        projectSearch,
+                        projectSelected
+                      )
+                    "
                     button
                     lines="none"
                     (click)="selectProject(project)"
                   >
-                    <ion-label>{{ project}}</ion-label>
+                    <ion-label>{{ project }}</ion-label>
                   </ion-item>
                 </ion-list>
               </ion-col>

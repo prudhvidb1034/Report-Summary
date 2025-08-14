@@ -1,3 +1,4 @@
+import { UPDATE } from "@ngrx/store"
 import { environment } from "../../environments/environment"
 
 export const Constants = {
@@ -42,7 +43,11 @@ export const urls = {
     GET_RESOURCE_BY_GRAPH_SPRINT_ID: 'Resource/summary/combined',
     get_HISTORY_BY_WEEK_ID: 'weekly-sprint-update/history-by-week-id?weekId=',
     // GET_RESOURCES_FILTER_TYPE:'resources/filter-by-type?type=',
-    GET_RESOURCES_FILTER_TYPE: 'Resource/search/project?sprintId=',
+    GET_RESOURCES_FILTER_TYPE: 'Resource/active?sprintId=',
+        // GET_RESOURCES_FILTER_TYPE:'Resource/search/project?',
+        GET_ALL_RESOURCES:'Resource/sprint/page/all?',
+        UPDATE_RESOURCE:'Resource',
+        DELETE_RESOURCE:'Resource',
     GET_QUATERLY_REPORT: '/assets/jsons/quaterlylist.json',
     CREATE_QUATERLY_REPORT: '/assets/jsons/quaterlylist.json',
     UPDATE_QUATERLY_REPORT: '/assets/jsons/quaterlylist.json',

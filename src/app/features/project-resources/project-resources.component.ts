@@ -29,7 +29,7 @@ export class ProjectResourcesComponent {
   private router = inject(ActivatedRoute)
   isLoading$ = this.resourceStore.select(state => state.loading);
   types = [
-    { id: 'TECH_STACK', name: 'Technologies' },
+    { id: 'TECHSTACK', name: 'Technologies' },
     { id: 'PROJECT', name: 'Projects' }
   ];
   page = 0;
@@ -73,40 +73,45 @@ export class ProjectResourcesComponent {
   }
 
   search() {
-    if (this.selectedType) {
+    if (this.selectedType && !this.searchTerm) {
       const sprintId = 1
-      const resourceType = 'PROJECT';
-      // const projectName = 'AI test';
       const page = this.page;
       const pageSize = this.pageSize;
-
-      const queryParams = `${sprintId}&resourceType=${encodeURIComponent(resourceType)}&page=${page}&size=${pageSize}`;
+      const queryParams = `${sprintId}&resourceType=${encodeURIComponent(this.selectedType)}&page=${page}&size=${pageSize}`;
       this.resourceStore.getResourcesWithType({ apiPath: urls.GET_RESOURCES_FILTER_TYPE + queryParams });
       this.resourcesList$ = this.resourceStore.resources$;
+    }else{
+      this.loadResources();
     }
-    console.log(this.selectedType)
   }
 
-  // searchWithType() {
-  //   if (this.selectedType) {
-  //     const sprintId = 1
-  //     const resourceType = 'PROJECT';
-  //     // const projectName = 'AI test';
-  //     const page = this.page;
-  //     const pageSize = this.pageSize;
 
-  //     const queryParams = `${sprintId}&resourceType=${encodeURIComponent(resourceType)}&page=${page}&size=${pageSize}`;
-  //     this.resourceStore.getResourcesByProjectOrTeckStack({ apiPath: urls.GET_RESOURCES_FILTER_TYPE + queryParams });
-  //     this.resourcesList$ = this.resourceStore.resources$;
-  //   }
-  //   console.log(this.selectedType)
-  // }
+  loadResources() {
+
+    if (this.selectedType === 'TECHSTACK') {
+   const queryParams = `techstack?sprintId=${this.sprintId}` +
+                `&resourceType=TECHSTACK` +
+                `&techStack=${encodeURIComponent(this.searchTerm)}` +
+                `&page=${this.page}` +
+                `&size=${this.pageSize}`;
+  this.resourceStore.getResourcesByProjectOrTeckStack({ apiPath: (urls.GET_RESOURCES_SEARCH + queryParams)});
+}else{
+     const queryParams = `project?sprintId=${this.sprintId}` +
+                `&resourceType=PROJECT` +
+                `&projectName=${encodeURIComponent(this.searchTerm)}` +
+                `&page=${this.page}` +
+                `&size=${this.pageSize}`;
+                  this.resourceStore.getResourcesByProjectOrTeckStack({ apiPath: (urls.GET_RESOURCES_SEARCH + queryParams)});
+
+}
+  this.resourcesList$ = this.resourceStore.resources$;
+  }
 
 
 
 
   updateSuggestions() {
-    this.list$ = this.selectedType === 'TECH_STACK'
+    this.list$ = this.selectedType === 'TECHSTACK'
       ? this.technologies$
       : this.selectedType === 'PROJECT'
         ? this.projectNames$
@@ -137,6 +142,17 @@ export class ProjectResourcesComponent {
   onSearchClicked() {
     console.log('Searching:', this.selectedType, this.searchTerm);
     // handle search logic here
+  }
+
+  cloneApi(){
+    //  const queryParams = `project?sprintId=${this.sprintId}` +
+    //             `&resourceType=PROJECT` +
+    //             `&projectName=${encodeURIComponent(this.searchTerm)}` +
+    //             `&page=${this.page}` +
+    //             `&size=${this.pageSize}`;
+    this.resourceStore.getResourcesByProjectOrTeckStack({ apiPath: (urls.GET_RESOURCES_LAST_SPRINT + this.sprintId)});
+    this.resourcesList$ = this.resourceStore.resources$;
+
   }
 
   loadAllResources() {

@@ -40,7 +40,6 @@ export class ProjectListComponent {
   private modalController = inject(ModalController);
   private loginStore = inject(LoginStore);
   private commonStore=inject(CommonStore);
-  // projectStore = inject(TeamStore);
 isLoading$ = this.projectStore.select(state => state.loading);
   isLoadingCommon$=this.commonStore.select(state=>state.loading);
 
@@ -156,9 +155,7 @@ onSearchTermChanged(term: string) {
       modal.present();
       modal.onDidDismiss().then((data) => {
       this.loadProjects(this.page,this.pageSize);
-
         console.log('Modal dismissed with data:', data);
-        // Handle any data returned from the modal if needed
       });
     });
 

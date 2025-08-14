@@ -199,7 +199,7 @@ export class ProjectResourcesComponent {
         }
         setTimeout(() => {
           this.loadAllResources();
-        }, 2000);
+        }, 1000);
       });
     });
 

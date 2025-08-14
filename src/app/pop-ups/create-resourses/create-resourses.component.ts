@@ -46,7 +46,8 @@ export class CreateResoursesComponent {
   sprintId: any;
   rawProjects: any[] = []
   technologies$ = this.commonStore.allTechnologies$;
-  projects$ = this.commonStore.allProjects$
+  projects$ = this.commonStore.allProjects$;
+  isLoading$  = this.resourceStore.loading$;
 
   //   .pipe(
   //   map(projects => projects.map((p:any) => p.projectName))

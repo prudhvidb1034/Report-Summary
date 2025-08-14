@@ -40,8 +40,8 @@
                     <ion-item class="custom-item" [class.invalid]="isInvalid('fromDate')"
                         [class.valid]="isValid('fromDate')" lines="none">
                         <ion-input formControlName="fromDate" label="Start Date" labelPlacement="floating"
-                            class="label-texts" type="date" [clearOnEdit]="true" [min]="currentDate"
-                            [max]="maxStartDate" (ionChange)="onStartDateChange($event)"></ion-input>
+                            class="label-texts" type="date" [clearOnEdit]="true" 
+                           (ionChange)="onStartDateChange($event)"></ion-input>
                     </ion-item>
 
                     @if (sprintForm.get('fromDate')?.invalid &&
@@ -61,7 +61,7 @@
                     <ion-item class="custom-item" [class.invalid]="isInvalid('toDate')"
                         [class.valid]="isValid('toDate')" lines="none">
                         <ion-input formControlName="toDate" label="End Date" labelPlacement="floating"
-                            class="label-texts" type="date" [clearOnEdit]="true" [min]="minEndDate" [max]="maxEndDate"
+                            class="label-texts" type="date" [clearOnEdit]="true" 
                             (ionChange)="onEndDateChange($event)"></ion-input>
                     </ion-item>
 

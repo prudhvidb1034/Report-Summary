@@ -1,15 +1,13 @@
 import { CommonModule } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
 import { Component, inject } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 import { IonicModule, MenuController } from '@ionic/angular';
-import { map, tap } from 'rxjs';
+import { map } from 'rxjs';
 import { HeaderComponent } from './shared/header/header.component';
 import { LoginService } from './services/login-service/login.service';
 import { ToastComponent } from './shared/toast/toast.component';
 import { LoginStore } from './state/login.store';
 import { SideMenuComponent } from './shared/side-menu/side-menu.component';
-import { ProjectStore } from './state/project.store';
 import { CommonStore } from './state/common.store';
 @Component({
   selector: 'app-root',

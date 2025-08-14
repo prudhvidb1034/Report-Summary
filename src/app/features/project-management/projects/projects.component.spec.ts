@@ -65,7 +65,6 @@ describe('ProjectListComponent', () => {
   // })
 
     it('should create a method for the submit button when form is invalid', () => {
-    const response = component.teamForm.value;
     component.SubmitForm();
     expect(toastServiceSpy.show).toHaveBeenCalledWith('error', 'Please fill in all required fields.');
   })

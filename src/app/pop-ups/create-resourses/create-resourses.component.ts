@@ -115,10 +115,11 @@ export class CreateResoursesComponent {
 //     }else{
 //       this.resourceForm.patchValue({ resourceType: 'Techstack' });
 //     }
-       this.resourceForm.patchValue(this.editData);
+       
+      this.isEditMode = true;
+      this.resourceForm.patchValue(this.editData);
 
        console.log('res',this.resourceForm.value);
-      this.isEditMode = true;
       
     }
 
@@ -310,7 +311,7 @@ export class CreateResoursesComponent {
       if (this.isEditMode && this.editData) {
     
         
-        this.resourceStore.updateResource({ id: this.editData.sprintId, data: formValue });
+        this.resourceStore.updateResource({ id: this.editData.resourceId, data: formValue });
       } else {
         // this.toast.show('error', 'Please fill in all required fields.')
         this.resourceStore.createResource(formValue);

@@ -45,6 +45,7 @@ export const urls = {
     // GET_RESOURCES_FILTER_TYPE:'resources/filter-by-type?type=',
     GET_RESOURCES_FILTER_TYPE: 'Resource/active?sprintId=',
     GET_RESOURCES_SEARCH:'Resource/search/',
+    GET_RESOURCES_LAST_SPRINT:'Resource/previous/sprint/',
         // GET_RESOURCES_FILTER_TYPE:'Resource/search/project?',
         GET_ALL_RESOURCES:'Resource/sprint/page/all?',
         UPDATE_RESOURCE:'Resource',

@@ -144,6 +144,17 @@ export class ProjectResourcesComponent {
     // handle search logic here
   }
 
+  cloneApi(){
+    //  const queryParams = `project?sprintId=${this.sprintId}` +
+    //             `&resourceType=PROJECT` +
+    //             `&projectName=${encodeURIComponent(this.searchTerm)}` +
+    //             `&page=${this.page}` +
+    //             `&size=${this.pageSize}`;
+    this.resourceStore.getResourcesByProjectOrTeckStack({ apiPath: (urls.GET_RESOURCES_LAST_SPRINT + this.sprintId)});
+    this.resourcesList$ = this.resourceStore.resources$;
+
+  }
+
   loadAllResources() {
     const sprintId = this.sprintId
     this.resourceStore.getAllResources(

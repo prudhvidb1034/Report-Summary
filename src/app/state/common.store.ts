@@ -26,13 +26,14 @@ export interface ProjectsStateModel {
   allTechnologies:any;
   loading: boolean;
   error: string | null;
+  flag:boolean;
   weeklyRange:any;
 }
 
 @Injectable({ providedIn: 'root' })
 export class CommonStore extends ComponentStore<ProjectsStateModel> {
   constructor(private sharedservice: SharedService) {
-    super({ allprojects: [],list:[],allAccounts:[],allTechnologies:[],allEmployees:[],weeklyRange:[], loading: false, error: null });
+    super({ allprojects: [],flag:false,list:[],allAccounts:[],allTechnologies:[],allEmployees:[],weeklyRange:[], loading: false, error: null });
   }
 
     readonly allProjects$ = this.select(state => state.allprojects);
@@ -41,6 +42,7 @@ export class CommonStore extends ComponentStore<ProjectsStateModel> {
      readonly allTechnologies$=this.select(state=>state.allTechnologies);
     private toast = inject(ToastService);
     readonly list$ = this.select(state => state.list);
+    readonly flag$=this.select(state=>state.flag)
 
   readonly loading$     = this.select(state => state.loading);
   readonly error$       = this.select(state => state.error);
@@ -63,6 +65,11 @@ export class CommonStore extends ComponentStore<ProjectsStateModel> {
       error: null
     })
   );
+
+    readonly setFlag = this.updater((state, flag: boolean) => ({
+    ...state,
+    flag: flag
+  }));
 
      readonly setEmployees = this.updater(
     (state, employees:any) => ({

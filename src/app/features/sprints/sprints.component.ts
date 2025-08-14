@@ -7,6 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { ConfirmDeleteComponent } from '../../pop-ups/confirm-delete/confirm-delete.component';
+import { CommonStore } from '../../state/common.store';
 
 @Component({
   selector: 'app-sprints',
@@ -28,12 +29,15 @@ export class SprintsComponent {
   private router = inject(Router);
   columns: any[] = [];
   role: string = '';
+  private commonStore=inject(CommonStore);
 
   constructor() {
     this.loadSprint(this.page, this.pageSize)
   }
 
   navigate(event: any) {
+    console.log("event",event);
+    this.commonStore.setFlag(event.item.isEnabled);
     if (event.columnName === 'Weekly Report') {
       this.router.navigateByUrl('sprints/create-weekly-sprint' + '/' + event.item.sprintId, { state: { sprintName: event.item.sprintName } });
     } else if (event.columnName === 'Pi3 Standing') {

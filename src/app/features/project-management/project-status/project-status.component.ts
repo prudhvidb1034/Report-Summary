@@ -412,7 +412,7 @@ export class ProjectStatusComponent extends ComponentStore<State> implements Aft
             const nextProjects = state.projects.slice(currentCount, currentCount + 3);
             return { state, nextProjects };
           }),
-          switchMap(({ state, nextProjects }) =>
+          switchMap(({ nextProjects }) =>
             timer(1500).pipe(
               map(() => {
                 const newStatuses = nextProjects.map(p => {

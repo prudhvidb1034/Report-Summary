@@ -1,6 +1,5 @@
 import { Component, inject } from '@angular/core';
 import { ReusableTableComponent } from "../../shared/reusable-table/reusable-table.component";
-import { Observable, of } from 'rxjs';
 import { IonicModule, ModalController } from '@ionic/angular';
 import { RegisterComponent } from '../../shared/register/register.component';
 import { ConfirmDeleteComponent } from '../../pop-ups/confirm-delete/confirm-delete.component';
@@ -22,7 +21,7 @@ export class ManagersComponent {
   private modalController = inject(ModalController);
 
   private registerStore = inject(RegisterStore);
-  managerList$: any;
+  managerList$!: any;
   isLoading$ = this.registerStore.select(state => state.loading);
   page = 0;
   pageSize = 5;

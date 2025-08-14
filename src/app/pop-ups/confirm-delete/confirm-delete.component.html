@@ -4,7 +4,7 @@
             <b>Delete</b>
         </ion-title>
         <ion-buttons slot="end" class="">
-            <ion-button fill="clear" (click)="setOpen(false)">
+            <ion-button fill="clear" (click)="setOpen()">
                 <ion-icon name="close-outline" class="icon-medium"></ion-icon>
             </ion-button>
         </ion-buttons>
@@ -18,7 +18,7 @@
     <ion-toolbar>
         <ion-buttons slot="end" class="ion-no-paddings">
 
-            <ion-button class="close" (click)="setOpen(false)">No</ion-button>
+            <ion-button class="close" (click)="setOpen()">No</ion-button>
 
             <ion-button class="save-del" (click)="confirm()">Yes,Delete</ion-button>
         </ion-buttons>

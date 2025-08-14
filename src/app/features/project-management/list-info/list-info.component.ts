@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ActivatedRouteSnapshot, Router, RouterOutlet } from '@angular/router';
+import {  RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-list-info',
@@ -9,11 +9,5 @@ import { ActivatedRouteSnapshot, Router, RouterOutlet } from '@angular/router';
   styleUrl: './list-info.component.scss'
 })
 export class ListInfoComponent {
-
-  constructor(private route: Router){
-  }
-  ngOninit(){
-    console.log(this.route.routerState.snapshot.root)
-  }
 
 }

@@ -1,12 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, ViewChild, ElementRef, AfterViewChecked } from '@angular/core';
+import { Component, ViewChild, AfterViewChecked } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { IonicModule, IonContent } from '@ionic/angular';
 import { GemeniAiService } from '../../services/gemeni-ai/gemeni-ai.service';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { MarkdownService } from '../../services/markdown/markdown.service';
 
-// Define a common interface for your ID objects
 interface SelectOption {
   id: string;
   name: string;
@@ -158,15 +157,8 @@ export class AiChatbotComponent implements AfterViewChecked {
       this.messages[lastAiMessageIndex].showProjectIdSelection = false;
       this.messages[lastAiMessageIndex].showEmployeeIdSelection = false;
 
-      // Update the AI's message to reflect the selection, without removing the full original text
-      const originalAiHtml = this.messages[lastAiMessageIndex].displayHtml;
-      // You might want to append the selection confirmation or let the next AI response handle it.
-      // For now, let's keep the original message and send the selection as a user message.
     }
 
-    // Now, send the selected ID along with a confirmation instruction to the service
-    // The service needs to know this is a selection to fulfill a previous prompt
-    // This message is just for display in the chat, the actual selected ID goes via contextIdValue
     const confirmationMessage = `Selected ${selectedName} for ${idType.replace('Id', ' ID')}.`;
     this.messages.push({
       displayHtml: this.sanitizer.bypassSecurityTrustHtml(`<p> ${confirmationMessage}</p>`),

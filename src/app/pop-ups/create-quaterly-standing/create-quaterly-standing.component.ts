@@ -78,13 +78,11 @@ export class CreateQuaterlyStandingComponent {
     });
     if (this.editData) {
       this.quaterlyStandingForm.patchValue(this.editData);
-      console.log(this.quaterlyStandingForm.value);
+      this.quaterlyStandingForm.get('selectedSprint')?.setValue(this.editData.selectedSprints);
       this.isEditMode = true;
-      console.log(this.editData?.piNumber);
-
+    
     }
-    console.log(this.pi);
-
+ 
   }
 
 

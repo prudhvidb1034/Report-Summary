@@ -61,9 +61,12 @@
               </div>
             </div>
           </div>
-
-          <div size="auto" class="display-flex btn-properties">
-            <ion-button style="margin-top: 20px" class="button-cls" (click)="openModal('')">
+          <div size="auto" class="display-flex btn-properties" *ngIf="!(createEnableFlag$ | async)">
+            <ion-button
+              style="margin-top: 20px"
+              class="button-cls"
+              (click)="openModal('')"
+            >
               Create Resource
             </ion-button>
           </div>

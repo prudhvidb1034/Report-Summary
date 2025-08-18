@@ -6,6 +6,8 @@ import { ConfirmDeleteComponent } from '../../pop-ups/confirm-delete/confirm-del
 import { RegisterStore } from '../../state/register.store';
 import { CommonModule } from '@angular/common';
 import { Constants } from '../../constants/string-constants';
+import { Observable } from 'rxjs';
+import { RegistrationForm } from '../../models/register.mode';
 
 @Component({
   selector: 'app-managers',
@@ -21,10 +23,10 @@ export class ManagersComponent {
   private modalController = inject(ModalController);
 
   private registerStore = inject(RegisterStore);
-  managerList$!: any;
+  managerList$!: Observable<RegistrationForm[]>;
   isLoading$ = this.registerStore.select(state => state.loading);
-  page = 0;
-  pageSize = 5;
+  page:number = 0;
+  pageSize:number = 5;
 
   constructor(){
     this.loadManagers(this.page,this.pageSize);
@@ -38,7 +40,8 @@ export class ManagersComponent {
     { header: 'Action', field: 'action', type: ['edit', 'delete'] },
   ];
 
-   handleRowAction(event: any) {
+   handleRowAction(event: { type: string, item: RegistrationForm}) {
+    console.log('Row action event:', event);
     switch (event.type) {
       case 'create':
         this.loadCreateEmployeeModal();
@@ -50,11 +53,17 @@ export class ManagersComponent {
         this.deleteModal(event.item);
         break;
       case 'nextPage':
-        this.page=event.item;
+        if( typeof event.item === 'number') {
+         this.page=event.item;
+        }
+        console.log('Next page:', event.item);
         this.loadManagers(this.page,this.pageSize);
        break;
         case 'pageSize':
-        this.pageSize=event.item;
+           if( typeof event.item === 'number') {
+         this.pageSize=event.item;
+        }
+        
         this.loadManagers(this.page,this.pageSize);
         break;
       default:
@@ -79,7 +88,7 @@ export class ManagersComponent {
     });
   }
 
-  editCreateEmployeeModal(item: any) {
+  editCreateEmployeeModal(item: RegistrationForm) {
     this.modalController.create({
       component: RegisterComponent,
       //  cssClass: 'custom-modal',
@@ -96,7 +105,7 @@ export class ManagersComponent {
       });
     });
   }
-  deleteModal(item: any) {
+  deleteModal(item: RegistrationForm) {
 
     console.log('Selected row data for deletion:', item);
     this.modalController.create({

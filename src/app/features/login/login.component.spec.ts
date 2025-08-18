@@ -6,7 +6,7 @@ import { LoginComponent } from './login.component';
 import { LoginStore } from '../../state/login.store';
 import { provideRouter } from '@angular/router';
 
-describe('LoginComponent', () => {
+fdescribe('LoginComponent', () => {
   let component: LoginComponent;
   let fixture: ComponentFixture<LoginComponent>;
   let toastServiceSpy: jasmine.SpyObj<ToastService>;

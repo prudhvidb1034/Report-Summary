@@ -9,6 +9,6 @@ export interface RegistrationForm {
   projectId?: number;
   projectName?:string;
   techstack?:string;
-
+personId: string;
 }
 

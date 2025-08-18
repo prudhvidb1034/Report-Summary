@@ -20,28 +20,7 @@
         <ion-row>
           <!-- Type Dropdown -->
           <ion-col size="6">
-            <!-- <ion-item
-              class="custom-item"
-              [class.invalid]="isInvalid('resourceType')"
-              [class.valid]="isValid('resourceType')"
-              lines="none"
-            >
-              <ion-select
-                formControlName="resourceType"
-                label="Type"
-                [(ngModel)]="selectedType"
-                labelPlacement="floating"
-                class="label-texts"
-                interface="popover"
-                placeholder="Select Type"
-                (ionChange)="ionSelectChange()"
-              >
-                <ion-select-option value="TECHSTACK"
-                  >Technologies</ion-select-option
-                >
-                <ion-select-option value="PROJECT">Projects</ion-select-option>
-              </ion-select>
-            </ion-item> -->
+       
           <ion-item lines="none" class="custom-item">
               <ion-select
                 interface="popover"
@@ -63,45 +42,13 @@
 
           <!-- Name Auto-Select -->
           <ion-col size="6">
-            <!-- <ion-row>
-               <ion-searchbar
-                formControlName="techStack"
-                [(ngModel)]="projectSearch"
-                [debounce]="300"
-                (ionClear)="clearProjectSearch()"
-                (ionInput)="onProjectTyping()"
-                placeholder="Select"
-                [disabled]="!selectedType"
-              >
-              </ion-searchbar>
-            </ion-row>
-
-            <ion-row *ngIf="projectSearch && !projectSelected">
-              <ion-col size="12">
-                <ion-list class="scroll-list" *ngIf="filteredNames.length">
-                  <ion-item
-                    *ngFor="
-                      let project of filterItems(
-                        filteredNames,
-                        projectSearch,
-                        projectSelected
-                      )
-                    "
-                    button
-                    lines="none"
-                    (click)="selectProject(project)"
-                  >
-                    <ion-label>{{ project }}</ion-label>
-                  </ion-item>
-                </ion-list>
-              </ion-col>
-            </ion-row> -->
+            
           
            <ion-searchbar
                   class="search-bar"
                   [debounce]="300"
                   animated="true"
-                formControlName="techStack"
+                  formControlName= "techStack"
                   [(ngModel)]="searchTerm"
                   (ionInput)="onInput($event)"
                   [disabled]="!selectedType"
@@ -114,6 +61,7 @@
                     *ngFor="let s of suggestions$ | async"
                     (click)="choose(s)"
                   >
+                
                     {{ s.display  }}
                   </ion-item>
                 </ion-list>

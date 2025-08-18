@@ -30,7 +30,7 @@ export class CreateResoursesComponent {
   private router = inject(ActivatedRoute)
   personId = '';
   filteredNames: any[] = [];
- types = [
+  types = [
     { id: 'TECHSTACK', name: 'Technologies' },
     { id: 'PROJECT', name: 'Projects' }
   ];
@@ -41,14 +41,14 @@ export class CreateResoursesComponent {
   @Input() editData: any;
   resourceStore = inject(ResourcesStore)
   private toast = inject(ToastService);
-  list$: any='';
+  list$: any = '';
   selectedType = '';
   sprintId: any;
   rawProjects: any[] = []
   technologies$ = this.commonStore.allTechnologies$;
   projects$ = this.commonStore.allProjects$
-  
-  isLoading$  = this.resourceStore.loading$;
+
+  isLoading$ = this.resourceStore.loading$;
 
   //   .pipe(
   //   map(projects => projects.map((p:any) => p.projectName))
@@ -80,12 +80,12 @@ export class CreateResoursesComponent {
   });
 
 
-ionSelectChange() {
-  const selectedType = this.resourceForm.get('resourceType')?.value;
-  console.log('Selected type:', this.selectedType);
-  this.searchTerm = '';
-  this.updateSuggestions();
-}
+  ionSelectChange() {
+    const selectedType = this.resourceForm.get('resourceType')?.value;
+    console.log('Selected type:', this.selectedType);
+    this.searchTerm = '';
+    this.updateSuggestions();
+  }
 
   ngOnInit() {
 
@@ -118,23 +118,34 @@ ionSelectChange() {
 
     if (this.editData) {
       console.log(this.editData);
+      this.resourceForm.patchValue(this.editData);
       this.isEditMode = true;
+       console.log(this.resourceForm.value);
       this.selectedType = this.editData.resourceType?.toUpperCase();
-      this.projectSearch = this.editData.name;
+      // this.searchTerm="FRONTEND"
+      this.searchTerm = this.editData.name;
       this.resourceForm.patchValue(this.editData);
       this.resourceForm.patchValue({
         resourceType: this.editData.resourceType?.toUpperCase() || '', // convert to uppercase
-        techStack: this.editData.techStack || '',
+        // techStack: this.editData.name || '',
+        // name: this.editData.name || '',
         onsite: this.editData.onsite,
-        offsite: this.editData.offsite
+        offsite: this.editData.offsite,
+
       });
-      console.log('res', this.resourceForm.value);
+        if(this.resourceForm.get('resourceType')?.value === 'TECHSTACK') {
+        this.resourceForm.get('techStack')?.setValue(this.editData.techStack?.toUpperCase() || '');
+      }
+      else if(this.resourceForm.get('resourceType')?.value === 'PROJECT') {
+        this.resourceForm.get('techStack')?.setValue(this.editData.name || '');
+      }
+      console.log('res', this.resourceForm.value,this.editData);
     }
 
 
     this.technologies$.subscribe((val: any) => {
       this.technologies = val;
-      console.log("techlk",val);
+      console.log("techlk", val);
       // console.log(this.technologies);
 
     })
@@ -156,158 +167,51 @@ ionSelectChange() {
       onsite: ['', Validators.required],
       offsite: ['', Validators.required],
       name: ['', Validators.required],
-      type: ['', Validators.required]
+      // type: ['', Validators.required]
     });
 
   }
 
 
-  // ionSelectChange() {
-  //   this.projectSearch = '';
-  //   //this.selectedType=
-  //   this.updateSuggestions();
-  // }
+  updateSuggestions() {
+    const selectedType = this.resourceForm.get('resourceType')?.value;
+    console.log(selectedType);
+    const term = (this.resourceForm.get('techStack')?.value || '').toLowerCase();
+    console.log(this.selectedType, term);
+    this.list$ = selectedType === 'TECHSTACK'
+      ? this.technologies$
+      : selectedType === 'PROJECT'
+        ? this.projects$
+        : of([]);
+    console.log("seleted type", selectedType)
+    this.list$.subscribe((data: any) => {
+      console.log("list", data)
+    })
+    this.suggestions$ = this.list$.pipe(
+      map((list: any[]) =>
+        list
+          .map(item => {
+            console.log(selectedType, item);
 
-
-  // updateSuggestions() {
-  //   this.selectedType === 'TECH_STACK'
-  //     ? this.technologies
-  //     : this.selectedType === 'PROJECT'
-  //       ? this.projects
-  //       : of([]);
-  //   const term = this.projectSearch.toLowerCase();
-  //   this.suggestions$ = this.list$.pipe(
-  //     map((list: any[]) =>
-  //       list.filter(item =>
-  //         item.toLowerCase().includes(this.projectSearch.toLowerCase())
-  //       )
-  //     )
-  //   );
-  // }
-
-  // selectProject(name: any) {
-  //   console.log(name)
-  //   this.projectSearch = name;
-  //   this.projectSelected = true;
-  // }
-
-  // clearProjectSearch() {
-  //   this.projectSearch = '';
-  //   this.projectSelected = false;
-  //   this.filteredProjects = this.filteredNames;
-  // }
-
-  // onProjectTyping() {
-  //   this.projectSelected = false;
-  //   const search = this.projectSearch.toLowerCase();
-  //   this.filteredProjects = this.filteredNames.filter((project: any) =>
-  //     project.toLowerCase().includes(search)
-  //   );
-  // }
-
-
-  //   onProjectTyping(event: any) {
-  //   this.projectSearch = event.detail.value;
-  //   setTimeout(()=>{
-
-  //   },300)
-  //   this.updateSuggestions();
-  // }
-
-  // choose(s: any) {
-  //   this.projectSearch = s;
-  //   this.suggestions$ = of([] as string[]);
-
-  // }
-
-  // filterItems<T>(items: T[], search: string, key: keyof T, selected: boolean): T[] {
-  //   console.log(items, search, key);
-  //   if (!search || selected) return [];
-  //   return items.filter(item =>
-  //     item[key]?.toString().toLowerCase().includes(search.toLowerCase())
-  //   );
-  // }
-
-
-
-  //   updateSuggestions() {
-  //   this.list$ = this.selectedType === 'TECHSTACK'
-  //     ? this.technologies$
-  //     : this.selectedType === 'PROJECT'
-  //       ? this.projects$
-  //       : of([]);
-  //   const term = this.searchTerm.toLowerCase();
-  //   this.suggestions$ = this.list$.pipe(
-  //     map((list: any[]) =>
-  //       list.filter((item:any) =>
-  //         item.toLowerCase().includes(this.searchTerm.toLowerCase())
-  //       )
-  //     )
-  //   );
-  // }
-
-
-//   updateSuggestions() {
-//   this.list$ = this.selectedType === 'TECHSTACK'
-//     ? this.technologies$
-//     : this.selectedType === 'PROJECT'
-//       ? this.projects$
-//       : of([]);
-
-//   const term = this.searchTerm?.toLowerCase() || '';
-
-//   this.suggestions$ = this.list$.pipe(
-//     map((list: any[]) =>
-//       list
-//         .map(item => typeof item === 'string' ? item : item.projectName || item.techName || '') // get correct property
-//         .filter(name => name.toLowerCase().includes(term))
-//     )
-//   );
-// }
-
-
-updateSuggestions() {
-  const selectedType = this.resourceForm.get('resourceType')?.value;
-  const term = (this.resourceForm.get('techStack')?.value || '').toLowerCase();
-  console.log(this.selectedType, term);
-  
-
-  this.list$ = selectedType === 'TECHSTACK'
-    ? this.technologies$
-    : selectedType === 'PROJECT'
-      ? this.projects$
-      : of([]);
-
-      console.log("seleted type",selectedType)
-      this.list$.subscribe((data:any)=>{
-        console.log("list",data)
-      })
-
-  this.suggestions$ = this.list$.pipe(
-    map((list: any[]) =>
-      list
-        .map(item => {
-          console.log(selectedType,item);
-          
-          if (typeof item === 'string') {
-            return { id: item, display: item }; // for technologies
-          }
-          if (selectedType === 'PROJECT') {
-            return { id: item.projectId, display: item.projectName };
-          }
-          return { id: item.techId, display: item.techName };
-        })
-        .filter(obj => obj.display.toLowerCase().includes(term))
-    )
-  );
-}
+            if (typeof item === 'string') {
+              return { id: item, display: item }; // for technologies
+            }
+            if (selectedType === 'PROJECT') {
+              return { id: item.projectId, display: item.projectName };
+            }
+            return { id: item.techId, display: item.techName };
+          })
+          .filter(obj => obj.display.toLowerCase().includes(term))
+      )
+    );
+  }
 
 
 
 
- onInput(event: any) {
-  console.log(event);
-  
+  onInput(event: any) {
+    console.log(event);
+
     this.searchTerm = event.detail.value;
     setTimeout(() => {
 
@@ -315,92 +219,23 @@ updateSuggestions() {
     this.updateSuggestions();
   }
 
-  // choose(name: string) {
-  //   console.log(name);
-    
-  //   this.searchTerm = name;
-  //   this.suggestions$ = of([] as string[]);
-  // }
-
-
   choose(selected: { id: any; display: string }) {
-  this.resourceForm.patchValue({
-    techStack: selected.display,
-    projectId: this.resourceForm.get('resourceType')?.value === 'PROJECT'
-      ? selected.id
-      : null
-  });
-  this.suggestions$ = of([]);
-}
- onSearchClicked() {
+    this.resourceForm.patchValue({
+      techStack: selected.display,
+      projectId: this.resourceForm.get('resourceType')?.value === 'PROJECT'
+        ? selected.id
+        : null
+    });
+    this.suggestions$ = of([]);
+  }
+
+  onSearchClicked() {
     console.log('Searching:', this.selectedType, this.searchTerm);
     // handle search logic here
   }
 
 
-  // ionSelectChange() {
-  //   this.projectSearch = '';
-  //   this.projectSelected = false;
-  //   this.resourceForm.get('name')?.setValue('');
-  //   this.resourceForm.get('projectId')?.setValue(null);
-  //   this.filteredNames = this.selectedType === 'TECHSTACK' ? this.technologies : this.projects;
-  // }
-
-  // onProjectTyping() {
-  //   this.projectSelected = false;
-  //   const search = this.projectSearch.toLowerCase();
-  //   this.filteredNames = (this.selectedType === 'TECHSTACK' ? this.technologies : this.projects)
-  //     .filter((name: string) => name.toLowerCase().includes(search));
-  // }
-
-
-  // selectProject(name: string) {
-  //   this.projectSearch = name;
-  //   this.resourceForm.get('name')?.setValue(name);
-  //   this.projectSelected = true;
-
-  //   if (this.selectedType === 'PROJECT') {
-  //     const selected = this.rawProjects.find(p => p.projectName === name);
-  //     this.resourceForm.get('projectId')?.setValue(selected?.projectId ?? null); // ✅ Set projectId
-  //   } else {
-  //     this.resourceForm.get('projectId')?.setValue(null); // ✅ Clear projectId for technologies
-  //   }
-  // }
-
-  // clearProjectSearch() {
-  //   this.projectSearch = '';
-  //   this.projectSelected = false;
-  //   this.filteredNames = [];
-  //   this.resourceForm.get('projectId')?.setValue(null);
-  // }
-
-  // filterItems(items: string[], search: string, selected: boolean): string[] {
-  //   if (!search || selected) return [];
-  //   return items.filter(item =>
-  //     item.toLowerCase().includes(search.toLowerCase())
-  //   );
-  // }
-
-  // SubmitForm() {
-  //   console.log(this.resourceForm.valid, this.resourceForm.value)
-  //   if (this.resourceForm.value) {
-  //     // const formValue = this.resourceForm.value;
-  //     const formValue = {
-  //       projectId : this.resourceForm.get('projectId')?.value,
-  //       resourceType : this.resourceForm.get('resourceType')?.value,
-  //       onsite: this.resourceForm.get('onsite')?.value,
-  //       offsite: this.resourceForm.get('offsite')?.value
-  //     }
-  //     console.log(formValue);
-  //     if (this.isEditMode && this.editData?.accountId) {
-  //       this.resourceStore.updateDependencies({ id: this.editData.accountId, data: formValue });
-  //     } else {
-  //       this.resourceStore.createResource(formValue);
-  //     }
-  //   } else {
-  //     this.resourceForm.markAllAsTouched();
-  //   }
-  // }
+  
 
   SubmitForm() {
     //  console.log('edit', this.editData, this.resourceForm.valid, this.resourceForm.value);
@@ -424,6 +259,8 @@ updateSuggestions() {
 
       } else if (resourceType === 'TECHSTACK') {
         formValue.techStack = name;
+        console.log(name, formValue.techStack,resourceType);
+        
       }
 
       console.log('Final form value:', formValue);
@@ -441,12 +278,7 @@ updateSuggestions() {
 
 
   setOpen(isOpen: boolean) {
-    // this.isModalOpen = isOpen;
 
-    // if (!isOpen) {
-    //   this.isEditMode = false; // Only reset on close
-    //   this.sprintresourceForm.reset();
-    // }
     this.modalCtrl.dismiss(isOpen);
 
   }

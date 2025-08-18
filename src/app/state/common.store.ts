@@ -158,7 +158,8 @@ export class CommonStore extends ComponentStore<ProjectsStateModel> {
           .getData<ApiResponse<any>>('Account/all')
           .pipe(
             tapResponse(
-              (response:any) => {this.setAccountDetails(response.data)
+              (response:any) => {
+                this.setAccountDetails(response.data)
                 this.getEmployees();
               },
             

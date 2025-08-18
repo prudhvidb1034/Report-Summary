@@ -5,6 +5,7 @@ import { createAccountForm } from '../models/account.model';
 import { SharedService } from '../services/shared/shared.service';
 import { urls } from '../constants/string-constants';
 import { ToastService } from '../shared/toast.service';
+import { CommonStore } from './common.store';
 
 export interface AccountState {
     account: any;
@@ -19,6 +20,7 @@ interface ApiResponse<T> {
 @Injectable()
 export class AccountStore extends ComponentStore<AccountState> {
     private sharedservice = inject(SharedService);
+    private commonStore=inject(CommonStore);
     private _accountCreateStatus = signal<null | 'success' | 'deleted' | 'update' | 'error'>(null);
 
     readonly accountCreateStatus = this._accountCreateStatus.asReadonly();
@@ -40,6 +42,7 @@ export class AccountStore extends ComponentStore<AccountState> {
                     tap({
                         next: (user: any) => {
                             this.patchState({ account: [user], loading: false });
+                            this.commonStore.getAllAccounts();
                             this._accountCreateStatus.set('success');
                         },
                         error: () => {
@@ -85,6 +88,7 @@ export class AccountStore extends ComponentStore<AccountState> {
                         tap({
                             next: (updatedAccount: any) => {
                                 this._accountCreateStatus.set('update');
+                                this.commonStore.getAllAccounts()
                                 this.patchState({ loading: false });
                             },
                             error: () => {

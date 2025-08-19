@@ -1,18 +1,19 @@
 import { Component, inject } from '@angular/core';
-import { IonicModule, ModalController, NavParams } from '@ionic/angular';
+import { IonicModule, ModalController } from '@ionic/angular';
 import { ReusableTableComponent } from "../../../shared/reusable-table/reusable-table.component";
 import { ConfirmDeleteComponent } from '../../../pop-ups/confirm-delete/confirm-delete.component';
-import { ReusablePopUpComponent } from '../../../pop-ups/reusable-pop-up/reusable-pop-up.component';
 import { CreateAccountComponent } from '../../../pop-ups/create-account/create-account.component';
 import { AccountStore } from '../../../state/account.store';
 import { CommonModule } from '@angular/common';
 import { CommonStore } from '../../../state/common.store';
+import { createAccountForm } from '../../../models/account.model';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-account-create',
   standalone: true,
   imports: [ReusableTableComponent, CommonModule,IonicModule],
-  providers: [AccountStore],
+  providers: [],
   templateUrl: './account.component.html',
   styleUrl: './account.component.scss'
 })
@@ -21,11 +22,11 @@ export class AccountCreateComponent {
   label = 'Account';
   accountStore = inject(AccountStore);
   commonStore=inject(CommonStore);
-  accountList$: any;
+  accountList$: Observable<createAccountForm[]> = this.accountStore.account$;
   isLoading$ = this.accountStore.select(state => state.loading);
   isLoadingCommon$=this.commonStore.select(state=>state.loading);
-  page = 0;
-  pageSize = 5;
+  page:number = 0;
+  pageSize:number = 5;
 
 
 constructor() {
@@ -48,10 +49,10 @@ constructor() {
 
 
 
-  handleRowAction(event: any) {
+  handleRowAction(event: { type: string, item: createAccountForm}) {
     switch (event.type) {
       case 'search':
-        this.commonStore.getSearch({type:'Account',searchName:event.item, page: this.page, size: this.pageSize, sortBy: 'accountName'});
+        this.commonStore.getSearch({type:'Account',searchName:event.item.accountName, page: this.page, size: this.pageSize, sortBy: 'accountName'});
          this.accountList$ = this.commonStore.list$;
         break;
       case 'create':
@@ -64,11 +65,15 @@ constructor() {
         this.updateCreateEmployeeModal(event.item);
         break;
       case 'nextPage':
-        this.page = event.item;
+          if( typeof event.item === 'number') {
+         this.page=event.item;
+        }
         this.loadAccounts(this.page, this.pageSize)
         break;
       case 'pageSize':
-        this.pageSize = event.item;
+         if( typeof event.item === 'number') {
+         this.pageSize=event.item;
+        }
         this.loadAccounts(this.page, this.pageSize)
         break;
       default:
@@ -99,7 +104,7 @@ constructor() {
   }
 
 
-  updateCreateEmployeeModal(item: any) {
+  updateCreateEmployeeModal(item: createAccountForm) {
     console.log('Selected row data:', item);
     this.modalController.create({
       component: CreateAccountComponent,
@@ -116,7 +121,7 @@ constructor() {
     });
   }
 
-  deleteModal(item: any) {
+  deleteModal(item: createAccountForm) {
     this.modalController.create({
       component: ConfirmDeleteComponent,
       cssClass: 'custom-delete-modal',

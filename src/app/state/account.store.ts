@@ -1,6 +1,6 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
-import { debounceTime, exhaustMap, Observable, switchMap, tap } from 'rxjs';
+import { exhaustMap, Observable, switchMap, tap } from 'rxjs';
 import { createAccountForm } from '../models/account.model';
 import { SharedService } from '../services/shared/shared.service';
 import { urls } from '../constants/string-constants';
@@ -8,7 +8,7 @@ import { ToastService } from '../shared/toast.service';
 import { CommonStore } from './common.store';
 
 export interface AccountState {
-    account: any;
+    account: createAccountForm[];
     loading: boolean;
     error: string | null;
 }
@@ -38,9 +38,9 @@ export class AccountStore extends ComponentStore<AccountState> {
         account$.pipe(
             exhaustMap(account => {
                 this.patchState({ loading: true, error: null });
-                return this.sharedservice.postData(urls.CREATE_ACCOUNT, account).pipe(
+                return this.sharedservice.postData<createAccountForm>(urls.CREATE_ACCOUNT, account).pipe(
                     tap({
-                        next: (user: any) => {
+                        next: (user) => {
                             this.patchState({ account: [user], loading: false });
                             this.commonStore.getAllAccounts();
                             this._accountCreateStatus.set('success');
@@ -65,7 +65,7 @@ export class AccountStore extends ComponentStore<AccountState> {
                             (accounts) => {
                                 this.patchState({ account: accounts.data, loading: false });
                             },
-                            (error) => {
+                             (error) => {
                                 this.patchState({ loading: false, error: 'Failed to fetch accounts' });
                                 this.toast.show('error', 'Failed to load accounts!');
                             }
@@ -86,7 +86,7 @@ export class AccountStore extends ComponentStore<AccountState> {
                     this.patchState({ loading: true, error: null });
                     return this.sharedservice.patchData(`${urls.CREATE_ACCOUNT}/${id}`, data).pipe(
                         tap({
-                            next: (updatedAccount: any) => {
+                            next: () => {
                                 this._accountCreateStatus.set('update');
                                 this.commonStore.getAllAccounts()
                                 this.patchState({ loading: false });

@@ -59,11 +59,35 @@ export class ResourcesStore extends ComponentStore<resourcesState> {
                   switchMap(({apiPath }) =>
                       this.sharedservice.getData<any>(`${apiPath}`).pipe(
                           tapResponse(
-                              (resources) => {
-                                setTimeout(()=>{
-                                this.patchState({ resources: resources.data, loading: false });
-                                },600)
-                              },
+                              (response) => 
+                                 {
+            const modifiedContent = response.data?.content?.map((res: any) => ({
+              ...res,
+              name:
+                res.resourceType?.toLowerCase() === 'project'
+                  ? res.projectName
+                  : res.resourceType?.toLowerCase() === 'techstack'
+                  ? res.techStack
+                  : null
+            })) || [];
+
+            const updatedData = {
+              ...response.data,
+              content: modifiedContent
+            };
+
+            setTimeout(() => {
+              this.patchState({ resources: updatedData, loading: false });
+            }, 600);
+          },
+
+
+                                
+                            //     {
+                            //     setTimeout(()=>{
+                            //     this.patchState({ resources: resources.data, loading: false });
+                            //     },600)
+                            //   },
                               (error) => {
                                   this.patchState({ loading: false, error: 'Failed to fetch resources' });
                                   this.toast.show('error', 'Failed to fetch resources!');
@@ -82,11 +106,35 @@ export class ResourcesStore extends ComponentStore<resourcesState> {
                   switchMap(({apiPath }) =>
                       this.sharedservice.getData<any>(`${apiPath}`).pipe(
                           tapResponse(
-                              (resources) => {
-                                setTimeout(()=>{
-                                this.patchState({ resources: resources.data, loading: false });
-                                },600)
-                              },
+                              (response) => 
+ {
+            const modifiedContent = response.data?.content?.map((res: any) => ({
+              ...res,
+              name:
+                res.resourceType?.toLowerCase() === 'project'
+                  ? res.projectName
+                  : res.resourceType?.toLowerCase() === 'techstack'
+                  ? res.techStack
+                  : null
+            })) || [];
+
+            const updatedData = {
+              ...response.data,
+              content: modifiedContent
+            };
+
+            setTimeout(() => {
+              this.patchState({ resources: updatedData, loading: false });
+            }, 600);
+          },
+
+
+
+                            //     {
+                            //     setTimeout(()=>{
+                            //     this.patchState({ resources: resources.data, loading: false });
+                            //     },600)
+                            //   },
                               (error) => {
                                   this.patchState({ loading: false, error: 'Failed to fetch resources' });
                                   this.toast.show('error', 'Failed to fetch resources!');

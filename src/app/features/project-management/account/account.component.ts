@@ -13,7 +13,7 @@ import { Observable } from 'rxjs';
   selector: 'app-account-create',
   standalone: true,
   imports: [ReusableTableComponent, CommonModule,IonicModule],
-  providers: [],
+  providers: [AccountStore],
   templateUrl: './account.component.html',
   styleUrl: './account.component.scss'
 })

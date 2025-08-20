@@ -1,4 +1,3 @@
-import { UPDATE } from "@ngrx/store"
 import { environment } from "../../environments/environment"
 
 export const Constants = {

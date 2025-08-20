@@ -2,7 +2,6 @@ import { inject, Injectable, signal } from "@angular/core";
 import { ComponentStore, tapResponse } from "@ngrx/component-store";
 import { exhaustMap, Observable, switchMap, tap } from "rxjs";
 import { createProject } from "../models/project.model";
-import { TeamListService } from "../services/team-list/team-list.service";
 import { SharedService } from "../services/shared/shared.service";
 import { urls } from "../constants/string-constants";
 import { ToastService } from "../shared/toast.service";
@@ -30,7 +29,6 @@ export class ProjectStore extends ComponentStore<TeamState> {
   private _accountCreateStatus = signal<null | 'success' | 'deleted' | 'update' | 'error'>(null);
   private toast = inject(ToastService)
   readonly accountCreateStatus = this._accountCreateStatus.asReadonly();
-  private readonly teamListService = inject(TeamListService);
   private sharedservice = inject(SharedService);
   readonly team$ = this.select(state => state.teamDetails);
   //readonly fullProjects$=this.select(state=>state.allprojects);

@@ -4,7 +4,6 @@ import { CommonModule } from '@angular/common';
 import { IonicModule, ModalController } from '@ionic/angular';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CreateResoursesComponent } from '../../pop-ups/create-resourses/create-resourses.component';
-import { SprintStore } from '../../state/sprint.store';
 import { ResourcesStore } from '../../state/resources.store';
 import { urls } from '../../constants/string-constants';
 import { CommonStore } from '../../state/common.store';
@@ -107,6 +106,9 @@ export class ProjectResourcesComponent {
 
 }
   this.resourcesList$ = this.resourceStore.resources$;
+  this.resourcesList$.subscribe((val: any) => {
+      console.log(val);
+    });
   }
 
 
@@ -180,7 +182,6 @@ export class ProjectResourcesComponent {
 
   openModal(item: any) {
     // console.log(item);
-
     this.modalController.create({
       component: CreateResoursesComponent,
       cssClass: 'create-account-modal',

@@ -116,6 +116,7 @@ constructor() {
       modal.present();
       modal.onDidDismiss().then((data) => {
        // this.accountStore.getAccounts();
+        this.loadAccounts(this.page,this.pageSize);
         console.log('Modal dismissed with data:', data);
       });
     });

@@ -31,7 +31,6 @@ export class ProjectStore extends ComponentStore<TeamState> {
   readonly accountCreateStatus = this._accountCreateStatus.asReadonly();
   private sharedservice = inject(SharedService);
   readonly team$ = this.select(state => state.teamDetails);
-  //readonly fullProjects$=this.select(state=>state.allprojects);
 
   readonly addTeam = this.effect((projects$: Observable<createProject>) =>
     projects$.pipe(
@@ -64,33 +63,6 @@ readonly setProjectDetails = this.updater(
   })
 );
 
-// readonly getAllProjects = this.effect<void>(trigger$ =>
-//   trigger$.pipe(
-//     tap(() => this.patchState({ loading: true, error: null })),
-//     switchMap(() =>
-//       this.sharedservice
-//         .getData<ApiResponse<createProject[]>>(`projects/all`)
-//         .pipe(
-//           tapResponse(
-//             response => {
-//               this.patchState({
-//                 allprojects: response.data, // <-- access array correctly
-//                 loading: false
-//               });
-//             },
-//             error => {
-//               this.patchState({
-//                 loading: false,
-//                 error: 'Failed to fetch projects'
-//               });
-//             }
-//           )
-//         )
-//     )
-//   )
-// );
-
-
   readonly getTeam = this.effect<{ page: number; size: number; sortBy: string }>(
     trigger$ =>
       trigger$.pipe(
@@ -118,7 +90,7 @@ readonly setProjectDetails = this.updater(
           this.patchState({ loading: true, error: null });
           return this.sharedservice.patchData(`${urls.CREATE_PROJECT}/${id}`, data).pipe(
             tap({
-              next: (updatedAccount: any) => {
+              next: () => {
                 this._accountCreateStatus.set('update');
                 this.patchState({ loading: false });
               },
@@ -142,7 +114,7 @@ readonly setProjectDetails = this.updater(
             () => {
               this.patchState({ loading: false });
               this._accountCreateStatus.set('deleted');
-              this.getTeam({ page: 0, size: 5, sortBy: 'accountName' });
+              this.getTeam({ page: 0, size: 5, sortBy: 'projectName' });
               this.toast.show('success', 'Account deleted successfully!');
             },
             (error) => {

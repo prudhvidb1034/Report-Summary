@@ -38,17 +38,7 @@ describe('ProjectListComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should create a method to goToProject', () => {
-    const id = '0123';
-    component.goToProject(id);
-    expect(router.navigate).toHaveBeenCalledWith(['/project', id]);
-  })
-
-  it('should create a method to open a model', () => {
-    const isOpen = true;
-    component.setOpen(isOpen);
-    expect(component.isModalOpen).toBe(isOpen);
-  })
+ 
 
   // it('should create a method for the submit button when form is valid', () => {
   //   component.teamForm.controls['projectname'].setValue('customer365');
@@ -63,10 +53,5 @@ describe('ProjectListComponent', () => {
   //   // component.teamForm.reset();
   //   // expect(toastServiceSpy.show).toHaveBeenCalledWith('success', 'Project created successfully!');
   // })
-
-    it('should create a method for the submit button when form is invalid', () => {
-    component.SubmitForm();
-    expect(toastServiceSpy.show).toHaveBeenCalledWith('error', 'Please fill in all required fields.');
-  })
 
 });

@@ -1,6 +1,5 @@
 <app-reusable-table [columns]="columns" [data]="projectList$" (rowAction)="handleRowAction($event)"
-    [label]="label" [searchTerm]="searchProject"
-  (searchTermChanged)="onSearchTermChanged($event)"></app-reusable-table>
+    [label]="label" [searchTerm]="searchProject"></app-reusable-table>
 
 <ng-container *ngIf="{ 
     a: isLoading$ | async, 

@@ -35,12 +35,12 @@ export class CreateProjectComponent {
 
     if (status === 'success') {
       this.setOpen(false);
-      this.toast.show('success', 'Account created successfully!');
+      this.toast.show('success', 'Project created successfully!');
     } else if (status === 'update') {
       this.setOpen(false);
-      this.toast.show('success', 'Account updated successfully!');
+      this.toast.show('success', 'Project updated successfully!');
     } else if (status === 'deleted') {
-      this.toast.show('success', 'Account deleted successfully!');
+      this.toast.show('success', 'Project deleted successfully!');
     } else if (status === 'error') {
       this.toast.show('error', 'Something went wrong!');
     }

@@ -12,7 +12,7 @@ import { RegistrationForm } from '../../models/register.mode';
 @Component({
   selector: 'app-managers',
   standalone: true,
-  imports: [ReusableTableComponent, CommonModule,IonicModule],
+  imports: [ReusableTableComponent, CommonModule, IonicModule],
   providers: [RegisterStore],
   templateUrl: './managers.component.html',
   styleUrl: './managers.component.scss'
@@ -25,11 +25,11 @@ export class ManagersComponent {
   private registerStore = inject(RegisterStore);
   managerList$!: Observable<RegistrationForm[]>;
   isLoading$ = this.registerStore.select(state => state.loading);
-  page:number = 0;
-  pageSize:number = 5;
+  page: number = 0;
+  pageSize: number = 5;
 
-  constructor(){
-    this.loadManagers(this.page,this.pageSize);
+  constructor() {
+    this.loadManagers(this.page, this.pageSize);
   }
 
   columns = [
@@ -40,7 +40,7 @@ export class ManagersComponent {
     { header: 'Action', field: 'action', type: ['edit', 'delete'] },
   ];
 
-   handleRowAction(event: { type: string, item: RegistrationForm}) {
+  handleRowAction(event: { type: string, item: RegistrationForm }) {
     console.log('Row action event:', event);
     switch (event.type) {
       case 'create':
@@ -53,18 +53,17 @@ export class ManagersComponent {
         this.deleteModal(event.item);
         break;
       case 'nextPage':
-        if( typeof event.item === 'number') {
-         this.page=event.item;
+        if (typeof event.item === 'number') {
+          this.page = event.item;
         }
-        console.log('Next page:', event.item);
-        this.loadManagers(this.page,this.pageSize);
-       break;
-        case 'pageSize':
-           if( typeof event.item === 'number') {
-         this.pageSize=event.item;
+              this.loadManagers(this.page, this.pageSize);
+        break;
+      case 'pageSize':
+        if (typeof event.item === 'number') {
+          this.pageSize = event.item;
         }
-        
-        this.loadManagers(this.page,this.pageSize);
+
+        this.loadManagers(this.page, this.pageSize);
         break;
       default:
         console.log('Unknown action type:');
@@ -74,16 +73,13 @@ export class ManagersComponent {
   loadCreateEmployeeModal() {
     this.modalController.create({
       component: RegisterComponent,
-      //  cssClass: 'custom-modal',
       componentProps: {
         role: 'manager',
       }
     }).then((modal) => {
       modal.present();
       modal.onDidDismiss().then((data) => {
-        this.registerStore.getRegisterData({ page: this.page, size: this.pageSize, sortBy: 'firstName', url:Constants.ROLE_MANAGER });
-        console.log('Modal dismissed with data:', data);
-        // Handle any data returned from the modal if needed
+        this.registerStore.getRegisterData({ page: this.page, size: this.pageSize, sortBy: 'firstName', url: Constants.ROLE_MANAGER });
       });
     });
   }
@@ -91,7 +87,6 @@ export class ManagersComponent {
   editCreateEmployeeModal(item: RegistrationForm) {
     this.modalController.create({
       component: RegisterComponent,
-      //  cssClass: 'custom-modal',
       componentProps: {
         role: 'manager',
         editData: item,
@@ -99,9 +94,8 @@ export class ManagersComponent {
     }).then((modal) => {
       modal.present();
       modal.onDidDismiss().then((data) => {
-        this.registerStore.getRegisterData({ page: this.page, size: this.pageSize, sortBy: 'firstName', url:Constants.ROLE_MANAGER});
+        this.registerStore.getRegisterData({ page: this.page, size: this.pageSize, sortBy: 'firstName', url: Constants.ROLE_MANAGER });
         console.log('Modal dismissed with data:12345667', data);
-        // Handle any data returned from the modal if needed
       });
     });
   }
@@ -112,7 +106,7 @@ export class ManagersComponent {
       component: ConfirmDeleteComponent,
       cssClass: 'custom-delete-modal',
 
-       componentProps: {
+      componentProps: {
         role: 'delete',
         data: {
           id: item.personId,
@@ -120,7 +114,7 @@ export class ManagersComponent {
 
         }
       }
-     
+
     }).then((modal) => {
       modal.present();
       modal.onDidDismiss().then((result) => {
@@ -131,8 +125,8 @@ export class ManagersComponent {
     });
   }
 
-  loadManagers(pageNum:number,pageSize:number){
-  this.registerStore.getRegisterData({ page: pageNum, size: pageSize, sortBy: 'firstName', url:Constants.ROLE_MANAGER });
-  this.managerList$ = this.registerStore.register$;
-}
+  loadManagers(pageNum: number, pageSize: number) {
+    this.registerStore.getRegisterData({ page: pageNum, size: pageSize, sortBy: 'firstName', url: Constants.ROLE_MANAGER });
+    this.managerList$ = this.registerStore.register$;
+  }
 }

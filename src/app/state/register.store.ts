@@ -33,8 +33,8 @@ export class RegisterStore extends ComponentStore<RegistrationState> {
 
   }
   private toast = inject(ToastService);
-  readonly register$ = this.select(state => state.register);
-  readonly loading$ = this.select(state => state.loading);
+  public register$ = this.select(state => state.register);
+  public loading$ = this.select(state => state.loading);
   readonly error$ = this.select(state => state.error);
   readonly addregister = this.effect((register$: Observable<RegistrationForm>) =>
     register$.pipe(

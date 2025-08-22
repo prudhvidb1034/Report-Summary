@@ -90,7 +90,7 @@ ion-item {
   text-decoration: underline;
 }
 
-.copy-row.disabled {
+.disabled {
   pointer-events: none;
   opacity: 0.5;
   cursor: default;

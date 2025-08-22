@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationEnd, ActivatedRoute, RouterLink } from '@angular/router';
 import { filter, map, distinctUntilChanged } from 'rxjs/operators';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { Observable } from 'rxjs';
 import { ComponentStore } from '@ngrx/component-store';
 import { Injectable } from '@angular/core';
 import { IonicModule } from '@ionic/angular';

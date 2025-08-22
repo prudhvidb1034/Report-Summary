@@ -7,9 +7,9 @@ import { CreateResoursesComponent } from '../../pop-ups/create-resourses/create-
 import { ResourcesStore } from '../../state/resources.store';
 import { urls } from '../../constants/string-constants';
 import { CommonStore } from '../../state/common.store';
-import { map } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { of } from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
+import {Router, ActivatedRoute } from '@angular/router';
 import { ConfirmDeleteComponent } from '../../pop-ups/confirm-delete/confirm-delete.component';
 
 @Component({
@@ -25,7 +25,8 @@ export class ProjectResourcesComponent {
   private modalController = inject(ModalController);
   private resourceStore = inject(ResourcesStore);
   private commonStore = inject(CommonStore);
-  private router = inject(ActivatedRoute)
+  private router = inject(ActivatedRoute);
+  private routerVal=inject(Router);
   isLoading$ = this.resourceStore.select(state => state.loading);
   types = [
     { id: 'TECHSTACK', name: 'Technologies' },
@@ -33,7 +34,7 @@ export class ProjectResourcesComponent {
   ];
   page = 0;
   pageSize = 10;
-  resourcesList$: any;
+  resourcesList$!:Observable<any>
   copyDisabled = false;
 
   // sample arrays
@@ -49,6 +50,7 @@ export class ProjectResourcesComponent {
   suggestions$: any;
   list$: any;
   sprintId: any;
+  suggestionsArray=[];
   createEnableFlag$=this.commonStore.flag$;
 
   ionSelectChange() {
@@ -58,7 +60,7 @@ export class ProjectResourcesComponent {
 
   ngOnInit() {
 
-    this.sprintId = this.router.snapshot.paramMap.get('id')
+    this.sprintId = this.router.snapshot.paramMap.get('id'); 
     this.technologies$.subscribe((data: any) => {
       // console.log(data)
     })
@@ -140,7 +142,7 @@ export class ProjectResourcesComponent {
 
   choose(name: string) {
     this.searchTerm = name;
-    this.suggestions$ = of([] as string[]);
+    this.suggestions$ = of('');
   }
 
   onSearchClicked() {

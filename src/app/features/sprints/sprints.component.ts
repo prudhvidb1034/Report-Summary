@@ -70,6 +70,8 @@ export class SprintsComponent {
       { header: 'OverAll Report', field: 'View', linkEnable: true, link: '/sprint-report' }
     ];
   }
+
+  
   handleRowAction(event: any) {
     switch (event.type) {
       case 'create':
@@ -127,10 +129,6 @@ export class SprintsComponent {
       });
     });
   }
-
-  // navigateToQuaterlyStandingReport{
-
-  // }
 
   updateCreateEmployeeModal(item: any) {
     this.modalController.create({

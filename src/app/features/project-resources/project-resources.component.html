@@ -49,13 +49,15 @@
             </ion-button>
           </div>
         </div>
+    <!-- Use async pipe and safe navigation to access note -->
 
+<!-- {{resourcesList$ | async |json}} -->
         <!-- Create Button -->
         <div style="display: flex; flex-direction: row; gap: 40px">
           <div class="display-flex btn-properties" title="Resources added through earlier sprint"
             [class.disabled]="copyDisabled" (click)="copyDisabled ? null : copyResources()">
-            <div style="display: flex; flex-direction: row; align-items: flex-end">
-              <div class="cursor" style="margin-top: 20px; text-decoration: underline" (click)="cloneApi()">
+            <div style="display: flex; flex-direction: row; align-items: flex-end"  *ngIf="resourcesList$ | async as d">
+              <div class="cursor" style="margin-top: 20px; text-decoration: underline" (click)="cloneApi()"[ngClass]="{ 'disabled': d.note== 'CLONED' }">
                 <ion-icon name="copy" slot="start"></ion-icon>&nbsp;
                 <span>Clone</span>
               </div>

@@ -13,6 +13,8 @@ export class SharedService {
  private localUrl='http://localhost:4200'
  
  sprintId:any;
+  sharedValue: any;
+  projectArray:any[]=[];
 
   getData<T>(url: string): Observable<T> {
     return this.http.get<T>(this.url+url);
@@ -24,6 +26,11 @@ export class SharedService {
   patchData<T>(url: string, data: any): Observable<T> {
     return this.http.put<T>(this.url+url, data);
   }
+
+  // patchVal(url: string): Observable<ArrayBuffer> {
+  //   return this.http.put(this.url+url, null, { responseType: 'arraybuffer' });
+  // }
+
 
   deleteData<T>(url: string): Observable<T> {
     return this.http.delete<T>(this.url+url);

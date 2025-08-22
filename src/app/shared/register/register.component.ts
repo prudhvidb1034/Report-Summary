@@ -62,14 +62,14 @@ export class RegisterComponent {
     if (status === 'success') {
       // this.accountStore.getAccounts();
       this.setOpen(false);
-      this.toast.show('success', 'Account created successfully!');
+      this.toast.show('success', 'User created successfully!');
 
     } else if (status === 'update') {
       this.setOpen(false);
-      this.toast.show('success', 'Account updated successfully!');
+      this.toast.show('success', 'User updated successfully!');
 
     } else if (status === 'deleted') {
-      this.toast.show('success', 'Account deleted successfully!');
+      this.toast.show('success', 'User deleted successfully!');
 
     } else if (status === 'error') {
       this.toast.show('error', 'Something went wrong!');

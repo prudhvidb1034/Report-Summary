@@ -61,12 +61,19 @@ private datePipe=inject(WeekRangePipe);
         this.navigate(event);
         break;
       case 'toggle-status'  :
+        this.toggleAPI(event);
         // this.sprintStore.disableWeekId()
         break;
 
       default:
         console.log('Unknown action type:', event.type);
     }
+  }
+
+   toggleAPI(event:any){
+    this.sprintStore.weeklyToggle(event.item.weekId);
+    //this.loadWeeklyReport();
+  // console.log("weekly-toggle",event);
   }
 
   loadCreateEmployeeModal() {
@@ -97,7 +104,8 @@ private datePipe=inject(WeekRangePipe);
 
   navigate(event: any) {
     if (event.columnName === 'Weekly Update') {
-      console.log(event);
+      console.log("event.item.weekId",event.item.weekId);
+      this.commonServive.sharedValue=event.item;
       this.router.navigateByUrl('sprints/create-weekly-sprint/create-weekly-report-sprint'+'/'+event.item.weekId,  { state: { name: this.datePipe.transform(event.item) } });
     }
   }

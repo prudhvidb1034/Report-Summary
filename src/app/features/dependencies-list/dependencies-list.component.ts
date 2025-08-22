@@ -1,37 +1,45 @@
 import { Component, inject } from '@angular/core';
 import { ReusableTableComponent } from "../../shared/reusable-table/reusable-table.component";
-import { Observable, of } from 'rxjs';
 import { DependenciesStore } from '../../state/dependecies.store';
-import { ModalController } from '@ionic/angular';
+import { IonicModule, ModalController } from '@ionic/angular';
 import { ConfirmDeleteComponent } from '../../pop-ups/confirm-delete/confirm-delete.component';
 import { CreateDependenciesListComponent } from '../../pop-ups/create-dependencies-list/create-dependencies-list.component';
+import { CommonModule } from '@angular/common';
+import { CommonStore } from '../../state/common.store';
+import { ActivatedRoute } from '@angular/router';
+import { Observable } from 'rxjs';
+import { Dependency } from '../../models/sprints.model';
 
 @Component({
   selector: 'app-dependencies-list',
   standalone: true,
-  imports: [ReusableTableComponent],
-  providers:[DependenciesStore],
+  imports: [ReusableTableComponent, CommonModule, IonicModule],
+  providers: [DependenciesStore],
   templateUrl: './dependencies-list.component.html',
   styleUrl: './dependencies-list.component.scss'
 })
+
 export class DependenciesListComponent {
-
-
+  sprintDependencies$!: Observable<Dependency[]>;
   label = 'Dependencies';
-private dependenciesStore = inject(DependenciesStore);
-    page = 0;
+  private dependenciesStore = inject(DependenciesStore);
+  page = 0;
   pageSize = 5;
-
-private  modalController = inject(ModalController);
-isLoading$ = this.dependenciesStore.select(state => state.loading);
+  sprintId!: string;
+  private commonStore = inject(CommonStore);
+  private modalController = inject(ModalController);
+  private route = inject(ActivatedRoute)
+  isLoadingCommon$ = this.commonStore.select(state => state.loading);
+  isLoading$ = this.dependenciesStore.select(state => state.loading);
+  createEnableFlag$=this.commonStore.flag$;
 
   columns = [
-    { header: 'Team', field: 'team' },
-    { header: 'Dependency', field: 'dependencyBlocker' },
+    { header: 'Team', field: 'projectName' },
+    { header: 'Dependency', field: 'type' },
     { header: 'Description', field: 'description' },
     { header: 'Owner', field: 'owner' },
-    { header: 'Date', field: 'dateStatus' },
-    { header: 'Status', field: 'accountEndDate' },
+    { header: 'Date', field: 'date' },
+    { header: 'Status', field: 'statusIn' },
     { header: 'Impact', field: 'impact' },
     { header: 'Action Taken', field: 'actionTaken' },
 
@@ -39,66 +47,35 @@ isLoading$ = this.dependenciesStore.select(state => state.loading);
   ];
 
 
-  sprintDependencies$: Observable<any[]> = of([
 
-    {
-      team: "Employee Portal",
-      dependencyBlocker: "Backend API not ready",
-      description: "The frontend team is blocked due to pending API endpoints from the backend team.",
-      owner: "John Doe",
-      dateStatus: "2025-07-28 - Blocked",
-      impact: "Delays UI integration and testing.",
-      actionTaken: "Followed up with backend team; awaiting response."
-    },
-    {
-      team: "Employee Portal",
-      dependencyBlocker: "Database schema changes",
-      description: "Backend team is waiting for final database schema from the DB architect.",
-      owner: "Alice Smith",
-      dateStatus: "2025-07-28 - In Progress",
-      impact: "Cannot finalize API contracts until schema is locked.",
-      actionTaken: "DB architect assigned; expected completion by tomorrow."
-    },
-    {
-      team: "Employee Portal",
-      dependencyBlocker: "Environment setup issue",
-      description: "QA team cannot start testing due to issues in test environment configuration.",
-      owner: "Robert Wilson",
-      dateStatus: "2025-07-27 - Blocked",
-      impact: "Testing timelines will be pushed by 2 days.",
-      actionTaken: "DevOps team is fixing environment; estimated completion today."
-    }
-  ]);
+  ngOnInit() {
 
-  ngOnInit(){
-    this.dependenciesStore.getDependencies({page:this.page,size:this.pageSize});
-    this.sprintDependencies$=this.dependenciesStore.dependencies$
+
+    this.sprintId = this.route.snapshot.paramMap.get('id') ?? '';
+    this.loadDependency(this.page, this.pageSize);
   }
 
 
- handleRowAction(event: any) {
+  loadDependency(pageNum: number, pageSize: number) {
+    this.dependenciesStore.getDependencies({
+       sprintId: this.sprintId,
+      page: pageNum, size: pageSize });
+    this.sprintDependencies$ = this.dependenciesStore.dependencies$;
+  }
+
+  handleRowAction(event: { type: string; item?: Dependency }) {
     switch (event.type) {
-      // case 'search':
-      //   this.commonStore.getSearch({type:'Account',searchName:event.item, page: this.page, size: this.pageSize, sortBy: 'accountName'});
-      //    this.accountList$ = this.commonStore.list$;
-      //   break;
       case 'create':
         this.loadCreateEmployeeModal();
         break;
       case 'delete':
-          this.deleteModal(event.item);
+        if(event.item){
+        this.deleteModal(event.item);
+        }
         break;
       case 'edit':
         this.updateCreateEmployeeModal(event.item);
         break;
-      // case 'nextPage':
-      //   this.page = event.item;
-      //   this.loadAccounts(this.page, this.pageSize)
-      //   break;
-      // case 'pageSize':
-      //   this.pageSize = event.item;
-      //   this.loadAccounts(this.page, this.pageSize)
-      //   break;
       default:
         console.log('Unknown action type:', event.type);
     }
@@ -109,59 +86,64 @@ isLoading$ = this.dependenciesStore.select(state => state.loading);
 
 
 
-   loadCreateEmployeeModal() {
-      this.modalController.create({
-        component: CreateDependenciesListComponent,
-        cssClass: 'create-dependency-modal',
-        componentProps: {
-  
-        }
-      }).then((modal) => {
-        modal.present();
-        modal.onDidDismiss().then((data) => {
-          // this.loadAccounts(this.page,this.pageSize);
-          console.log('Modal dismissed with data:', data);
-        });
+  loadCreateEmployeeModal() {
+    this.modalController.create({
+      component: CreateDependenciesListComponent,
+      cssClass: 'create-dependency-modal',
+      componentProps: {
+        sprintId: this.sprintId
+      }
+    }).then((modal) => {
+      modal.present();
+      modal.onDidDismiss().then((data) => {
+      this.loadDependency(this.page, this.pageSize);
+        console.log('Modal dismissed with data:', data);
       });
+    });
+  }
+
+
+  updateCreateEmployeeModal(item: Dependency | undefined) {
+    if (!item) {
+      console.warn('No dependency item provided for editing.');
+      return;
     }
-  
-  
-    updateCreateEmployeeModal(item: any) {
-      console.log('Selected row data:', item);
-      this.modalController.create({
-        component: CreateDependenciesListComponent,
-        cssClass: 'create-account-modal',
-        componentProps: {
-          editData: item
-        }
-      }).then((modal) => {
-        modal.present();
-        modal.onDidDismiss().then((data) => {
-         // this.accountStore.getAccounts();
-          console.log('Modal dismissed with data:', data);
-        });
+    console.log('Selected row data:', item);
+    this.modalController.create({
+      component: CreateDependenciesListComponent,
+      cssClass: 'create-dependency-modal',
+      componentProps: {
+        editData: item
+      }
+    }).then((modal) => {
+      modal.present();
+      modal.onDidDismiss().then((data) => {
+        // this.accountStore.getAccounts();
+        console.log('Modal dismissed with data:', data);
       });
-    }
-  
-    deleteModal(item: any) {
-      this.modalController.create({
-        component: ConfirmDeleteComponent,
-        cssClass: 'custom-delete-modal',
-        componentProps: {
-          role: 'delete',
-          data: {
-            id: item.accountId,
-            name: item.accountName,
-  
-          }
+    });
+  }
+
+  deleteModal(item: Dependency) {
+    console.log("delete",item)
+    this.modalController.create({
+      component: ConfirmDeleteComponent,
+      cssClass: 'custom-delete-modal',
+      componentProps: {
+        role: 'delete',
+        data: {
+          id: item?.id,
+          name: item.owner,
+
         }
-      }).then((modal) => {
-        modal.present();
-        modal.onDidDismiss().then((result) => {
-          if (result?.data?.confirmed) {
-            // this.accountStore.deleteAccount(result.data.id);
-          }
-        });
+      }
+    }).then((modal) => {
+      modal.present();
+      modal.onDidDismiss().then((result) => {
+        if (result?.data?.confirmed) {
+          this.dependenciesStore.deleteDepedency(result.data.id);
+        }
       });
-    }
+    });
+  }
 }

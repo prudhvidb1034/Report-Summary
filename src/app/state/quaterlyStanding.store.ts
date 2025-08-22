@@ -1,6 +1,6 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
-import { debounceTime, exhaustMap, Observable, switchMap, tap } from 'rxjs';
+import { debounceTime, exhaustMap, map, Observable, switchMap, tap } from 'rxjs';
 import { createAccountForm } from '../models/account.model';
 import { SharedService } from '../services/shared/shared.service';
 import { urls } from '../constants/string-constants';
@@ -36,9 +36,9 @@ export class QuaterlyReportStore extends ComponentStore<QuaterlyReport> {
         quaterlyReport$.pipe(
             exhaustMap(account => {
                 console.log(account);
-                
+
                 this.patchState({ loading: true, error: null });
-                return this.sharedservice.postLocalData(urls.CREATE_QUATERLY_REPORT, account).pipe(
+                return this.sharedservice.postData(`api/pi-standing`, account).pipe(
                     tap({
                         next: (user: any) => {
                             console.log(user);
@@ -56,46 +56,79 @@ export class QuaterlyReportStore extends ComponentStore<QuaterlyReport> {
         )
     );
 
-    readonly getQuaterlyReports = this.effect(
-        trigger$ =>
-            trigger$.pipe(
-                tap(() => this.patchState({ loading: true, error: null })),
-                switchMap((val:any) =>
-                    this.sharedservice.getLocalData<ApiResponse<any[]>>(urls.GET_QUATERLY_REPORT).pipe(
-                        tapResponse(
-                            (quaterlyReport) => {
-                                this.patchState({ quaterlyReport: quaterlyReport.data, loading: false });
-                            },
-                            (error) => {
-                                this.patchState({ loading: false, error: 'Failed to fetch accounts' });
-                                this.toast.show('error', 'Failed to load accounts!');
-                            }
-                        )
-                    )
-                )
-            )
-    );
+    // readonly getQuaterlyReports = this.effect<({ page?: number; size?: number})>( trigger$ =>
+    //         trigger$.pipe(
+    //             tap(() => this.patchState({ loading: true, error: null })),
+    //             switchMap(({ page, size}) =>
+    //                 this.sharedservice.getData<ApiResponse<any[]>>(`api/pi-standing`).pipe(
+    //                     tapResponse(
+    //                         (quaterlyReport) => {
+    //                             this.patchState({ quaterlyReport: quaterlyReport.data, loading: false });
+    //                         },
+    //                         (error) => {
+    //                             this.patchState({ loading: false, error: 'Failed to fetch accounts' });
+    //                             this.toast.show('error', 'Failed to load reports!');
+    //                         }
+    //                     )
+    //                 )
+    //             )
+    //         )
+    // );
 
 
 
+readonly getQuaterlyReports = this.effect<{
+  page?: number;
+  size?: number;
+}>(trigger$ =>
+  trigger$.pipe(
+    tap(() => this.patchState({ loading: true, error: null })),
+    switchMap(({ page, size }) =>
+      this.sharedservice.getData<ApiResponse<any[]>>(`api/pi-standing`).pipe(
+        map((response:any) => {
+          const transformedContent = Array.isArray(response.data?.content)
+            ? response.data.content.map((res: any) => {
+                const updatedRes = { ...res };
+                for (let i = 0; i <= 4; i++) {
+                  const key = `sprint${i}`;
+                  updatedRes[key] = res[key] ? 'X' : '-';
+                }
+                return updatedRes;
+              })
+            : [];
+
+          return { ...response.data, content: transformedContent };
+        }),
+        tapResponse(
+          (quaterlyReport) => {
+            this.patchState({ quaterlyReport, loading: false });
+          },
+          (error) => {
+            this.patchState({ loading: false, error: 'Failed to fetch accounts' });
+            this.toast.show('error', 'Failed to load reports!');
+          }
+        )
+      )
+    )
+  )
+);
 
 
     readonly updateQuaterlyReport = this.effect(
         (account$: Observable<{ id: string; data: createAccountForm }>) =>
             account$.pipe(
                 exhaustMap(({ id, data }) => {
-                    console.log(data);
-                    
                     this.patchState({ loading: true, error: null });
-                    return this.sharedservice.patchLocalData(`${urls.UPDATE_QUATERLY_REPORT}/${id}`, data).pipe(
+                    return this.sharedservice.patchData(`api/pi-standing/${id}`, data).pipe(
                         tap({
                             next: (updatedAccount: any) => {
                                 this._accountCreateStatus.set('update');
+                                this.getQuaterlyReports({})
                                 this.patchState({ loading: false });
                             },
                             error: () => {
                                 this._accountCreateStatus.set('error');
-                                this.patchState({ loading: false, error: 'Failed to update account' });
+                                this.patchState({ loading: false, error: 'Failed to update' });
                                 this.toast.show('error', 'Update failed!');
                             }
                         })
@@ -108,12 +141,12 @@ export class QuaterlyReportStore extends ComponentStore<QuaterlyReport> {
     readonly deleteQuaterlyReport = this.effect((accountId$: Observable<string>) =>
         accountId$.pipe(
             exhaustMap(id =>
-                this.sharedservice.deleteLocalData(`${urls.REMOVE_QUATERLY_REPORT}/${id}`).pipe(
+                this.sharedservice.deleteData(`api/pi-standing/${id}`).pipe(
                     tapResponse(
                         () => {
                             this._accountCreateStatus.set('deleted');
-                            // this.getAccounts({ page: 0, size: 5, sortBy: 'accountName' });
-                            this.toast.show('success', 'Account deleted successfully!');
+                            this.getQuaterlyReports({ page: 0, size: 5});
+                            this.toast.show('success', 'Report deleted successfully!');
                         },
                         (error) => {
                             this.toast.show('error', 'Failed to delete account!');

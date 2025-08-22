@@ -112,7 +112,7 @@ export class CreateSprintComponent {
 onStartDateChange(e: any) {
   const start = new Date(e.detail.value);
   const exactly21 = new Date(start);
-  exactly21.setDate(start.getDate() + 21);
+  exactly21.setDate(start.getDate() + 20);
   const iso = exactly21.toISOString().split('T')[0];
   this.minEndDate = iso;
   this.maxEndDate = iso;
@@ -124,7 +124,7 @@ onStartDateChange(e: any) {
 onEndDateChange(e: any) {
   const end = new Date(e.detail.value);
   const exactly21Before = new Date(end);
-  exactly21Before.setDate(end.getDate() - 21);
+  exactly21Before.setDate(end.getDate() - 20);
   const isoBefore = exactly21Before.toISOString().split('T')[0];
   this.minStartDate = isoBefore;
   this.maxStartDate = isoBefore;

@@ -2,6 +2,11 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, Input } from '@angular/core';
 import { IonicModule, ModalController } from '@ionic/angular';
 
+interface ConfirmDeleteData {
+  id: string | number;
+  name:string
+}
+
 @Component({
   selector: 'app-confirm-delete',
   standalone: true,
@@ -12,7 +17,7 @@ import { IonicModule, ModalController } from '@ionic/angular';
 export class ConfirmDeleteComponent {
   private modalCtrl = inject(ModalController);
 
-  @Input() data!: any;
+  @Input() data!: ConfirmDeleteData;
 
   ngOnInit() {
 
@@ -20,7 +25,7 @@ export class ConfirmDeleteComponent {
     console.log('Selected row data:Prudhvi varma', this.data);
   }
 
-  setOpen(isOpen: boolean) {
+  setOpen() {
     this.modalCtrl.dismiss();
 
 

@@ -1,213 +1,237 @@
-<div class="modal-wrapper">
-    <ion-header class="custom-no-border" lines="none">
-        <ion-toolbar color="light" lines="none">
-            <ion-title><b>Create Weekly Sprint Update</b></ion-title>
-            <ion-buttons slot="end">
+<ion-header class="custom-no-border" lines="none">
+    <ion-toolbar color="light" lines="none">
+        <ion-title><b>Create Weekly Sprint </b></ion-title>
+        <!-- <ion-buttons slot="end">
                 <ion-button fill="clear" (click)="setOpen(false)">
                     <ion-icon name="close-outline" class="icon-medium"></ion-icon>
                 </ion-button>
-            </ion-buttons>
-        </ion-toolbar>
-    </ion-header>
+            </ion-buttons> -->
+    </ion-toolbar>
+</ion-header>
 
-  <ion-content>
-    <form [formGroup]="weeklysprintUpdateForm" (ngSubmit)="onSubmit()" class="register-form">
-      <ion-grid>
+<!-- <ion-content> -->
+<form [formGroup]="weeklysprintUpdateForm" (ngSubmit)="onSubmit()" class="register-form">
+    <ion-grid>
         <!-- Project Select -->
         <ion-row>
-          <ion-col size="8">
-            <ion-item class="custom-item" lines="none"
-              [class.invalid]="validationService.isInvalid('projectId', weeklysprintUpdateForm)"
-              [class.valid]="validationService.isValid('projectId', weeklysprintUpdateForm)">
-              <ion-select
-                class="label-texts"
-                formControlName="projectId"
-                label="Projects"
-                labelPlacement="floating"
-                interface="popover"
-                placeholder="Select Project"
-              >
-                <ng-container *ngIf="allProjects$ | async as projectList">
-                  <ion-select-option
-                    *ngFor="let p of projectList"
-                    [value]="p.projectId"
-                  >
-                    {{ p.projectName }}
-                  </ion-select-option>
-                </ng-container>
-              </ion-select>
-            </ion-item>
-            @if (validationService.isInvalid('projectId', weeklysprintUpdateForm)) {
-              <ion-text color="danger" class="error-message">
-                <p>At least one project must be selected.</p>
-              </ion-text>
-            }
-          </ion-col>
+            <ion-col size="6">
+                <ion-item class="custom-item" lines="none"
+                    [class.invalid]="validationService.isInvalid('projectId', weeklysprintUpdateForm)"
+                    [class.valid]="validationService.isValid('projectId', weeklysprintUpdateForm)">
+                    <ion-select class="label-texts" formControlName="projectId" label="Projects"
+                        labelPlacement="floating" interface="popover" placeholder="Select Project">
+                        <ng-container *ngIf="allProjects$ | async as projectList">
+                            <ion-select-option *ngFor="let p of projectList" [value]="p.projectId"  [disabled]="p.disabled">
+                                {{ p.projectName }}
+                            </ion-select-option>
+                        </ng-container>
+                    </ion-select>
+                </ion-item>
+                @if (validationService.isInvalid('projectId', weeklysprintUpdateForm)) {
+                <ion-text color="danger" class="error-message">
+                    <p>At least one project must be selected.</p>
+                </ion-text>
+                }
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col size="4">
+                <ion-item class="custom-item" lines="none">
+                    <ion-input formControlName="assignedPoints" label="Assigned Points" labelPlacement="floating"
+                        class="label-texts" type="number"></ion-input>
+                </ion-item>
+            </ion-col>
+            <ion-col size="4">
+                <ion-item class="custom-item" lines="none">
+                    <ion-input formControlName="assignedStoriesCount" label="Assigned Stories" labelPlacement="floating"
+                        class="label-texts" type="number"></ion-input>
+                </ion-item>
+            </ion-col>
+            <ion-col size="4">
+                <ion-item class="custom-item" lines="none">
+                 <ion-input formControlName="completePoints" label="Completed Points" labelPlacement="floating"
+                        class="label-texts" type="number"></ion-input>
+                </ion-item>
+            </ion-col>
         </ion-row>
 
-                <!-- Metrics Section 1 -->
-                <ion-row>
-                    <ion-col size="4">
-                        <ion-item class="custom-item" lines="none">
-                            <ion-input formControlName="assignedPoints" label="Assigned Points"
-                                labelPlacement="floating" class="label-texts" type="number"></ion-input>
-                        </ion-item>
-                    </ion-col>
-                    <ion-col size="4">
-                        <ion-item class="custom-item" lines="none">
-                            <ion-input formControlName="assignedStoriesCount" label="Assigned Stories"
-                                labelPlacement="floating" class="label-texts" type="number"></ion-input>
-                        </ion-item>
-                    </ion-col>
-                    <ion-col size="4">
-                        <ion-item class="custom-item" lines="none">
-                            <ion-input formControlName="completePercentage" label="Completed %"
-                                labelPlacement="floating" class="label-texts" type="number"></ion-input>
-                        </ion-item>
-                    </ion-col>
-                </ion-row>
+        <!-- Metrics Section 2 -->
+        <ion-row>
+            <ion-col size="4">
+                <ion-item class="custom-item" lines="none">
+                    <ion-input formControlName="inDevPoints" label="In Dev Points" labelPlacement="floating"
+                        class="label-texts" type="number"></ion-input>
+                </ion-item>
+            </ion-col>
+            <ion-col size="4">
+                <ion-item class="custom-item" lines="none">
+                    <ion-input formControlName="inDevStoriesCount" label="In Dev Stories" labelPlacement="floating"
+                        class="label-texts" type="number"></ion-input>
+                </ion-item>
+            </ion-col>
+            <ion-col size="4">
+                <ion-item class="custom-item" lines="none">
+                    <ion-input formControlName="inQaPoints" label="In QA Points" labelPlacement="floating"
+                        class="label-texts" type="number"></ion-input>
+                </ion-item>
+            </ion-col>
+        </ion-row>
 
-                <!-- Metrics Section 2 -->
-                <ion-row>
-                    <ion-col size="4">
-                        <ion-item class="custom-item" lines="none">
-                            <ion-input formControlName="inDevPoints" label="In Dev Points" labelPlacement="floating"
-                                class="label-texts" type="number"></ion-input>
-                        </ion-item>
-                    </ion-col>
-                    <ion-col size="4">
-                        <ion-item class="custom-item" lines="none">
-                            <ion-input formControlName="inDevStoriesCount" label="In Dev Stories"
-                                labelPlacement="floating" class="label-texts" type="number"></ion-input>
-                        </ion-item>
-                    </ion-col>
-                    <ion-col size="4">
-                        <ion-item class="custom-item" lines="none">
-                            <ion-input formControlName="inQaPoints" label="In QA Points" labelPlacement="floating"
-                                class="label-texts" type="number"></ion-input>
-                        </ion-item>
-                    </ion-col>
-                </ion-row>
+        <!-- Metrics Section 3 -->
+        <ion-row>
+            <ion-col size="4">
+                <ion-item class="custom-item" lines="none">
+                    <ion-input formControlName="inQaStoriesCount" label="In QA Stories" labelPlacement="floating"
+                        class="label-texts" type="number"></ion-input>
+                </ion-item>
+            </ion-col>
+            <ion-col size="4">
+                <ion-item class="custom-item" lines="none">
+                   
+                           <ion-input formControlName="completePercentage" label="Completed %" labelPlacement="floating"
+                        class="label-texts" type="number"></ion-input>
+                </ion-item>
+            </ion-col>
+            <ion-col size="4">
+                <ion-item class="custom-item" lines="none">
+                    <ion-input formControlName="completeStoriesCount" label="Completed Stories"
+                        labelPlacement="floating" class="label-texts" type="number"></ion-input>
+                </ion-item>
+            </ion-col>
+        </ion-row>
 
-                <!-- Metrics Section 3 -->
-                <ion-row>
-                    <ion-col size="4">
-                        <ion-item class="custom-item" lines="none">
-                            <ion-input formControlName="inQaStoriesCount" label="In QA Stories"
-                                labelPlacement="floating" class="label-texts" type="number"></ion-input>
-                        </ion-item>
-                    </ion-col>
-                    <ion-col size="4">
-                        <ion-item class="custom-item" lines="none">
-                            <ion-input formControlName="completePoints" label="Completed Points"
-                                labelPlacement="floating" class="label-texts" type="number"></ion-input>
-                        </ion-item>
-                    </ion-col>
-                    <ion-col size="4">
-                        <ion-item class="custom-item" lines="none">
-                            <ion-input formControlName="completeStoriesCount" label="Completed Stories"
-                                labelPlacement="floating" class="label-texts" type="number"></ion-input>
-                        </ion-item>
-                    </ion-col>
-                </ion-row>
+        <!-- Metrics Section 4 -->
+        <ion-row>
+            <ion-col size="4">
+                <ion-item class="custom-item" lines="none">
+                    <ion-input formControlName="blockedPoints" label="Blocked Points" labelPlacement="floating"
+                        class="label-texts" type="number"></ion-input>
+                </ion-item>
+            </ion-col>
+            <ion-col size="4">
+                <ion-item class="custom-item" lines="none">
+                    <ion-input formControlName="blockedStoriesCount" label="Blocked Stories" labelPlacement="floating"
+                        class="label-texts" type="number"></ion-input>
+                </ion-item>
+            </ion-col>
+            <ion-col size="4">
+                <ion-item class="custom-item" lines="none">
+                    <ion-select formControlName="estimationHealth" label="Estimation Health" labelPlacement="floating"
+                        class="label-texts" interface="popover">
+                        <ion-select-option value="Amber">Amber</ion-select-option>
+                        <ion-select-option value="Red">Red</ion-select-option>
+                        <ion-select-option value="Green">Green</ion-select-option>
+                    </ion-select>
+                </ion-item>
+            </ion-col>
+        </ion-row>
 
-                <!-- Metrics Section 4 -->
-                <ion-row>
-                    <ion-col size="4">
-                        <ion-item class="custom-item" lines="none">
-                            <ion-input formControlName="blockedPoints" label="Blocked Points" labelPlacement="floating"
-                                class="label-texts" type="number"></ion-input>
-                        </ion-item>
-                    </ion-col>
-                    <ion-col size="4">
-                        <ion-item class="custom-item" lines="none">
-                            <ion-input formControlName="blockedStoriesCount" label="Blocked Stories"
-                                labelPlacement="floating" class="label-texts" type="number"></ion-input>
-                        </ion-item>
-                    </ion-col>
-                    <ion-col size="4">
-                        <ion-item class="custom-item" lines="none">
-                            <ion-select formControlName="estimationHealth" label="Estimation Health"
-                                labelPlacement="floating" class="label-texts" interface="popover">
-                                <ion-select-option value="Amber">Amber</ion-select-option>
-                                <ion-select-option value="Red">Red</ion-select-option>
-                                <ion-select-option value="Green">Green</ion-select-option>
-                            </ion-select>
-                        </ion-item>
-                    </ion-col>
-                </ion-row>
+        <!-- Metrics Section 5 -->
+        <ion-row>
+            <ion-col size="4">
+                <ion-item class="custom-item" lines="none">
+                    <ion-select formControlName="groomingHealth" label="Grooming Health" labelPlacement="floating"
+                        class="label-texts" interface="popover">
+                        <ion-select-option value="Amber">Amber</ion-select-option>
+                        <ion-select-option value="Red">Red</ion-select-option>
+                        <ion-select-option value="Green">Green</ion-select-option>
+                    </ion-select>
+                </ion-item>
+            </ion-col>
+            <ion-col size="4">
+                <ion-item class="custom-item" lines="none">
+                    <ion-input formControlName="difficultCount1" label="Difficulties (Type 1)" labelPlacement="floating"
+                        class="label-texts" type="number"></ion-input>
+                </ion-item>
+            </ion-col>
+            <ion-col size="4">
+                <ion-item class="custom-item" lines="none">
+                    <ion-input formControlName="difficultCount2" label="Difficulties (Type 2)" labelPlacement="floating"
+                        class="label-texts" type="number"></ion-input>
+                </ion-item>
+            </ion-col>
+        </ion-row>
 
-                <!-- Metrics Section 5 -->
-                <ion-row>
-                    <ion-col size="4">
-                        <ion-item class="custom-item" lines="none">
-                            <ion-select formControlName="groomingHealth" label="Grooming Health"
-                                labelPlacement="floating" class="label-texts" interface="popover">
-                                <ion-select-option value="Amber">Amber</ion-select-option>
-                                <ion-select-option value="Red">Red</ion-select-option>
-                                <ion-select-option value="Green">Green</ion-select-option>
-                            </ion-select>
-                        </ion-item>
-                    </ion-col>
-                    <ion-col size="4">
-                        <ion-item class="custom-item" lines="none">
-                            <ion-input formControlName="difficultCount1" label="Difficulties (Type 1)"
-                                labelPlacement="floating" class="label-texts" type="number"></ion-input>
-                        </ion-item>
-                    </ion-col>
-                    <ion-col size="4">
-                        <ion-item class="custom-item" lines="none">
-                            <ion-input formControlName="difficultCount2" label="Difficulties (Type 2)"
-                                labelPlacement="floating" class="label-texts" type="number"></ion-input>
-                        </ion-item>
-                    </ion-col>
-                </ion-row>
+        <!-- Metrics Section 6 -->
+        <ion-row>
+            <ion-col size="4">
+                <ion-item class="custom-item" lines="none">
+                    <ion-input formControlName="injection" label="Injection" labelPlacement="floating"
+                        class="label-texts" type="number"></ion-input>
+                </ion-item>
+            </ion-col>
+            <ion-col size="4">
+                <ion-item class="custom-item" lines="none">
+                    <ion-input formControlName="riskPoints" label="Risk Points" labelPlacement="floating"
+                        class="label-texts" type="number"></ion-input>
+                </ion-item>
+            </ion-col>
+            <ion-col size="4">
+                <ion-item class="custom-item" lines="none">
+                    <ion-input formControlName="riskStoryCounts" label="Risk Story Points" labelPlacement="floating"
+                        class="label-texts" type="number"></ion-input>
+                </ion-item>
+            </ion-col>
+        </ion-row>
 
-                <!-- Metrics Section 6 -->
-                <ion-row>
-                    <ion-col size="4">
-                        <ion-item class="custom-item" lines="none">
-                            <ion-input formControlName="injection" label="Injection" labelPlacement="floating"
-                                class="label-texts" type="number"></ion-input>
-                        </ion-item>
-                    </ion-col>
-                    <ion-col size="4">
-                        <ion-item class="custom-item" lines="none">
-                            <ion-input formControlName="riskPoints" label="Risk Points" labelPlacement="floating"
-                                class="label-texts" type="number"></ion-input>
-                        </ion-item>
-                    </ion-col>
-                    <ion-col size="4">
-                        <ion-item class="custom-item" lines="none">
-                            <ion-input formControlName="riskStoryCounts" label="Risk Story Points"
-                                labelPlacement="floating" class="label-texts" type="number"></ion-input>
-                        </ion-item>
-                    </ion-col>
-                </ion-row>
+        <!-- Comments -->
+        <ion-row>
+            <ion-col size="12">
+                <ion-item class="custom-item" lines="none">
+                    <ion-textarea formControlName="comments" label="Comments" labelPlacement="floating"
+                        class="label-texts" placeholder="Enter comments" rows="3"></ion-textarea>
+                </ion-item>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</form>
+<!-- </ion-content> -->
 
-                <!-- Comments -->
-                <ion-row>
-                    <ion-col size="12">
-                        <ion-item class="custom-item" lines="none">
-                            <ion-textarea formControlName="comments" label="Comments" labelPlacement="floating"
-                                class="label-texts" placeholder="Enter comments" rows="3"></ion-textarea>
-                        </ion-item>
-                    </ion-col>
-                </ion-row>
-            </ion-grid>
-        </form>
-    </ion-content>
+<ion-footer>
+    <ion-toolbar>
+        <ion-buttons slot="end">
+            <ion-button class="close" (click)="setOpen(false)">Close</ion-button>
+            <ion-button class="save" type="submit" (click)="onSubmit()">Submit</ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-footer>
 
-    <ion-footer>
-        <ion-toolbar>
-            <ion-buttons slot="end">
-                <ion-button class="close" (click)="setOpen(false)">Close</ion-button>
-                <ion-button class="save" type="submit" (click)="onSubmit()">Submit</ion-button>
-            </ion-buttons>
-        </ion-toolbar>
-    </ion-footer>
+
+
+
+
+<div class="container" *ngIf="(historyWeekdata$ | async)?.content?.length > 0">
+    <div class="heading">History</div>
+    <div class="table-container">
+        <table class="styled-table">
+            <thead>
+                <tr>
+                    <th>Week ID</th>
+                    <th>Project Name</th>
+                    <th>Assigned</th>
+                    <th>InDev</th>
+                    <th>QA</th>
+                    <th>Blocked</th>
+                    <th>Completed</th>
+
+                </tr>
+            </thead>
+            <tbody *ngIf="historyWeekdata$ | async as historyData">
+                <tr *ngFor="let item of historyData.content">
+                    <td>{{item.weeekRangeId}}</td>
+                    <td>{{item.projectName}}</td>
+                    <td>{{item.assignedStoriesCount}} ({{item.assignedPoints}})</td>
+                    <td>{{item.inDevStoriesCount}} ({{item.inDevPoints}})</td>
+                    <td>{{item.inQaStoriesCount}} ({{item.inQaPoints}})</td>
+                    <td>{{item.blockedStoriesCount}} ({{item.blockedPoints}})</td>
+                    <td>{{item.completeStoriesCount}} ({{item.completePoints}})</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
 
+
 <div class="loader-overlay" *ngIf="isLoading$ | async">
-  <ion-spinner name="crescent"></ion-spinner>
+    <ion-spinner name="crescent"></ion-spinner>
 </div>

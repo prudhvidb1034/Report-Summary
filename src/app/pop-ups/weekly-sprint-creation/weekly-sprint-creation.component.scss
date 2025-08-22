@@ -1,42 +1,45 @@
-// .large-modal {
-//   max-width: 98vw;
-//   width: 100%;
-// }
-
-
-.modal-wrapper {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  width: 100%;
-  background: var(--ion-background-color, #fff);
-  overflow: hidden;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
-}
-
-// .custom-content {
-//   --background: transparent;
-//   height: auto;
-//   min-height: 100%;
-
-//   form {
-//     display: flex;
-//     flex-direction: column;
-//     padding: 16px;
-
-//     ion-item {
-//       margin-bottom: 8px;
-//     }
-
-//     .error-message {
-//       display: block;
-//       margin-top: -8px;
-//       margin-bottom: 12px;
-//       font-size: 12px;
-//     }
-//   }
-// }
-
 ion-grid {
   margin-top: 10px;
+}
+
+.table-container {
+  margin-top: 20px;
+  background: #f9f9f9;
+  padding: 16px;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+
+.styled-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-top: 10px;
+ 
+  th,
+  td {
+    padding: 6px 4px;
+    text-align: center;
+    border: 1px solid #000;
+  }
+ 
+  thead {
+    background-color: #cfe2f3;
+    color: #000;
+    font-weight: bold;
+  }
+ 
+  .green {
+    background-color: #28a745;
+    color: white;
+  }
+}
+
+.heading{
+ font-weight: bold;
+  color: black;
+   padding: 12px;
+   font-size: 16px;
 }

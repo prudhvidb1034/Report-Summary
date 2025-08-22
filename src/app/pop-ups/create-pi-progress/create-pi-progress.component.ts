@@ -1,41 +1,76 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, effect, inject, Input } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { IonicModule, ModalController } from '@ionic/angular';
 import { ValidationsService } from '../../services/validation/validations.service';
+import { PiPgrogressStore } from '../../state/pi-progress.store';
+import { ToastService } from '../../shared/toast.service';
+import { CommonStore } from '../../state/common.store';
 
 @Component({
   selector: 'app-create-pi-progress',
   standalone: true,
-  imports: [IonicModule, CommonModule,ReactiveFormsModule],
+  imports: [IonicModule, CommonModule, ReactiveFormsModule],
+  providers: [PiPgrogressStore],
   templateUrl: './create-pi-progress.component.html',
   styleUrl: './create-pi-progress.component.scss'
 })
 export class CreatePiProgressComponent {
-
+  private toast = inject(ToastService)
   piProgressForm!: FormGroup;
   private modalCtrl = inject(ModalController);
   isEditMode = false;
   private fb = inject(FormBuilder);
+  @Input() editData: any;
+   private commonStore = inject(CommonStore);
+  private piprogressStore = inject(PiPgrogressStore);
 
   public validationService = inject(ValidationsService);
+
+  isLoading$ = this.piprogressStore.select(state => state.loading);
+    allProjects$ = this.commonStore.allProjects$;
+  readonly accountStatusEffect = effect(() => {
+    const status = this.piprogressStore.accountCreateStatus();
+
+    if (status === 'success') {
+      this.setOpen(false);
+      this.toast.show('success', 'PiProgress created successfully!');
+    } else if (status === 'update') {
+      this.setOpen(false);
+      this.toast.show('success', 'PiProgress updated successfully!');
+    } else if (status === 'deleted') {
+      this.toast.show('success', 'PiProgress deleted successfully!');
+    } else if (status === 'error') {
+      this.toast.show('error', 'Something went wrong!');
+    }
+
+
+    if (status) {
+      this.piprogressStore['_accountCreateStatus'].set(null);
+    }
+  });
   ngOnInit() {
     this.creteForm();
+    if (this.editData) {
+      this.piProgressForm.patchValue(this.editData);
+      this.isEditMode = true;
+    }
   }
 
   creteForm() {
     this.piProgressForm = this.fb.group({
-      team: ['',Validators.required],
-      leadname: ['',Validators.required],
-      Assignedp: ['',Validators.required],
-      completedsp: ['',Validators.required],
-      Percentage: ['',Validators.required],
+      projectId: ['', Validators.required],
+      teamLead: ['', Validators.required],
+      assignedSP: ['', Validators.required],
+      completedSP: ['', Validators.required],
+      // Percentage: ['', Validators.required],
 
 
     })
   }
 
-    setOpen(isOpen: boolean) {
+
+  setOpen(isOpen: boolean) {
     // this.isModalOpen = isOpen;
 
     // if (!isOpen) {
@@ -46,7 +81,26 @@ export class CreatePiProgressComponent {
 
   }
 
-  SubmitForm(){
+  SubmitForm() {
 
+
+
+    const response = this.piProgressForm.value;
+    if (this.piProgressForm.valid) {
+
+      const formValue = this.piProgressForm.value;
+
+      if (this.editData && this.editData?.reportId) {
+        this.piprogressStore.updatepiprogressReport({ id: this.editData.reportId, data: formValue });
+      } else {
+        this.piprogressStore.createPipgrogressReports(response);
+      }
+    } else {
+      this.toast.show('error', 'Please fill in all required fields.')
+      this.piProgressForm.markAllAsTouched()
+    }
+    // if (this.piProgressForm.valid) {
+    //   this.piprogressStore.createPipgrogressReports(this.piProgressForm.value)
+    // }
   }
 }

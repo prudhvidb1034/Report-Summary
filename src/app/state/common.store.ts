@@ -19,26 +19,30 @@ export interface ApiResponse<T> {
 
 
 export interface ProjectsStateModel {
-      list: any;
+  list: any;
   allprojects:any;
   allAccounts:any;
   allEmployees:any;
+  allTechnologies:any;
   loading: boolean;
   error: string | null;
+  flag:boolean;
   weeklyRange:any;
 }
 
 @Injectable({ providedIn: 'root' })
 export class CommonStore extends ComponentStore<ProjectsStateModel> {
   constructor(private sharedservice: SharedService) {
-    super({ allprojects: [],list:[],allAccounts:[],allEmployees:[],weeklyRange:[], loading: false, error: null });
+    super({ allprojects: [],flag:false,list:[],allAccounts:[],allTechnologies:[],allEmployees:[],weeklyRange:[], loading: false, error: null });
   }
 
-  readonly allProjects$ = this.select(state => state.allprojects);
+    readonly allProjects$ = this.select(state => state.allprojects);
     readonly allAccounts$ = this.select(state => state.allAccounts);
     readonly employeeList$=this.select(state=>state.allEmployees);
+     readonly allTechnologies$=this.select(state=>state.allTechnologies);
     private toast = inject(ToastService);
     readonly list$ = this.select(state => state.list);
+    readonly flag$=this.select(state=>state.flag)
 
   readonly loading$     = this.select(state => state.loading);
   readonly error$       = this.select(state => state.error);
@@ -62,6 +66,11 @@ export class CommonStore extends ComponentStore<ProjectsStateModel> {
     })
   );
 
+    readonly setFlag = this.updater((state, flag: boolean) => ({
+    ...state,
+    flag: flag
+  }));
+
      readonly setEmployees = this.updater(
     (state, employees:any) => ({
       ...state,
@@ -71,14 +80,23 @@ export class CommonStore extends ComponentStore<ProjectsStateModel> {
     })
   );
 
-    readonly setWeeklyRange = this.updater(
-    (state, weeklyRange:any) => ({
+  
+     readonly setTechnolgoies = this.updater(
+    (state, technologies:any) => ({
       ...state,
-      weeklyRange: weeklyRange,
+      allTechnologies: technologies,
       loading: false,
       error: null
     })
   );
+  //   readonly setWeeklyRange = this.updater(
+  //   (state, weeklyRange:any) => ({
+  //     ...state,
+  //     weeklyRange: weeklyRange,
+  //     loading: false,
+  //     error: null
+  //   })
+  // );
 
 
   readonly setLoading = this.updater(
@@ -110,6 +128,27 @@ export class CommonStore extends ComponentStore<ProjectsStateModel> {
     )
   );
 
+  readonly getTechnologies = this.effect<void>(trigger$ =>
+    trigger$.pipe(
+      tap(() => this.setLoading(true)),
+      switchMap(() =>
+        this.sharedservice
+          .getData<ApiResponse<any>>('techStack')
+          .pipe(
+            tapResponse(
+              (response:any) => {
+                this.setTechnolgoies(response.data)
+                           //   this.getAllAccounts();
+},
+              (error: any) => {
+                this.setError('Failed to fetch Technologies');
+              }
+            )
+          )
+      )
+    )
+  );
+
   
   readonly getAllAccounts = this.effect<void>(trigger$ =>
     trigger$.pipe(
@@ -119,7 +158,8 @@ export class CommonStore extends ComponentStore<ProjectsStateModel> {
           .getData<ApiResponse<any>>('Account/all')
           .pipe(
             tapResponse(
-              (response:any) => {this.setAccountDetails(response.data)
+              (response:any) => {
+                this.setAccountDetails(response.data)
                 this.getEmployees();
               },
             
@@ -141,7 +181,7 @@ export class CommonStore extends ComponentStore<ProjectsStateModel> {
               (response:any) => 
             {
                  this.setEmployees(response.data);
-                                 this.getWeeklyRange();
+                                 this.getTechnologies();
 
               //     const mapped = response.data.map(person => ({
               //   email: person.email,
@@ -158,31 +198,31 @@ export class CommonStore extends ComponentStore<ProjectsStateModel> {
     )
   );
 
-   readonly getWeeklyRange = this.effect<void>(trigger$ =>
-    trigger$.pipe(
-      tap(() => this.setLoading(true)),
-      switchMap(() =>
-        this.sharedservice
-          .getData<ApiResponse<any>>('api/view-report/all')
-          .pipe(
-            tapResponse(
-              (response:any) => 
-            {
-                 this.setWeeklyRange(response.content);
-              //     const mapped = response.data.map(person => ({
-              //   email: person.email,
-              //   id: person.personId,
-              //   name: `${person.firstName} ${person.lastName}`
+  //  readonly getWeeklyRange = this.effect<void>(trigger$ =>
+  //   trigger$.pipe(
+  //     tap(() => this.setLoading(true)),
+  //     switchMap(() =>
+  //       this.sharedservice
+  //         .getData<ApiResponse<any>>('api/view-report/all')
+  //         .pipe(
+  //           tapResponse(
+  //             (response:any) => 
+  //           {
+  //                this.setWeeklyRange(response.content);
+  //             //     const mapped = response.data.map(person => ({
+  //             //   email: person.email,
+  //             //   id: person.personId,
+  //             //   name: `${person.firstName} ${person.lastName}`
               
-              // }));
+  //             // }));
              
-            },
-              () => this.setError('Failed to fetch projects')
-            )
-          )
-      )
-    )
-  );
+  //           },
+  //             () => this.setError('Failed to fetch projects')
+  //           )
+  //         )
+  //     )
+  //   )
+  // );
 
 
         readonly getSearch = this.effect<{type:string,searchName:string, page: number; size: number; sortBy: string }>(

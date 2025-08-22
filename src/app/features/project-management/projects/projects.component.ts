@@ -1,214 +1,190 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, signal } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ActivatedRoute, Router, RouterLink, RouterModule } from '@angular/router';
-import { IonicModule, ModalController } from '@ionic/angular';
+import { Component, inject } from '@angular/core';
+import {
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
+import { Router, RouterModule } from '@angular/router';
+import { IonicModule } from '@ionic/angular';
+import{ModalController} from '@ionic/angular/standalone';
 import { createProject } from '../../../models/project.model';
 import { ToastService } from '../../../shared/toast.service';
-import { LoginStore } from '../../../state/login.store';
 import { ProjectStore } from '../../../state/project.store';
 import { ReusableTableComponent } from '../../../shared/reusable-table/reusable-table.component';
 import { CreateProjectComponent } from '../../../pop-ups/create-project/create-project.component';
 import { ConfirmDeleteComponent } from '../../../pop-ups/confirm-delete/confirm-delete.component';
 import { CommonStore } from '../../../state/common.store';
+import { Observable } from 'rxjs';
 
 @Component({
-  selector: 'app-projects',
+  selector: 'app-project-list',
   standalone: true,
   imports: [
-    FormsModule, RouterModule,
-    IonicModule, CommonModule, ReactiveFormsModule, RouterModule, ReusableTableComponent],
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    RouterModule,
+    IonicModule,
+    ReusableTableComponent,
+  ],
   providers: [ProjectStore],
   templateUrl: './projects.component.html',
-  styleUrl: './projects.component.scss'
+  styleUrls: ['./projects.component.scss'],
 })
-export class ProjectListComponent {
-  label = 'Project';
-
-
-
-
-  private url = "http://localhost:3000/teamslist"
+export class ProjectListComponent  {
+  readonly label = 'Project';
   isModalOpen = false;
   searchProject = '';
-  teamForm !: FormGroup;
-  private fb = inject(FormBuilder)
-  private toast = inject(ToastService)
-  private router = inject(Router)
-  teamList = signal<createProject[]>([]);
-  private projectStore = inject(ProjectStore);
-  private modalController = inject(ModalController);
-  private loginStore = inject(LoginStore);
-  private commonStore=inject(CommonStore);
-  // projectStore = inject(TeamStore);
-isLoading$ = this.projectStore.select(state => state.loading);
-  isLoadingCommon$=this.commonStore.select(state=>state.loading);
+  private readonly toast = inject(ToastService);
+  private readonly router = inject(Router);
+  private readonly projectStore = inject(ProjectStore);
+  private readonly modalController = inject(ModalController);
+  private readonly commonStore = inject(CommonStore);
 
-  projectList$: any;
-  page=0
-pageSize=5
+  readonly isLoading$ = this.projectStore.select((state) => state.loading);
+  readonly isLoadingCommon$ = this.commonStore.select((state) => state.loading);
 
+  projectList$!: Observable<createProject[]>;
 
-  constructor(private route: ActivatedRoute) {
-    this.loadProjects(this.page,this.pageSize);
-  }
-  ngOnInit() {
-    this.CreateForm();
-  }
-onSearchTermChanged(term: string) {
-  this.searchProject = term;
-  // You can also trigger search logic here
-}
+  page = 0;
+  pageSize = 5;
 
-  goToProject(project: any) {
-    console.log(project);
-    this.router.navigate(['/projects/employees']);
-  }
-
-
-  setOpen(isOpen: boolean) {
-    this.isModalOpen = isOpen;
-    this.teamForm.reset();
-  }
-
-
-  CreateForm() {
-    this.teamForm = this.fb.group({
-      projectname: ['', [Validators.required, Validators.minLength(3)]],
-      projectlocation: ['', Validators.required],
-      startDate: ['', Validators.required],
-      endDate: ['']
-
-    })
-
-  }
-
-
-  SubmitForm() {
-    const response = this.teamForm.value;
-    if (this.teamForm.valid) {
-      this.projectStore.addTeam(response);
-      this.setOpen(false);
-      this.teamForm.reset();
-      this.toast.show('success', 'Project created successfully!')
-    } else {
-      this.toast.show('error', 'Please fill in all required fields.')
-      this.teamForm.markAllAsTouched()
-    }
-  }
-
-
-
-  columns = [
-    { header: 'Project Id', field: 'projectId' },
+  readonly columns = [
     { header: 'Project Name', field: 'projectName' },
     { header: 'Account Name', field: 'accountName' },
-    { header: 'Teams', field: 'viewTeam', linkEnable: true ,link:'employees' },
-    // { header: 'Start Date', field: 'startDate' },
-    // { header: 'End Date', field: 'endDate' },
-    { header: 'Action', field: 'action', type: ['edit', 'delete'] }
+    {
+      header: 'Teams',
+      field: 'viewTeam',
+      linkEnable: true,
+      link: 'employees',
+    },
+    { header: 'Action', field: 'action', type: ['edit', 'delete'] },
   ];
 
-  handleRowAction(action: any) {
-    switch (action.type) {
+  // constructor() {
+  //   this.loadProjects(this.page, this.pageSize);
+  // }
+
+  handleRowAction(action: { type: string; item?: createProject | number | string }): void {
+    const { type, item } = action;
+
+    switch (type) {
       case 'navigate':
-        this.router.navigate(
-          ['/projects/employees', action.item.projectId],
-          { state: { name: action.item.projectName } }
-        );
-       // this.router.navigate(['/projects/employees', action.item.projectId], { state: { projectName: action.item.projectName });
+        if (this.isCreateProject(item)) {
+          this.router.navigate(['/projects/employees', item.projectId], {
+            state: { name: item.projectName },
+          });
+        }
         break;
+
       case 'create':
-        this.loadCreateEmployeeModal();
+        this.openCreateModal();
         break;
+
       case 'edit':
-        this.updateCreateEmployeeModal(action.item);
-        console.log('Row from table:', action.item);
+        if (this.isCreateProject(item)) {
+          this.openEditModal(item);
+        }
+        console.log('Row from table:', item);
         break;
+
       case 'delete':
-        this.deleteModal(action.item);
+        if (this.isCreateProject(item)) {
+          this.openDeleteModal(item);
+        }
         break;
+
       case 'nextPage':
-        this.page=action.item;
-        this.loadProjects(this.page,this.pageSize)
-       break;
-        case 'pageSize':
-        this.pageSize=action.item;
-        this.loadProjects(this.page,this.pageSize)
-       break;  
-        case 'search':
-        this.commonStore.getSearch({type:'projects',searchName:action.item, page: this.page, size: this.pageSize, sortBy: 'projectName'});
-         this.projectList$ = this.commonStore.list$;
+        if (typeof item === 'number') {
+          this.page = item;
+          this.loadProjects(this.page, this.pageSize);
+        }
         break;
+
+      case 'pageSize':
+        if (typeof item === 'number') {
+          this.pageSize = item;
+          this.loadProjects(this.page, this.pageSize);
+        }
+        break;
+
+      case 'search':
+        this.commonStore.getSearch({
+          type: 'projects',
+          searchName: typeof item === 'string' ? item : '',
+          page: this.page,
+          size: this.pageSize,
+          sortBy: 'projectName',
+        });
+        this.projectList$ = this.commonStore.list$;
+        break;
+
       default:
-        console.log('failing')
+        break;
     }
   }
 
-  loadCreateEmployeeModal() {
-    this.modalController.create({
-      component: CreateProjectComponent,
-      cssClass: 'create-project-modal',
-      componentProps: {
-
-      }
-    }).then((modal) => {
-      modal.present();
-      modal.onDidDismiss().then((data) => {
-      this.loadProjects(this.page,this.pageSize);
-
-        console.log('Modal dismissed with data:', data);
-        // Handle any data returned from the modal if needed
-      });
+  loadProjects(pageNum: number, pageSize: number) {
+    this.projectStore.getTeam({
+      page: pageNum,
+      size: pageSize,
+      sortBy: 'projectName',
     });
-
+    console.log(pageNum,pageSize,"called from test case");
+    console.log("result from test case",this.projectStore.team$.subscribe((data:any)=>console.log(data)))
+    this.projectList$ = this.projectStore.team$;
   }
 
-  updateCreateEmployeeModal(item: any) {
-    this.modalController.create({
+  private async openCreateModal() {
+    const modal = await this.modalController.create({
       component: CreateProjectComponent,
       cssClass: 'create-project-modal',
-      componentProps: {
-        editData: item
-
-      }
-    }).then((modal) => {
-      modal.present();
-      modal.onDidDismiss().then((data) => {
-      this.loadProjects(this.page,this.pageSize);
-
-        console.log('Modal dismissed with data:', data);
-        // Handle any data returned from the modal if needed
-      });
     });
-
+    await modal.present();
+    const { role } = await modal.onDidDismiss();
+    if (role !== 'cancel') {
+      this.loadProjects(this.page, this.pageSize);
+    }
   }
 
-  deleteModal(item: any) {
-    this.modalController.create({
+  private async openEditModal(item: createProject){
+    const modal = await this.modalController.create({
+      component: CreateProjectComponent,
+      cssClass: 'create-project-modal',
+      componentProps: { editData: item },
+    });
+    await modal.present();
+
+    await modal.onDidDismiss();
+    this.loadProjects(this.page, this.pageSize);
+  }
+
+  private async openDeleteModal(item: createProject) {
+    const modal = await this.modalController.create({
       component: ConfirmDeleteComponent,
       cssClass: 'custom-delete-modal',
       componentProps: {
         role: 'delete',
         data: {
-          id: item.projectId,
-          name: item.projectName
-        }
-      }
-    }).then((modal) => {
-      modal.present();
-      modal.onDidDismiss().then((data) => {
-        console.log('Modal dismissed with data:', data);
-        this.projectStore.deleteProject(item.projectId);
-        // Handle any data returned from the modal if needed
-      });
+          id:item.projectId? item.projectId.toString():'',
+          name: item.projectName,
+        },
+      },
     });
+    await modal.present();
+
+    const { role } = await modal.onDidDismiss();
+    if (role !== 'cancel') {
+      this.projectStore.deleteProject(item.projectId?item.projectId.toString():'');
+    }
+  }
+    private isCreateProject(obj: unknown): obj is createProject {
+    return (
+      typeof obj === 'object' &&
+      obj !== null &&
+      'projectId' in obj &&
+      'projectName' in obj
+    );
   }
 
-
-    loadProjects(pageNum:number,pageSize:number){
-    this.projectStore.getTeam({ page: pageNum, size: pageSize, sortBy: 'projectName' });
-    this.projectList$ = this.projectStore.team$;
-
-  }
 }

@@ -10,7 +10,7 @@
 <div class="modal-wrapper" *ngIf="selectedTab === 'active'">
  
     <app-reusable-table [columns]="columns" [weekLabel]='name' [data]="sprintstore$" [label]="label"
-        (rowAction)="handleRowAction($event)"></app-reusable-table>
+        (rowAction)="handleRowAction($event)" [createEnableFlag]="createEnableFlag$ |async"></app-reusable-table>
  
         <!-- {{sprintstore$|async|json}} -->
 </div>
@@ -19,7 +19,7 @@
  
  
     <app-reusable-table [columns]="columns" [weekLabel]='name' [data]="sprintlistStore$" [label]="label"
-        (rowAction)="handleRowAction($event)"></app-reusable-table>
+        (rowAction)="handleRowAction($event)" [createEnableFlag]="createEnableFlag$ |async"></app-reusable-table>
  
  
  

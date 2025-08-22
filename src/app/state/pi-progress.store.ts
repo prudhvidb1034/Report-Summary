@@ -32,13 +32,13 @@ export class PiPgrogressStore extends ComponentStore<piproggressReport> {
     readonly error$ = this.select(state => state.error);
 
 
-    readonly createPipgrogressReports = this.effect((piprogressReport$: Observable<createAccountForm>) =>
-        piprogressReport$.pipe(
-            exhaustMap(account => {
-                console.log(account);
+    readonly createPipgrogressReports = this.effect((piReport$: Observable<piproggressReport>) =>
+        piReport$.pipe(
+            exhaustMap(progress => {
+                console.log(progress);
                 
                 this.patchState({ loading: true, error: null });
-                return this.sharedservice.postLocalData(urls.CREATE_QUATERLY_REPORT, account).pipe(
+                return this.sharedservice.postData(urls.CREATE_PI_PROGRESS, progress).pipe(
                     tap({
                         next: (user: any) => {
                             console.log(user);
@@ -61,7 +61,7 @@ export class PiPgrogressStore extends ComponentStore<piproggressReport> {
             trigger$.pipe(
                 tap(() => this.patchState({ loading: true, error: null })),
                 switchMap((val:any) =>
-                    this.sharedservice.getLocalData<ApiResponse<any[]>>(urls.GET_PIPROGRESS_URL).pipe(
+                    this.sharedservice.getData<ApiResponse<any[]>>(urls.CREATE_PI_PROGRESS).pipe(
                         tapResponse(
                             (piprogressReport) => {
                                 this.patchState({ piprogressReport: piprogressReport.data, loading: false });
@@ -87,7 +87,7 @@ export class PiPgrogressStore extends ComponentStore<piproggressReport> {
                     console.log(data);
                     
                     this.patchState({ loading: true, error: null });
-                    return this.sharedservice.patchLocalData(`${urls.UPDATE_QUATERLY_REPORT}/${id}`, data).pipe(
+                    return this.sharedservice.patchData(`${urls.CREATE_PI_PROGRESS}/${id}`, data).pipe(
                         tap({
                             next: (updatedAccount: any) => {
                                 this._accountCreateStatus.set('update');
@@ -108,7 +108,7 @@ export class PiPgrogressStore extends ComponentStore<piproggressReport> {
     readonly deletepiprogressReport = this.effect((accountId$: Observable<string>) =>
         accountId$.pipe(
             exhaustMap(id =>
-                this.sharedservice.deleteLocalData(`${urls.REMOVE_QUATERLY_REPORT}/${id}`).pipe(
+                this.sharedservice.deleteData(`${urls.CREATE_PI_PROGRESS}/${id}`).pipe(
                     tapResponse(
                         () => {
                             this._accountCreateStatus.set('deleted');

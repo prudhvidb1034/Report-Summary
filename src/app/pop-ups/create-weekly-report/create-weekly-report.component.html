@@ -1,98 +1,97 @@
-<div class="modal-wrapper">
-    <ion-header>
-        <ion-toolbar color="light">
-            <ion-buttons slot="start">
-                <ion-title>
-                    <b> {{ isEditMode ? 'Update' : 'Create' }} Weekly Report</b>
-                </ion-title>
-            </ion-buttons>
-            <ion-buttons slot="end">
-                <ion-button fill="clear" (click)="setOpen(false)">
-                    <ion-icon name="close-outline" class="icon-medium"></ion-icon>
-                </ion-button>
-            </ion-buttons>
-        </ion-toolbar>
-    </ion-header>
+<ion-header>
+    <ion-toolbar color="light">
+        <ion-buttons slot="start">
+            <ion-title>
+                <b> {{ isEditMode ? 'Update' : 'Create' }} Weekly Report</b>
+            </ion-title>
+        </ion-buttons>
+        <ion-buttons slot="end">
+            <ion-button fill="clear" (click)="setOpen(false)">
+                <ion-icon name="close-outline" class="icon-medium"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
 
- <ion-content>
-        <form [formGroup]="weeklyreportForm">
-            <ion-grid>
-                <ion-row>
-                    <ion-col size="6">
-                        <ion-item class="custom-item" [class.invalid]="isInvalid('WeekName')"
-                            [class.valid]="isValid('WeekName')" lines="none">
-                            <ion-input formControlName="WeekName" label="week Name" labelPlacement="floating"
-                                class="label-texts" placeholder="Enter sprint name" [clearOnEdit]="true"></ion-input>
-                        </ion-item>
+<ion-content>
+    <form [formGroup]="weeklyreportForm">
+        <ion-grid>
+            <ion-row>
+                <ion-col size="6">
+                    <ion-item class="custom-item" [class.invalid]="isInvalid('WeekName')"
+                        [class.valid]="isValid('WeekName')" lines="none">
+                        <ion-input formControlName="WeekName" label="week Name" labelPlacement="floating"
+                            class="label-texts" placeholder="Enter sprint name" [clearOnEdit]="true"></ion-input>
+                    </ion-item>
 
-                        @if (weeklyreportForm.get('WeekName')?.invalid &&
-                        (weeklyreportForm.get('WeekName')?.dirty || weeklyreportForm.get('WeekName')?.touched)) {
-                        <ion-text color="danger" class="error-message">
-                            @if (weeklyreportForm.get('WeekName')?.errors?.['required']) {
-                            <p>WeekName Name is required.</p>
-                            }
-
-                        </ion-text>
+                    @if (weeklyreportForm.get('WeekName')?.invalid &&
+                    (weeklyreportForm.get('WeekName')?.dirty || weeklyreportForm.get('WeekName')?.touched)) {
+                    <ion-text color="danger" class="error-message">
+                        @if (weeklyreportForm.get('WeekName')?.errors?.['required']) {
+                        <p>WeekName Name is required.</p>
                         }
-                    </ion-col>
 
-                    <!-- Start Date -->
-                    <ion-col size="6">
-                        <ion-item class="custom-item" [class.invalid]="isInvalid('fromDate')"
-                            [class.valid]="isValid('fromDate')" lines="none">
-                            <ion-input formControlName="fromDate" label="Start Date" labelPlacement="floating"
-                                class="label-texts" type="date" [clearOnEdit]="true"></ion-input>
-                        </ion-item>
+                    </ion-text>
+                    }
+                </ion-col>
 
-                        @if (weeklyreportForm.get('fromDate')?.invalid &&
-                        (weeklyreportForm.get('fromDate')?.dirty || weeklyreportForm.get('fromDate')?.touched)) {
-                        <ion-text color="danger" class="error-message">
-                            @if (weeklyreportForm.get('fromDate')?.errors?.['required']) {
-                            <p>Start Date is required.</p>
-                            }
-                        </ion-text>
+                <!-- Start Date -->
+                <ion-col size="6">
+                    <ion-item class="custom-item" [class.invalid]="isInvalid('fromDate')"
+                        [class.valid]="isValid('fromDate')" lines="none">
+                        <ion-input formControlName="fromDate" label="Start Date" labelPlacement="floating"
+                            class="label-texts" type="date" [clearOnEdit]="true"></ion-input>
+                    </ion-item>
+
+                    @if (weeklyreportForm.get('fromDate')?.invalid &&
+                    (weeklyreportForm.get('fromDate')?.dirty || weeklyreportForm.get('fromDate')?.touched)) {
+                    <ion-text color="danger" class="error-message">
+                        @if (weeklyreportForm.get('fromDate')?.errors?.['required']) {
+                        <p>Start Date is required.</p>
                         }
-                    </ion-col>
-                </ion-row>
+                    </ion-text>
+                    }
+                </ion-col>
+            </ion-row>
 
-                <!-- Row 2: End Date -->
-                <ion-row>
-                    <ion-col size="6">
-                        <ion-item class="custom-item" [class.invalid]="isInvalid('toDate')"
-                            [class.valid]="isValid('toDate')" lines="none">
-                            <ion-input formControlName="toDate" label="End Date" labelPlacement="floating"
-                                class="label-texts" type="date" [clearOnEdit]="true"></ion-input>
-                        </ion-item>
+            <!-- Row 2: End Date -->
+            <ion-row>
+                <ion-col size="6">
+                    <ion-item class="custom-item" [class.invalid]="isInvalid('toDate')"
+                        [class.valid]="isValid('toDate')" lines="none">
+                        <ion-input formControlName="toDate" label="End Date" labelPlacement="floating"
+                            class="label-texts" type="date" [clearOnEdit]="true"></ion-input>
+                    </ion-item>
 
-                        @if (weeklyreportForm.get('toDate')?.invalid &&
-                        (weeklyreportForm.get('toDate')?.dirty || weeklyreportForm.get('toDate')?.touched)) {
-                        <ion-text color="danger" class="error-message">
-                            @if (weeklyreportForm.get('toDate')?.errors?.['required']) {
-                            <p>End Date is required.</p>
-                            }
-                        </ion-text>
+                    @if (weeklyreportForm.get('toDate')?.invalid &&
+                    (weeklyreportForm.get('toDate')?.dirty || weeklyreportForm.get('toDate')?.touched)) {
+                    <ion-text color="danger" class="error-message">
+                        @if (weeklyreportForm.get('toDate')?.errors?.['required']) {
+                        <p>End Date is required.</p>
                         }
-                    </ion-col>
-                </ion-row>
-            </ion-grid>
-        </form>
+                    </ion-text>
+                    }
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </form>
 
-   </ion-content>
+</ion-content>
 
-    <ion-footer>
-        <ion-toolbar>
-            <ion-buttons slot="end">
+<ion-footer>
+    <ion-toolbar>
+        <ion-buttons slot="end">
 
-                <ion-button class="close" (click)="setOpen(false)">Close</ion-button>
+            <ion-button class="close" (click)="setOpen(false)">Close</ion-button>
 
-                <ion-button class="save" (click)="SubmitForm()">
+            <ion-button class="save" (click)="SubmitForm()">
 
-                    {{ isEditMode ? 'Update' : 'Save' }}
-                </ion-button>
-            </ion-buttons>
-        </ion-toolbar>
-    </ion-footer>
-</div>
+                {{ isEditMode ? 'Update' : 'Save' }}
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-footer>
+
 <!-- <div class="loader-overlay" *ngIf="(isLoading$ | async)">
     <ion-spinner name="crescent"></ion-spinner>
 </div> -->

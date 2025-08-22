@@ -9,6 +9,7 @@ import { urls } from '../../constants/string-constants';
 import { PaginatorComponent } from '../paginator/paginator.component';
 import { WeekRangePipe } from '../pipes/week-range.pipe';
 import { RouterModule } from '@angular/router';
+import { CommonStore } from '../../state/common.store';
 
 @Component({
   selector: 'app-reusable-table',
@@ -28,6 +29,7 @@ export class ReusableTableComponent {
   @Input() searchTerm: string = '';
   @Output() searchTermChange = new EventEmitter<string>();
   @Output() searchTermChanged = new EventEmitter<string>();
+  @Input() createEnableFlag:any;
   totalItems = 100;
   itemsPerPage = 5;
   currentPage = 0;
@@ -38,7 +40,7 @@ loadPage(event: { pageIndex: number; pageSize: number }) {
 
 
   private loginStore = inject(LoginStore)
-  private sharedservice = inject(SharedService)
+  private sharedservice = inject(SharedService);
 
   userRole$ = this.loginStore.user$.pipe(
     map(res => res?.role?.toLocaleLowerCase())
@@ -48,7 +50,7 @@ loadPage(event: { pageIndex: number; pageSize: number }) {
   }
 
   ngOnInit() {
-    console.log(this.searchTerm)
+    console.log("createEnableFlag",this.createEnableFlag)
   }
 
   onSearchTermChange() {

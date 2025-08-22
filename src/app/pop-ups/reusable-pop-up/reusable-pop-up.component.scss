@@ -1,42 +1,19 @@
-
-// :host {
-//   display: flex;
-//   flex-direction: column;
-//   height: 70%;
-// }
-
-.modal-wrapper {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  width: 100%;
-  background: var(--ion-background-color, #fff);
-  overflow: hidden;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
-}
-
-ion-content.ion-padding ion-grid{
+ion-content.ion-padding ion-grid {
   display: flex;
   flex-direction: column;
   gap: 16px;
 }
 
-// ion-footer {
-//   position: relative;
-// }
-/* Removes underline */
 .custom-searchbar .searchbar-input-container {
   border-bottom: none !important;
 }
 
-/* Dropdown wrapper placed below search bar */
 .dropdown-wrapper {
   position: relative;
   z-index: 10;
-  margin-top: -8px; /* Adjust as needed */
+  margin-top: -8px;
 }
 
-/* Dropdown look */
 .custom-list {
   background: white;
   border-radius: 8px;
@@ -45,27 +22,24 @@ ion-content.ion-padding ion-grid{
   padding: 0;
 }
 
-/* Remove item border */
 ion-item {
   --border-width: 0;
   --inner-border-width: 0;
 }
+
 .scroll-list {
   max-height: 150px;
   overflow-y: auto;
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
-.ion-margin{
-    margin-left: 7px;
+
+.ion-margin {
+  margin-left: 7px;
 }
 
 ion-searchbar.search-bar-input {
   .searchbar-input {
-   background-color: #f6f5f5 !important; // Replace with your desired color
+    background-color: #f6f5f5 !important;
   }
 }
-
-// .no-scroll-content {
-//   --overflow: hidden; // disables scroll for ion-content
-// }

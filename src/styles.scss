@@ -129,7 +129,7 @@ ion-app ion-footer {
 
 /* Restore footer stickiness for modals */
 ion-modal ion-footer {
-  position: absolute;
+  position: sticky;
   bottom: 0;
   left: 0;
   right: 0;
@@ -190,14 +190,14 @@ app-project-status {
 
 
 ion-modal.register-modal {
-  --height: calc(100vh - 28vh);
+  --height: calc(100vh - 25vh);
 }
 
 ion-modal.create-account-modal {
   --height: calc(100vh - 50vh);
 }
 ion-modal.create-dependency-modal {
-  --height: calc(100vh - 25vh);
+  --height: calc(100vh - 20vh);
 }
 
 ion-modal.create-project-modal {
@@ -217,7 +217,7 @@ ion-modal.weekly-sprint-creation-modal {
 }
 
 ion-modal.weekly-sprint-releases-modal {
---height: calc(100vh - 50vh);
+--height: calc(100vh - 45vh);
 }
 
 
@@ -402,7 +402,7 @@ ion-item.valid {
 ion-header {
   ion-toolbar {
     ion-title {
-      margin-left: 24px;
+      margin-left: 25px;
       font-weight: 400;
     }
   }

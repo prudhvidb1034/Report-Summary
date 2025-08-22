@@ -6,135 +6,141 @@ import PptxGenJS from 'pptxgenjs';
 import html2canvas from 'html2canvas';
 import { SprintStore } from '../../state/sprint.store';
 import { ActivatedRoute } from '@angular/router';
+import { PiPgrogressStore } from '../../state/pi-progress.store';
 @Component({
   selector: 'app-sprint-report',
   standalone: true,
   imports: [IonicModule, CommonModule],
-  providers: [SprintStore],
+  providers: [SprintStore, PiPgrogressStore],
   templateUrl: './sprint-report.component.html',
   styleUrl: './sprint-report.component.scss'
 })
 export class SprintReportComponent {
 
   private sprintSore = inject(SprintStore);
-
+  private piprogresstore = inject(PiPgrogressStore)
+  piprogresstore$ = this.piprogresstore.piprogressReport$
   SprintList$ = this.sprintSore.sprintReport$;
   incidentList$ = this.sprintSore.incidentReport$;
+  piStandingData$ = this.sprintSore.piStandingReport$
+  dependencieslist$ = this.sprintSore.getdependencies$;
+  resourcesbygraphlist$ = this.sprintSore.resourcesbygraph$;
+  getresources$ = this.sprintSore.getresources$;
   isLoading$ = this.sprintSore.select((state: { loading: any; }) => state.loading);
   private router = inject(ActivatedRoute);
   ngOnInit() {
     const sprintId = this.router.snapshot.paramMap.get('id');
-
+    this.piprogresstore.getPipgrogressReports()
     if (sprintId !== null) {
       this.sprintSore.getReportById(sprintId);
       this.sprintSore.getIndicentById(sprintId);
+      this.sprintSore.getDependencybySprintID(sprintId)
+      this.sprintSore.getResourceBySprintId(sprintId);
+      this.sprintSore.getResourceByGrpahSprintId(sprintId);
     }
+    this.sprintSore.getPIStandingData();
+    this.piStandingData$.subscribe((res: any) => {
+      console.log(res);
+    })
 
   }
-  techSummary = [
-    { tech: 'UX', onsite: 1, offshore: 3, ratio: '25% : 75%' },
-    { tech: 'UI', onsite: 1, offshore: 7, ratio: '13% : 87%' },
-    { tech: 'Java', onsite: 2, offshore: 7, ratio: '22% : 78%' },
-    { tech: 'RPA', onsite: 0, offshore: 2, ratio: '0% : 100%' },
-    { tech: 'Total', onsite: 4, offshore: 19, ratio: '17% : 83%' },
-
-  ];
-
-  projectSummary = [
-    { project: 'C360', onsite: 2, offshore: 6, ratio: '25% :75%' },
-    { project: 'Innovation', onsite: 0, offshore: 3, ratio: '0% : 100%' },
-    { project: 'Onboarding', onsite: 1, offshore: 4, ratio: '20% : 80%' },
-    { project: 'Core Tex', onsite: 0, offshore: 1, ratio: '0% :100%' },
-    { project: 'RPA', onsite: 0, offshore: 2, ratio: '0% :100%' },
-    { project: 'Total', onsite: 3, offshore: 16, ratio: '16% : 84%' },
-  ];
-
-
-  sprintHealth = [
-    { name: 'Customer 360', est: 'G', groom: 'G', completion: '77.8%', inDev: '0', inQA: '0', blocked: '2(4)', atRisk: '0' },
-    { name: 'Onboarding', est: 'G', groom: 'G', completion: '25%', inDev: '1(3)', inQA: '1(3)', blocked: '0', atRisk: '0' },
-    { name: 'Innovation', est: 'G', groom: 'G', completion: '100%', inDev: '0', inQA: '8(28)', blocked: '0', atRisk: '0' },
-    { name: 'RPA', est: 'G', groom: 'G', completion: '71.4%', inDev: '6(14)', inQA: '3(9)', blocked: '0', atRisk: '0' },
-    { name: 'CoreTex', est: 'G', groom: 'G', completion: '100%', inDev: '0', inQA: '0', blocked: '0', atRisk: '0' },
-    { name: 'UX', est: 'G', groom: 'G', completion: '100%', inDev: 'N/A', inQA: 'N/A', blocked: '0', atRisk: '0' },
-  ];
-
-  releaseData = [
-    { team: 'Customer 360', major: 0, minor: 0, incident: 0 },
-    { team: 'Onboarding', major: 0, minor: 0, incident: 0 },
-    { team: 'Innovation', major: 0, minor: 0, incident: 0 },
-    { team: 'RPA', major: 0, minor: 0, incident: 0 },
-    { team: 'CoreTex', major: 0, minor: 1, incident: 0 },
-  ];
 
   ngAfterViewInit() {
-    this.renderBarChart();
-    this.renderBarChart2()
+    this.resourcesbygraphlist$.subscribe((res: any) => {
+      if (res && res.techStackSummary) {
+        this.renderBarChart(res.techStackSummary);
+      }
+    });
+
+    this.resourcesbygraphlist$.subscribe((res: any) => {
+      if (res && res.projectSummary) {
+        this.renderBarChart2(res.projectSummary);
+      }
+    });
+
   }
 
- renderBarChart() {
-  const ctx = document.getElementById('barChart') as HTMLCanvasElement;
-
-  new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: ['C360', 'Innovation', 'Onboarding', 'Core Tex', 'RPA', 'UX', 'Total'],
-      datasets: [
-        {
-          label: 'UI',
-          data: [5, 2, 1, 0, 2, 4, 14],
-          backgroundColor: '#007bff'
-        },
-        {
-          label: 'Backend',
-          data: [3, 1, 4, 1, 0, 0, 9],
-          backgroundColor: '#fd7e14'
-        },
-        {
-          label: 'Total',
-          data: [8, 3, 5, 1, 2, 4, 23],
-          backgroundColor: '#adb5bd'
-        }
-      ]
-    },
-    options: {
-      responsive: true,
-      plugins: {
-        legend: {
-          position: 'bottom' 
-        },
-        title: {
-          display: false
-        }
-      },
-      scales: {
-        x: { stacked: true },
-        y: { stacked: true }
-      }
-    }
-  });
-}
-
-    renderBarChart2() {
-    const ctx = document.getElementById('barChart2') as HTMLCanvasElement;
+  renderBarChart(techStackSummary: any[]) {
+    const ctx = document.getElementById('barChart') as HTMLCanvasElement;
+    const labels = techStackSummary.map(item => item.techStack);
+    const onsiteData = techStackSummary.map(item => item.onsite);
+    const offsiteData = techStackSummary.map(item => item.offsite);
+    const totalData = techStackSummary.map(item => item.total);
     new Chart(ctx, {
       type: 'bar',
       data: {
-        labels: ['C360', 'Innovation', 'Onboarding', 'Core Tex', 'RPA', 'UX', 'Total'],
+        labels: labels,
         datasets: [
           {
-            label: 'UI',
-            data: [5, 2, 1, 0, 2, 4, 14],
+            label: 'Onsite',
+            data: onsiteData,
             backgroundColor: '#007bff'
           },
           {
-            label: 'Backend',
-            data: [3, 1, 4, 1, 0, 0, 9],
+            label: 'Offsite',
+            data: offsiteData,
             backgroundColor: '#fd7e14'
           },
           {
             label: 'Total',
-            data: [8, 3, 5, 1, 2, 4, 23],
+            data: totalData,
+            backgroundColor: '#adb5bd'
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'bottom'
+          },
+          title: {
+            display: false
+          }
+        },
+        scales: {
+          x: { stacked: true 
+            ,
+             grid: {
+              drawTicks: false,
+              drawOnChartArea: false 
+            }
+          },
+          y: {
+            stacked: true,
+            ticks: {
+              stepSize: 5
+            }
+          }
+        }
+      }
+    });
+  }
+
+  renderBarChart2(projectSummary: any[]) {
+    const ctx = document.getElementById('barChart2') as HTMLCanvasElement;
+    const labels = projectSummary.map(item => item.projectName);
+    const onsiteData = projectSummary.map(item => item.onsite);
+    const offsiteData = projectSummary.map(item => item.offsite);
+    const totalData = projectSummary.map(item => item.total);
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: labels,
+        datasets: [
+          {
+            label: 'Onsite',
+            data: onsiteData,
+            backgroundColor: '#007bff'
+          },
+          {
+            label: 'Offsite',
+            data: offsiteData,
+            backgroundColor: '#fd7e14'
+          },
+          {
+            label: 'Total',
+            data: totalData,
             backgroundColor: '#adb5bd'
           }
         ]
@@ -146,8 +152,19 @@ export class SprintReportComponent {
           title: { display: false }
         },
         scales: {
-          x: { stacked: true },
-          y: { stacked: true }
+          x: {
+            stacked: true,
+            grid: {
+              drawTicks: false,
+              drawOnChartArea: false 
+            }
+          },
+          y: {
+            stacked: true,
+            ticks: {
+              stepSize: 5
+            }
+          }
         }
       }
     });
@@ -156,21 +173,24 @@ export class SprintReportComponent {
     this.sprintSore.patchState({ loading: true });
     try {
       const pptx = new PptxGenJS();
+
+      // wait 500ms to ensure charts are rendered
+      await new Promise(res => setTimeout(res, 500));
+
       const pageSections = document.querySelectorAll('.container') as NodeListOf<HTMLElement>;
 
-      // Wait for fonts to be fully loaded
       await document.fonts.ready;
 
       const totalPages = pageSections.length;
 
       for (const [index, page] of Array.from(pageSections).entries()) {
-        // Force consistent font styling
         page.style.fontFamily = "'Poppins', sans-serif";
         page.style.fontSize = '12px';
 
         const canvas = await html2canvas(page, {
           scale: 3,
-          useCORS: true
+          useCORS: true,
+          backgroundColor: '#ffffff'
         });
 
         const fullWidth = canvas.width;
@@ -180,7 +200,6 @@ export class SprintReportComponent {
 
         const slide = pptx.addSlide();
 
-        // Add image to slide
         slide.addImage({
           data: imgData,
           x: 0,
@@ -189,11 +208,10 @@ export class SprintReportComponent {
           h: 10 * aspectRatio
         });
 
-        // Add bottom-right page number (e.g. "1 of 7")
         const pageNumber = `${index + 1} of ${totalPages}`;
         slide.addText(pageNumber, {
-          x: '85%', // 85% from left (approximate bottom-right)
-          y: '90%', // 90% from top
+          x: '85%',
+          y: '90%',
           fontSize: 10,
           color: '666666',
           align: 'right',
@@ -210,6 +228,7 @@ export class SprintReportComponent {
       this.sprintSore.patchState({ loading: false });
     }
   }
+
 
 
   getBgStyle(status: string): { [key: string]: string } {

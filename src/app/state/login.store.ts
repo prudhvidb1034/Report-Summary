@@ -8,8 +8,6 @@ import { ToastService } from '../shared/toast.service';
 import { SharedService } from '../services/shared/shared.service';
 import { urls } from '../constants/string-constants';
 import { CommonStore } from './common.store';
-// Import or define LOGIN_DETAILS
-
 
 interface LoginState {
   loading: boolean;
@@ -61,31 +59,6 @@ login = this.effect((credentials$: Observable<LoginCredentials>) =>
     })
   )
 );
-
-
-
-  //   readonly login = this.effect((credentials$) =>
-  //     credentials$.pipe(
-  //       tap(() => this.setState({ loading: true, error: null })),
-  //       switchMap(credentials =>
-  //         this.auth.loginCheck(credentials).pipe(
-  //           tap(({ user }) => {
-  //             if (user) {
-  //               if (user.userEntry === 'existingUser') {
-  //                 this.router.navigate(['/dashboard']);
-  //               } else {
-  //                 this.router.navigate(['/reset-password']);
-  //               }
-  //             } else {
-  //               this.patchState({ error: 'Invalid username or password' });
-  //             }
-  //           }),
-  //           tap(() => this.patchState({ loading: false }))
-  //         )
-  //       )
-  //     )
-  //   );
-
   readonly user$ = this.select(state => state.user);
     readonly clearAll = this.updater(() => initialState);
  readonly loading$ = this.select(state => state.loading);

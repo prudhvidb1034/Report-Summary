@@ -13,6 +13,7 @@ import { WeeklySprintReleasesComponent } from '../../pop-ups/weekly-sprint-relea
 import { ToastService } from '../../shared/toast.service';
 import { SprintReleaseStore } from '../../state/Sprint-release.store';
 import { ConfirmDeleteComponent } from '../../pop-ups/confirm-delete/confirm-delete.component';
+import { SharedService } from '../../services/shared/shared.service';
 
 @Component({
   selector: 'app-weekly-sprint-update',
@@ -38,6 +39,9 @@ export class WeeklySprintUpdateComponent {
   weeklyReportById$: any;
   allProjects$ = this.commonStore.allProjects$;
   private toast = inject(ToastService);
+  private commonService=inject(SharedService);
+    createEnableFlag$=this.commonStore.flag$;
+
 
   public validationService = inject(ValidationsService);
   isLoading$ = this.sprintStore.select(state => state.loading);
@@ -75,21 +79,28 @@ export class WeeklySprintUpdateComponent {
   }
   ngOnInit() {
     this.weekId = this.routering.snapshot.paramMap.get('id');
-    this.sprintstore$ = this.sprintStore.weeklySprint$.pipe(
-  map(payload => ({
-    ...payload,
-    content: payload?.content?.map((item:any) => ({
+  this.sprintStore.weeklySprint$.pipe(
+  map(payload => {
+    const content = payload?.content?.map((item:any) => ({
       ...item,
       totalAssigned: `${item.assignedStoriesCount} ( ${item.assignedPoints} )`,
-      totalDevs:`${item.inDevStoriesCount} ( ${item.inDevPoints} )`,
-      totalQA:`${item.inQaStoriesCount} ( ${item.inQaPoints} )`,
-      totalBlocked:`${item.blockedStoriesCount} ( ${item.blockedPoints} )`,
-       totalCompletion:`${item.completeStoriesCount} ( ${item.completePoints} )`,
-    }))
-  }))
-);
+      totalDevs: `${item.inDevStoriesCount} ( ${item.inDevPoints} )`,
+      totalQA: `${item.inQaStoriesCount} ( ${item.inQaPoints} )`,
+      totalBlocked: `${item.blockedStoriesCount} ( ${item.blockedPoints} )`,
+      totalCompletion: `${item.completeStoriesCount} ( ${item.completePoints} )`,
+    }));
+    
+    // Update project IDs here
+    const ids = content?.map((item:any) => item.projectId) || [];
+    this.commonService.projectArray=ids;
+console.log("ids",ids)
+    return { ...payload, content };
+  })
+).subscribe(s => this.sprintstore$ = of(s));
+
     this.sprintStore.getWeeklyReportById(this.weekId);
     this.sprintReleaseStore.getReleaseByWeekId(this.weekId);
+   
   }
 
   columnsWeekly = [
@@ -152,38 +163,33 @@ export class WeeklySprintUpdateComponent {
         console.log('Unknown action type:', event);
     }
   }
-  loadCreateModalByTab(item: any) {
-    let componentToLoad: any;
-    let cssClass = '';
+ loadCreateModalByTab(item: any) {
+  if (this.selectedTab === 'active') {
+    // Navigate instead of opening modal
+    const id = this.weekId;
+    this.router.navigate([
+      '/sprints/create-weekly-sprint/create-weekly-report-sprint/create',
+      id
+    ]);
+    return; // ⬅️ Important! stop execution here
+  }
 
-    if (this.selectedTab === 'active') {
-      componentToLoad = WeeklySprintCreationComponent;
-      cssClass = 'weekly-sprint-creation-modal';
-    } else if (this.selectedTab === 'link') {
-      componentToLoad = WeeklySprintReleasesComponent;
-      cssClass = 'weekly-sprint-releases-modal';
-    } else {
-      console.warn('No modal defined for tab:', this.selectedTab);
-      return;
-    }
-
+  if (this.selectedTab === 'link') {
     this.modalController.create({
-      component: componentToLoad,
-      cssClass: cssClass,
+      component: WeeklySprintReleasesComponent,
+      cssClass: 'weekly-sprint-releases-modal',
       componentProps: {
         editData: item
       }
     }).then(modal => {
       modal.present();
       modal.onDidDismiss().then(() => {
-        if (this.selectedTab === 'link') {
-          this.sprintReleaseStore.getReleaseByWeekId(this.weekId);
-        } else {
-          this.sprintStore.getWeeklyReportById(this.weekId); 
-        }
+        this.sprintReleaseStore.getReleaseByWeekId(this.weekId);
       });
     });
   }
+}
+
 
  deleteModal(item: any) {
   this.modalController.create({

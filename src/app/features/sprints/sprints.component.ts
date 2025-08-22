@@ -2,12 +2,12 @@ import { Component, inject } from '@angular/core';
 import { IonicModule, ModalController } from '@ionic/angular';
 import { ReusableTableComponent } from '../../shared/reusable-table/reusable-table.component';
 import { CreateSprintComponent } from '../../pop-ups/create-sprint/create-sprint.component';
-import { of } from 'rxjs';
 import { SprintStore } from '../../state/sprint.store';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Route, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { ConfirmDeleteComponent } from '../../pop-ups/confirm-delete/confirm-delete.component';
+import { CommonStore } from '../../state/common.store';
 
 @Component({
   selector: 'app-sprints',
@@ -27,14 +27,17 @@ export class SprintsComponent {
   pageSize = 5;
   sprintList$: any;
   private router = inject(Router);
-
-
+  columns: any[] = [];
+  role: string = '';
+  private commonStore=inject(CommonStore);
 
   constructor() {
     this.loadSprint(this.page, this.pageSize)
   }
 
   navigate(event: any) {
+    console.log("event",event);
+    this.commonStore.setFlag(event.item.isEnabled);
     if (event.columnName === 'Weekly Report') {
       this.router.navigateByUrl('sprints/create-weekly-sprint' + '/' + event.item.sprintId, { state: { sprintName: event.item.sprintName } });
     } else if (event.columnName === 'Pi3 Standing') {
@@ -46,23 +49,27 @@ export class SprintsComponent {
       this.router.navigateByUrl('sprints/dependencies' + '/' + event.item.sprintId, { state: { sprintName: event.item.sprintName } });
     }
     else {
-      this.router.navigateByUrl('sprints/sprint-report' + '/' + event.item.sprintId,{ state: { sprintName: event.item.sprintName } })
+      this.router.navigateByUrl('sprints/sprint-report' + '/' + event.item.sprintId, { state: { sprintName: event.item.sprintName } })
     }
   }
+  ngOnInit() {
+    const userData = JSON.parse(localStorage.getItem('user') || '{}');
+    this.role = userData.role;
 
-
-  columns = [
-    { header: 'Sprint Number', field: 'sprintNumber' },
-    { header: 'Sprint Name', field: 'sprintName' },
-    { header: 'From Date', field: 'fromDate' },
-    { header: 'To Date', field: 'toDate' },
-    { header: 'View Resource', field: 'View', linkEnable: true, link: '/view-resource' },
-    { header: 'Dependencies', field: 'View', linkEnable: true, link: '/dependencies' },
-    { header: 'Weekly Report', field: 'View', linkEnable: true, link: '/create-weekly-sprint' },
-    { header: 'Status', field: 'status' },
-    { header: 'Action', field: 'action', type: ['edit', 'delete'] },
-    { header: 'OverAll Report', field: 'View', linkEnable: true, link: '/sprint-report' }
-  ];
+    this.columns = [
+      { header: 'Sprint Name', field: 'sprintName' },
+      { header: 'From Date', field: 'fromDate' },
+      { header: 'To Date', field: 'toDate' },
+      { header: 'View Resource', field: 'View', linkEnable: true, link: '/view-resource' },
+      { header: 'Dependencies', field: 'View', linkEnable: true, link: '/dependencies' },
+      { header: 'Weekly Report', field: 'View', linkEnable: true, link: '/create-weekly-sprint' },
+      ...(this.role === 'SUPERADMIN'
+        ? [{ header: 'Status', field: 'status' }]
+        : []),
+      { header: 'Action', field: 'action', type: ['edit', 'delete'] },
+      { header: 'OverAll Report', field: 'View', linkEnable: true, link: '/sprint-report' }
+    ];
+  }
   handleRowAction(event: any) {
     switch (event.type) {
       case 'create':
@@ -85,6 +92,9 @@ export class SprintsComponent {
       case 'navigate':
         this.navigate(event);
         break;
+      case 'toggle-status':
+        this.toggleAPI(event);
+        break;
       default:
         console.log('Unknown action type:', event.type);
     }
@@ -93,6 +103,11 @@ export class SprintsComponent {
   loadSprint(pageNum: number, pageSize: number) {
     this.sprintSore.getSprintDetails({ page: pageNum, size: pageSize });
     this.sprintList$ = this.sprintSore.sprint$;
+  }
+
+  toggleAPI(event: any) {
+    this.sprintSore.toggleStatus(event.item.sprintId)
+    console.log("toggle", event);
   }
 
   loadCreateEmployeeModal() {

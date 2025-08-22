@@ -1,46 +1,79 @@
 import { CommonModule } from '@angular/common';
 import { Component, effect, inject, Input } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { ValidationsService } from '../../services/validation/validations.service';
 import { CommonStore } from '../../state/common.store';
 import { ModalController } from '@ionic/angular/standalone';
 import { SprintStore } from '../../state/sprint.store';
 import { ToastService } from '../../shared/toast.service';
+import { WeekRangePipe } from '../../shared/pipes/week-range.pipe';
+import { SharedService } from '../../services/shared/shared.service';
+import { map } from 'rxjs';
 
 @Component({
   selector: 'app-weekly-sprint-creation',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, IonicModule],
-  providers: [SprintStore],
+  providers: [SprintStore,WeekRangePipe],
   templateUrl: './weekly-sprint-creation.component.html',
   styleUrl: './weekly-sprint-creation.component.scss'
 })
 export class WeeklySprintCreationComponent {
-  private routering = inject(ActivatedRoute);
   weeklysprintUpdateForm !: FormGroup;
   private fb = inject(FormBuilder);
   @Input() editData: any;
   weekId: any;
+  weekIds: any;
   private commonStore = inject(CommonStore);
-  private modalCtrl = inject(ModalController)
+  private modalCtrl = inject(ModalController);
+  private router = inject(ActivatedRoute);
   allProjects$ = this.commonStore.allProjects$;
   private sprintStore = inject(SprintStore);
+  historyWeekdata$ = this.sprintStore.historyWeekdata$;
   isLoading$ = this.sprintStore.select(state => state.loading);
   public validationService = inject(ValidationsService);
   private toast = inject(ToastService);
   isEditMode: boolean = false;
+  private navRouter = inject(Router);
+private datePipe=inject(WeekRangePipe);
+private commonService=inject(SharedService)
+
 
   ngOnInit() {
-    this.weekId = this.editData
+    if(this.commonService.projectArray.length){
+      this.allProjects$ = this.allProjects$.pipe(
+  map(projectList => projectList.map((p:any) => ({
+    ...p,
+    disabled: this.commonService.projectArray.includes(p.projectId)
+  })))
+);
+
+    }
+    this.weekId = this.editData;
+    this.router.paramMap.subscribe(params => {
+      this.weekIds = params.get('id')!;
+    
+    });
+   
     this.createSprintForm();
     if (this.editData?.item?.weeekRangeId) {
       this.weeklysprintUpdateForm.patchValue(this.editData.item);
       this.isEditMode = true;
     }
+     this.sprintStore.getHistoryById(this.weekIds);
+       const assignedControl = this.weeklysprintUpdateForm.get('assignedPoints');
+  const completedControl = this.weeklysprintUpdateForm.get('completePoints');
+
+  if (assignedControl && completedControl) {
+    assignedControl.valueChanges.subscribe(() => this.computePercentage());
+    completedControl.valueChanges.subscribe(() => this.computePercentage());
+  }
 
   }
+
+  
 
   readonly accountStatusEffect = effect(() => {
     const status = this.sprintStore.sprintCreateStatus();
@@ -48,11 +81,16 @@ export class WeeklySprintCreationComponent {
     if (status === 'success') {
       // this.sprintStore.getWeeklyReportById(this.weekId.weeekRangeId);
       this.setOpen(false);
+            console.log("this.weekld",this.weekIds)
+            this.navRouter.navigateByUrl('sprints/create-weekly-sprint/create-weekly-report-sprint'+'/'+this.weekIds,  { state: { name: this.datePipe.transform(this.commonService.sharedValue) } });
+
       this.toast.show('success', 'Weekly Sprint Updated Successfully!');
 
     } else if (status === 'update') {
       this.setOpen(false);
-      console.log(this.weekId)
+            this.navRouter.navigateByUrl('sprints/create-weekly-sprint/create-weekly-report-sprint'+'/'+this.weekIds,  { state: { name: this.datePipe.transform(this.commonService.sharedValue) } });
+
+      console.log(this.weekIds)
 
       this.toast.show('success', 'Weekly Sprint Updated successfully!');
 
@@ -65,11 +103,16 @@ export class WeeklySprintCreationComponent {
     }
   });
 
-
+computePercentage() {
+  const assigned = this.weeklysprintUpdateForm.get('assignedPoints')?.value || 0;
+  const completed = this.weeklysprintUpdateForm.get('completePoints')?.value || 0;
+  const percent = assigned > 0 ? (completed / assigned) * 100 : 0;
+  this.weeklysprintUpdateForm.get('completePercentage')?.patchValue(percent.toFixed(2), { emitEvent: false });
+}
 
   createSprintForm() {
     this.weeklysprintUpdateForm = this.fb.group({
-      weeekRangeId: this.weekId,
+      weeekRangeId: this.weekIds,
       projectId: ['', Validators.required],
       assignedPoints: [null],
       assignedStoriesCount: [null],
@@ -81,7 +124,7 @@ export class WeeklySprintCreationComponent {
       completeStoriesCount: [null],
       blockedPoints: [null],
       blockedStoriesCount: [null],
-      completePercentage: [null],
+      completePercentage: [{ value: 0, disabled: true }],
       estimationHealth: [''],
       groomingHealth: [''],
       difficultCount1: [null],
@@ -92,21 +135,24 @@ export class WeeklySprintCreationComponent {
       comments: [null],
       weeklySprintUpdateStatus: true
     });
+
+
   }
 
   onSubmit() {
-    this.weeklysprintUpdateForm.addControl(
-      'estimationHealthStatus',
-      new FormControl(this.weeklysprintUpdateForm.get('estimationHealth')?.value)
-    );
-    this.weeklysprintUpdateForm.addControl(
-      'groomingHealthStatus',
-      new FormControl(this.weeklysprintUpdateForm.get('groomingHealth')?.value)
-    );
+    // this.weeklysprintUpdateForm.addControl(
+    //   'estimationHealthStatus',
+    //   new FormControl(this.weeklysprintUpdateForm.get('estimationHealth')?.value)
+    // );
+    // this.weeklysprintUpdateForm.addControl(
+    //   'groomingHealthStatus',
+    //   new FormControl(this.weeklysprintUpdateForm.get('groomingHealth')?.value)
+    // );
 
     if (this.isEditMode) {
       this.sprintStore.updateWeeklySprintById({ id: this.editData.item.weekSprintId, data: this.weeklysprintUpdateForm.value });
     } else {
+      console.log("this.weeklysprintUpdateForm.value",this.weeklysprintUpdateForm.value)
       this.sprintStore.createWeeklyUpdateSprint(this.weeklysprintUpdateForm.value)
     }
 

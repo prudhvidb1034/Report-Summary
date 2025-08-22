@@ -9,10 +9,14 @@
       style="display: flex; align-items: center; gap: 8px; width: 100%; flex-wrap: nowrap;">
       <ion-searchbar class="search-bar-input" [(ngModel)]="searchTerm" (ngModelChange)="onSearchTermChange()"
         style="flex-grow: 4;"></ion-searchbar>
-      <ion-button *ngIf="(userRole$|async)!=='employee'" (click)="action('create', null)">
+     <div *ngIf="!createEnableFlag" >
+  <ion-button *ngIf="((userRole$|async)!=='employee') " (click)="action('create', null)">
         Create {{label}}</ion-button>
-    </ion-col>
+     </div>
 
+
+    </ion-col>
+<!-- {{createEnableFlag$|async}} -->
     <ion-col *ngIf="label==='Summary'" class="ion-text-end" size="auto" style="display: flex; align-items: center;">
       <!-- <ion-searchbar class="search-bar-input" style="flex-grow: 4;"></ion-searchbar> -->
       <ion-button (click)="action('createStatus', null)">
@@ -46,7 +50,7 @@
         <ng-template #defaultTemplate>
           <div *ngIf="column.field ==='status'" style="display: flex; justify-content: center;">
             <ion-toggle *ngIf="column.field === 'status'" (ionChange)="toggleEvent($event,item)"
-              [checked]="item.status === 'Active'" justify="center">
+              [checked]="item.isEnabled ===true" justify="center">
             </ion-toggle>
           </div>
           <div style="display: flex; gap: 10px; justify-content: center;" *ngIf="column.field==='action'">
@@ -55,11 +59,11 @@
                 (click)="action('view',item)">
                 <ion-icon name="eye-outline" class="action-color" slot="icon-only"></ion-icon>
               </ion-button>
-              <ion-button [disabled]="item.status=== 'InActive'" *ngIf="actionArray==='edit'" fill="clear" size="small"
+              <ion-button [disabled]="item.isEnabled=== true" *ngIf="actionArray==='edit'" fill="clear" size="small"
                 color="primary" title="Edit" (click)="action('edit',item)">
                 <ion-icon name="create-outline" class="action-color" slot="icon-only"></ion-icon>
               </ion-button>
-              <ion-button [disabled]="item.status=== 'InActive'" *ngIf="actionArray==='delete'" fill="clear"
+              <ion-button [disabled]="item.isEnabled=== true" *ngIf="actionArray==='delete'" fill="clear"
                 size="small" color="danger" title="Delete" (click)="action('delete',item)">
                 <ion-icon name="trash-outline" class="action-color" slot="icon-only"></ion-icon>
               </ion-button>
@@ -86,7 +90,7 @@
         <ion-col [attr.colspan]="columns?.length" class="ion-padding">
           <ion-icon name="information-circle-outline" color="medium" size="small"></ion-icon>
           <div>
-            <strong>No tasks found.</strong>
+            <strong>No {{label}} found.</strong>
           </div>
         </ion-col>
 

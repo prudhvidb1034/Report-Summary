@@ -5,7 +5,6 @@ import { RegistrationForm } from '../models/register.mode';
 import { RegisterService } from '../services/register-service/register.service';
 import { SharedService } from '../services/shared/shared.service';
 import { Constants, urls } from '../constants/string-constants';
-import { NavParams } from '@ionic/angular';
 import { ToastService } from '../shared/toast.service';
 
 

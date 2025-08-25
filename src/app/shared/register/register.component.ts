@@ -1,9 +1,9 @@
-import { Component, effect, EventEmitter, Inject, inject, Input, Output, output, signal } from '@angular/core';
+import { Component, effect,  inject, Input, signal } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, AbstractControl } from '@angular/forms';
 import { IonicModule, ModalController, NavParams } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { RegisterStore } from '../../state/register.store';
-import { ActivatedRoute, ParamMap, Router } from '@angular/router';
+import { ActivatedRoute,  Router } from '@angular/router';
 import { createProject } from '../../models/project.model';
 import { ProjectStore } from '../../state/project.store';
 import { ToastService } from '../../shared/toast.service';

@@ -8,7 +8,7 @@ import { Constants } from '../../constants/string-constants';
 import { provideHttpClient } from '@angular/common/http';
 import { provideRouter } from '@angular/router';
 
-fdescribe('ManagersComponent', () => {
+describe('ManagersComponent', () => {
   let component: ManagersComponent;
   let fixture: ComponentFixture<ManagersComponent>;
   let registerStoreSpy: jasmine.SpyObj<RegisterStore>;

@@ -1,18 +1,16 @@
 import { Component, inject } from '@angular/core';
-import { ActivatedRoute, ParamMap, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ReusableTableComponent } from "../../../shared/reusable-table/reusable-table.component";
-import { Observable, of } from 'rxjs';
 import { IonicModule, ModalController } from '@ionic/angular';
 import { RegisterComponent } from '../../../shared/register/register.component';
-import { EmployeeUpdateComponent } from '../../../pop-ups/employee-update/employee-update.component';
-import { CreateProjectComponent } from '../../../pop-ups/create-project/create-project.component';
 import { ReusablePopUpComponent } from '../../../pop-ups/reusable-pop-up/reusable-pop-up.component';
 import { ProjectStore } from '../../../state/project.store';
-import { SummaryStore } from '../../../state/summary.store';
 import { RegisterStore } from '../../../state/register.store';
 import { ConfirmDeleteComponent } from '../../../pop-ups/confirm-delete/confirm-delete.component';
 import { CommonModule } from '@angular/common';
 import { Constants } from '../../../constants/string-constants';
+import { RegistrationForm } from '../../../models/register.mode';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-employees',
@@ -28,14 +26,15 @@ export class EmployeesComponent {
   private modalController = inject(ModalController);
   private route = inject(Router)
   private router = inject(ActivatedRoute)
-  employeeId: any;
+  employeeId: string | number = '';
   private projectStore = inject(ProjectStore);
   private registerStore = inject(RegisterStore);
   teamsList$ = this.projectStore.team$;
   isLoading$ = this.registerStore.select(state => state.loading);
   page = 0;
   pageSize = 5;
-  registerList$: any;
+  // registerList$: Observable<RegistrationForm[]>;
+  registerList$!: Observable<RegistrationForm[]>;
   projectId: string | null;
   baseUrl:string | null | undefined;
 
@@ -43,8 +42,11 @@ export class EmployeesComponent {
 
   constructor(){
     this.projectId = this.router.snapshot.paramMap.get('id');
-    this.projectId?this.baseUrl='Person/project/'+this.projectId:this.baseUrl=Constants.ROLE_EMPLOYEE
-    this.loadEmployees(this.page,this.pageSize);
+    // this.projectId?this.baseUrl='Person/project/'+this.projectId:this.baseUrl=Constants.ROLE_EMPLOYEE
+     this.baseUrl = this.projectId
+        ? 'Person/project/' + this.projectId
+        : Constants.ROLE_EMPLOYEE;
+    this.loadEmployees(this.page, this.pageSize);
   }
   ngOnInit() {
    // this.projectStore.getTeam();
@@ -62,7 +64,7 @@ export class EmployeesComponent {
 
 
 
-  handleRowAction(event: any) {
+  handleRowAction(event: { type: string, item: RegistrationForm}) {
     switch (event.type) {
       case 'create':
         this.loadCreateEmployeeModal();
@@ -77,11 +79,15 @@ export class EmployeesComponent {
         this.deleteModal(event.item);
         break;
         case 'nextPage':
-        this.page=event.item;
+        if( typeof event.item === 'number') {
+         this.page=event.item;
+        }
         this.loadEmployees(this.page,this.pageSize);
        break;
         case 'pageSize':
-        this.pageSize=event.item;
+        if( typeof event.item === 'number') {
+         this.pageSize=event.item;
+        }
         this.loadEmployees(this.page,this.pageSize);  
         break;
       default:
@@ -104,7 +110,7 @@ export class EmployeesComponent {
       });
     });
   }
-  EditCreateEmployeeModal(item: any) {
+  EditCreateEmployeeModal(item: RegistrationForm) {
     this.modalController.create({
       component: RegisterComponent,
       cssClass: 'register-modal',
@@ -135,7 +141,7 @@ export class EmployeesComponent {
       });
     });
   }
-  deleteModal(item: any) {
+  deleteModal(item: RegistrationForm) {
     this.modalController.create({
       component: ConfirmDeleteComponent,
       cssClass: 'custom-delete-modal',

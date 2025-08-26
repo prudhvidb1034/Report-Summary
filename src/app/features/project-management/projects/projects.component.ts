@@ -38,7 +38,7 @@ export class ProjectListComponent  {
   private readonly toast = inject(ToastService);
   private readonly router = inject(Router);
   private readonly projectStore = inject(ProjectStore);
-  private readonly modalController = inject(ModalController);
+  private  modalController = inject(ModalController);
   private readonly commonStore = inject(CommonStore);
 
   readonly isLoading$ = this.projectStore.select((state) => state.loading);
@@ -61,13 +61,13 @@ export class ProjectListComponent  {
     { header: 'Action', field: 'action', type: ['edit', 'delete'] },
   ];
 
-  // constructor() {
-  //   this.loadProjects(this.page, this.pageSize);
-  // }
+  constructor() {
+    this.loadProjects(this.page, this.pageSize);
+  }
 
   handleRowAction(action: { type: string; item?: createProject | number | string }): void {
     const { type, item } = action;
-
+     console.log("action",action)
     switch (type) {
       case 'navigate':
         if (this.isCreateProject(item)) {
@@ -130,12 +130,13 @@ export class ProjectListComponent  {
       size: pageSize,
       sortBy: 'projectName',
     });
-    console.log(pageNum,pageSize,"called from test case");
-    console.log("result from test case",this.projectStore.team$.subscribe((data:any)=>console.log(data)))
+    this.projectStore.team$.subscribe((data:any)=>{
+      console.log("projects-resu",data)
+    })
     this.projectList$ = this.projectStore.team$;
   }
 
-  private async openCreateModal() {
+   async openCreateModal() {
     const modal = await this.modalController.create({
       component: CreateProjectComponent,
       cssClass: 'create-project-modal',
@@ -147,7 +148,7 @@ export class ProjectListComponent  {
     }
   }
 
-  private async openEditModal(item: createProject){
+   async openEditModal(item: createProject){
     const modal = await this.modalController.create({
       component: CreateProjectComponent,
       cssClass: 'create-project-modal',
@@ -159,7 +160,7 @@ export class ProjectListComponent  {
     this.loadProjects(this.page, this.pageSize);
   }
 
-  private async openDeleteModal(item: createProject) {
+  async openDeleteModal(item: createProject) {
     const modal = await this.modalController.create({
       component: ConfirmDeleteComponent,
       cssClass: 'custom-delete-modal',
@@ -178,7 +179,8 @@ export class ProjectListComponent  {
       this.projectStore.deleteProject(item.projectId?item.projectId.toString():'');
     }
   }
-    private isCreateProject(obj: unknown): obj is createProject {
+  
+  isCreateProject(obj: unknown): obj is createProject {
     return (
       typeof obj === 'object' &&
       obj !== null &&

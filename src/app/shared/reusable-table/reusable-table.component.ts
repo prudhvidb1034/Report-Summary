@@ -14,7 +14,7 @@ import { CommonStore } from '../../state/common.store';
 @Component({
   selector: 'app-reusable-table',
   standalone: true,
-  imports: [IonicModule, CommonModule,PaginatorComponent,WeekRangePipe,FormsModule,RouterModule],
+  imports: [IonicModule, CommonModule, PaginatorComponent, WeekRangePipe, FormsModule, RouterModule],
   templateUrl: './reusable-table.component.html',
   styleUrl: './reusable-table.component.scss'
 })
@@ -23,20 +23,19 @@ export class ReusableTableComponent {
   @Input() columns: any[] | undefined;
   @Output() rowAction: EventEmitter<any> = new EventEmitter<any>();
   @Input() label: string = '';
-  @Input() showSearchandButton=false;
+  @Input() showSearchandButton = false;
   @Input() weekLabel: string = '';
   @Input() showHeader = true;
   @Input() searchTerm: string = '';
   @Output() searchTermChange = new EventEmitter<string>();
   @Output() searchTermChanged = new EventEmitter<string>();
-  @Input() createEnableFlag:any;
+  @Input() createEnableFlag: any;
   totalItems = 100;
   itemsPerPage = 5;
   currentPage = 0;
 
-loadPage(event: { pageIndex: number; pageSize: number }) {
-  console.log('Load data for:', event);
-}
+  loadPage(event: { pageIndex: number; pageSize: number }) {
+  }
 
 
   private loginStore = inject(LoginStore)
@@ -50,12 +49,12 @@ loadPage(event: { pageIndex: number; pageSize: number }) {
   }
 
   ngOnInit() {
-    console.log("createEnableFlag",this.createEnableFlag)
+    console.log("createEnableFlag", this.createEnableFlag)
   }
 
   onSearchTermChange() {
     console.log(this.searchTerm);
-    this.rowAction.emit({type:'search',item:this.searchTerm});
+    this.rowAction.emit({ type: 'search', item: this.searchTerm });
     // const urlWithParams = `${urls.PROJECT_SEARCH}?name=${this.searchTerm}`;
     // this.sharedservice.getData(urlWithParams).subscribe();
     // this.searchTermChanged.emit(this.searchTerm);
@@ -70,19 +69,18 @@ loadPage(event: { pageIndex: number; pageSize: number }) {
 
   toggleEvent(event: any, item: any) {
     this.rowAction.emit({ type: 'toggle-status', value: event.detail.checked === true ? 'Active' : 'InActive', item: item })
-    console.log(event.detail.checked,event,item)
   }
 
-  onPageSizeChange(event:any){
-    this.rowAction.emit({type:'pageSize',item:event});
+  onPageSizeChange(event: any) {
+    this.rowAction.emit({ type: 'pageSize', item: event });
 
   }
 
-  onPageChange(event:any){
+  onPageChange(event: any) {
     this.rowAction.emit({ type: 'nextPage', item: event })
   }
 
-  navigation(type:string,item:any,columnName:string){
-    this.rowAction.emit({type:type,item:item,columnName:columnName});
+  navigation(type: string, item: any, columnName: string) {
+    this.rowAction.emit({ type: type, item: item, columnName: columnName });
   }
 }

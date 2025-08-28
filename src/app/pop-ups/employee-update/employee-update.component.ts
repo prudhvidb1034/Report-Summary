@@ -1,11 +1,10 @@
-import { Component, EventEmitter, inject, Input, Output, output, signal } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, AbstractControl, FormArray } from '@angular/forms';
+import { Component,  inject, } from '@angular/core';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormArray } from '@angular/forms';
 import { IonicModule, ModalController } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { EmployeeUpdateService } from '../../services/employee-update/employee-update.service';
 import { SummaryStore } from '../../state/summary.store';
 import { LoginStore } from '../../state/login.store';
-import { LoginService } from '../../services/login-service/login.service';
 import { Project } from '../../models/summary.model';
 import { tap } from 'rxjs';
 import { Router } from '@angular/router';
@@ -24,7 +23,6 @@ export class EmployeeUpdateComponent {
   dateError: string | null = null;
   private summary = inject(SummaryStore);
   private loginStore = inject(LoginStore);
-  private loginService = inject(LoginService)
   private router = inject(Router);
   week:any=[];
   userInfo: any;

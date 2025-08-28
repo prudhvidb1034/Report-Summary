@@ -2,7 +2,6 @@ import { inject, Injectable, signal } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { exhaustMap, Observable, switchMap, tap } from 'rxjs';
 import { RegistrationForm } from '../models/register.mode';
-import { RegisterService } from '../services/register-service/register.service';
 import { SharedService } from '../services/shared/shared.service';
 import { Constants, urls } from '../constants/string-constants';
 import { ToastService } from '../shared/toast.service';
@@ -23,7 +22,6 @@ export class RegisterStore extends ComponentStore<RegistrationState> {
   private _accountCreateStatus = signal<null | 'success' | 'deleted' | 'update' | 'error'>(null);
 
   readonly accountCreateStatus = this._accountCreateStatus.asReadonly();
-  private register = inject(RegisterService);
   private sharedservice = inject(SharedService)
 
   constructor() {

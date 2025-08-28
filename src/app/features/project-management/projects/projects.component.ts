@@ -130,9 +130,6 @@ export class ProjectListComponent  {
       size: pageSize,
       sortBy: 'projectName',
     });
-    this.projectStore.team$.subscribe((data:any)=>{
-      console.log("projects-resu",data)
-    })
     this.projectList$ = this.projectStore.team$;
   }
 

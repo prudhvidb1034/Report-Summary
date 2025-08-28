@@ -1,8 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { ComponentStore } from '@ngrx/component-store';
 import { Router } from '@angular/router';
-import { exhaustMap, finalize, Observable, switchMap, tap } from 'rxjs';
-import { LoginService } from '../services/login-service/login.service';
+import { exhaustMap, finalize, Observable, tap } from 'rxjs';
 import { LoginCredentials, User } from '../models/login.model';
 import { ToastService } from '../shared/toast.service';
 import { SharedService } from '../services/shared/shared.service';
@@ -26,7 +25,7 @@ export class LoginStore extends ComponentStore<LoginState> {
   private toast = inject(ToastService);
   private sharedservice = inject(SharedService);
   private commonStore=inject(CommonStore);
-  constructor(private auth: LoginService, private router: Router) {
+  constructor( private router: Router) {
     super(initialState);
   }
 

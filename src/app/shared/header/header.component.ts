@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, Input } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import {  Router } from '@angular/router';
 import { IonicModule, MenuController } from '@ionic/angular';
 import { BreadcrumbComponent } from '../bread-crumb/bread-crumb.component';
 import { LoginStore } from '../../state/login.store';
@@ -14,8 +14,10 @@ import { LoginStore } from '../../state/login.store';
 })
 export class HeaderComponent {
   showLogout: boolean = false;
-  @Input() fullName: any = '';
-  @Input() role: any = '';
+  @Input() fullName:string | null = null;
+
+  @Input() role:string | null =null;
+
 
   private  loginStore = inject(LoginStore)
 
@@ -23,7 +25,7 @@ export class HeaderComponent {
 
   }
 
-  constructor(public router: Router, private route: ActivatedRoute, private menuCtrl: MenuController) {
+  constructor(public router: Router, private menuCtrl: MenuController) {
   }
 
 

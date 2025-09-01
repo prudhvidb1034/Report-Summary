@@ -1,5 +1,5 @@
 <div *ngIf="userRole$|async"> 
-<app-header [fullName]="fullName$ | async" [role]="userRole$ | async"></app-header>
+<app-header [fullName]="(fullName$ | async)??''" [role]="(userRole$ | async)??''"></app-header>
 </div>
 <app-side-menu></app-side-menu>
 <ion-app id="main-content">

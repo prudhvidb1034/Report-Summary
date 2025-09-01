@@ -1,10 +1,18 @@
 import { CommonModule } from '@angular/common';
 import { Component, effect, inject, Input } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { IonicModule, ModalController, NavParams } from '@ionic/angular';
+import { IonicModule, ModalController } from '@ionic/angular';
 import { SharedService } from '../../services/shared/shared.service';
 import { AccountStore } from '../../state/account.store';
 import { ToastService } from '../../shared/toast.service';
+
+  export interface AccountEditData {
+    accountId?: number;
+    accountName?: string;
+    accountStartDate?: string;
+    accountEndDate?: string;
+    // Add other fields as needed
+  }
 
 @Component({
   selector: 'app-create-account',
@@ -21,7 +29,9 @@ export class CreateAccountComponent {
   private fb = inject(FormBuilder)
   private toast = inject(ToastService);
   accountForm!: FormGroup;
-  @Input() editData: any;
+
+  
+    @Input() editData: AccountEditData | null = null;
   isEditMode: boolean = false;
   constructor() { }
 
@@ -86,7 +96,7 @@ export class CreateAccountComponent {
       const formValue = this.accountForm.value;
 
       if (this.isEditMode && this.editData?.accountId) {
-        this.accountStore.updateAccount({ id: this.editData.accountId, data: formValue });
+        this.accountStore.updateAccount({ id: this.editData.accountId.toString(), data: formValue });
       } else {
         this.accountStore.createAccount(formValue);
       }

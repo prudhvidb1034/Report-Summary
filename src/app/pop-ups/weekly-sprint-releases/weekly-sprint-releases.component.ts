@@ -8,6 +8,7 @@ import { ValidationsService } from '../../services/validation/validations.servic
 import { SprintReleaseStore } from '../../state/Sprint-release.store';
 import { ToastService } from '../../shared/toast.service';
 import { SharedService } from '../../services/shared/shared.service';
+import { weeklySprintRelease, WeeklySprintReleaseResponse } from '../../models/sprints.model';
 
 @Component({
   selector: 'app-weekly-sprint-releases',
@@ -21,7 +22,7 @@ export class WeeklySprintReleasesComponent {
   private sprintReleaseStore = inject(SprintReleaseStore);
   isLoading$ = this.sprintReleaseStore.select(state => state.loading);
   weeklyIncidentForm!: FormGroup;
-  @Input() editData: any;
+  @Input() editData!: WeeklySprintReleaseResponse;
   private fb = inject(FormBuilder);
   private commonStore = inject(CommonStore);
   private modalCtrl = inject(ModalController);
@@ -59,15 +60,23 @@ export class WeeklySprintReleasesComponent {
     console.log('Week ID:', this.editData);
     if (this.editData != null) {
       this.weeklyIncidentForm.patchValue(this.editData.item);
+      
       this.isEditMode = true;
     }
-    // this.commonStore.getAllProjects();
-     this.sprintReleaseStore.getReleaseByWeekId(this.editData.item.releaseId);
+        this.sprintReleaseStore.getReleaseByWeekId(this.editData.item.releaseId);
   }
 
   createIncientForm() {
+     let weekIdValue: number | null = null;
+
+  if (typeof this.editData === 'string') {
+    weekIdValue = parseInt(this.editData); // creating
+  } else if (this.editData && this.editData.item) {
+    weekIdValue = parseInt(this.editData.item.weekId || '0'); // editing
+  }
+
     this.weeklyIncidentForm = this.fb.group({
-      weekId: [parseInt(this.editData)],
+       weekId: [weekIdValue],
       projectId: [null, Validators.required],
       sprintId: this.commonService.sprintId,
       major: [null],

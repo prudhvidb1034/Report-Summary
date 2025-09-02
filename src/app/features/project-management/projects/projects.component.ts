@@ -82,6 +82,7 @@ export class ProjectListComponent  {
         break;
 
       case 'edit':
+        console.log(item);
         if (this.isCreateProject(item)) {
           this.openEditModal(item);
         }

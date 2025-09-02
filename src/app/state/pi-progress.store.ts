@@ -1,13 +1,15 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
-import { debounceTime, exhaustMap, Observable, switchMap, tap } from 'rxjs';
+import { exhaustMap, Observable, switchMap, tap } from 'rxjs';
 import { createAccountForm } from '../models/account.model';
 import { SharedService } from '../services/shared/shared.service';
 import { urls } from '../constants/string-constants';
 import { ToastService } from '../shared/toast.service';
+import { PiDependencyReport } from '../models/sprints.model';
+import { HttpErrorResponse } from '@angular/common/http';
 
 export interface piproggressReport {
-    piprogressReport: any;
+    piprogressReport: PiDependencyReport[];
     loading: boolean;
     error: string | null;
 }
@@ -36,14 +38,12 @@ export class PiPgrogressStore extends ComponentStore<piproggressReport> {
         piReport$.pipe(
             exhaustMap(progress => {
                 console.log(progress);
-                
+
                 this.patchState({ loading: true, error: null });
-                return this.sharedservice.postData(urls.CREATE_PI_PROGRESS, progress).pipe(
+                return this.sharedservice.postData<PiDependencyReport>(urls.CREATE_PI_PROGRESS, progress).pipe(
                     tap({
-                        next: (user: any) => {
-                            console.log(user);
-                            
-                            this.patchState({ piprogressReport: user, loading: false });
+                        next: (user: PiDependencyReport) => {
+                            this.patchState({ piprogressReport: [user], loading: false });
                             this._accountCreateStatus.set('success');
                         },
                         error: () => {
@@ -60,15 +60,19 @@ export class PiPgrogressStore extends ComponentStore<piproggressReport> {
         trigger$ =>
             trigger$.pipe(
                 tap(() => this.patchState({ loading: true, error: null })),
-                switchMap((val:any) =>
-                    this.sharedservice.getData<ApiResponse<any[]>>(urls.CREATE_PI_PROGRESS).pipe(
+                switchMap(() =>
+                    this.sharedservice.getData<ApiResponse<PiDependencyReport[]>>(urls.CREATE_PI_PROGRESS).pipe(
                         tapResponse(
                             (piprogressReport) => {
-                                this.patchState({ piprogressReport: piprogressReport.data, loading: false });
+                                this.patchState({
+                                    piprogressReport: piprogressReport.data,
+                                    loading: false
+                                });
                             },
-                            (error) => {
-                                this.patchState({ loading: false, error: 'Failed to fetch accounts' });
-                                this.toast.show('error', 'Failed to load accounts!');
+                            (error: HttpErrorResponse) => {
+                                const errMsg = error.error?.message ?? 'failed to fetch pi-progress reports';
+                                this.patchState({ loading: false, error: errMsg });
+                                this.toast.show('error', errMsg);
                             }
                         )
                     )
@@ -76,26 +80,20 @@ export class PiPgrogressStore extends ComponentStore<piproggressReport> {
             )
     );
 
-
-
-
-
     readonly updatepiprogressReport = this.effect(
         (account$: Observable<{ id: string; data: createAccountForm }>) =>
             account$.pipe(
                 exhaustMap(({ id, data }) => {
-                    console.log(data);
-                    
                     this.patchState({ loading: true, error: null });
                     return this.sharedservice.patchData(`${urls.CREATE_PI_PROGRESS}/${id}`, data).pipe(
                         tap({
-                            next: (updatedAccount: any) => {
+                            next: () => {
                                 this._accountCreateStatus.set('update');
                                 this.patchState({ loading: false });
                             },
                             error: () => {
                                 this._accountCreateStatus.set('error');
-                                this.patchState({ loading: false, error: 'Failed to update account' });
+                                this.patchState({ loading: false, error: 'Failed to update pi-progress' });
                                 this.toast.show('error', 'Update failed!');
                             }
                         })
@@ -115,8 +113,10 @@ export class PiPgrogressStore extends ComponentStore<piproggressReport> {
                             // this.getAccounts({ page: 0, size: 5, sortBy: 'accountName' });
                             this.toast.show('success', 'Account deleted successfully!');
                         },
-                        (error) => {
-                            this.toast.show('error', 'Failed to delete account!');
+                        (error: HttpErrorResponse) => {
+                            const errMsg = error.error?.message ?? 'failed to delete pi-progress report';
+                            this.patchState({ loading: false, error: errMsg });
+                            this.toast.show('error', errMsg);
                         }
                     )
                 )

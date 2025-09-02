@@ -25,3 +25,13 @@ export interface PiDependencyReport {
 export interface DependencyReport {
   content?: PiDependencyReport[];
 }
+
+export interface QuaterlyReport{
+  id?: string;
+  projectId: number;
+  feature: string;
+  selectedSprints: string[];
+  piNumber: string;
+  completionPercentage: number;
+  statusReport: string;
+}

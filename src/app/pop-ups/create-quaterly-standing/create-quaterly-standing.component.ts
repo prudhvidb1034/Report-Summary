@@ -1,17 +1,13 @@
 import { Component, effect, inject, Input } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, AbstractControl } from '@angular/forms';
-import { IonicModule, ModalController, NavParams } from '@ionic/angular';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { IonicModule, ModalController } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
-import { RegisterStore } from '../../state/register.store';
-import { ActivatedRoute, ParamMap, Router } from '@angular/router';
-import { createProject } from '../../models/project.model';
-import { ProjectStore } from '../../state/project.store';
+
 import { ToastService } from '../../shared/toast.service';
-import { SummaryService } from '../../services/summary/summary.service';
-import { RegistrationForm } from '../../models/register.mode';
 import { ValidationsService } from '../../services/validation/validations.service';
 import { CommonStore } from '../../state/common.store';
 import { QuaterlyReportStore } from '../../state/quaterlyStanding.store';
+import { QuaterlyReport } from '../../models/sprints.model';
 
 
 @Component({
@@ -32,19 +28,16 @@ export class CreateQuaterlyStandingComponent {
   private quaterlyReportStore = inject(QuaterlyReportStore);
   private commonStore = inject(CommonStore);
   quaterlyStandingForm!: FormGroup;
-  Quarter: any = [1, 2, 3, 4]
-  PINumber: any;
-  pi: any
-  @Input() editData: any;
+  Quarter: number[] = [1, 2, 3, 4]
+  @Input() editData!: QuaterlyReport |null;
   isEditMode: boolean = false;
   quaterlyReport = inject(QuaterlyReportStore);
   public validationService = inject(ValidationsService);
   allProjects$ = this.commonStore.allProjects$;
-  quaterlyReports$: any;
-  isLoading$ = this.quaterlyReport.select(state => state.loading);
+   isLoading$ = this.quaterlyReport.select(state => state.loading);
   page = 0;
   pageSize = 5;
-  content: any = [];
+ 
   readonly accountStatusEffect = effect(() => {
     const status = this.quaterlyReportStore.accountCreateStatus();
 
@@ -69,27 +62,19 @@ export class CreateQuaterlyStandingComponent {
   ngOnInit() {
     this.creteForm();
     this.quaterlyReport.getQuaterlyReports({ page: this.page, size: this.pageSize });
-    this.quaterlyReports$ = this.quaterlyReport.quaterlyReport$;
-    this.quaterlyReport.quaterlyReport$.subscribe((val: any) => {
-      this.content = val?.content;
-      console.log(this.content);
-
-
-    });
-    if (this.editData) {
+    
+       if (this.editData) {
       this.quaterlyStandingForm.patchValue(this.editData);
       this.quaterlyStandingForm.get('selectedSprint')?.setValue(this.editData.selectedSprints);
       this.isEditMode = true;
-    
+
     }
- 
+
   }
 
 
 
   creteForm() {
-    console.log(this.PINumber);
-
     this.quaterlyStandingForm = this.fb.group({
       projectId: ['', Validators.required],
       feature: ['', Validators.required],

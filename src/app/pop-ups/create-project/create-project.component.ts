@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, effect, inject, Input } from '@angular/core';
-import { Form, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { IonicModule, ModalController } from '@ionic/angular';
 import { ToastService } from '../../shared/toast.service';
 import { AccountStore } from '../../state/account.store';
 import { ProjectStore, } from '../../state/project.store';
 import { CommonStore } from '../../state/common.store';
+import { createProject } from '../../models/project.model';
 
 @Component({
   selector: 'app-create-project',
@@ -16,7 +17,7 @@ import { CommonStore } from '../../state/common.store';
   styleUrl: './create-project.component.scss'
 })
 export class CreateProjectComponent {
-  @Input() editData: any;
+  @Input() editData: createProject|undefined;
   isEditMode: boolean = false;
   private readonly fb = inject(FormBuilder);
   private toast = inject(ToastService)
@@ -53,7 +54,6 @@ export class CreateProjectComponent {
 
   ngOnInit() {
     this.CreateForm();
-  //  this.accountStore.getAccounts();
     if (this.editData) {
       console.log('Edit Data:', this.editData);
       this.teamForm.patchValue(this.editData);
@@ -84,7 +84,7 @@ export class CreateProjectComponent {
       const formValue = this.teamForm.value;
 
       if (this.editData && this.editData?.projectId) {
-        this.projectStore.updateProject({ id: this.editData.projectId, data: formValue });
+        this.projectStore.updateProject({ id: this.editData.projectId.toString(), data: formValue });
       } else {
         this.projectStore.addTeam(response);
       }

@@ -79,7 +79,7 @@ export class ManagersComponent {
       }
     }).then((modal) => {
       modal.present();
-      modal.onDidDismiss().then((data) => {
+      modal.onDidDismiss().then(() => {
         this.registerStore.getRegisterData({ page: this.page, size: this.pageSize, sortBy: 'firstName', url: Constants.ROLE_MANAGER });
       });
     });

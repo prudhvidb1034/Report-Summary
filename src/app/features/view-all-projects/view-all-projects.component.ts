@@ -1,10 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component, inject } from '@angular/core';
-import { ActivatedRoute, ParamMap, Router, RouterOutlet ,RouterModule, RouterLink} from '@angular/router';
+import { ActivatedRoute, Router} from '@angular/router';
 import { IonicModule } from '@ionic/angular';
-import { ToastComponent } from '../../shared/toast/toast.component';
-import { HeaderComponent } from '../../shared/header/header.component';
 
 @Component({
   selector: 'app-view-all-projects',
@@ -31,12 +29,8 @@ export class ViewAllProjectsComponent {
       }
     );
    
-   this.getDefaultProject()
   }
-  getDefaultProject(){
-    this.dailyUpdates;
-    this.projectDetails;
-  }
+
   selectProject(project: any) {
     console.log(project)
     this.projectDetails = project
@@ -56,7 +50,4 @@ export class ViewAllProjectsComponent {
       }
     })
   }
-  // navigateToFragment(fragment: string) {
-  //   this.route.navigateByUrl('#'+ fragment );
-  // }
 } 

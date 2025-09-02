@@ -6,6 +6,7 @@ import { ValidationsService } from '../../services/validation/validations.servic
 import { PiPgrogressStore } from '../../state/pi-progress.store';
 import { ToastService } from '../../shared/toast.service';
 import { CommonStore } from '../../state/common.store';
+import { PiDependencyReport } from '../../models/sprints.model';
 
 @Component({
   selector: 'app-create-pi-progress',
@@ -21,14 +22,14 @@ export class CreatePiProgressComponent {
   private modalCtrl = inject(ModalController);
   isEditMode = false;
   private fb = inject(FormBuilder);
-  @Input() editData: any;
-   private commonStore = inject(CommonStore);
+  @Input() editData!: PiDependencyReport | null;
+  private commonStore = inject(CommonStore);
   private piprogressStore = inject(PiPgrogressStore);
 
   public validationService = inject(ValidationsService);
 
   isLoading$ = this.piprogressStore.select(state => state.loading);
-    allProjects$ = this.commonStore.allProjects$;
+  allProjects$ = this.commonStore.allProjects$;
   readonly accountStatusEffect = effect(() => {
     const status = this.piprogressStore.accountCreateStatus();
 
@@ -63,28 +64,15 @@ export class CreatePiProgressComponent {
       teamLead: ['', Validators.required],
       assignedSP: ['', Validators.required],
       completedSP: ['', Validators.required],
-      // Percentage: ['', Validators.required],
-
-
     })
   }
 
 
   setOpen(isOpen: boolean) {
-    // this.isModalOpen = isOpen;
-
-    // if (!isOpen) {
-    //   this.isEditMode = false; // Only reset on close
-    //   this.sprintresourceForm.reset();
-    // }
     this.modalCtrl.dismiss(isOpen);
-
   }
 
   SubmitForm() {
-
-
-
     const response = this.piProgressForm.value;
     if (this.piProgressForm.valid) {
 
@@ -99,8 +87,5 @@ export class CreatePiProgressComponent {
       this.toast.show('error', 'Please fill in all required fields.')
       this.piProgressForm.markAllAsTouched()
     }
-    // if (this.piProgressForm.valid) {
-    //   this.piprogressStore.createPipgrogressReports(this.piProgressForm.value)
-    // }
   }
 }

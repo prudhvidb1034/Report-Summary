@@ -7,6 +7,7 @@ import html2canvas from 'html2canvas';
 import { SprintStore } from '../../state/sprint.store';
 import { ActivatedRoute } from '@angular/router';
 import { PiPgrogressStore } from '../../state/pi-progress.store';
+import { map } from 'rxjs';
 @Component({
   selector: 'app-sprint-report',
   standalone: true,
@@ -19,7 +20,7 @@ export class SprintReportComponent {
 
   private sprintSore = inject(SprintStore);
   private piprogresstore = inject(PiPgrogressStore)
-  piprogresstore$ = this.piprogresstore.piprogressReport$
+  piprogresstore$ = this.piprogresstore.piprogressReport$.pipe(map((res: any) => res?.content || []));
   SprintList$ = this.sprintSore.sprintReport$;
   incidentList$ = this.sprintSore.incidentReport$;
   piStandingData$ = this.sprintSore.piStandingReport$

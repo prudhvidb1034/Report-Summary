@@ -6,7 +6,22 @@ export interface Dependency {
   owner: string;
   date: string;
   statusIn: string;
-  id:number;
+  id: number;
   impact: string;
   actionTaken: string;
+}
+
+export interface PiDependencyReport {
+  projectId: number;
+  teamLead: string;
+  assignedSP: number;
+  projectName: string
+  completedSP: number;
+  reportId: string;
+  completionPercentage: number;
+}
+
+
+export interface DependencyReport {
+  content?: PiDependencyReport[];
 }

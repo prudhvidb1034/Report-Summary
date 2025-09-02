@@ -351,7 +351,7 @@
           </tr>
         </thead>
         <tbody>
-          @for (piStanding of (piprogresstore$ | async)?.content; track piStanding) {
+          @for (piStanding of (piprogresstore$ | async); track piStanding) {
           <tr>
             <td>{{ piStanding.projectName }}</td>
             <td>{{ piStanding.teamLead }}</td>

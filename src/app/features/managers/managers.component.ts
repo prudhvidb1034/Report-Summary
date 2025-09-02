@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { ReusableTableComponent } from "../../shared/reusable-table/reusable-table.component";
-import { IonicModule, ModalController } from '@ionic/angular';
+import { IonicModule } from '@ionic/angular';
 import { RegisterComponent } from '../../shared/register/register.component';
 import { ConfirmDeleteComponent } from '../../pop-ups/confirm-delete/confirm-delete.component';
 import { RegisterStore } from '../../state/register.store';
@@ -8,6 +8,7 @@ import { CommonModule } from '@angular/common';
 import { Constants } from '../../constants/string-constants';
 import { Observable } from 'rxjs';
 import { RegistrationForm } from '../../models/register.mode';
+import { ModalController } from '@ionic/angular/standalone';
 
 @Component({
   selector: 'app-managers',

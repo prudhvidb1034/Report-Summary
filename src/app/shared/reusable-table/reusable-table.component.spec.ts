@@ -5,7 +5,7 @@ import { LoginStore } from '../../state/login.store';
 import { SharedService } from '../../services/shared/shared.service';
 import { of } from 'rxjs';
 
-fdescribe('ReusableTableComponent', () => {
+describe('ReusableTableComponent', () => {
   let component: ReusableTableComponent;
   let fixture: ComponentFixture<ReusableTableComponent>;
   let loginStoreSpy: jasmine.SpyObj<LoginStore>;

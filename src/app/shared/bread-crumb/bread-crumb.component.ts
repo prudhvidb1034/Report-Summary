@@ -49,10 +49,9 @@ class BreadcrumbStore extends ComponentStore<BreadcrumbState> {
 })
 export class BreadcrumbComponent implements OnInit {
   breadcrumbs$: Observable<BreadcrumbItem[]>;
-  // Define your breadcrumb configuration here
 
   updatedBreadCrumb: BreadcrumbItem[] = [];
-  extendedRoute: any;
+  extendedRoute:string|null='';
   weekName = [{ name: 'WEEK 01-June-2025 To 07-June-2025' }, { name: 'WEEK 08-June-2025 To 14-June-2025' }]
 
 
@@ -63,9 +62,9 @@ export class BreadcrumbComponent implements OnInit {
       "83f2": [{ projectName: "spp canada" }]
     }
   };
-  name: any;
-  sprintName: any;
-  sprintId: any;
+  name='';
+  sprintName:string|null='';
+  sprintId:string|null='';
 
   constructor(
     private router: Router,
@@ -105,13 +104,10 @@ export class BreadcrumbComponent implements OnInit {
       .subscribe(() => {
         this.buildBreadcrumbs(this.router.url);
       });
-    // const nav = this.router.getCurrentNavigation();
-    // console.log("nav",nav)
-    // this.projectName = nav?.extras.state?.['projectName']
 
   }
 
-  breadcrumbConfig: { label: any; url: string }[] = [
+  breadcrumbConfig: { label: string; url: string }[] = [
     { label: 'Home', url: '/home' },
     { label: 'Accounts', url: '/accounts' },
     { label: 'Projects', url: '/projects' },
@@ -125,7 +121,6 @@ export class BreadcrumbComponent implements OnInit {
     { label: 'Sprints', url: '/sprints' },
     { label: 'Weekly Sprint', url: '/sprints/create-weekly-sprint/:id' },
     { label: 'Week Wise List', url: 'sprints/create-weekly-sprint/create-weekly-report-sprint/:id' },
-    // { label: 'Sprint Report', url: '/sprint-report' },
     { label: 'View Resource', url: '/sprints/view-resource/:id' },
     { label: 'Dependency ', url: '/sprints/dependencies/:id' },
       { label: 'Sprint Report ', url: '/sprint-report/:id' },
@@ -135,12 +130,11 @@ export class BreadcrumbComponent implements OnInit {
 
 
   ];
-  breadcrumbLabel(): any {
+  breadcrumbLabel() {
     this.activatedRoute.paramMap.subscribe(params => {
       return params.get('id');
     });
 
-    //return this.activatedRoute.snapshot.paramMap.get('id') || 'Unknown';
   }
 
   buildBreadcrumbs(url: string): void {
@@ -160,26 +154,23 @@ export class BreadcrumbComponent implements OnInit {
         // Handle dynamic segment for project status
         const id = urlSegments[urlSegments.length - 1]; // Get the last segment as ID
         breadcrumbs.push({
-          label: this.renameFunc(id) + ' ' + '/' + ' ' + 'Reports', // Customize the label as needed
+          label: this.renameFunc(Number(id)) + ' ' + '/' + ' ' + 'Reports', // Customize the label as needed
           url: currentUrl
         });
       }
       else if (segment.startsWith('task')) {
-        const id = urlSegments[urlSegments.length - 1]; // Get the last segment as ID
         breadcrumbs.push({
           label: this.name + ' ' + '/' + ' ' + 'Task', // Customize the label as needed
           url: currentUrl
         });
       }
       else if (segment.startsWith('employees')) {
-        const id = urlSegments[urlSegments.length - 1]; // Get the last segment as ID
         breadcrumbs.push({
           label: this.name + ' ' + '/' + ' ' + 'Employees', // Customize the label as needed
           url: currentUrl
         });
       }
       else if (segment.startsWith('create-weekly-sprint')) {
-        const id = urlSegments[urlSegments.length - 1]; // Get the last segment as ID
         this.sprintName = localStorage.getItem('sprintName');
         console.log("this.sprintName", this.sprintName)
         breadcrumbs.push({
@@ -189,7 +180,6 @@ export class BreadcrumbComponent implements OnInit {
 
       }
       else if (segment.startsWith('view-resource')) {
-        const id = urlSegments[urlSegments.length - 1]; // Get the last segment as ID
         this.sprintName = localStorage.getItem('sprintName');
         console.log("this.sprintName", this.sprintName)
         breadcrumbs.push({
@@ -200,7 +190,6 @@ export class BreadcrumbComponent implements OnInit {
 
       }
       else if (segment.startsWith('dependencies')) {
-        const id = urlSegments[urlSegments.length - 1]; // Get the last segment as ID
         this.sprintName = localStorage.getItem('sprintName');
         console.log("this.sprintName", this.sprintName)
         breadcrumbs.push({
@@ -211,7 +200,6 @@ export class BreadcrumbComponent implements OnInit {
 
       }
         else if (segment.startsWith('sprint-report')) {
-        const id = urlSegments[urlSegments.length - 1]; // Get the last segment as ID
         this.sprintName = localStorage.getItem('sprintName');
         console.log("this.sprintName", this.sprintName)
         breadcrumbs.push({
@@ -221,17 +209,6 @@ export class BreadcrumbComponent implements OnInit {
 
 
       }
-      // else if(segment.startsWith('create-weekly-report-sprint')){
-      //   const id = urlSegments[urlSegments.length - 1]; // Get the last segment as ID
-      // console.log(this.updatedBreadCrumb[this.updatedBreadCrumb.length-1].label)
-      //   breadcrumbs.push({
-      //     label: 'Week Wise List', // Customize the label as needed
-      //     url: currentUrl
-      //   });
-
-
-      // }
-
 
       this.updatedBreadCrumb = breadcrumbs;
     });
@@ -243,7 +220,7 @@ export class BreadcrumbComponent implements OnInit {
     return this.projects.projects[id]?.[0]?.projectName;
   }
 
-  renameFunc(id: any) {
+  renameFunc(id: number) {
     return this.weekName[id].name;
   }
 

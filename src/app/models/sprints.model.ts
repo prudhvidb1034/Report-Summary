@@ -6,7 +6,7 @@ export interface Dependency {
   owner: string;
   date: string;
   statusIn: string;
-  id: number;
+  id: string;
   impact: string;
   actionTaken: string;
 }

@@ -1,12 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { Component, effect, inject, Input } from '@angular/core';
-import { Form, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { IonicModule, ModalController } from '@ionic/angular';
 import { ValidationsService } from '../../services/validation/validations.service';
 import { CommonStore } from '../../state/common.store';
 import { DependenciesStore } from '../../state/dependecies.store';
 import { ToastService } from '../../shared/toast.service';
 import { ActivatedRoute } from '@angular/router';
+import { Dependency } from '../../models/sprints.model';
 
 @Component({
   selector: 'app-create-dependencies-list',
@@ -19,14 +20,14 @@ import { ActivatedRoute } from '@angular/router';
 export class CreateDependenciesListComponent {
 
   dependenciesform !: FormGroup;
-  @Input() sprintId:any
-  @Input() editData: any;
+  @Input() sprintId !: string;
+  @Input() editData !: Dependency;
   private modalCtrl = inject(ModalController);
   private fb = inject(FormBuilder);
   private commonStore = inject(CommonStore);
   private toast = inject(ToastService);
   isEditMode: boolean = false;
-   private route = inject(ActivatedRoute);
+  private route = inject(ActivatedRoute);
   dependencyId: string | null = null;
 
   private dependenciesStore = inject(DependenciesStore);
@@ -56,7 +57,7 @@ export class CreateDependenciesListComponent {
   });
   ngOnInit() {
 
-       this.createDependenciesForm();
+    this.createDependenciesForm();
     if (this.editData) {
       this.dependenciesform.patchValue(this.editData);
       this.isEditMode = true;
@@ -64,7 +65,7 @@ export class CreateDependenciesListComponent {
   }
   createDependenciesForm() {
     this.dependenciesform = this.fb.group({
-    sprintId: [parseInt(this.sprintId)],
+      sprintId: [parseInt(this.sprintId)],
       projectId: [null, Validators.required],
       type: [null, Validators.required],
       description: [null, Validators.required],
@@ -78,8 +79,12 @@ export class CreateDependenciesListComponent {
 
 
   setOpen(isOpen: boolean) {
-    this.modalCtrl.dismiss()
-    // this.weeklysprintUpdateForm.reset()
+    if (isOpen === false) {
+      this.modalCtrl.dismiss();
+      this.dependenciesform.reset();
+    }
+
+
 
 
   }

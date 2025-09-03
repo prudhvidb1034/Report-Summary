@@ -1,13 +1,13 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
-import { debounceTime, exhaustMap, map, Observable, switchMap, tap } from 'rxjs';
+import {exhaustMap, map, Observable, switchMap, tap } from 'rxjs';
 import { createAccountForm } from '../models/account.model';
 import { SharedService } from '../services/shared/shared.service';
-import { urls } from '../constants/string-constants';
 import { ToastService } from '../shared/toast.service';
+import { SprintDataResponse, SprintKeys } from '../models/quaterly.model';
 
 export interface QuaterlyReport {
-    quaterlyReport: any;
+    quaterlyReport: SprintDataResponse;
     loading: boolean;
     error: string | null;
 }
@@ -24,7 +24,15 @@ export class QuaterlyReportStore extends ComponentStore<QuaterlyReport> {
     readonly accountCreateStatus = this._accountCreateStatus.asReadonly();
     private toast = inject(ToastService);
     constructor() {
-        super({ quaterlyReport: [], loading: false, error: null });
+        super({ 
+      quaterlyReport: {
+        content: [],
+        pageNumber: 0,
+        pageSize: 0,
+        totalElements: 0,
+        totalPages: 0,
+        last: false,
+      },loading: false, error: null });
     }
 
     readonly quaterlyReport$ = this.select(state => state.quaterlyReport);
@@ -38,9 +46,9 @@ export class QuaterlyReportStore extends ComponentStore<QuaterlyReport> {
                 console.log(account);
 
                 this.patchState({ loading: true, error: null });
-                return this.sharedservice.postData(`api/pi-standing`, account).pipe(
+                return this.sharedservice.postData<SprintDataResponse>(`api/pi-standing`, account).pipe(
                     tap({
-                        next: (user: any) => {
+                        next: (user) => {
                             console.log(user);
                             
                             this.patchState({ quaterlyReport: user, loading: false });
@@ -56,25 +64,6 @@ export class QuaterlyReportStore extends ComponentStore<QuaterlyReport> {
         )
     );
 
-    // readonly getQuaterlyReports = this.effect<({ page?: number; size?: number})>( trigger$ =>
-    //         trigger$.pipe(
-    //             tap(() => this.patchState({ loading: true, error: null })),
-    //             switchMap(({ page, size}) =>
-    //                 this.sharedservice.getData<ApiResponse<any[]>>(`api/pi-standing`).pipe(
-    //                     tapResponse(
-    //                         (quaterlyReport) => {
-    //                             this.patchState({ quaterlyReport: quaterlyReport.data, loading: false });
-    //                         },
-    //                         (error) => {
-    //                             this.patchState({ loading: false, error: 'Failed to fetch accounts' });
-    //                             this.toast.show('error', 'Failed to load reports!');
-    //                         }
-    //                     )
-    //                 )
-    //             )
-    //         )
-    // );
-
 
 
 readonly getQuaterlyReports = this.effect<{
@@ -83,15 +72,16 @@ readonly getQuaterlyReports = this.effect<{
 }>(trigger$ =>
   trigger$.pipe(
     tap(() => this.patchState({ loading: true, error: null })),
-    switchMap(({ page, size }) =>
-      this.sharedservice.getData<ApiResponse<any[]>>(`api/pi-standing`).pipe(
-        map((response:any) => {
+    switchMap(() =>
+      this.sharedservice.getData<ApiResponse<SprintDataResponse>>(`api/pi-standing`).pipe(
+        map((response) => {
           const transformedContent = Array.isArray(response.data?.content)
-            ? response.data.content.map((res: any) => {
+            ? response.data.content.map((res) => {
                 const updatedRes = { ...res };
                 for (let i = 0; i <= 4; i++) {
-                  const key = `sprint${i}`;
+                const key = `sprint${i}` as SprintKeys;
                   updatedRes[key] = res[key] ? 'X' : '-';
+
                 }
                 return updatedRes;
               })
@@ -103,7 +93,7 @@ readonly getQuaterlyReports = this.effect<{
           (quaterlyReport) => {
             this.patchState({ quaterlyReport, loading: false });
           },
-          (error) => {
+          () => {
             this.patchState({ loading: false, error: 'Failed to fetch accounts' });
             this.toast.show('error', 'Failed to load reports!');
           }
@@ -114,6 +104,8 @@ readonly getQuaterlyReports = this.effect<{
 );
 
 
+
+
     readonly updateQuaterlyReport = this.effect(
         (account$: Observable<{ id: string; data: createAccountForm }>) =>
             account$.pipe(
@@ -121,7 +113,7 @@ readonly getQuaterlyReports = this.effect<{
                     this.patchState({ loading: true, error: null });
                     return this.sharedservice.patchData(`api/pi-standing/${id}`, data).pipe(
                         tap({
-                            next: (updatedAccount: any) => {
+                            next: () => {
                                 this._accountCreateStatus.set('update');
                                 this.getQuaterlyReports({})
                                 this.patchState({ loading: false });
@@ -148,7 +140,7 @@ readonly getQuaterlyReports = this.effect<{
                             this.getQuaterlyReports({ page: 0, size: 5});
                             this.toast.show('success', 'Report deleted successfully!');
                         },
-                        (error) => {
+                        () => {
                             this.toast.show('error', 'Failed to delete account!');
                         }
                     )

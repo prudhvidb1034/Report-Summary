@@ -2,12 +2,12 @@ import { Component, inject } from '@angular/core';
 import { ReusableTableComponent } from '../../shared/reusable-table/reusable-table.component';
 import { IonicModule, ModalController } from '@ionic/angular';
 import { CreateQuaterlyStandingComponent } from '../../pop-ups/create-quaterly-standing/create-quaterly-standing.component';
-import { Observable, of } from 'rxjs';
 import { CommonStore } from '../../state/common.store';
 import { QuaterlyReportStore } from '../../state/quaterlyStanding.store';
 import { CommonModule } from '@angular/common';
 import { ConfirmDeleteComponent } from '../../pop-ups/confirm-delete/confirm-delete.component';
-import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { SprintData, SprintDataResponse } from '../../models/quaterly.model';
 
 
 @Component({
@@ -19,57 +19,19 @@ import { map } from 'rxjs/operators';
   styleUrl: './quaterly-standing.component.scss'
 })
 export class QuaterlyStandingComponent {
-  accountList$: any;
   label = 'PI Standing';
   quaterlyReport = inject(QuaterlyReportStore);
   commonStore = inject(CommonStore);
-  quaterlyReports$: any;
+  quaterlyReports$!: Observable<SprintDataResponse>;
   page = 0;
   pageSize = 5;
-  content: any = [];
   private modalController = inject(ModalController);
   isLoading$ = this.quaterlyReport.select(state => state.loading);
   isLoadingCommon$=this.commonStore.select(state=>state.loading);
-  // ngOnInit() {
-  //   this.quaterlyReport.getQuaterlyReports({ page: this.page, size: this.pageSize })
-  //   this.quaterlyReports$ = this.quaterlyReport.quaterlyReport$
-  //   this.quaterlyReport.quaterlyReport$.subscribe((val: any) => {
-  //     this.content = val?.content;
-  //     console.log(this.content);
-      
-  //     this.content.map((res: any) => {
-  //       console.log(res);
-        
-  //       this.label = `PI${res?.piNumber}Standing`;
-  //     })
-  //   })
-
-  // }
 
   ngOnInit() {
   this.quaterlyReport.getQuaterlyReports({ page: this.page, size: this.pageSize });
   this.quaterlyReports$ = this.quaterlyReport.quaterlyReport$;
-
-
-// this.quaterlyReports$ = this.quaterlyReport.quaterlyReport$.pipe(
-//   map((response: any) => {
-//     if (Array.isArray(response.content)) {
-//       return response.content.map((res: any) => {
-//         const updatedRes = { ...res };
-//         for (let i = 0; i <= 4; i++) {
-//           const key = `sprint${i}`;
-//           updatedRes[key] = res[key] ? 'X' : '-';
-//         }
-//         console.log(updatedRes)
-//         return updatedRes;
-//       });
-//     } else {
-//       console.warn('response.content is not an array:', response.content);
-//       return []; // fallback to empty array
-//     }
-//   })
-// );
-
 }
 
   columns = [
@@ -86,7 +48,7 @@ export class QuaterlyStandingComponent {
   ];
 
 
-  handleRowAction(event: any) {
+  handleRowAction(event: { type: string, item: SprintData}) {
     switch (event.type) {
       case 'create':
         this.createQuaterlyReport();
@@ -96,14 +58,6 @@ export class QuaterlyStandingComponent {
         break;
       case 'delete':
         this.deleteModal(event.item);
-      //   break;
-      // case 'nextPage':
-      //   this.page = event.item;
-      //   this.loadAccounts(this.page, this.pageSize)
-      //   break;
-      // case 'pageSize':
-      //   this.pageSize = event.item;
-      //   this.loadAccounts(this.page, this.pageSize)
         break;
       default:
         console.log('failing')
@@ -125,16 +79,13 @@ export class QuaterlyStandingComponent {
       }
     }).then((modal) => {
       modal.present();
-      modal.onDidDismiss().then((data) => {
-        // this.loadProjects(this.page,this.pageSize);
+      modal.onDidDismiss().then(() => {
 this.quaterlyReport.getQuaterlyReports({ page: this.page, size: this.pageSize })
-        console.log('Modal dismissed with data:', data);
-        // Handle any data returned from the modal if needed
       });
     });
   }
 
-  UpdateQuaterlyReport(item: any) {
+  UpdateQuaterlyReport(item: SprintData) {
     console.log('Selected row data:', item);
     this.modalController.create({
       component: CreateQuaterlyStandingComponent,
@@ -144,16 +95,13 @@ this.quaterlyReport.getQuaterlyReports({ page: this.page, size: this.pageSize })
       }
     }).then((modal) => {
       modal.present();
-      modal.onDidDismiss().then((data) => {
-        // this.loadProjects(this.page,this.pageSize);
-this.quaterlyReport.getQuaterlyReports({ page: this.page, size: this.pageSize })
-        console.log('Modal dismissed with data:', data);
-        // Handle any data returned from the modal if needed
+      modal.onDidDismiss().then(() => {
+      this.quaterlyReport.getQuaterlyReports({ page: this.page, size: this.pageSize })
       });
     });
   }
 
-  deleteModal(item: any) {
+  deleteModal(item: SprintData) {
     console.log(item.id);
 
     this.modalController.create({

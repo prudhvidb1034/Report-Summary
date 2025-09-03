@@ -1,16 +1,18 @@
 import { Component, inject } from '@angular/core';
 import { IonicModule, ModalController } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
-import { FormGroup, FormControl, Validators, FormBuilder, ReactiveFormsModule, FormArray } from '@angular/forms';
-import { Router, RouterOutlet } from '@angular/router';
-import { map, Observable, of, take } from 'rxjs';
+import { ReactiveFormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
+import { map, Observable, take } from 'rxjs';
 import { ReusableTableComponent } from '../../../shared/reusable-table/reusable-table.component';
 import { SummaryStore } from '../../../state/summary.store';
 import { CreateSummaryComponent } from '../../../pop-ups/create-summary/create-summary.component';
-import { EmployeeUpdateComponent } from '../../../pop-ups/employee-update/employee-update.component';
 import { ConfirmDeleteComponent } from '../../../pop-ups/confirm-delete/confirm-delete.component';
 import { LoginStore } from '../../../state/login.store';
 import { WeekRangePipe } from '../../../shared/pipes/week-range.pipe';
+import { ColumnConfig } from '../../../models/column.model';
+import { WeeklyDataResponse, WeeklyEntry } from '../../../models/summary.model';
+
 
 @Component({
   selector: 'app-summary',
@@ -27,17 +29,13 @@ export class SummaryComponent {
   private readonly summaryStore = inject(SummaryStore);
   private datePipe = inject(WeekRangePipe);
   isLoading$ = this.summaryStore.select(state => state.loading);
-
-  // projects: createProject[] = [];
-  // private summary = inject(SummaryService);
-  // weekSummaryForm !: FormGroup;
   private route = inject(Router);
   userRole$ = this.loginStore.user$.pipe(
     map(res => res?.role?.toLocaleLowerCase())
   );
-  role: any;
+  role!: string;
 
-  columns: any;
+  columns!: ColumnConfig[];
   page = 0;
   pageSize = 5;
 
@@ -47,11 +45,11 @@ export class SummaryComponent {
   }
 
   ngOnInit() {
-    this.userRole$.pipe(take(1)).subscribe(role => {
-      this.role = role;
-      console.log('User role:', role);
+    this.userRole$.pipe(take(1)).subscribe((role: string | undefined) => {
+      this.role = role ?? '';
+      
     });
-    if (this.role == 'employee') {
+    if (this.role === 'employee') {
       this.columns = [
         { header: 'Name ', field: 'weekRange' },
         { header: 'View Task', field: 'viewTask', linkEnable: true },
@@ -69,72 +67,8 @@ export class SummaryComponent {
 
     }
 
-    console.log(this.userRole$)
+    
   }
-  // private readonly store = inject(SummaryStore);
-  // dateError: string | null = null;
-  // private readonly fb = inject(FormBuilder);
-  // ngOnInit() {
-  //   this.weekSummaryForm = this.fb.group({
-  //     project: [null, Validators.required],
-  //     startDate: ['', [Validators.required]],
-  //     endDate: ['', [Validators.required]],
-  //     upcomingTasks: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(500)]]
-  //   });
-  //   this.weekSummaryForm.get('endDate')?.valueChanges.subscribe(() => {
-  //     this.validateDates();
-  //   });
-  //   this.getProjects()
-  // }
-
-  // // create a formArray for upcoming tasks
-  // get upcomingTasks(): FormArray {
-  //   return this.weekSummaryForm.get('upcomingTasks') as FormArray;
-  // }
-
-  // validateDates(): boolean {
-  //   const startDate = this.weekSummaryForm.get('startDate')?.value;
-  //   const endDate = this.weekSummaryForm.get('endDate')?.value;
-  //   if (!startDate || !endDate) {
-  //     this.dateError = null;
-  //     return true;
-  //   }
-  //   const start = new Date(startDate);
-  //   const end = new Date(endDate);
-  //   if (start > end) {
-  //     this.dateError = 'Start date cannot be greater than end date';
-  //     return false;
-  //   }
-  //   this.dateError = null;
-  //   return true;
-  // }
-
-  // getProjects() {
-  //   this.summary.getProjectTitles().subscribe((val: any) => {
-  //     this.projects = val
-  //   })
-  // }
-
-  // onSubmit() {
-
-  //   if (!this.validateDates()) {
-  //     alert(this.dateError);
-  //     return;
-  //   }
-  //   if (this.weekSummaryForm) {
-  //     console.log(this.weekSummaryForm.value);
-  //     const transformedState = {
-  //       project_id: this.weekSummaryForm.value.id,
-  //       project_name: this.weekSummaryForm.value.project.projectname,
-  //       start_date: this.weekSummaryForm.value.startDate,
-  //       end_date: this.weekSummaryForm.value.endDate,
-  //       upcomingTasks: this.weekSummaryForm.value.upcomingTasks,
-  //       employees: []
-  //     };
-  //     this.store.weeklyReport(transformedState)
-  //     this.route.navigate(['/projects'])
-  //   }
-  // }
 
   summary = [
     {
@@ -157,9 +91,9 @@ export class SummaryComponent {
     }
   ];
 
-  summarylist$: any;
+  summarylist$!: Observable<WeeklyDataResponse>;
 
-  handleRowAction(event: any) {
+  handleRowAction(event: { type: string, item: WeeklyEntry }) {
     switch (event.type) {
       case 'viewTask':
         this.route.navigate(['summary/task', event.item.weekId]);
@@ -171,7 +105,7 @@ export class SummaryComponent {
         this.loadCreateEmployeeModal();
         break;
       case 'toggle-status':
-        this.updatedRowData(event);
+        this.updatedRowData(event.item);
         break;
       case 'createStatus':
         this.updateWeeklySummary();
@@ -183,23 +117,31 @@ export class SummaryComponent {
         this.deleteModal();
         break;
       case 'nextPage':
-        this.page = event.item;
+        if (typeof event.item === 'number') {
+          this.page = event.item;
+        }
         this.loadSummary(this.page, this.pageSize)
         break;
       case 'pageSize':
-        this.pageSize = event.item;
+        if (typeof event.item === 'number') {
+          this.pageSize = event.item;
+        }
         this.loadSummary(this.page, this.pageSize)
         break;
       case 'navigate':
         this.navigate(event);
         break;
       default:
-        console.log('Unknown action type:', event.type);
+        ;
     }
   }
-  updatedRowData(event: any) {
-    this.summary.filter((val: any) => val.weekId === event.item.weekId ? val.status = event.value : '');
-    console.log(event)
+  updatedRowData(event: WeeklyEntry) {
+    this.summary.forEach((val) => {
+      if (val.weekId === event.weekId) {
+        val.status = event.status;
+      }
+    });
+    ;
   }
 
   loadCreateEmployeeModal() {
@@ -217,21 +159,21 @@ export class SummaryComponent {
   }
 
 
-  navigate(event: any) {
-    if (event.columnName === 'View Task') {
-      this.route.navigate(
-        ['/summary/task', event.item.weekRange.weekId],
-        { state: { name: this.datePipe.transform(event.item.weekRange) } }
-      );
-      console.log(this.datePipe.transform(event.item.weekRange));
-    } else {
-      this.route.navigate(
-        ['view-reports/', event.item.weekRange.weekId],
-        { state: { name: this.datePipe.transform(event.item.weekRange) } }
-      );
-    }
-    console.log(event);
+navigate(event: { type: string; item: WeeklyEntry }) {
+  if (event.type === 'viewTask') {
+    this.route.navigate(
+      ['/summary/task', event.item.weekId],
+      { state: { name: this.datePipe.transform(event.item.weekRange) } }
+    );
+    
+  } else {
+    this.route.navigate(
+      ['view-reports/', event.item.weekId],
+      { state: { name: this.datePipe.transform(event.item.weekRange) } }
+    );
   }
+}
+
 
   updateWeeklySummary() {
     this.route.navigate(['/summary/employee-dashboard'])

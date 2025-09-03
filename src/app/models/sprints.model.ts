@@ -6,7 +6,7 @@ export interface Dependency {
   owner: string;
   date: string;
   statusIn: string;
-  id: number;
+  id: string;
   impact: string;
   actionTaken: string;
 }
@@ -35,10 +35,27 @@ export interface QuaterlyReport {
   completionPercentage: number;
   statusReport: string;
 }
+
 export interface weeklySprintRelease {
-  releaseId: string;
-  id?: string,
+  projectName: string,
+  major: number,
+  minor: number,
+  incidentCreated: number,
+  releaseInformation: string,
   weekId: string,
+  sprintId: number,
+  releaseId: string,
+  projectId: number,
+
+}
+export interface WeeklySprintReleaseResponse {
+
+  item: weeklySprintRelease;
+}
+export interface weeklySprintRelease {
+
+  id?: string,
+
   weekSprintId: string,
   sprintNumber: string,
   weeekRangeId: string,
@@ -67,6 +84,6 @@ export interface weeklySprintRelease {
   groomingHealthStatus: number
 
 }
-export interface WeeklySprintReleaseResponse {
+export interface WeeklySprintcreationResponse {
   item: weeklySprintRelease;
 }

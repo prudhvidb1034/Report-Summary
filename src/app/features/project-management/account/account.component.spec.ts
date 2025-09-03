@@ -16,9 +16,6 @@ describe('AccountCreateComponent', () => {
   let mockCommonStore: jasmine.SpyObj<CommonStore>;
 
   beforeEach(async () => {
-    // account$: of([]), // mock observable
-    // getAccounts: jasmine.createSpy('getAccounts'), // spy-able method
-    // deleteAccount: jasmine.createSpy('deleteAccount'),
     mockAccountStore = jasmine.createSpyObj(
       'AccountStore',
       ['getAccounts', 'deleteAccount', 'select'], // <-- include select as spy

@@ -16,7 +16,7 @@ import { map } from 'rxjs';
   selector: 'app-weekly-sprint-creation',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, IonicModule],
-  providers: [SprintStore,WeekRangePipe],
+  providers: [SprintStore, WeekRangePipe],
   templateUrl: './weekly-sprint-creation.component.html',
   styleUrl: './weekly-sprint-creation.component.scss'
 })
@@ -24,7 +24,7 @@ export class WeeklySprintCreationComponent {
   weeklysprintUpdateForm !: FormGroup;
   private fb = inject(FormBuilder);
   @Input() editData: any;
-  weekId: any;
+
   weekIds: any;
   private commonStore = inject(CommonStore);
   private modalCtrl = inject(ModalController);
@@ -37,60 +37,66 @@ export class WeeklySprintCreationComponent {
   private toast = inject(ToastService);
   isEditMode: boolean = false;
   private navRouter = inject(Router);
-private datePipe=inject(WeekRangePipe);
-private commonService=inject(SharedService)
+  private datePipe = inject(WeekRangePipe);
+  private commonService = inject(SharedService)
 
+  constructor() {
+    const nav = this.navRouter.getCurrentNavigation();
+    if (nav?.extras.state?.['editData']) {
+      this.editData = nav?.extras.state?.['editData']
+    }
 
+   }
   ngOnInit() {
-    if(this.commonService.projectArray.length){
+
+    if (this.commonService.projectArray.length) {
       this.allProjects$ = this.allProjects$.pipe(
-  map(projectList => projectList.map((p:any) => ({
-    ...p,
-    disabled: this.commonService.projectArray.includes(p.projectId)
-  })))
-);
+        map(projectList => projectList.map((p: any) => ({
+          ...p,
+          disabled: this.commonService.projectArray.includes(p.projectId)
+        })))
+      );
 
     }
-    this.weekId = this.editData;
+    // this.weekId = this.editData;
     this.router.paramMap.subscribe(params => {
       this.weekIds = params.get('id')!;
-    
+
     });
-   
+
     this.createSprintForm();
-    if (this.editData?.item?.weeekRangeId) {
-      this.weeklysprintUpdateForm.patchValue(this.editData.item);
+    if (this.editData?.weeekRangeId) {
+      this.weeklysprintUpdateForm.patchValue(this.editData);
+
       this.isEditMode = true;
     }
-     this.sprintStore.getHistoryById(this.weekIds);
-       const assignedControl = this.weeklysprintUpdateForm.get('assignedPoints');
-  const completedControl = this.weeklysprintUpdateForm.get('completePoints');
+    this.sprintStore.getHistoryById(this.weekIds);
+    const assignedControl = this.weeklysprintUpdateForm.get('assignedPoints');
+    const completedControl = this.weeklysprintUpdateForm.get('completePoints');
 
-  if (assignedControl && completedControl) {
-    assignedControl.valueChanges.subscribe(() => this.computePercentage());
-    completedControl.valueChanges.subscribe(() => this.computePercentage());
+    if (assignedControl && completedControl) {
+      assignedControl.valueChanges.subscribe(() => this.computePercentage());
+      completedControl.valueChanges.subscribe(() => this.computePercentage());
+    }
+
   }
 
-  }
 
-  
 
   readonly accountStatusEffect = effect(() => {
     const status = this.sprintStore.sprintCreateStatus();
 
     if (status === 'success') {
-      // this.sprintStore.getWeeklyReportById(this.weekId.weeekRangeId);
+
       this.setOpen(false);
-            console.log("this.weekld",this.weekIds)
-            this.navRouter.navigateByUrl('sprints/create-weekly-sprint/create-weekly-report-sprint'+'/'+this.weekIds,  { state: { name: this.datePipe.transform(this.commonService.sharedValue) } });
+      this.navRouter.navigateByUrl('sprints/create-weekly-sprint/create-weekly-report-sprint' + '/' + this.weekIds, { state: { name: this.datePipe.transform(this.commonService.sharedValue) } });
 
       this.toast.show('success', 'Weekly Sprint Updated Successfully!');
 
     } else if (status === 'update') {
       this.setOpen(false);
-            this.navRouter.navigateByUrl('sprints/create-weekly-sprint/create-weekly-report-sprint'+'/'+this.weekIds,  { state: { name: this.datePipe.transform(this.commonService.sharedValue) } });
+      this.navRouter.navigateByUrl('sprints/create-weekly-sprint/create-weekly-report-sprint' + '/' + this.weekIds, { state: { name: this.datePipe.transform(this.commonService.sharedValue) } });
 
-      console.log(this.weekIds)
 
       this.toast.show('success', 'Weekly Sprint Updated successfully!');
 
@@ -103,12 +109,12 @@ private commonService=inject(SharedService)
     }
   });
 
-computePercentage() {
-  const assigned = this.weeklysprintUpdateForm.get('assignedPoints')?.value || 0;
-  const completed = this.weeklysprintUpdateForm.get('completePoints')?.value || 0;
-  const percent = assigned > 0 ? (completed / assigned) * 100 : 0;
-  this.weeklysprintUpdateForm.get('completePercentage')?.patchValue(percent.toFixed(2), { emitEvent: false });
-}
+  computePercentage() {
+    const assigned = this.weeklysprintUpdateForm.get('assignedPoints')?.value || 0;
+    const completed = this.weeklysprintUpdateForm.get('completePoints')?.value || 0;
+    const percent = assigned > 0 ? (completed / assigned) * 100 : 0;
+    this.weeklysprintUpdateForm.get('completePercentage')?.patchValue(percent.toFixed(2), { emitEvent: false });
+  }
 
   createSprintForm() {
     this.weeklysprintUpdateForm = this.fb.group({
@@ -152,7 +158,7 @@ computePercentage() {
     if (this.isEditMode) {
       this.sprintStore.updateWeeklySprintById({ id: this.editData.item.weekSprintId, data: this.weeklysprintUpdateForm.value });
     } else {
-      console.log("this.weeklysprintUpdateForm.value",this.weeklysprintUpdateForm.value)
+
       this.sprintStore.createWeeklyUpdateSprint(this.weeklysprintUpdateForm.value)
     }
 

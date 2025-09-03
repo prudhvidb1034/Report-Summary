@@ -8,7 +8,7 @@ import { ValidationsService } from '../../services/validation/validations.servic
 import { SprintReleaseStore } from '../../state/Sprint-release.store';
 import { ToastService } from '../../shared/toast.service';
 import { SharedService } from '../../services/shared/shared.service';
-import { weeklySprintRelease, WeeklySprintReleaseResponse } from '../../models/sprints.model';
+import { WeeklySprintReleaseResponse } from '../../models/sprints.model';
 
 @Component({
   selector: 'app-weekly-sprint-releases',
@@ -32,14 +32,14 @@ export class WeeklySprintReleasesComponent {
   private route = inject(ActivatedRoute);
   isEditMode = false;
 
-  constructor(private commonService:SharedService){}
+  constructor(private commonService: SharedService) { }
   readonly accountStatusEffect = effect(() => {
     const status = this.sprintReleaseStore.sprintCreateStatus();
 
     if (status === 'success') {
       // this.accountStore.getAccounts();
       this.setOpen(false);
-     
+
       this.toast.show('success', 'Sprint created successfully!');
 
     } else if (status === 'update') {
@@ -56,29 +56,27 @@ export class WeeklySprintReleasesComponent {
 
   ngOnInit() {
     this.createIncientForm();
-
-    console.log('Week ID:', this.editData);
     if (this.editData != null) {
       this.weeklyIncidentForm.patchValue(this.editData.item);
-      
+
       this.isEditMode = true;
     }
-        this.sprintReleaseStore.getReleaseByWeekId(this.editData.item.releaseId);
+    this.sprintReleaseStore.getReleaseByWeekId(this.editData.item.releaseId);
   }
 
   createIncientForm() {
-     let weekIdValue: number | null = null;
+    let weekIdValue: number | null = null;
 
-  if (typeof this.editData === 'string') {
-    weekIdValue = parseInt(this.editData); // creating
-  } else if (this.editData && this.editData.item) {
-    weekIdValue = parseInt(this.editData.item.weekId || '0'); // editing
-  }
+    if (typeof this.editData === 'string') {
+      weekIdValue = parseInt(this.editData);
+    } else if (this.editData && this.editData.item) {
+      weekIdValue = parseInt(this.editData.item.weekId || '0');
+    }
 
     this.weeklyIncidentForm = this.fb.group({
-       weekId: [weekIdValue],
+      weekId: [weekIdValue],
       projectId: [null, Validators.required],
-      sprintId: this.commonService.sprintId,
+      sprintId: [this.commonService.sprintId],
       major: [null],
       minor: [null],
       incidentCreated: [null],
@@ -90,22 +88,25 @@ export class WeeklySprintReleasesComponent {
 
 
 
-  createIncient() { 
+  createIncient() {
     if (this.weeklyIncidentForm.valid) {
       const formdata = this.weeklyIncidentForm.value;
       if (this.editData && this.editData?.item?.releaseId) {
         this.sprintReleaseStore.updateRelase({ id: this.editData?.item?.releaseId, data: formdata })
       } else {
         this.sprintReleaseStore.createIncident(formdata);
-        
+
       }
       console.log('Form Data:', formdata);
     }
   }
 
   setOpen(isOpen: boolean) {
-    this.modalCtrl.dismiss()
-    this.weeklyIncidentForm.reset()
+    if (isOpen === false) {
+      this.modalCtrl.dismiss()
+      this.weeklyIncidentForm.reset()
+    }
+
 
 
   }

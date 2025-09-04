@@ -30,7 +30,7 @@ export class WeeklySprintReleasesComponent {
   private toast = inject(ToastService);
   public validationService = inject(ValidationsService);
   private route = inject(ActivatedRoute);
-  isEditMode = false;
+  isEditMode:boolean = false;
 
   constructor(private commonService: SharedService) { }
   readonly accountStatusEffect = effect(() => {

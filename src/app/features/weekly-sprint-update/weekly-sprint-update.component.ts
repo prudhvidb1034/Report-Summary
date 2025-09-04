@@ -33,14 +33,14 @@ export class WeeklySprintUpdateComponent {
   private routering = inject(ActivatedRoute);
   private router = inject(Router);
   private sprintStore = inject(SprintStore);
-  sprintstore$ :any;
+  sprintstore$: any;
   private sprintReleaseStore = inject(SprintReleaseStore);
   sprintlistStore$ = this.sprintReleaseStore.select(state => state.Sprintrelease);
   weeklyReportById$: any;
   allProjects$ = this.commonStore.allProjects$;
   private toast = inject(ToastService);
-  private commonService=inject(SharedService);
-    createEnableFlag$=this.commonStore.flag$;
+  private commonService = inject(SharedService);
+  createEnableFlag$ = this.commonStore.flag$;
 
 
   public validationService = inject(ValidationsService);
@@ -79,37 +79,37 @@ export class WeeklySprintUpdateComponent {
   }
   ngOnInit() {
     this.weekId = this.routering.snapshot.paramMap.get('id');
-  this.sprintStore.weeklySprint$.pipe(
-  map(payload => {
-    const content = payload?.content?.map((item:any) => ({
-      ...item,
-      totalAssigned: `${item.assignedStoriesCount} ( ${item.assignedPoints} )`,
-      totalDevs: `${item.inDevStoriesCount} ( ${item.inDevPoints} )`,
-      totalQA: `${item.inQaStoriesCount} ( ${item.inQaPoints} )`,
-      totalBlocked: `${item.blockedStoriesCount} ( ${item.blockedPoints} )`,
-      totalCompletion: `${item.completeStoriesCount} ( ${item.completePoints} )`,
-    }));
-    
-    // Update project IDs here
-    const ids = content?.map((item:any) => item.projectId) || [];
-    this.commonService.projectArray=ids;
-console.log("ids",ids)
-    return { ...payload, content };
-  })
-).subscribe(s => this.sprintstore$ = of(s));
+    this.sprintStore.weeklySprint$.pipe(
+      map(payload => {
+        const content = payload?.content?.map((item: any) => ({
+          ...item,
+          totalAssigned: `${item.assignedStoriesCount} ( ${item.assignedPoints} )`,
+          totalDevs: `${item.inDevStoriesCount} ( ${item.inDevPoints} )`,
+          totalQA: `${item.inQaStoriesCount} ( ${item.inQaPoints} )`,
+          totalBlocked: `${item.blockedStoriesCount} ( ${item.blockedPoints} )`,
+          totalCompletion: `${item.completeStoriesCount} ( ${item.completePoints} )`,
+        }));
+
+        // Update project IDs here
+        const ids = content?.map((item: any) => item.projectId) || [];
+        this.commonService.projectArray = ids;
+        console.log("ids", ids)
+        return { ...payload, content };
+      })
+    ).subscribe(s => this.sprintstore$ = of(s));
 
     this.sprintStore.getWeeklyReportById(this.weekId);
     this.sprintReleaseStore.getReleaseByWeekId(this.weekId);
-   
+
   }
 
   columnsWeekly = [
-       { header: 'Project name', field: 'projectName' },
+    { header: 'Project name', field: 'projectName' },
     { header: 'Assigned', field: 'totalAssigned' },
     { header: 'In Dev', field: 'totalDevs' },
     { header: 'QA', field: 'totalQA' },
     { header: 'Blocked', field: 'totalBlocked' },
-     { header: 'Completed', field: 'totalCompletion' },
+    { header: 'Completed', field: 'totalCompletion' },
     { header: 'Action', field: 'action', type: ['edit', 'delete'] }
   ];
 
@@ -153,7 +153,7 @@ console.log("ids",ids)
         this.loadCreateModalByTab(this.weekId);
         break;
       case 'edit':
-        this.loadCreateModalByTab(event);
+        this.loadCreateModalByTab(event.item);
         break;
       case 'delete':
         this.deleteModal(event);
@@ -163,70 +163,72 @@ console.log("ids",ids)
         console.log('Unknown action type:', event);
     }
   }
- loadCreateModalByTab(item: any) {
-  if (this.selectedTab === 'active') {
-    // Navigate instead of opening modal
-    const id = this.weekId;
-    this.router.navigate([
-      '/sprints/create-weekly-sprint/create-weekly-report-sprint/create',
-      id
-    ]);
-    return; // ⬅️ Important! stop execution here
+  loadCreateModalByTab(item: any) {
+    if (this.selectedTab === 'active') {
+      const id = this.weekId;
+      this.router.navigateByUrl(
+        '/sprints/create-weekly-sprint/create-weekly-report-sprint/create' + '/' + id,
+
+        { state: { editData: item } }
+
+      );
+
+      return;
+    }
+
+    if (this.selectedTab === 'link') {
+      this.modalController.create({
+        component: WeeklySprintReleasesComponent,
+        cssClass: 'weekly-sprint-releases-modal',
+        componentProps: {
+          editData: item
+        }
+      }).then(modal => {
+        modal.present();
+        modal.onDidDismiss().then(() => {
+          this.sprintReleaseStore.getReleaseByWeekId(this.weekId);
+        });
+      });
+    }
   }
 
-  if (this.selectedTab === 'link') {
+
+  deleteModal(item: any) {
     this.modalController.create({
-      component: WeeklySprintReleasesComponent,
-      cssClass: 'weekly-sprint-releases-modal',
+      component: ConfirmDeleteComponent,
+      cssClass: 'custom-delete-modal',
       componentProps: {
-        editData: item
+        role: 'delete',
+        data: {
+          id: item.item.releaseId ? item.item.releaseId : item.item.weekSprintId,
+          name: item.item.projectName,
+        }
       }
-    }).then(modal => {
+    }).then((modal) => {
       modal.present();
-      modal.onDidDismiss().then(() => {
-        this.sprintReleaseStore.getReleaseByWeekId(this.weekId);
+
+      modal.onDidDismiss().then((result) => {
+        if (result?.data?.confirmed) {
+          const isRelease = !!item.item.releaseId;
+          const deletedId = result.data.id;
+
+          if (isRelease) {
+            this.sprintReleaseStore.deleteRelease(deletedId);
+
+            setTimeout(() => {
+              this.sprintReleaseStore.getReleaseByWeekId(this.weekId);
+            }, 300);
+
+          } else {
+            this.sprintStore.deleteWeeklySprintById(deletedId);
+            setTimeout(() => {
+              this.sprintStore.getWeeklyReportById(this.weekId);
+            }, 300);
+          }
+        }
       });
     });
   }
-}
-
-
- deleteModal(item: any) {
-  this.modalController.create({
-    component: ConfirmDeleteComponent,
-    cssClass: 'custom-delete-modal',
-    componentProps: {
-      role: 'delete',
-      data: {
-        id: item.item.releaseId ? item.item.releaseId : item.item.weekSprintId,
-        name: item.item.projectName,
-      }
-    }
-  }).then((modal) => {
-    modal.present();
-
-    modal.onDidDismiss().then((result) => {
-      if (result?.data?.confirmed) {
-        const isRelease = !!item.item.releaseId;
-        const deletedId = result.data.id;
-
-        if (isRelease) {
-          this.sprintReleaseStore.deleteRelease(deletedId);
-
-                  setTimeout(() => {
-            this.sprintReleaseStore.getReleaseByWeekId(this.weekId);
-          }, 300);
-
-        } else {
-          this.sprintStore.deleteWeeklySprintById(deletedId);
-          setTimeout(() => {
-            this.sprintStore.getWeeklyReportById(this.weekId);
-          }, 300);
-        }
-      }
-    });
-  });
-}
 
 
 }

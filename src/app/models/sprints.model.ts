@@ -58,7 +58,7 @@ export interface weeklySprintRelease {
 
   weekSprintId: string,
   sprintNumber: string,
-  weeekRangeId: string,
+  weeekRangeId: number,
   projectId: number,
   projectName: string,
   assignedPoints: number,
@@ -85,5 +85,6 @@ export interface weeklySprintRelease {
 
 }
 export interface WeeklySprintcreationResponse {
+  weeekRangeId: number;
   item: weeklySprintRelease;
 }

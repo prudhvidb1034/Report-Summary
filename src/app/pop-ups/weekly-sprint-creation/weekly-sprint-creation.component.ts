@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, effect, inject, Input } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { ValidationsService } from '../../services/validation/validations.service';
@@ -11,6 +11,8 @@ import { ToastService } from '../../shared/toast.service';
 import { WeekRangePipe } from '../../shared/pipes/week-range.pipe';
 import { SharedService } from '../../services/shared/shared.service';
 import { map } from 'rxjs';
+import { WeeklySprintcreationResponse } from '../../models/sprints.model';
+import { createProject } from '../../models/project.model';
 
 @Component({
   selector: 'app-weekly-sprint-creation',
@@ -23,9 +25,9 @@ import { map } from 'rxjs';
 export class WeeklySprintCreationComponent {
   weeklysprintUpdateForm !: FormGroup;
   private fb = inject(FormBuilder);
-  @Input() editData: any;
+  @Input() editData !: WeeklySprintcreationResponse;
 
-  weekIds: any;
+  weekIds!: string;
   private commonStore = inject(CommonStore);
   private modalCtrl = inject(ModalController);
   private router = inject(ActivatedRoute);
@@ -51,10 +53,12 @@ export class WeeklySprintCreationComponent {
 
     if (this.commonService.projectArray.length) {
       this.allProjects$ = this.allProjects$.pipe(
-        map(projectList => projectList.map((p: any) => ({
+        map(projectList => projectList.map((p: createProject) => ({
           ...p,
+          
           disabled: this.commonService.projectArray.includes(p.projectId)
         })))
+     
       );
 
     }
@@ -165,9 +169,10 @@ export class WeeklySprintCreationComponent {
   }
 
   setOpen(isOpen: boolean) {
+    if( isOpen === false) {
     this.modalCtrl.dismiss()
     this.weeklysprintUpdateForm.reset()
-
+    }
 
   }
 }

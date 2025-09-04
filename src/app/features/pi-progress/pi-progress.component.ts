@@ -6,6 +6,9 @@ import { IonicModule, ModalController } from '@ionic/angular';
 import { CreatePiProgressComponent } from '../../pop-ups/create-pi-progress/create-pi-progress.component';
 import { CommonModule } from '@angular/common';
 import { ConfirmDeleteComponent } from '../../pop-ups/confirm-delete/confirm-delete.component';
+import { Observable } from 'rxjs';
+import { createAccountForm } from '../../models/account.model';
+import { DependencyReport, PiDependencyReport } from '../../models/sprints.model';
 
 @Component({
   selector: 'app-pi-progress',
@@ -17,11 +20,11 @@ import { ConfirmDeleteComponent } from '../../pop-ups/confirm-delete/confirm-del
 })
 export class PiProgressComponent {
 
-  accountList$: any;
+  accountList$ !: Observable<createAccountForm[]>;
   label = 'PI Progress'
   piprogressReport = inject(PiPgrogressStore);
   commonStore = inject(CommonStore);
-  piprogressReport$: any;
+  piprogressReport$ !: Observable<DependencyReport>;
   isLoadingCommon$ = this.commonStore.select(state => state.loading);
   private modalController = inject(ModalController);
   isLoading$ = this.piprogressReport.select(state => state.loading);
@@ -42,7 +45,7 @@ export class PiProgressComponent {
     { header: 'Action', field: 'action', type: ['edit', 'delete'] }
   ];
 
-  handleRowAction(event: any) {
+  handleRowAction(event: { type: string, item: PiDependencyReport}) {
     switch (event.type) {
       case 'create':
         this.loadPiProgressReport();
@@ -67,13 +70,13 @@ export class PiProgressComponent {
       }
     }).then((modal) => {
       modal.present();
-      modal.onDidDismiss().then((data) => {
+      modal.onDidDismiss().then(() => {
         this.piprogressReport.getPipgrogressReports()
       });
     });
   }
 
-  UpdatePiProgressReport(item: any) {
+  UpdatePiProgressReport(item: PiDependencyReport) {
     console.log('Selected row data:', item);
     this.modalController.create({
       component: CreatePiProgressComponent,
@@ -84,15 +87,13 @@ export class PiProgressComponent {
     }).then((modal) => {
       modal.present();
       modal.onDidDismiss().then((data) => {
-        // this.loadProjects(this.page,this.pageSize);
-
-        console.log('Modal dismissed with data:', data);
-        // Handle any data returned from the modal if needed
+                console.log('Modal dismissed with data:', data);
+       
       });
     });
   }
 
-  deleteModal(item: any) {
+  deleteModal(item: PiDependencyReport) {
     this.modalController.create({
       component: ConfirmDeleteComponent,
       cssClass: 'custom-delete-modal',

@@ -11,7 +11,6 @@ import { ToastService } from "../shared/toast.service";
 
 
 export interface CreateSprint {
-
   sprint: Sprint[];
   resources: any;
   weeklySprint: any;
@@ -25,6 +24,15 @@ export interface CreateSprint {
   getresources: any;
   historyWeekdata: any;
   resourcesbygraph: any;
+  techStackSummary: TechStackSummary[];   // ✅ renamed
+  projectSummary: any;
+}
+export interface TechStackSummary{
+  techStack: string;
+  onsite: number;
+  offsite: number;
+  total: number;
+  projectName:string
 }
 
 export interface ApiResponse<T> {
@@ -36,7 +44,8 @@ export class SprintStore extends ComponentStore<CreateSprint> {
 
   private sharedservice = inject(SharedService);
   constructor() {
-    super({ sprint: [], resources: [], weeklySprint: [], sprintReport: [], incidentReport: [], createweekSprint: [], piStandingReport: [], getdependencies: [], getresources: [], historyWeekdata: [], resourcesbygraph: [], loading: false, error: null });
+    super({ sprint: [], resources: [], weeklySprint: [], sprintReport: [], incidentReport: [], createweekSprint: [], piStandingReport: [], getdependencies: [], getresources: [], historyWeekdata: [], resourcesbygraph: [], 
+      loading: false, error: null,techStackSummary: [], projectSummary:[] });
   }
   private _sprintCreateStatus = signal<null | 'success' | 'deleted' | 'update' | 'error'>(null);
 
@@ -63,7 +72,7 @@ export class SprintStore extends ComponentStore<CreateSprint> {
         this.patchState({ loading: true, error: null });
         return this.sharedservice.postData(urls.CREATE_SPRINT, sprint).pipe(
           tap({
-            next: (user: any) => {
+            next: (user:any) => {
               this.patchState({ sprint: [user], loading: false });
               this._sprintCreateStatus.set('success');
 

@@ -4,10 +4,11 @@ import { IonicModule } from '@ionic/angular';
 import { Chart } from 'chart.js/auto';
 import PptxGenJS from 'pptxgenjs';
 import html2canvas from 'html2canvas';
-import { SprintStore } from '../../state/sprint.store';
+import { CreateSprint, SprintStore, TechStackSummary } from '../../state/sprint.store';
 import { ActivatedRoute } from '@angular/router';
 import { PiPgrogressStore } from '../../state/pi-progress.store';
 import { map } from 'rxjs';
+import { DependencyReport } from '../../models/sprints.model';
 @Component({
   selector: 'app-sprint-report',
   standalone: true,
@@ -20,16 +21,22 @@ export class SprintReportComponent {
 
   private sprintSore = inject(SprintStore);
   private piprogresstore = inject(PiPgrogressStore)
-  piprogresstore$ = this.piprogresstore.piprogressReport$.pipe(map((res: any) => res?.content || []));
+  piprogresstore$ = this.piprogresstore.piprogressReport$.pipe(map((res:DependencyReport) => res?.content|| []));
+
   SprintList$ = this.sprintSore.sprintReport$;
   incidentList$ = this.sprintSore.incidentReport$;
   piStandingData$ = this.sprintSore.piStandingReport$
   dependencieslist$ = this.sprintSore.getdependencies$;
   resourcesbygraphlist$ = this.sprintSore.resourcesbygraph$;
   getresources$ = this.sprintSore.getresources$;
-  isLoading$ = this.sprintSore.select((state: { loading: any; }) => state.loading);
+  isLoading$ = this.sprintSore.select((state: { loading: boolean; }) => state.loading);
   private router = inject(ActivatedRoute);
   ngOnInit() {
+
+    // this.piprogresstore.piprogressReport$.subscribe((res: any) =>{
+    //   console.log(res)
+    // });
+
     const sprintId = this.router.snapshot.paramMap.get('id');
     this.piprogresstore.getPipgrogressReports()
     if (sprintId !== null) {
@@ -40,20 +47,20 @@ export class SprintReportComponent {
       this.sprintSore.getResourceByGrpahSprintId(sprintId);
     }
     this.sprintSore.getPIStandingData();
-    this.piStandingData$.subscribe((res: any) => {
+    this.piStandingData$.subscribe((res: CreateSprint) => {
       console.log(res);
     })
 
   }
 
   ngAfterViewInit() {
-    this.resourcesbygraphlist$.subscribe((res: any) => {
+    this.resourcesbygraphlist$.subscribe((res: CreateSprint) => {
       if (res && res.techStackSummary) {
         this.renderBarChart(res.techStackSummary);
       }
     });
 
-    this.resourcesbygraphlist$.subscribe((res: any) => {
+    this.resourcesbygraphlist$.subscribe((res: CreateSprint) => {
       if (res && res.projectSummary) {
         this.renderBarChart2(res.projectSummary);
       }
@@ -61,7 +68,7 @@ export class SprintReportComponent {
 
   }
 
-  renderBarChart(techStackSummary: any[]) {
+  renderBarChart(techStackSummary: TechStackSummary[]) {
     const ctx = document.getElementById('barChart') as HTMLCanvasElement;
     const labels = techStackSummary.map(item => item.techStack);
     const onsiteData = techStackSummary.map(item => item.onsite);
@@ -100,11 +107,12 @@ export class SprintReportComponent {
           }
         },
         scales: {
-          x: { stacked: true 
+          x: {
+            stacked: true
             ,
-             grid: {
+            grid: {
               drawTicks: false,
-              drawOnChartArea: false 
+              drawOnChartArea: false
             }
           },
           y: {
@@ -118,7 +126,7 @@ export class SprintReportComponent {
     });
   }
 
-  renderBarChart2(projectSummary: any[]) {
+  renderBarChart2(projectSummary: TechStackSummary[]) {
     const ctx = document.getElementById('barChart2') as HTMLCanvasElement;
     const labels = projectSummary.map(item => item.projectName);
     const onsiteData = projectSummary.map(item => item.onsite);
@@ -157,7 +165,7 @@ export class SprintReportComponent {
             stacked: true,
             grid: {
               drawTicks: false,
-              drawOnChartArea: false 
+              drawOnChartArea: false
             }
           },
           y: {

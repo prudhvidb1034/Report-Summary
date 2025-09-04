@@ -5,11 +5,11 @@ import { createAccountForm } from '../models/account.model';
 import { SharedService } from '../services/shared/shared.service';
 import { urls } from '../constants/string-constants';
 import { ToastService } from '../shared/toast.service';
-import { PiDependencyReport } from '../models/sprints.model';
+import { DependencyReport } from '../models/sprints.model';
 import { HttpErrorResponse } from '@angular/common/http';
 
 export interface piproggressReport {
-    piprogressReport: PiDependencyReport[];
+    piprogressReport:DependencyReport;
     loading: boolean;
     error: string | null;
 }
@@ -26,7 +26,7 @@ export class PiPgrogressStore extends ComponentStore<piproggressReport> {
     readonly accountCreateStatus = this._accountCreateStatus.asReadonly();
     private toast = inject(ToastService);
     constructor() {
-        super({ piprogressReport: [], loading: false, error: null });
+        super({ piprogressReport: {content:[], last: false, pageNumber: 0, pageSize: 10, totalElements: 1, totalPages: 1    }, loading: false, error: null });
     }
 
     readonly piprogressReport$ = this.select(state => state.piprogressReport);
@@ -40,10 +40,10 @@ export class PiPgrogressStore extends ComponentStore<piproggressReport> {
                 console.log(progress);
 
                 this.patchState({ loading: true, error: null });
-                return this.sharedservice.postData<PiDependencyReport>(urls.CREATE_PI_PROGRESS, progress).pipe(
+                return this.sharedservice.postData<DependencyReport>(urls.CREATE_PI_PROGRESS, progress).pipe(
                     tap({
-                        next: (user: PiDependencyReport) => {
-                            this.patchState({ piprogressReport: [user], loading: false });
+                        next: (user: DependencyReport) => {
+                            this.patchState({ piprogressReport: user, loading: false });
                             this._accountCreateStatus.set('success');
                         },
                         error: () => {
@@ -61,7 +61,7 @@ export class PiPgrogressStore extends ComponentStore<piproggressReport> {
             trigger$.pipe(
                 tap(() => this.patchState({ loading: true, error: null })),
                 switchMap(() =>
-                    this.sharedservice.getData<ApiResponse<PiDependencyReport[]>>(urls.CREATE_PI_PROGRESS).pipe(
+                    this.sharedservice.getData<ApiResponse<DependencyReport>>(urls.CREATE_PI_PROGRESS).pipe(
                         tapResponse(
                             (piprogressReport) => {
                                 this.patchState({

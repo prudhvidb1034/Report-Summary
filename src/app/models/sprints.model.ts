@@ -19,11 +19,18 @@ export interface PiDependencyReport {
   completedSP: number;
   reportId: string;
   completionPercentage: number;
+  snapshotDate:string;
 }
 
 
 export interface DependencyReport {
   content?: PiDependencyReport[];
+  last:boolean,
+  pageNumber: number,
+  pageSize: number,
+  totalElements: number,
+  totalPages: number
+
 }
 
 export interface QuaterlyReport {

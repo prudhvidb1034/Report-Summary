@@ -8,7 +8,11 @@ import { ToastService } from "../shared/toast.service";
 
 
 
-
+export interface SprintEvent {
+  type: string;
+  value: string;
+  item: Sprint;
+}
 
 export interface CreateSprint {
   sprint: Sprint[];

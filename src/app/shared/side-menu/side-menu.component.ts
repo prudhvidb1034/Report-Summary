@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { IonicModule, MenuController } from '@ionic/angular';
 import { LoginStore } from '../../state/login.store';
 import { tap } from 'rxjs';
+import { MenuItem } from '../../models/menuItems.model';
+
 
 @Component({
   selector: 'app-side-menu',
@@ -89,7 +91,7 @@ export class SideMenuComponent {
     ).subscribe();
   }
 
-onItemClick(item: any) {
+onItemClick(item: MenuItem) {
   if (item.children) {
     this.toggleSubMenu(item); 
   } else {
@@ -97,7 +99,7 @@ onItemClick(item: any) {
   }
 }
 
-toggleSubMenu(item: any) {
+toggleSubMenu(item: MenuItem) {
   this.menuItems.forEach(menu => {
     if (menu !== item && menu.children) {
       menu.isExpanded = false;

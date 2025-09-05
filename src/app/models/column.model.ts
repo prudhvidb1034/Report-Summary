@@ -4,6 +4,7 @@ export interface ColumnConfig {
   header: string;
   field: string;
   linkEnable?: boolean;
-  type?: string[];
+  link?: string;  // URL or route for the link
+  type?: ('edit' | 'delete' | 'view' | string)[];
   cellTemplate?: TemplateRef<any>;   // <-- add this
 }

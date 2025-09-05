@@ -29,29 +29,7 @@ export interface WeeklyData {
   content: WeeklyEntry[];
 }
 
-// export interface WeeklyEntry {
-//   weekId: number;
-//   weekNo: number
-//   weekStartDate: string; // ISO format date, e.g., "2025-07-14"
-//   weekEndDate: string;   // ISO format date
-//   upcomingTasks: string[];
-//   projectNames: string[];
-//   weekRange: string; 
-//   status: string;    // Formatted date range string
-// }
 
-// export interface WeeklyEntry {
-//   weekId: string;
-//   weekNo: number;
-//   status: string;
-//   viewTask: string;
-//   viewReport: string;
-//   weekStartDate?: string;
-//   weekEndDate?: string;
-//   upcomingTasks?: string[];
-//   projectNames?: string[];
-//   weekRange?: string;
-// }
 
 export interface WeeklyEntry {
   weekId: string;
@@ -65,6 +43,9 @@ export interface WeeklyEntry {
   projectNames?: string[];
   weekRange: { weekFromDate: string; weekToDate: string };
 }
+
+
+
 
 
 

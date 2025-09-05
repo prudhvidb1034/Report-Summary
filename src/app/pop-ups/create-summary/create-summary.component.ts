@@ -58,8 +58,9 @@ export class CreateSummaryComponent {
 
   setOpen(isOpen: boolean) {
     this.modalCtrl.dismiss();
-    this.weekSummaryForm.reset()
-
+    if (!isOpen) {
+      this.weekSummaryForm.reset();
+    }
   }
 
   onSubmit() {

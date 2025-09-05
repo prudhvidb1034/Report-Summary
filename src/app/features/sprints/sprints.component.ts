@@ -2,12 +2,15 @@ import { Component, inject } from '@angular/core';
 import { IonicModule, ModalController } from '@ionic/angular';
 import { ReusableTableComponent } from '../../shared/reusable-table/reusable-table.component';
 import { CreateSprintComponent } from '../../pop-ups/create-sprint/create-sprint.component';
-import { SprintStore } from '../../state/sprint.store';
+import { CreateSprint, SprintStore } from '../../state/sprint.store';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { ConfirmDeleteComponent } from '../../pop-ups/confirm-delete/confirm-delete.component';
 import { CommonStore } from '../../state/common.store';
+import { Sprint, SprintEvent, SprintNavigateEvent } from '../../models/create-sprint.model';
+import { Observable, of } from 'rxjs';
+import { ColumnConfig } from '../../models/column.model';
 
 @Component({
   selector: 'app-sprints',
@@ -25,11 +28,11 @@ export class SprintsComponent {
   isLoading$ = this.sprintSore.select(state => state.loading);
   page = 0;
   pageSize = 5;
-  sprintList$: any;
+  sprintList$:any
   private router = inject(Router);
-  columns: any[] = [];
+  columns: ColumnConfig[] = [];
   role: string = '';
-  private commonStore=inject(CommonStore);
+  private commonStore = inject(CommonStore);
 
   constructor() {
     this.loadSprint(this.page, this.pageSize)
@@ -73,6 +76,8 @@ export class SprintsComponent {
 
   
   handleRowAction(event: any) {
+    console.log("Event", event);
+    
     switch (event.type) {
       case 'create':
         this.loadCreateEmployeeModal();
@@ -107,8 +112,14 @@ export class SprintsComponent {
     this.sprintList$ = this.sprintSore.sprint$;
   }
 
-  toggleAPI(event: any) {
-    this.sprintSore.toggleStatus(event.item.sprintId)
+  toggleAPI(event: SprintEvent) {
+    console.log("toggle", event);
+    const Id = event?.item?.sprintId;
+    if (Id !== undefined) {
+      const id$ = of(String(Id));   // ✅ convert to Observable<string>
+      this.sprintSore.toggleStatus(id$);
+    }
+
     console.log("toggle", event);
   }
 
@@ -130,7 +141,9 @@ export class SprintsComponent {
     });
   }
 
-  updateCreateEmployeeModal(item: any) {
+  updateCreateEmployeeModal(item: CreateSprint) {
+    console.log("edit data", item);
+    
     this.modalController.create({
       component: CreateSprintComponent,
       cssClass: 'create-account-modal',
@@ -151,7 +164,8 @@ export class SprintsComponent {
   }
 
 
-  deleteModal(item: any) {
+  deleteModal(item: Sprint) {
+    console.log("delete", item);
     this.modalController.create({
       component: ConfirmDeleteComponent,
       cssClass: 'custom-delete-modal',
